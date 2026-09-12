@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#F7F5F1;color:#241F47;font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:#2A5AE0;text-decoration:none}
+a:hover{color:#7B3FE4}
+button{font-family:inherit}
+::selection{background:#FFDCC6}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes cue{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(9px);opacity:1}}
+@keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:60;padding:16px 28px;display:flex;align-items:center;gap:20px;background:rgba(247,245,241,.78);backdrop-filter:blur(16px);border-bottom:1px solid rgba(36,31,71,.08)">
+  <div style="display:flex;align-items:center;gap:9px">
+    <div style="display:flex;gap:3px">
+      <div style="width:8px;height:20px;border-radius:2px;background:#C44C13"></div>
+      <div style="width:8px;height:20px;border-radius:2px;background:#2A5AE0"></div>
+      <div style="width:8px;height:20px;border-radius:2px;background:#7B3FE4"></div>
+    </div>
+    <div style="font-weight:800;font-size:15.5px;letter-spacing:-.02em">SeedPath</div>
+  </div>
+  <nav style="display:flex;gap:18px;margin-left:auto;align-items:center">
+    <sc-for list="{{ anchors }}" as="a" hint-placeholder-count="4">
+      <button onClick="{{ a.go }}" style="border:0;background:transparent;cursor:pointer;font-size:13.5px;font-weight:600;color:rgba(36,31,71,.72);padding:0" style-hover="color:#2A5AE0">{{ a.label }}</button>
+    </sc-for>
+    <a href="SeedPath App v3.dc.html" style="font-size:13.5px;font-weight:700;color:#fff;background:#241F47;padding:9px 16px;border-radius:999px">학생 화면 보기</a>
+  </nav>
+</header>
+
+<section style="min-height:100vh;padding:120px 28px 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center;max-width:1320px;margin:0 auto">
+  <div style="min-width:0">
+    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A83F0E;animation:fadeUp .7s both">전북 진로경험 플랫폼</div>
+    <h1 style="margin:20px 0 0;font-size:clamp(40px,7vw,96px);line-height:1.02;letter-spacing:-.045em;font-weight:800;animation:fadeUp .8s .08s both">직업을,<br>오늘<br><span data-verb="1" style="color:#2A5AE0">해본다.</span></h1>
+    <p style="margin:28px 0 0;max-width:460px;font-size:clamp(15px,1.7vw,19px);line-height:1.75;color:rgba(36,31,71,.74);animation:fadeUp .8s .16s both">검사하고 추천받는 대신, 그 직업의 하루 안으로 들어갑니다. AI가 학생마다 다른 상황을 만들고, 선택에 따라 이야기가 이어집니다.</p>
+    <div style="display:flex;gap:22px;align-items:center;margin-top:36px;animation:fadeUp .8s .24s both">
+      <button onClick="{{ goTrack }}" style="border:0;cursor:pointer;padding:17px 28px;border-radius:999px;font-size:15.5px;font-weight:700;color:#fff;background:#2A5AE0;transition:transform .25s" style-hover="transform:translateY(-3px)">직업 5개 둘러보기</button>
+      <button onClick="{{ goSim }}" style="border:0;background:transparent;cursor:pointer;font-size:15.5px;font-weight:700;color:#241F47;padding:0;border-bottom:2px solid #C44C13">바로 체험하기</button>
+    </div>
+    <div style="margin-top:64px;display:flex;align-items:center;gap:10px;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(36,31,71,.74)">
+      <div style="width:1px;height:22px;background:rgba(36,31,71,.3);animation:cue 2s ease-in-out infinite"></div>SCROLL
+    </div>
+  </div>
+  <div style="display:flex;justify-content:center;align-items:center;min-height:min(74vh,560px);perspective:1100px">
+    <div data-cube="1" style="width:min(46vw,270px);height:min(46vw,270px);position:relative;transform-style:preserve-3d;will-change:transform">
+      <sc-for list="{{ faces }}" as="f" hint-placeholder-count="6">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;border-radius:18px;transform:{{ f.t }};background:{{ f.bg }};color:{{ f.fg }};border:1px solid rgba(36,31,71,.1)">
+          <div style="font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.1em;opacity:.85">{{ f.tag }}</div>
+          <div style="margin-top:8px;font-size:clamp(18px,3.4vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.2">{{ f.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-scene="pin" style="height:300vh;position:relative">
+  <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 28px;overflow:hidden">
+    <div style="max-width:1100px;width:100%">
+      <div data-pinline="0" style="font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:rgba(36,31,71,.28);will-change:opacity,transform">검사하지 않는다.</div>
+      <div data-pinline="1" style="margin-top:14px;font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:rgba(36,31,71,.28);will-change:opacity,transform">추천하지 않는다.</div>
+      <div data-pinline="2" style="margin-top:14px;font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:#C44C13;will-change:opacity,transform">경험하게 한다.</div>
+      <div data-pinline="3" style="margin-top:34px;max-width:560px;font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:rgba(36,31,71,.74);will-change:opacity,transform">학생마다 알고 있는 직업의 범위와 경험의 깊이가 다릅니다. 그래서 모두에게 같은 체험을 주지 않습니다.</div>
+    </div>
+  </div>
+</section>
+
+<section data-scene="track" style="height:480vh;position:relative">
+  <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+    <div style="position:absolute;top:82px;left:28px;z-index:5;font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(36,31,71,.74)">MVP 직업군 5</div>
+    <div data-htrack="1" style="display:flex;height:100%;will-change:transform">
+      <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="5">
+        <div style="width:100vw;height:100%;flex:none;display:flex;flex-direction:column;justify-content:center;padding:120px clamp(28px,7vw,120px) 80px;background:{{ j.bg }};color:{{ j.fg }}">
+          <div style="font:600 11.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;opacity:.9">{{ j.n }} · {{ j.region }}</div>
+          <div style="margin-top:18px;font-size:clamp(38px,8.4vw,112px);line-height:1;letter-spacing:-.045em;font-weight:800">{{ j.name }}</div>
+          <div style="margin-top:30px;max-width:660px;font-size:clamp(17px,2.4vw,30px);line-height:1.5;letter-spacing:-.02em;font-weight:600">{{ j.scene }}</div>
+          <button onClick="{{ goSim }}" style="margin-top:40px;align-self:flex-start;border:0;background:transparent;cursor:pointer;font-size:15.5px;font-weight:700;color:{{ j.fg }};padding:0 0 5px;border-bottom:2px solid {{ j.fg }}">이 하루 들어가기</button>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-anchor="sim" style="background:#2A5AE0;color:#fff;padding:clamp(70px,10vw,130px) 28px">
+  <div style="max-width:940px;margin:0 auto">
+    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(255,255,255,.94)">AI가 지금 만드는 상황 · {{ simProgress }}</div>
+    <div style="margin-top:30px;display:flex;flex-direction:column;gap:22px">
+      <sc-for list="{{ simLog }}" as="m" hint-placeholder-count="2">
+        <div style="align-self:{{ m.align }};max-width:88%;animation:pop .45s both">
+          <div style="font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:{{ m.tagColor }};margin-bottom:9px">{{ m.tag }}</div>
+          <div style="font-size:clamp(18px,2.4vw,27px);line-height:1.6;letter-spacing:-.02em;font-weight:{{ m.weight }};white-space:pre-line;color:{{ m.fg }}">{{ m.text }}</div>
+        </div>
+      </sc-for>
+      <sc-if value="{{ typing }}">
+        <div style="display:flex;gap:7px;padding:4px 0">
+          <div style="width:9px;height:9px;border-radius:50%;background:#fff;animation:blink 1s infinite"></div>
+          <div style="width:9px;height:9px;border-radius:50%;background:#fff;animation:blink 1s .2s infinite"></div>
+          <div style="width:9px;height:9px;border-radius:50%;background:#fff;animation:blink 1s .4s infinite"></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ simChoices.length }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:38px;display:flex;flex-direction:column">
+        <sc-for list="{{ simChoices }}" as="c" hint-placeholder-count="3">
+          <button onClick="{{ c.pick }}" style="text-align:left;cursor:pointer;border:0;border-top:1px solid rgba(255,255,255,.32);background:transparent;color:#fff;padding:22px 0;font-size:clamp(15px,1.9vw,20px);font-weight:600;line-height:1.5;transition:padding-left .25s,color .25s" style-hover="padding-left:16px;color:#FFD9C2">{{ c.label }}</button>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ simEnd }}">
+      <div style="margin-top:44px;border-top:1px solid rgba(255,255,255,.32);padding-top:32px;animation:pop .5s both">
+        <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(255,255,255,.94)">체험 종료 · AI 재진단</div>
+        <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:28px">
+          <sc-for list="{{ beforeAfter }}" as="b" hint-placeholder-count="3">
+            <div>
+              <div style="font-size:14px;color:rgba(255,255,255,.94)">{{ b.label }}</div>
+              <div style="display:flex;align-items:baseline;gap:9px;margin-top:8px">
+                <span style="font:500 15px 'IBM Plex Mono',monospace;color:#fff">{{ b.before }}</span>
+                <span style="font:600 38px 'IBM Plex Mono',monospace;letter-spacing:-.02em">{{ b.after }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin:30px 0 0;max-width:640px;font-size:clamp(15px,1.8vw,19px);line-height:1.75;color:rgba(255,255,255,.88)">관심도가 내려가는 것도 성공입니다. “실제로 경험해보니 나에게 잘 맞지 않는다”는 결론도 좋은 진로교육 결과입니다.</p>
+        <div style="display:flex;gap:24px;align-items:center;margin-top:30px;flex-wrap:wrap">
+          <a href="SeedPath App v3.dc.html" style="color:#241F47;background:#fff;padding:15px 24px;border-radius:999px;font-size:15px;font-weight:700">내 경험지도 열기</a>
+          <button onClick="{{ simReset }}" style="border:0;background:transparent;cursor:pointer;color:#fff;font-size:15px;font-weight:700;padding:0 0 4px;border-bottom:2px solid rgba(255,255,255,.6)">다른 선택으로 다시</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</section>
+
+<section data-anchor="map" style="padding:clamp(70px,10vw,130px) 28px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#7B3FE4">체험이 끝나면 지도가 채워진다</div>
+    <h2 style="margin:20px 0 0;font-size:clamp(28px,5.2vw,64px);line-height:1.1;letter-spacing:-.04em;font-weight:800">이주호 학생의<br>진로경험 지도</h2>
+    <div style="margin-top:56px">
+      <sc-for list="{{ mapRows }}" as="r" hint-placeholder-count="6">
+        <div data-bar="1" style="padding:24px 0;border-top:1px solid rgba(36,31,71,.14)">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap">
+            <div style="font-size:clamp(19px,2.6vw,30px);font-weight:700;letter-spacing:-.025em">{{ r.label }}</div>
+            <div style="font:600 clamp(19px,2.6vw,30px) 'IBM Plex Mono',monospace;color:{{ r.color }}">{{ r.pct }}</div>
+          </div>
+          <div style="margin-top:14px;height:4px;background:rgba(36,31,71,.1)">
+            <div data-fill="{{ r.pctNum }}" style="height:100%;width:0;background:{{ r.color }};transition:width 1.3s cubic-bezier(.2,.8,.2,1)"></div>
+          </div>
+          <div style="margin-top:10px;font-size:13.5px;color:rgba(36,31,71,.7)">{{ r.note }}</div>
+        </div>
+      </sc-for>
+      <div style="border-top:1px solid rgba(36,31,71,.14);padding-top:34px;margin-top:8px;max-width:620px">
+        <div style="font-size:clamp(18px,2.4vw,26px);line-height:1.55;font-weight:700;letter-spacing:-.02em;color:#A83F0E">비어 있는 두 칸 — 실제 경험과 현직자 대화. AI는 다음 경험을 여기에 맞춰 만듭니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-anchor="region" style="background:#7B3FE4;color:#fff;padding:clamp(70px,10vw,130px) 0">
+  <div style="max-width:1100px;margin:0 auto;padding:0 28px">
+    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(255,255,255,.94)">전북과의 연결</div>
+    <h2 style="margin:20px 0 46px;font-size:clamp(28px,5.2vw,64px);line-height:1.1;letter-spacing:-.04em;font-weight:800">“내가 사는 지역에도<br>이런 직업이 있구나.”</h2>
+  </div>
+  <div>
+    <sc-for list="{{ regions }}" as="rg" hint-placeholder-count="6">
+      <div style="border-top:1px solid rgba(255,255,255,.3);padding:26px 28px;transition:background .3s,padding-left .3s;cursor:pointer" style-hover="background:rgba(255,255,255,.12);padding-left:44px">
+        <div style="max-width:1100px;margin:0 auto;display:flex;align-items:baseline;gap:22px;flex-wrap:wrap">
+          <div style="font-size:clamp(26px,4.4vw,48px);font-weight:800;letter-spacing:-.035em;min-width:140px">{{ rg.city }}</div>
+          <div style="font-size:clamp(14px,1.8vw,19px);color:rgba(255,255,255,.88)">{{ rg.tags }}</div>
+          <div style="margin-left:auto;font:500 12.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.94)">{{ rg.jobs }}</div>
+        </div>
+      </div>
+    </sc-for>
+    <div style="border-top:1px solid rgba(255,255,255,.3)"></div>
+  </div>
+</section>
+
+<section style="padding:clamp(80px,12vw,150px) 28px;text-align:center">
+  <h2 style="margin:0 auto;max-width:900px;font-size:clamp(30px,6vw,76px);line-height:1.08;letter-spacing:-.045em;font-weight:800">진로는 추천받는 것이 아니라,<br>경험하고 선택해야 한다.</h2>
+  <div style="display:flex;gap:24px;justify-content:center;align-items:center;margin-top:44px;flex-wrap:wrap">
+    <a href="SeedPath App v3.dc.html" style="color:#fff;background:#2A5AE0;padding:18px 30px;border-radius:999px;font-size:16px;font-weight:700">학생 화면 둘러보기</a>
+    <button onClick="{{ goSim }}" style="border:0;background:transparent;cursor:pointer;font-size:16px;font-weight:700;color:#241F47;padding:0 0 5px;border-bottom:2px solid #C44C13">체험 한 번 더</button>
+  </div>
+  <div style="margin-top:80px;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(36,31,71,.74)">SEEDPATH · 전북 진로경험 격차 해소 AI 플랫폼 · CONCEPT v0.3</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const OT="#A83F0E", B="#2A5AE0", P="#7B3FE4", INK="#241F47";
+const SIM_OPEN = "오늘 당신은 전북의 한 스타트업에서 앱 개발자로 일합니다.\n사용자들이 로그인 화면에서 계속 이탈하고 있습니다.\n\n다음 중 무엇부터 확인하시겠습니까?";
+const SIM = [
+  {choices:[
+    {label:"사용자에게 왜 나가는지 물어볼래요.", reply:"사용자 20명을 인터뷰한 결과,\n12명이 회원가입 과정이 너무 길다고 답했습니다.\n\n이제 어떤 해결책을 제안하시겠습니까?"},
+    {label:"로그인 화면의 이탈 데이터를 먼저 볼래요.", reply:"이탈의 89%가 ‘휴대폰 인증’ 단계에서 발생했습니다.\n인증 문자를 기다리다 앱을 닫는 사용자가 많습니다.\n\n이제 어떤 해결책을 제안하시겠습니까?"},
+    {label:"개발팀에 오류가 있는지 확인할래요.", reply:"오류 로그는 깨끗합니다. 기능은 정상 작동하고 있습니다.\n즉 이것은 버그가 아니라 ‘사용자 경험’ 문제입니다.\n\n이제 어떤 해결책을 제안하시겠습니까?"}]},
+  {choices:[
+    {label:"가입 단계를 3단계에서 1단계로 줄이겠습니다.", reply:"가입 단계를 줄인 뒤 이탈률이 41% → 17%로 떨어졌습니다.\n대표님이 묻습니다. “왜 이 방법을 골랐나요?”\n\n당신은 데이터로 판단하고, 가장 작은 변경으로 문제를 해결했습니다."},
+    {label:"소셜 로그인을 먼저 붙이겠습니다.", reply:"소셜 로그인을 붙여 이탈률이 41% → 22%로 떨어졌습니다.\n다만 연동 개발에 2주가 들었습니다.\n\n개발자는 ‘효과’와 ‘드는 시간’을 늘 함께 판단합니다."},
+    {label:"인증 없이 먼저 둘러보게 하겠습니다.", reply:"둘러보기를 허용하자 체류시간이 3배 늘었습니다.\n단, 결제 단계에서 다시 인증이 필요해 새로운 고민이 생겼습니다.\n\n하나의 결정이 다음 문제를 만든다는 것을 경험했습니다."}]}
+];
+const VERBS = ["해본다.","선택한다.","판단한다.","겪어본다."];
+
+class Component extends DCLogic {
+  state = {simStep:0, simLog:[{role:"ai", text:SIM_OPEN}], typing:false, verb:0};
+
+  componentDidMount(){
+    this.angle = 0;
+    const loop = () => {
+      this.angle += 0.22;
+      const cube = document.querySelector("[data-cube]");
+      if(cube){
+        const y = this.angle + window.scrollY * 0.14;
+        cube.style.transform = `rotateX(${-16 + Math.sin(this.angle/60)*7}deg) rotateY(${y}deg)`;
+      }
+      this.raf = requestAnimationFrame(loop);
+    };
+    this.raf = requestAnimationFrame(loop);
+
+    this.onScroll = () => {
+      const vh = window.innerHeight;
+      const pin = document.querySelector('[data-scene="pin"]');
+      if(pin){
+        const r = pin.getBoundingClientRect();
+        const p = Math.max(0, Math.min(1, -r.top / (r.height - vh)));
+        document.querySelectorAll("[data-pinline]").forEach(el => {
+          const i = +el.getAttribute("data-pinline");
+          const start = i * 0.22, k = Math.max(0, Math.min(1, (p - start) / 0.2));
+          el.style.opacity = 0.18 + k * 0.82;
+          el.style.transform = `translateY(${(1-k)*26}px)`;
+          if(i < 3) el.style.color = k > 0.55 ? (i===2 ? "#A83F0E" : "#241F47") : "rgba(36,31,71,.28)";
+        });
+      }
+      const track = document.querySelector('[data-scene="track"]');
+      const row = document.querySelector("[data-htrack]");
+      if(track && row){
+        const r = track.getBoundingClientRect();
+        const p = Math.max(0, Math.min(1, -r.top / (r.height - vh)));
+        row.style.transform = `translate3d(${-p * (row.scrollWidth - window.innerWidth)}px,0,0)`;
+      }
+    };
+    window.addEventListener("scroll", this.onScroll, {passive:true});
+    window.addEventListener("resize", this.onScroll);
+    this.onScroll();
+
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if(e.isIntersecting){
+        const fill = e.target.querySelector("[data-fill]");
+        if(fill) fill.style.width = fill.getAttribute("data-fill") + "%";
+        this.io.unobserve(e.target);
+      }
+    }), {threshold:.35});
+    requestAnimationFrame(()=> document.querySelectorAll("[data-bar]").forEach(el=>this.io.observe(el)));
+
+    this.vt = setInterval(()=> this.setState(s=>({verb:(s.verb+1)%VERBS.length})), 2600);
+  }
+  componentDidUpdate(){
+    const v = document.querySelector("[data-verb]");
+    if(v) v.textContent = VERBS[this.state.verb];
+  }
+  componentWillUnmount(){
+    cancelAnimationFrame(this.raf); clearInterval(this.vt);
+    window.removeEventListener("scroll", this.onScroll); window.removeEventListener("resize", this.onScroll);
+    if(this.io) this.io.disconnect();
+  }
+
+  jump(sel){ return () => { const el = document.querySelector(sel); if(el) window.scrollTo({top: el.offsetTop - 56, behavior:"smooth"}); }; }
+
+  pickSim(i){
+    return () => {
+      const c = SIM[this.state.simStep].choices[i];
+      this.setState(s => ({simLog:[...s.simLog, {role:"me", text:c.label}], typing:true}));
+      setTimeout(()=> this.setState(s => ({simLog:[...s.simLog, {role:"ai", text:c.reply}], typing:false, simStep:s.simStep+1})), 850);
+    };
+  }
+
+  renderVals(){
+    const s = this.state;
+    const goSim = this.jump('[data-anchor="sim"]'), goTrack = this.jump('[data-scene="track"]');
+    const rows = [["직업 존재 인식",100,"관련 직업 12개를 알고 있어요"],["직무 이해",60,"업무 흐름은 절반쯤 이해했어요"],
+      ["실제 경험",20,"직접 만들어본 결과물이 거의 없어요"],["필요 역량 이해",40,"어떤 과목이 필요한지 일부만 알아요"],
+      ["관련 학과 이해",80,"전북 내 학과 3곳을 비교해봤어요"],["현직자 경험",0,"아직 만난 적이 없어요"]];
+    const half = "min(46vw,270px)";
+    const d = `translateZ(calc(${half} / 2))`;
+
+    return {
+      goSim, goTrack,
+      anchors:[{label:"직업 체험", go:goTrack}, {label:"AI 상황", go:goSim},
+        {label:"경험지도", go:this.jump('[data-anchor="map"]')}, {label:"전북", go:this.jump('[data-anchor="region"]')}],
+
+      faces:[
+        {tag:"01 · 전주", label:"앱 개발자", bg:"#2A5AE0", fg:"#fff", t:`rotateY(0deg) ${d}`},
+        {tag:"02 · 익산", label:"식품 연구원", bg:"#7B3FE4", fg:"#fff", t:`rotateY(90deg) ${d}`},
+        {tag:"03 · 김제", label:"스마트팜 전문가", bg:"#C44C13", fg:"#fff", t:`rotateY(180deg) ${d}`},
+        {tag:"04 · 완주", label:"자동차 엔지니어", bg:"#FFFFFF", fg:INK, t:`rotateY(270deg) ${d}`},
+        {tag:"05 · 군산", label:"간호사", bg:"#241F47", fg:"#fff", t:`rotateX(90deg) ${d}`},
+        {tag:"오늘의 체험", label:"하루를 골라보세요", bg:"#FFEEE2", fg:INK, t:`rotateX(-90deg) ${d}`}],
+
+      jobs:[
+        {n:"01", region:"전주 · IT", name:"앱 개발자", scene:"“사용자들이 로그인 화면에서 계속 이탈하고 있습니다. 무엇부터 확인하시겠습니까?”", bg:"#FFFFFF", fg:INK},
+        {n:"02", region:"군산 · 보건", name:"간호사", scene:"“응급실에 환자 3명이 동시에 도착했습니다. 누구부터 보시겠습니까?”", bg:"#2A5AE0", fg:"#fff"},
+        {n:"03", region:"김제 · 스마트농업", name:"스마트팜 전문가", scene:"“온실 습도가 3일째 떨어지지 않습니다. 센서 데이터를 어떻게 읽겠습니까?”", bg:"#FFEEE2", fg:INK},
+        {n:"04", region:"완주 · 모빌리티", name:"자동차 엔지니어", scene:"“시험 주행 중 이상 진동이 잡혔습니다. 어디를 먼저 열어보시겠습니까?”", bg:"#7B3FE4", fg:"#fff"},
+        {n:"05", region:"익산 · 식품바이오", name:"식품 연구원", scene:"“같은 레시피인데 이번 배치만 맛이 다릅니다. 원인을 어떻게 찾겠습니까?”", bg:"#241F47", fg:"#fff"}],
+
+      simProgress: s.simStep >= SIM.length ? "체험 완료" : `상황 ${s.simStep+1} / ${SIM.length}`,
+      simLog: s.simLog.map(m => m.role === "ai"
+        ? {text:m.text, tag:"AI", tagColor:"rgba(255,255,255,.94)", align:"flex-start", fg:"#fff", weight:"600"}
+        : {text:m.text, tag:"나의 선택", tagColor:"#FFD9C2", align:"flex-end", fg:"#FFD9C2", weight:"700"}),
+      simChoices: (!s.typing && s.simStep < SIM.length) ? SIM[s.simStep].choices.map((c,i)=>({label:c.label, pick:this.pickSim(i)})) : [],
+      simEnd: s.simStep >= SIM.length && !s.typing,
+      simReset: () => this.setState({simStep:0, simLog:[{role:"ai", text:SIM_OPEN}]}),
+      typing: s.typing,
+      beforeAfter:[{label:"개발자 관심도", before:"85 →", after:"72"},
+        {label:"직무 이해도", before:"30 →", after:"78"},
+        {label:"실제 경험", before:"10 →", after:"65"}],
+
+      mapRows: rows.map(([label,pct,note]) => ({label, note, pct:pct+"%", pctNum:String(pct),
+        color: pct>=80 ? B : pct>=40 ? P : OT})),
+
+      regions:[
+        {city:"전주", tags:"콘텐츠 · 관광 · IT", jobs:"앱 개발자 · 콘텐츠 기획자"},
+        {city:"군산", tags:"자동차 · 이차전지 · 항만", jobs:"배터리 공정 엔지니어"},
+        {city:"익산", tags:"식품 · 바이오", jobs:"식품 연구원 · 품질관리"},
+        {city:"김제", tags:"스마트농업 · 특장차", jobs:"스마트팜 전문가"},
+        {city:"완주", tags:"자동차 · 수소", jobs:"수소 설비 엔지니어"},
+        {city:"새만금", tags:"이차전지 · 에너지", jobs:"에너지 설비 운영"}]
+    };
+  }
+}
+</script>
+</body>
+</html>

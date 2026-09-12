@@ -1,0 +1,30 @@
+/* Additions to the supplied Experience page. Original cube and scene styles stay in index.html. */
+.kingcareer-header nav { white-space: nowrap; }
+.kingcareer-guide { display: flex; align-items: center; gap: 10px; margin-top: 24px; }
+.kingcareer-guide img { object-fit: contain; flex: none; }
+.kingcareer-guide p { margin: 0; font-size: 13px; line-height: 1.7; color: #514a6b; }
+.kingcareer-guide a { font-weight: 650; }
+.kingcareer-demo-note { max-width: 680px; margin: 18px 0 0; font-size: 13px; line-height: 1.8; opacity: .88; }
+.kingcareer-finale-mascot { display: block; object-fit: contain; margin: 0 auto 34px; }
+button:focus-visible, a:focus-visible { outline: 3px solid #ff6a1f; outline-offset: 6px; }
+@media (max-width: 740px) {
+  .kingcareer-header { padding: 14px 18px !important; gap: 12px !important; }
+  .kingcareer-header nav { gap: 12px !important; }
+  .kingcareer-header nav button { display: none; }
+  .kingcareer-hero { grid-template-columns: minmax(0, 1fr) !important; padding-inline: 22px !important; }
+  .kingcareer-hero > div > div:has(> button) { flex-wrap: wrap; }
+  .kingcareer-hero > div:last-child { min-height: 340px !important; }
+  .kingcareer-finale-mascot { width: 172px; height: 172px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  [data-scene="pin"], [data-scene="track"] { height: auto !important; }
+  [data-scene="pin"] > div { position: relative !important; height: auto !important; min-height: 80vh; padding-block: 90px !important; }
+  [data-pinline] { opacity: 1 !important; transform: none !important; }
+  [data-scene="track"] > div { position: relative !important; height: auto !important; }
+  [data-scene="track"] > div > div:first-child { top: 34px !important; }
+  [data-htrack] { display: block !important; height: auto !important; transform: none !important; }
+  [data-htrack] > div { min-height: 75vh; }
+  [data-cube] { will-change: auto !important; }
+}

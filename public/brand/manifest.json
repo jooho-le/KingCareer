@@ -1,0 +1,1598 @@
+{
+  "project": "KingCareerLLM",
+  "version": "concept-assets-v1",
+  "asset_count": 113,
+  "png_count": 113,
+  "svg_count": 90,
+  "colors": {
+    "orange": "#FF6A1F",
+    "blue": "#0967FF",
+    "purple": "#7C3AED",
+    "ink": "#182039",
+    "canvas": "#F6F5F1"
+  },
+  "assets": [
+    {
+      "category": "01_mascots",
+      "name": "mascot_00_original",
+      "label": "확정 캐릭터 · 원본 크기",
+      "width": 1254,
+      "height": 1254,
+      "source": "approved_original",
+      "background": "transparent",
+      "native": [
+        1254,
+        1254
+      ],
+      "note": "얼굴·의상·흰색 KingCareerLLM 로고를 유지한 원본. 외곽의 고립된 작은 픽셀만 정리."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_01_explore",
+      "label": "돋보기로 살펴보기",
+      "width": 169,
+      "height": 171,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        145,
+        147
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_02_cheer",
+      "label": "응원하기",
+      "width": 183,
+      "height": 174,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        159,
+        150
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_03_laptop",
+      "label": "노트북으로 활동하기",
+      "width": 167,
+      "height": 172,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        143,
+        148
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_04_project",
+      "label": "연필로 기록하기",
+      "width": 178,
+      "height": 170,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        154,
+        146
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_05_idea",
+      "label": "새로운 생각 떠올리기",
+      "width": 153,
+      "height": 171,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        129,
+        147
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_06_celebrate",
+      "label": "활동 완료 축하하기",
+      "width": 179,
+      "height": 171,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        155,
+        147
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_07_read",
+      "label": "경험 기록 읽기",
+      "width": 169,
+      "height": 174,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        145,
+        150
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "01_mascots",
+      "name": "mascot_08_guide",
+      "label": "다음 경험 안내하기",
+      "width": 193,
+      "height": 172,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        169,
+        148
+      ],
+      "note": "생성 작업 시트에서 분리한 소형 UI용 래스터. 큰 히어로에는 mascot_00_original 권장. 옷의 작은 로고는 확대 사용에 적합하지 않음."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_01",
+      "label": "기본",
+      "width": 92,
+      "height": 93,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        76,
+        77
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_02",
+      "label": "웃음",
+      "width": 93,
+      "height": 93,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        77,
+        77
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_03",
+      "label": "윙크",
+      "width": 93,
+      "height": 93,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        77,
+        77
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_04",
+      "label": "놀람",
+      "width": 93,
+      "height": 93,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        77,
+        77
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_05",
+      "label": "집중",
+      "width": 93,
+      "height": 95,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        77,
+        79
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_06",
+      "label": "궁금함",
+      "width": 104,
+      "height": 102,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        88,
+        86
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_07",
+      "label": "신남",
+      "width": 93,
+      "height": 95,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        77,
+        79
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "02_expressions",
+      "name": "expression_08",
+      "label": "응원",
+      "width": 93,
+      "height": 95,
+      "source": "generated_crop",
+      "background": "transparent",
+      "native": [
+        77,
+        79
+      ],
+      "note": "소형 아바타·상태 안내용. 원본 작업 시트의 해상도 유지."
+    },
+    {
+      "category": "03_icons",
+      "name": "home",
+      "label": "홈",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "compass",
+      "label": "경험 탐색",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "experience_map",
+      "label": "경험지도",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "simulation",
+      "label": "직업 시뮬레이션",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "project",
+      "label": "미니 프로젝트",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "journal",
+      "label": "활동 기록",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "report",
+      "label": "경험 돌아보기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "bookmark",
+      "label": "저장",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "profile",
+      "label": "내 정보",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "search",
+      "label": "찾기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "left",
+      "label": "이전",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "right",
+      "label": "다음",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "close",
+      "label": "닫기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "check",
+      "label": "완료",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "lock",
+      "label": "잠금",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "retry",
+      "label": "다시 시도",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "help",
+      "label": "도움말",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "pause",
+      "label": "잠시 멈추기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "sound",
+      "label": "소리 켜기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "muted",
+      "label": "소리 끄기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "settings",
+      "label": "설정",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "clock",
+      "label": "예상 활동 시간",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "location",
+      "label": "지역",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "upload",
+      "label": "결과물 올리기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "reflection",
+      "label": "생각 남기기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "branch",
+      "label": "선택에 따른 상황 분기",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "heart",
+      "label": "관심 표시",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "03_icons",
+      "name": "crown",
+      "label": "킹커리어 왕관",
+      "width": 192,
+      "height": 192,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        192,
+        192
+      ],
+      "note": ""
+    },
+    {
+      "category": "04_feature_illustrations",
+      "name": "feature_01_diagnosis",
+      "label": "관심·경험 진단",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "04_feature_illustrations",
+      "name": "feature_02_experience_map",
+      "label": "진로경험 지도",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "04_feature_illustrations",
+      "name": "feature_03_simulation",
+      "label": "선택형 직업 시뮬레이션",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "04_feature_illustrations",
+      "name": "feature_04_project",
+      "label": "미니 프로젝트 만들기",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "04_feature_illustrations",
+      "name": "feature_05_reflection",
+      "label": "경험 이후 돌아보기",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "04_feature_illustrations",
+      "name": "feature_06_next_experience",
+      "label": "다음 경험으로 연결",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "05_career_illustrations",
+      "name": "developer",
+      "label": "앱 개발자",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "05_career_illustrations",
+      "name": "nurse",
+      "label": "간호사",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "05_career_illustrations",
+      "name": "smartfarm",
+      "label": "스마트팜 전문가",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "05_career_illustrations",
+      "name": "automotive",
+      "label": "자동차 엔지니어",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "05_career_illustrations",
+      "name": "food_research",
+      "label": "식품 연구원",
+      "width": 800,
+      "height": 520,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        800,
+        520
+      ],
+      "note": ""
+    },
+    {
+      "category": "06_generated_card_art",
+      "name": "developer_scene",
+      "label": "개발자 · 생성 일러스트",
+      "width": 163,
+      "height": 113,
+      "source": "generated_crop",
+      "background": "opaque",
+      "native": [
+        163,
+        113
+      ],
+      "note": "이미지 생성 시트에서 분리한 소형 카드 썸네일. 실제 기업·실제 인물·현장 사진이 아님. 대형 사용에는 별도 고해상도 제작 필요."
+    },
+    {
+      "category": "06_generated_card_art",
+      "name": "nurse_scene",
+      "label": "간호사 · 생성 일러스트",
+      "width": 161,
+      "height": 113,
+      "source": "generated_crop",
+      "background": "opaque",
+      "native": [
+        161,
+        113
+      ],
+      "note": "이미지 생성 시트에서 분리한 소형 카드 썸네일. 실제 기업·실제 인물·현장 사진이 아님. 대형 사용에는 별도 고해상도 제작 필요."
+    },
+    {
+      "category": "06_generated_card_art",
+      "name": "smartfarm_scene",
+      "label": "스마트팜 · 생성 일러스트",
+      "width": 161,
+      "height": 113,
+      "source": "generated_crop",
+      "background": "opaque",
+      "native": [
+        161,
+        113
+      ],
+      "note": "이미지 생성 시트에서 분리한 소형 카드 썸네일. 실제 기업·실제 인물·현장 사진이 아님. 대형 사용에는 별도 고해상도 제작 필요."
+    },
+    {
+      "category": "06_generated_card_art",
+      "name": "automotive_scene",
+      "label": "자동차 엔지니어 · 생성 일러스트",
+      "width": 163,
+      "height": 115,
+      "source": "generated_crop",
+      "background": "opaque",
+      "native": [
+        163,
+        115
+      ],
+      "note": "이미지 생성 시트에서 분리한 소형 카드 썸네일. 실제 기업·실제 인물·현장 사진이 아님. 대형 사용에는 별도 고해상도 제작 필요."
+    },
+    {
+      "category": "06_generated_card_art",
+      "name": "food_research_scene",
+      "label": "식품 연구원 · 생성 일러스트",
+      "width": 161,
+      "height": 115,
+      "source": "generated_crop",
+      "background": "opaque",
+      "native": [
+        161,
+        115
+      ],
+      "note": "이미지 생성 시트에서 분리한 소형 카드 썸네일. 실제 기업·실제 인물·현장 사진이 아님. 대형 사용에는 별도 고해상도 제작 필요."
+    },
+    {
+      "category": "07_status",
+      "name": "complete",
+      "label": "활동 완료",
+      "width": 320,
+      "height": 320,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        320,
+        320
+      ],
+      "note": ""
+    },
+    {
+      "category": "07_status",
+      "name": "empty",
+      "label": "아직 기록 없음",
+      "width": 320,
+      "height": 320,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        320,
+        320
+      ],
+      "note": ""
+    },
+    {
+      "category": "07_status",
+      "name": "locked",
+      "label": "아직 열리지 않은 활동",
+      "width": 320,
+      "height": 320,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        320,
+        320
+      ],
+      "note": ""
+    },
+    {
+      "category": "07_status",
+      "name": "retry",
+      "label": "다시 시도",
+      "width": 320,
+      "height": 320,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        320,
+        320
+      ],
+      "note": ""
+    },
+    {
+      "category": "07_status",
+      "name": "paused",
+      "label": "잠시 쉬기",
+      "width": 320,
+      "height": 320,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        320,
+        320
+      ],
+      "note": ""
+    },
+    {
+      "category": "07_status",
+      "name": "searching",
+      "label": "경험을 찾는 중",
+      "width": 320,
+      "height": 320,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        320,
+        320
+      ],
+      "note": ""
+    },
+    {
+      "category": "08_badges",
+      "name": "experience_badge_01",
+      "label": "새로운 직업 발견",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "08_badges",
+      "name": "experience_badge_02",
+      "label": "상황 살펴보기",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "08_badges",
+      "name": "experience_badge_03",
+      "label": "질문해보기",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "08_badges",
+      "name": "experience_badge_04",
+      "label": "직접 만들어보기",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "08_badges",
+      "name": "experience_badge_05",
+      "label": "생각 돌아보기",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "08_badges",
+      "name": "experience_badge_06",
+      "label": "다음 경험 시작",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "09_ui_components",
+      "name": "button_primary",
+      "label": "주요 버튼",
+      "width": 640,
+      "height": 100,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        640,
+        100
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "button_next",
+      "label": "다음 상황 버튼",
+      "width": 640,
+      "height": 100,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        640,
+        100
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "button_reflection",
+      "label": "기록 버튼",
+      "width": 640,
+      "height": 100,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        640,
+        100
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "button_secondary",
+      "label": "보조 버튼",
+      "width": 640,
+      "height": 100,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        640,
+        100
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "button_disabled",
+      "label": "비활성 버튼",
+      "width": 640,
+      "height": 100,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        640,
+        100
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "choice_default",
+      "label": "선택지 · 선택 전",
+      "width": 760,
+      "height": 112,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        760,
+        112
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "choice_selected",
+      "label": "선택지 · 선택됨",
+      "width": 760,
+      "height": 112,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        760,
+        112
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "input_search",
+      "label": "검색 입력창",
+      "width": 760,
+      "height": 98,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        760,
+        98
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "input_reflection",
+      "label": "생각 기록 입력창",
+      "width": 760,
+      "height": 240,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        760,
+        240
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "message_guide",
+      "label": "시뮬레이션 안내 말풍선",
+      "width": 760,
+      "height": 222,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        760,
+        222
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "stepper",
+      "label": "활동 단계",
+      "width": 940,
+      "height": 126,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        940,
+        126
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "progress_activity",
+      "label": "활동 진행 · 예시 2/5",
+      "width": 624,
+      "height": 64,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        624,
+        64
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "tag_middle_school",
+      "label": "태그 · 중학생",
+      "width": 240,
+      "height": 66,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        240,
+        66
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "tag_high_school",
+      "label": "태그 · 고등학생",
+      "width": 240,
+      "height": 66,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        240,
+        66
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "tag_intro",
+      "label": "태그 · 입문",
+      "width": 240,
+      "height": 66,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        240,
+        66
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "tag_in_progress",
+      "label": "태그 · 진행 중",
+      "width": 240,
+      "height": 66,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        240,
+        66
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "tag_done",
+      "label": "태그 · 완료",
+      "width": 240,
+      "height": 66,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        240,
+        66
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "09_ui_components",
+      "name": "tag_online",
+      "label": "태그 · 온라인",
+      "width": 240,
+      "height": 66,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        240,
+        66
+      ],
+      "note": "비인터랙티브 디자인 에셋. 실제 웹 구현에서는 네이티브 버튼·입력 요소를 사용."
+    },
+    {
+      "category": "10_decorations",
+      "name": "path_blue",
+      "label": "파란 연결선",
+      "width": 480,
+      "height": 250,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        480,
+        250
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "path_orange",
+      "label": "주황 연결선",
+      "width": 480,
+      "height": 200,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        480,
+        200
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "path_purple",
+      "label": "보라 점선 경로",
+      "width": 480,
+      "height": 250,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        480,
+        250
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "crown_blue",
+      "label": "파란 왕관",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "flag_orange",
+      "label": "다음 경험 깃발",
+      "width": 256,
+      "height": 256,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        256,
+        256
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "speech_blue",
+      "label": "빈 말풍선 · 파랑",
+      "width": 440,
+      "height": 280,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        440,
+        280
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "speech_purple",
+      "label": "빈 말풍선 · 보라",
+      "width": 440,
+      "height": 280,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        440,
+        280
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "orbit_nodes",
+      "label": "경험 연결 고리",
+      "width": 340,
+      "height": 320,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        340,
+        320
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "steps_three",
+      "label": "경험 세 단계",
+      "width": 440,
+      "height": 300,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        440,
+        300
+      ],
+      "note": ""
+    },
+    {
+      "category": "10_decorations",
+      "name": "cards_three",
+      "label": "경험 카드 묶음",
+      "width": 440,
+      "height": 300,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        440,
+        300
+      ],
+      "note": ""
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_01_landing",
+      "label": "소개 페이지 · 원색 히어로",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "캐릭터·문구 없음. 왼쪽 50%가 카피 배치 영역."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_02_app_canvas",
+      "label": "기능 페이지 · 공통 캔버스",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "대시보드·진단·기록용 중립 배경. 본문과 컨트롤은 별도 배치."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_03_developer",
+      "label": "개발자 시뮬레이션 · 작업 공간",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "가상의 개발팀 업무 공간. 실제 기업·사무실이 아님."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_04_nurse",
+      "label": "간호사 시뮬레이션 · 간호 스테이션",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "환자·의료 처치·의학적 지침이 없는 가상의 관찰·소통 학습 공간."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_05_smartfarm",
+      "label": "스마트팜 시뮬레이션 · 온실",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "식물과 센서가 있는 가상 온실. 브랜드 원색으로 양식화한 비사실적 식물 일러스트."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_06_automotive",
+      "label": "자동차 엔지니어 시뮬레이션 · 설계·점검 공간",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "가상 모빌리티 실습 공간. 실제 브랜드·정비 절차·위험한 작업을 표현하지 않음."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_07_food_research",
+      "label": "식품 연구원 시뮬레이션 · 연구 공간",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "가상의 식품 연구 공간. 실제 실험 프로토콜·약품명·섭취 행위 없음."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_08_experience_map",
+      "label": "경험지도 · 경로 배경",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "활동 노드·카드·설명을 별도 배치하는 배경. 역량 점수나 평가 수치를 포함하지 않음."
+    },
+    {
+      "category": "11_backgrounds",
+      "name": "bg_09_regional",
+      "label": "지역 경험 · 도시와 한옥 모티프",
+      "width": 1920,
+      "height": 1080,
+      "source": "vector",
+      "background": "opaque",
+      "native": [
+        1920,
+        1080
+      ],
+      "note": "지역성을 표현한 추상 도시 일러스트. 전북의 실제 지도·스카이라인을 재현한 자료가 아님."
+    },
+    {
+      "category": "00_brand",
+      "name": "brand_lockup",
+      "label": "로고 · 기본형",
+      "width": 570,
+      "height": 98,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        570,
+        98
+      ],
+      "note": ""
+    },
+    {
+      "category": "00_brand",
+      "name": "brand_lockup_white",
+      "label": "로고 · 어두운 배경용",
+      "width": 570,
+      "height": 98,
+      "source": "vector",
+      "background": "transparent",
+      "native": [
+        570,
+        98
+      ],
+      "note": "투명 배경에 흰색 로고. 어두운 색 면 위에서 사용."
+    },
+    {
+      "category": "00_brand",
+      "name": "brand_avatar",
+      "label": "캐릭터 아바타 · 256",
+      "width": 256,
+      "height": 256,
+      "source": "approved_original_scaled",
+      "background": "transparent",
+      "native": [
+        1254,
+        1254
+      ],
+      "note": ""
+    }
+  ]
+}

@@ -8,7 +8,6 @@ export type Page =
   | "region"
   | "recommendation"
   | "portfolio"
-  | "teacher"
   | "profile"
   | "onboarding"
   | "auth";
@@ -402,13 +401,14 @@ export type Activity = {
   before: number[];
   after: number[];
   interest?: number;
+  evaluationStatus?: string;
 };
 export type Profile = {
   name: string;
   school: string;
   grade: string;
   region: string;
-  role: "student" | "teacher";
+  username?: string;
   interests: string[];
   onboarded: boolean;
   notifications: boolean;
@@ -420,15 +420,61 @@ export type AppState = {
   scores: Partial<Record<CareerId, number[]>>;
   interests: Partial<Record<CareerId, number>>;
   drafts: Partial<Record<CareerId, string[]>>;
-  assignments: { student: string; careerId: CareerId; date: string }[];
+  gaps: Partial<Record<CareerId, GapReport>>;
+  recommendations: Recommendation[];
+};
+export type ExperienceEvidence = {
+  id: string;
+  careerId: CareerId;
+  kind: string;
+  category: "participation" | "self_report" | "artifact";
+  objectives: string[];
+  text: string;
+  date: string;
+  verified: boolean;
+  verificationMeaning: string;
+  metadata: Record<string, unknown>;
+};
+export type GapReport = {
+  careerId: CareerId;
+  scores: number[];
+  dimensions: {
+    name: string;
+    observed: number;
+    target: number;
+    coverage: number;
+    unknown: boolean;
+    evidenceCount: number;
+    missing: string[];
+    missingObjectiveIds: string[];
+  }[];
+  evidence: ExperienceEvidence[];
+  version: string;
+  scoreMeaning: string;
+  unavailableVerification: string[];
+};
+export type Recommendation = {
+  careerId: CareerId;
+  kind: "simulation" | "project" | "discovery";
+  reason: string;
+  missingObjectives: string[];
+  path: string[];
+};
+export type SourceReference = {
+  source: string;
+  id: string;
+  url: string;
+  version?: string;
+  license?: string;
+  label?: string;
+  [key: string]: unknown;
 };
 export const initialState: AppState = {
   profile: {
     name: "탐험가",
     school: "",
-    grade: "중학교 2학년",
-    region: "전주",
-    role: "student",
+    grade: "",
+    region: "",
     interests: [],
     onboarded: false,
     notifications: true,
@@ -438,37 +484,14 @@ export const initialState: AppState = {
   scores: {},
   interests: {},
   drafts: {},
-  assignments: [],
+  gaps: {},
+  recommendations: [],
 };
-export function loadState(): AppState {
-  try {
-    const raw = JSON.parse(localStorage.getItem("itda-career-v1") || "null");
-    if (
-      !raw ||
-      !raw.profile ||
-      !Array.isArray(raw.activities) ||
-      !Array.isArray(raw.saved)
-    )
-      return initialState;
-    return {
-      ...initialState,
-      ...raw,
-      profile: { ...initialState.profile, ...raw.profile },
-    };
-  } catch {
-    return initialState;
-  }
-}
 export function scoreFor(state: AppState, id: CareerId) {
   return state.scores[id] ?? [0, 0, 0, 0, 0, 0];
 }
 export function nextCareer(state: AppState) {
-  const list = careers.filter((c) => state.profile.interests.includes(c.field));
-  return [...(list.length ? list : careers)].sort(
-    (a, b) =>
-      state.activities.filter((x) => x.careerId === a.id).length -
-      state.activities.filter((x) => x.careerId === b.id).length,
-  )[0];
+  return getCareer(state.recommendations[0]?.careerId ?? "developer");
 }
 export function dateLabel(date: string) {
   return new Date(date).toLocaleDateString("ko-KR", {

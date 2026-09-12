@@ -1,5 +1,5 @@
 {
-  "name": "itda-career",
+  "name": "kingcareer",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test:e2e": "playwright test",
-    "format": "prettier --write src tests *.ts *.json index.html",
-    "format:check": "prettier --check src tests *.ts *.json index.html"
+    "format": "prettier --write src app *.ts *.json",
+    "format:check": "prettier --check src app *.ts *.json"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

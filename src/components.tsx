@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode, CSSProperties } from "react";
 import {
   ArrowUpRight,
@@ -12,7 +12,6 @@ import {
   Sprout,
   CarFront,
   FlaskConical,
-  Compass,
 } from "lucide-react";
 import { motion } from "motion/react";
 import type { Career, CareerId } from "./data";
@@ -31,19 +30,11 @@ export function JobIcon({ id, size = 24 }: { id: CareerId; size?: number }) {
 export function Logo() {
   return (
     <span className="brand">
-      <svg viewBox="0 0 40 40" aria-hidden="true">
-        <path
-          d="M10 8v15c0 8 7 10 12 5l8-8M30 32V17c0-8-7-10-12-5l-8 8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="5.5"
-          strokeLinecap="round"
-        />
-      </svg>
+      <img src="/brand/03_icons/crown.svg" alt="" />
       <b>
-        잇다<span>.</span>
+        King<span>Career</span>
       </b>
-      <small>나의 가능성을 잇다</small>
+      <small>경험으로 찾는 나의 가능성</small>
     </span>
   );
 }
@@ -146,7 +137,7 @@ export function Empty({
   return (
     <div className="empty">
       <div className="empty-icon">
-        <Compass size={34} />
+        <img src="/brand/01_mascots/mascot_08_guide.png" alt="" />
       </div>
       <h3>{title}</h3>
       <p>{children}</p>
@@ -265,10 +256,11 @@ export function CareerCard({
 }: {
   career: Career;
   saved: boolean;
-  onSave: () => void;
+  onSave: () => void | Promise<void>;
   onOpen: () => void;
   compact?: boolean;
 }) {
+  const [saving, setSaving] = useState(false);
   return (
     <motion.article
       className={`career-card ${compact ? "compact" : ""}`}
@@ -282,7 +274,15 @@ export function CareerCard({
           aria-label={`${career.title} ${saved ? "저장 취소" : "저장"}`}
           aria-pressed={saved}
           className={`save-button ${saved ? "saved" : ""}`}
-          onClick={onSave}
+          disabled={saving}
+          onClick={async () => {
+            setSaving(true);
+            try {
+              await onSave();
+            } finally {
+              setSaving(false);
+            }
+          }}
         >
           <Bookmark size={18} fill={saved ? "currentColor" : "none"} />
         </button>
@@ -307,87 +307,42 @@ export function CareerCard({
   );
 }
 export function JobArt({ id }: { id: CareerId }) {
+  const asset = {
+    developer: "developer",
+    nurse: "nurse",
+    farmer: "smartfarm",
+    engineer: "automotive",
+    researcher: "food_research",
+  }[id];
   return (
-    <div className={`job-art job-art-${id}`} aria-hidden="true">
-      {id === "developer" ? (
-        <>
-          <div className="mini-screen">
-            <span />
-            <span />
-            <span />
-            <div>
-              <Code2 size={52} />
-            </div>
-            <i />
-          </div>
-          <div className="floating-code">&lt;/&gt;</div>
-          <div className="floating-square" />
-        </>
-      ) : id === "farmer" ? (
-        <>
-          <div className="plant-pot" />
-          <Sprout className="plant-sprout" size={100} strokeWidth={2.1} />
-          <div className="sensor">
-            <span />
-            24°<small>온실 온도</small>
-          </div>
-        </>
-      ) : id === "nurse" ? (
-        <>
-          <div className="medical-bag">
-            <div />
-            <HeartPulse size={62} />
-          </div>
-          <div className="medical-cross">+</div>
-        </>
-      ) : id === "engineer" ? (
-        <>
-          <div className="car-platform" />
-          <CarFront size={112} strokeWidth={1.7} />
-          <div className="floating-code">GO</div>
-        </>
-      ) : (
-        <>
-          <FlaskConical size={105} strokeWidth={1.5} />
-          <div className="food-circle" />
-          <div className="floating-code">LAB</div>
-        </>
-      )}
+    <div className={`career-scene scene-${id}`} aria-hidden="true">
+      <img
+        src={`/brand/05_career_illustrations/${asset}.svg`}
+        alt=""
+        loading="lazy"
+      />
     </div>
   );
 }
 export function HeroArt() {
   return (
-    <div className="hero-art" aria-hidden="true">
-      <div className="orbit orbit-one" />
-      <div className="orbit orbit-two" />
-      <div className="hero-spark spark-one" />
-      <div className="hero-spark spark-two" />
-      <div className="floating-note note-one">
-        <span />
-        나의 가능성, 탐색 중
-      </div>
-      <div className="hero-ticket">
-        <span>MY NEXT CHAPTER</span>
-        <div className="ticket-face">
-          <i />
-          <i />
-          <b />
-        </div>
-        <strong>
-          HELLO,
-          <br />
-          FUTURE!
-        </strong>
-        <div className="ticket-bottom">
-          무한한 가능성을 가진 나<ArrowUpRight size={23} />
-        </div>
-      </div>
-      <div className="hero-sticker">
-        <Compass size={34} />
-      </div>
-      <div className="floating-note note-two">어떤 내가 될까?</div>
-      <div className="orange-shape" />
+    <div className="king-hero-art" aria-hidden="true">
+      <span className="king-hero-orbit" />
+      <span className="king-hero-block" />
+      <img
+        className="king-main-mascot"
+        src="/brand/01_mascots/mascot_00_original.png"
+        alt=""
+        fetchPriority="high"
+      />
+      <span className="king-hero-label label-explore">
+        <img src="/brand/03_icons/compass.svg" alt="" />
+        너의 다음 가능성
+      </span>
+      <span className="king-hero-label label-play">
+        <img src="/brand/03_icons/simulation.svg" alt="" />
+        오늘의 나, 플레이!
+      </span>
     </div>
   );
 }

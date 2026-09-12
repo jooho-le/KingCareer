@@ -1,0 +1,2146 @@
+{
+  "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+  "schemaVersion": 1,
+  "careers": {
+    "developer": {
+      "editorialKo": "사용자 요구 분석과 소프트웨어 개선 업무를 참고합니다.",
+      "mappingType": "KingCareer editorial crosswalk; not an official equivalence",
+      "esco": {
+        "uri": "http://data.europa.eu/esco/occupation/f2b15a0e-e65a-438a-affb-29b9d50b77d1",
+        "title": "software developer",
+        "code": "2512.3",
+        "version": "API default snapshot; version not reported by response",
+        "versionNote": "The documentation describes default v1.0.9; selectedVersion requests failed at collection. Do not infer latest version.",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://ec.europa.eu/esco/api/resource/occupation?uri=http%3A%2F%2Fdata.europa.eu%2Fesco%2Foccupation%2Ff2b15a0e-e65a-438a-affb-29b9d50b77d1&language=en",
+        "licenseUrl": "https://esco.ec.europa.eu/en/use-esco",
+        "attribution": "European Commission, ESCO; English labels and essential-skill relations, edited educational mapping by KingCareer.",
+        "skills": [
+          {
+            "uri": "http://data.europa.eu/esco/skill/797a4416-0b8d-44f3-8fcd-eb10bd0be6b4",
+            "title": "develop software prototype",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/172020d1-e151-445b-8173-e2a5fb16fe51",
+            "title": "utilise computer-aided software engineering tools",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/901105f8-3a08-453e-b1dc-23619e317fd3",
+            "title": "create flowchart diagram",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/541561bc-510c-4a99-881c-2d8bf5a85462",
+            "title": "use technical drawing software",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/6014921e-1d25-4039-adc2-04852d61880e",
+            "title": "ICT debugging tools",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9d2e926f-53d9-41f5-98f3-19dfaa687f3f",
+            "title": "tools for software configuration management",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/d9e5349e-8791-49c2-8ba4-839fdd1606c2",
+            "title": "define technical requirements",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/72a74f69-5cf1-43c5-99b9-62a444578919",
+            "title": "engineering processes",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f28617ad-afdd-4041-814c-216153a38998",
+            "title": "analyse software specifications",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/6a899482-8bcf-40ca-ae67-579a1cc467ab",
+            "title": "manage engineering project",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/04dfd9fb-e0cf-40f6-96c6-9d2280c4347e",
+            "title": "provide technical documentation",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/0b0335f3-0aa1-491e-895e-81fc8774a300",
+            "title": "develop automated migration methods",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2b7a79e5-84d8-4880-be66-3d9bb05bea17",
+            "title": "use software design patterns",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/4fabca9a-7435-4f33-b1da-3cdb00340fdc",
+            "title": "perform scientific research",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/925463a7-d51f-4d5b-9f79-4d28cf30acde",
+            "title": "integrated development environment software",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2522a6ce-3202-4ac8-9f5b-b9cb5a3a83a1",
+            "title": "debug software",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/be48353d-25c7-4f86-bea9-7b9e248fbc6e",
+            "title": "interpret technical requirements",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8b94aa1e-89c9-459d-b3b4-1dfab8dec2df",
+            "title": "use software libraries",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/59ea80e1-463a-4dba-82c6-d0b6d577d532",
+            "title": "technical drawings",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/0e0c9c11-b39e-43cf-ba95-2fe646f5de64",
+            "title": "identify customer requirements",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/209a5498-3449-4689-8ed9-bd08cab4fd78",
+            "title": "engineering principles",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/21d2f96d-35f7-4e3f-9745-c533d2dd6e97",
+            "title": "computer programming",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/7111b95d-0ce3-441a-9d92-4c75d05c4388",
+            "title": "project management",
+            "relationship": "essential"
+          }
+        ]
+      },
+      "onet": {
+        "code": "15-1252.00",
+        "version": "31.0",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://www.onetonline.org/link/summary/15-1252.00",
+        "downloadUrl": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/task_statements.csv",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://www.onetcenter.org/license_db.html",
+        "attribution": "O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. KingCareer has modified this information. USDOL/ETA has not approved, endorsed, or tested these modifications.",
+        "occupation": {
+          "O*NET-SOC Code": "15-1252.00",
+          "Title": "Software Developers",
+          "Description": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team."
+        },
+        "tasks": [
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21662",
+            "Task": "Analyze user needs and software requirements to determine feasibility of design within time and cost constraints.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21669",
+            "Task": "Develop or direct software system testing or validation procedures, programming, or documentation.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21664",
+            "Task": "Confer with systems analysts, engineers, programmers and others to design systems and to obtain information on project limitations and capabilities, performance requirements and interfaces.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21670",
+            "Task": "Modify existing software to correct errors, adapt it to new hardware, or upgrade interfaces and improve performance.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21673",
+            "Task": "Prepare reports or correspondence concerning project specifications, activities, or status.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21661",
+            "Task": "Analyze information to determine, recommend, and plan installation of a new system or modification of an existing system.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21676",
+            "Task": "Store, retrieve, and manipulate data for analysis of system capabilities and requirements.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21667",
+            "Task": "Design, develop and modify software systems, using scientific analysis and mathematical models to predict and measure outcomes and consequences of design.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21668",
+            "Task": "Determine system performance standards.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21665",
+            "Task": "Consult with customers or other departments on project status, proposals, or technical issues, such as software system design or maintenance.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21663",
+            "Task": "Confer with data processing or project managers to obtain information on limitations or capabilities for data processing projects.",
+            "Task Type": "Core",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21671",
+            "Task": "Monitor functioning of equipment to ensure system operates in conformance with specifications.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21666",
+            "Task": "Coordinate installation of software system.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21678",
+            "Task": "Supervise the work of programmers, technologists and technicians and other engineering and scientific personnel.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "71",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21677",
+            "Task": "Supervise and assign work to programmers, designers, technologists, technicians, or other engineering or scientific personnel.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21672",
+            "Task": "Obtain and evaluate information on factors such as reporting formats required, costs, or security needs to determine hardware configuration.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "15-1252.00",
+            "Title": "Software Developers",
+            "Task ID": "21679",
+            "Task": "Train users to use new or modified equipment.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "72",
+            "Date": "08/2025",
+            "Domain Source": "Incumbent"
+          }
+        ]
+      }
+    },
+    "nurse": {
+      "editorialKo": "환자와의 소통·기록·협업 업무 중 비임상 활동을 참고합니다.",
+      "mappingType": "KingCareer editorial crosswalk; not an official equivalence",
+      "esco": {
+        "uri": "http://data.europa.eu/esco/occupation/8d3e8aaa-791b-4c75-a465-f3f827028f50",
+        "title": "nurse responsible for general care",
+        "code": "2221.2",
+        "version": "API default snapshot; version not reported by response",
+        "versionNote": "The documentation describes default v1.0.9; selectedVersion requests failed at collection. Do not infer latest version.",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://ec.europa.eu/esco/api/resource/occupation?uri=http%3A%2F%2Fdata.europa.eu%2Fesco%2Foccupation%2F8d3e8aaa-791b-4c75-a465-f3f827028f50&language=en",
+        "licenseUrl": "https://esco.ec.europa.eu/en/use-esco",
+        "attribution": "European Commission, ESCO; English labels and essential-skill relations, edited educational mapping by KingCareer.",
+        "skills": [
+          {
+            "uri": "http://data.europa.eu/esco/skill/a49fdda1-abd1-40e0-a824-3c545d98f32e",
+            "title": "apply health sciences",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/d3eccb86-f02d-4950-bfbd-20b9510774a1",
+            "title": "apply organisational techniques",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/51e53aff-6f8a-42ca-9cb9-47335130f4d7",
+            "title": "human physiology",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/6d13053b-ee35-492c-8976-8178420df398",
+            "title": "infection control",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9c1e94ad-6c81-4fce-bc16-f7cf2e730cf0",
+            "title": "primary care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/e18a6a3c-4f26-4141-8c72-4b4f01d77914",
+            "title": "apply context specific clinical competences",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/e98a5096-de98-46d2-88c8-951f4029c038",
+            "title": "evaluate nursing care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8bd49d04-ab2f-4333-b5d9-12d716e4e2f6",
+            "title": "resuscitation",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/bfe4f330-d595-48c7-ab3c-f309471d6953",
+            "title": "psychology",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/98eb1f3b-3480-416b-bd4b-811946f7e347",
+            "title": "comply with quality standards related to healthcare practice",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/7a63f944-6948-4ae4-9c1f-d08e492535c9",
+            "title": "apply person-centred care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/76395873-7fe2-4f9a-b4b6-9932f8cbd0b4",
+            "title": "follow clinical guidelines",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a32e7fb1-af9e-4c09-8ea7-72b7442e9cda",
+            "title": "solve problems in healthcare",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2b1ce548-4e16-45fb-bfb2-f3141c8efe8d",
+            "title": "patient autonomy",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/51e79cb4-fab3-404c-88f3-cd4a1bd5879e",
+            "title": "deal with emergency care situations",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f98e06f5-a09a-4356-b6a8-d55a7d3c5356",
+            "title": "implement nursing care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/1709f408-9965-489b-9805-8e1e5d9e483b",
+            "title": "health care legislation",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/1b3370df-c280-470c-ac35-951f42ca8b19",
+            "title": "promote a positive image of nursing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/097098fc-6d89-44e9-9305-98ac5c0a78ac",
+            "title": "educate on the prevention of illness",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/4f7b14d8-f09c-49f7-abae-231e8c210e07",
+            "title": "general medicine",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8e0bfbba-6e9d-48e0-b152-2cc949e5022a",
+            "title": "implement scientific decision making in healthcare",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c82f9319-cf46-4257-a8ce-542d0a7fed8f",
+            "title": "provide treatment strategies for challenges to human health",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a8d24a95-47b3-4f88-92e7-06600bcd3612",
+            "title": "manage personal professional development",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2475cd27-8d6c-4318-a364-21395b23acba",
+            "title": "empathise with the healthcare user",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/508f3b4c-799a-4742-b3ae-75f2ff11153d",
+            "title": "surgery",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2d6904db-9e16-42a5-bc12-c5acb8bfab18",
+            "title": "safe management of medicines",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/60b2dd49-c677-4f47-816e-aff3b577e113",
+            "title": "provide health education",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/ae965e49-06f1-442f-87bf-e48fc1e1d8b6",
+            "title": "analyse the care quality",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c65aa043-98da-4136-9877-494e72d9e4cf",
+            "title": "interact with healthcare users",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/52047630-b880-4939-bb19-6700187af031",
+            "title": "adolescence medicine",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/db8a9ba7-96ad-4c53-b552-d4f1570dfefb",
+            "title": "pathology",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a46743b7-ff8c-49b6-99f7-7fa5bc241771",
+            "title": "use electronic health records in nursing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f9f258e3-4728-4107-9e08-293d5d2ef65e",
+            "title": "psychiatry",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/5ff6f551-f2a4-4cef-a72d-e81116155a43",
+            "title": "newborn care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8881a9c2-bd07-4954-bf27-c1f8acca9af0",
+            "title": "sociology",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de",
+            "title": "listen actively",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/b55f61a4-5f9e-4741-ba95-9ac04b64119b",
+            "title": "work in a multicultural environment in health care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/16636767-c215-4cf0-b126-e144fea20926",
+            "title": "use e-health and mobile health technologies",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/aa238394-8126-4ada-be2f-9dfe065cf314",
+            "title": "adhere to organisational guidelines",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/5cc97a45-69fc-4f37-a973-402d5ac561ac",
+            "title": "initiate life preserving measures",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/ce0d6a42-59c1-433e-ab62-adfc969c46bb",
+            "title": "ensure safety of healthcare users",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/27a638bc-6362-45f8-afce-5596a606269b",
+            "title": "impact of social contexts on health",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/79c012c7-4b09-497e-8152-e73e5d1d3384",
+            "title": "adapt leadership styles in healthcare",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/13724e7d-b946-4773-915e-9621340237bc",
+            "title": "contribute to continuity of health care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/52c19dc8-651f-4095-98fe-dcb2799d702e",
+            "title": "geriatrics",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/4be3c34e-47ba-4881-ac74-8bd244e0b04c",
+            "title": "participate in health personnel training",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/71480db1-a706-47f9-952f-bdc5036e3df3",
+            "title": "coordinate care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/b00e948c-19be-4951-8cff-60f88f1046e9",
+            "title": "delegate activities",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/d15ce60f-ddab-41ce-ba56-398451b77b60",
+            "title": "have computer literacy",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f90d4810-8bac-4e5e-b870-3e35a4138ff7",
+            "title": "accept own accountability",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/46003629-a579-4d0a-b3ea-80ef890699d6",
+            "title": "diagnose nursing care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f190355a-cea5-4cd0-b6cd-a5c3d9a14985",
+            "title": "dietetics",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/0450eaee-1a00-4622-8f4e-5356fce816d2",
+            "title": "hygiene in a health care setting",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/54411e8e-d62f-46d8-b87b-fce23f8e3bc8",
+            "title": "disability care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/1023ac61-250f-4eef-b7a9-238cf071685f",
+            "title": "provide professional care in nursing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/6acf652c-33b2-4e28-8f79-1e553f255229",
+            "title": "plan nursing care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/b729d6bc-326b-46cd-aa63-ea280024b116",
+            "title": "evidence-based nursing care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9570e84e-6699-4c9f-9a12-7bc82d53a231",
+            "title": "public health",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8671290a-ab17-42c2-9114-adcb741e7257",
+            "title": "paediatrics",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/049c8caf-dd12-45fc-9bfa-b64051f32a19",
+            "title": "respond to changing situations in health care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/0b5aaee4-c948-4853-bf8d-b9cd6c4917ee",
+            "title": "inform policy makers on health-related challenges",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/6063652e-22c4-472e-bb96-6e5ec1e7c5de",
+            "title": "provide nursing advice on healthcare",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a28e8141-89ee-4b24-a3bb-1aebcc56c72d",
+            "title": "apply nursing care in long-term care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9fcf9918-fdef-49c3-aedc-518eb1e7e1f5",
+            "title": "comply with legislation related to health care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/cf6ca1fc-f2be-4deb-bb35-1fffe4099023",
+            "title": "leadership in nursing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/e6bf6e73-230a-434c-97b2-a0c042a8b7ac",
+            "title": "apply sustainability principles in health care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/7110bf9f-b245-4adc-9159-5081013fd64d",
+            "title": "communicate effectively in healthcare",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8168333b-8257-48f6-82c5-6b5128c21ecc",
+            "title": "person centred care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/646d871b-4503-4dc8-a076-06d7085e4cde",
+            "title": "promote human rights",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/572c3e87-61ed-4271-9c95-148837deae5e",
+            "title": "citizen involvement in healthcare",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8232979d-6aa4-40c9-a12b-5152a52a76b8",
+            "title": "advise on healthcare users' informed consent",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9ec4252d-cbe8-4134-88fa-549dee1883f3",
+            "title": "human anatomy",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/78de3e5f-e3ea-4da2-aa09-3704d03ba622",
+            "title": "advise on healthy lifestyles",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f7464f30-662b-4177-85a0-3df9693e9e58",
+            "title": "first aid",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/6c3e28d6-e3cc-4b25-a5da-a0dce043cf17",
+            "title": "manage information in health care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9b9244b4-6f62-4834-839b-19e9eba0a407",
+            "title": "acute care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c5a80bb0-31e6-4de0-868c-00a0f9b88b47",
+            "title": "palliative care",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/d429b19a-132f-44d3-971b-bb0ccd94f979",
+            "title": "nursing science",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/60c544c9-0815-479c-bcec-93c7891815ea",
+            "title": "pharmacology",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/bc7a6b88-a279-4b6e-ac5e-21666bc51dae",
+            "title": "innovation in nursing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/d93f9e29-9740-4231-8486-13d377b99f05",
+            "title": "develop a collaborative therapeutic relationship",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a117f32c-662b-4dd9-b739-1230dd04cb60",
+            "title": "pedagogy",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/ed3f3dba-3a35-4ed5-b113-67f4d10ef4c8",
+            "title": "scientific research methodology",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/441707bb-9ad3-406c-9975-a6bec96f537b",
+            "title": "empower individuals, families and groups",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/bcd2ce08-ba12-4d66-865f-f4ba36419707",
+            "title": "promote inclusion",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/1d4b74b0-1a48-48ec-a3cd-26cca0c212a3",
+            "title": "biological chemistry",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8b3aefd2-5021-418f-b069-828fb7abc598",
+            "title": "nursing principles",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/b9f16465-56a9-426b-a047-0f9f1f95ec92",
+            "title": "address problems critically",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/516e324b-03fc-4d3b-9986-e46e9834cd43",
+            "title": "implement fundamentals of nursing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/eba85523-6ad2-4cd9-9b27-a0b6a39b8cfa",
+            "title": "work in multidisciplinary health teams",
+            "relationship": "essential"
+          }
+        ]
+      },
+      "onet": {
+        "code": "29-1141.00",
+        "version": "31.0",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://www.onetonline.org/link/summary/29-1141.00",
+        "downloadUrl": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/task_statements.csv",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://www.onetcenter.org/license_db.html",
+        "attribution": "O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. KingCareer has modified this information. USDOL/ETA has not approved, endorsed, or tested these modifications.",
+        "occupation": {
+          "O*NET-SOC Code": "29-1141.00",
+          "Title": "Registered Nurses",
+          "Description": "Assess patient health problems and needs, develop and implement nursing care plans, and maintain medical records. Administer nursing care to ill, injured, convalescent, or disabled patients. May advise patients on health maintenance and disease prevention or provide case management. Licensing or registration required."
+        },
+        "tasks": [
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1841",
+            "Task": "Record patients' medical information and vital signs.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "20413",
+            "Task": "Administer medications to patients and monitor patients for reactions or side effects.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1839",
+            "Task": "Maintain accurate, detailed reports and records.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1840",
+            "Task": "Monitor, record, and report symptoms or changes in patients' conditions.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1855",
+            "Task": "Provide health care, first aid, immunizations, or assistance in convalescence or rehabilitation in locations such as schools, hospitals, or industry.",
+            "Task Type": "Core",
+            "Incumbents Responding": "89",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1843",
+            "Task": "Consult and coordinate with healthcare team members to assess, plan, implement, or evaluate patient care plans.",
+            "Task Type": "Core",
+            "Incumbents Responding": "88",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1846",
+            "Task": "Direct or supervise less-skilled nursing or healthcare personnel or supervise a particular unit.",
+            "Task Type": "Core",
+            "Incumbents Responding": "88",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1845",
+            "Task": "Monitor all aspects of patient care, including diet and physical activity.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1850",
+            "Task": "Instruct individuals, families, or other groups on topics such as health education, disease prevention, or childbirth and develop health improvement programs.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1842",
+            "Task": "Modify patient treatment plans as indicated by patients' responses and conditions.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1857",
+            "Task": "Conduct specified laboratory tests.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1848",
+            "Task": "Observe nurses and visit patients to ensure proper nursing care.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1849",
+            "Task": "Assess the needs of individuals, families, or communities, including assessment of individuals' home or work environments, to identify potential health or safety problems.",
+            "Task Type": "Core",
+            "Incumbents Responding": "89",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1865",
+            "Task": "Work with individuals, groups, or families to plan or implement programs designed to improve the overall health of communities.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1847",
+            "Task": "Prepare patients for and assist with examinations or treatments.",
+            "Task Type": "Core",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1861",
+            "Task": "Perform administrative or managerial functions, such as taking responsibility for a unit's staff, budget, planning, or long-range goals.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "87",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1844",
+            "Task": "Order, interpret, and evaluate diagnostic tests to identify and assess patient's condition.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "88",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1859",
+            "Task": "Prescribe or recommend drugs, medical devices, or other forms of treatment, such as physical therapy, inhalation therapy, or related therapeutic procedures.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "89",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1860",
+            "Task": "Direct or coordinate infection control programs, advising or consulting with specified personnel about necessary precautions.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "88",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1851",
+            "Task": "Prepare rooms, sterile instruments, equipment, or supplies and ensure that stock of supplies is maintained.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1854",
+            "Task": "Administer local, inhalation, intravenous, or other anesthetics.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "87",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1862",
+            "Task": "Provide or arrange for training or instruction of auxiliary personnel or students.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1863",
+            "Task": "Refer students or patients to specialized health resources or community agencies furnishing assistance.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1856",
+            "Task": "Perform physical examinations, make tentative diagnoses, and treat patients en route to hospitals or at disaster site triage centers.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1864",
+            "Task": "Consult with institutions or associations regarding issues or concerns relevant to the practice and profession of nursing.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1852",
+            "Task": "Inform physician of patient's condition during anesthesia.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "89",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          },
+          {
+            "O*NET-SOC Code": "29-1141.00",
+            "Title": "Registered Nurses",
+            "Task ID": "1866",
+            "Task": "Engage in research activities related to nursing.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "90",
+            "Date": "08/2021",
+            "Domain Source": "Incumbent"
+          }
+        ]
+      }
+    },
+    "farmer": {
+      "editorialKo": "농업공학의 측정·환경·장비 업무를 스마트팜 교육 맥락으로 편집합니다. 스마트팜 전문가와 동일한 직업 분류는 아닙니다.",
+      "mappingType": "KingCareer editorial crosswalk; not an official equivalence",
+      "esco": {
+        "uri": "http://data.europa.eu/esco/occupation/4d5bd738-9202-4fd7-bd8c-7dbe914048de",
+        "title": "agricultural engineer",
+        "code": "2144.1.2",
+        "version": "API default snapshot; version not reported by response",
+        "versionNote": "The documentation describes default v1.0.9; selectedVersion requests failed at collection. Do not infer latest version.",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://ec.europa.eu/esco/api/resource/occupation?uri=http%3A%2F%2Fdata.europa.eu%2Fesco%2Foccupation%2F4d5bd738-9202-4fd7-bd8c-7dbe914048de&language=en",
+        "licenseUrl": "https://esco.ec.europa.eu/en/use-esco",
+        "attribution": "European Commission, ESCO; English labels and essential-skill relations, edited educational mapping by KingCareer.",
+        "skills": [
+          {
+            "uri": "http://data.europa.eu/esco/skill/d74df140-eb69-43e2-bac9-1cafc824d702",
+            "title": "execute feasibility study",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/efa141df-f382-418f-9121-bd88fd735669",
+            "title": "mechanics",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/4fabca9a-7435-4f33-b1da-3cdb00340fdc",
+            "title": "perform scientific research",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f54c10e4-630d-4e50-95e9-4e9e268e8f12",
+            "title": "approve engineering design",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9c071f1d-eac3-449d-b004-c14775b5a3b9",
+            "title": "mechanical engineering",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/334e3e49-fb02-4051-809a-f06adfdc1c40",
+            "title": "troubleshoot",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/209a5498-3449-4689-8ed9-bd08cab4fd78",
+            "title": "engineering principles",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/59ea80e1-463a-4dba-82c6-d0b6d577d532",
+            "title": "technical drawings",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/541561bc-510c-4a99-881c-2d8bf5a85462",
+            "title": "use technical drawing software",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/42b23922-1c40-4dbe-9e0c-7a568dfdf06b",
+            "title": "adjust engineering designs",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/72a74f69-5cf1-43c5-99b9-62a444578919",
+            "title": "engineering processes",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/5dfd1b83-8b77-444b-94cd-72f8e13472fa",
+            "title": "legislation in agriculture",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/e95058a6-e139-42e7-a470-72038a606649",
+            "title": "assess financial viability",
+            "relationship": "essential"
+          }
+        ]
+      },
+      "onet": {
+        "code": "17-2021.00",
+        "version": "31.0",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://www.onetonline.org/link/summary/17-2021.00",
+        "downloadUrl": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/task_statements.csv",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://www.onetcenter.org/license_db.html",
+        "attribution": "O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. KingCareer has modified this information. USDOL/ETA has not approved, endorsed, or tested these modifications.",
+        "occupation": {
+          "O*NET-SOC Code": "17-2021.00",
+          "Title": "Agricultural Engineers",
+          "Description": "Apply knowledge of engineering technology and biological science to agricultural problems concerned with power and machinery, electrification, structures, soil and water conservation, and processing of agricultural products."
+        },
+        "tasks": [
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5336",
+            "Task": "Prepare reports, sketches, working drawings, specifications, proposals, and budgets for proposed sites or systems.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5325",
+            "Task": "Visit sites to observe environmental problems, to consult with contractors, or to monitor construction activities.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5337",
+            "Task": "Meet with clients, such as district or regional councils, farmers, and developers, to discuss their needs.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5331",
+            "Task": "Discuss plans with clients, contractors, consultants, and other engineers so that they can be evaluated and necessary changes made.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5327",
+            "Task": "Test agricultural machinery and equipment to ensure adequate performance.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5334",
+            "Task": "Plan and direct construction of rural electric-power distribution systems, and irrigation, drainage, and flood control systems for soil and water conservation.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5329",
+            "Task": "Provide advice on water quality and issues related to pollution management, river control, and ground and surface water resources.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5328",
+            "Task": "Design structures for crop storage, animal shelter and loading, and animal and crop processing, and supervise their construction.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5330",
+            "Task": "Conduct educational programs that provide farmers or farm cooperative members with information that can help them improve agricultural productivity.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5338",
+            "Task": "Design sensing, measuring, and recording devices, and other instrumentation used to study plant or animal life.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5326",
+            "Task": "Design agricultural machinery components and equipment, using computer-aided design (CAD) technology.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5333",
+            "Task": "Design and supervise environmental and land reclamation projects in agriculture and related industries.",
+            "Task Type": "Core",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5335",
+            "Task": "Design food processing plants and related mechanical systems.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "20",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2021.00",
+            "Title": "Agricultural Engineers",
+            "Task ID": "5332",
+            "Task": "Supervise food processing or manufacturing plant operations.",
+            "Task Type": "Supplemental",
+            "Incumbents Responding": "19",
+            "Date": "08/2024",
+            "Domain Source": "Occupational Expert"
+          }
+        ]
+      }
+    },
+    "engineer": {
+      "editorialKo": "자동차 설계·사용자 조건·검증 업무를 이동수단 기획 활동으로 편집합니다.",
+      "mappingType": "KingCareer editorial crosswalk; not an official equivalence",
+      "esco": {
+        "uri": "http://data.europa.eu/esco/occupation/8d410283-865d-4cbb-acae-ac7f69d9cf26",
+        "title": "automotive engineer",
+        "code": "2144.1.3",
+        "version": "API default snapshot; version not reported by response",
+        "versionNote": "The documentation describes default v1.0.9; selectedVersion requests failed at collection. Do not infer latest version.",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://ec.europa.eu/esco/api/resource/occupation?uri=http%3A%2F%2Fdata.europa.eu%2Fesco%2Foccupation%2F8d410283-865d-4cbb-acae-ac7f69d9cf26&language=en",
+        "licenseUrl": "https://esco.ec.europa.eu/en/use-esco",
+        "attribution": "European Commission, ESCO; English labels and essential-skill relations, edited educational mapping by KingCareer.",
+        "skills": [
+          {
+            "uri": "http://data.europa.eu/esco/skill/4fabca9a-7435-4f33-b1da-3cdb00340fdc",
+            "title": "perform scientific research",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f1b5800e-b763-4740-9586-3fef30568e81",
+            "title": "analyse production processes for improvement",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/541561bc-510c-4a99-881c-2d8bf5a85462",
+            "title": "use technical drawing software",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8d4271ca-c9fd-40b3-875f-15f78332a49e",
+            "title": "quality standards",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/3786b61f-f22e-48d1-af8d-ad4c354534db",
+            "title": "manufacturing processes",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/d74df140-eb69-43e2-bac9-1cafc824d702",
+            "title": "execute feasibility study",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/42b23922-1c40-4dbe-9e0c-7a568dfdf06b",
+            "title": "adjust engineering designs",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/209a5498-3449-4689-8ed9-bd08cab4fd78",
+            "title": "engineering principles",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f54c10e4-630d-4e50-95e9-4e9e268e8f12",
+            "title": "approve engineering design",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/12c7b323-d870-4f5b-9d7d-d9f525206d77",
+            "title": "production processes",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/e95058a6-e139-42e7-a470-72038a606649",
+            "title": "assess financial viability",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a1816dfd-dbdc-4499-bef3-ff81dd895b33",
+            "title": "industrial engineering",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/72a74f69-5cf1-43c5-99b9-62a444578919",
+            "title": "engineering processes",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/0e44ceb3-9dd4-4ec4-b1d7-a0e83ddba7d4",
+            "title": "automotive engineering",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/59ea80e1-463a-4dba-82c6-d0b6d577d532",
+            "title": "technical drawings",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/feceacee-d425-4e73-821a-02dfb85084db",
+            "title": "control production",
+            "relationship": "essential"
+          }
+        ]
+      },
+      "onet": {
+        "code": "17-2141.02",
+        "version": "31.0",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://www.onetonline.org/link/summary/17-2141.02",
+        "downloadUrl": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/task_statements.csv",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://www.onetcenter.org/license_db.html",
+        "attribution": "O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. KingCareer has modified this information. USDOL/ETA has not approved, endorsed, or tested these modifications.",
+        "occupation": {
+          "O*NET-SOC Code": "17-2141.02",
+          "Title": "Automotive Engineers",
+          "Description": "Develop new or improved designs for vehicle structural members, engines, transmissions, or other vehicle systems, using computer-assisted design technology. Direct building, modification, or testing of vehicle or components."
+        },
+        "tasks": [
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16438",
+            "Task": "Conduct or direct system-level automotive testing.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16428",
+            "Task": "Provide technical direction to other engineers or engineering support personnel.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16429",
+            "Task": "Perform failure, variation, or root cause analyses.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16434",
+            "Task": "Calibrate vehicle systems, including control algorithms or other software systems.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16437",
+            "Task": "Design or analyze automobile systems in areas such as aerodynamics, alternate fuels, ergonomics, hybrid power, brakes, transmissions, steering, calibration, safety, or diagnostics.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16423",
+            "Task": "Prepare or present technical or project status reports.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16426",
+            "Task": "Conduct research studies to develop new concepts in the field of automotive engineering.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16422",
+            "Task": "Establish production or quality control standards.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16436",
+            "Task": "Alter or modify designs to obtain specified functional or operational performance.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "19638",
+            "Task": "Research or implement green automotive technologies involving alternative fuels, electric or hybrid cars, or lighter or more fuel-efficient vehicles.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16432",
+            "Task": "Develop calibration methodologies, test methodologies, or tools.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "19633",
+            "Task": "Create design alternatives for vehicle components, such as camless or dual-clutch engines or alternative air-conditioning systems, to increase fuel efficiency.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16424",
+            "Task": "Develop or implement operating methods or procedures.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16431",
+            "Task": "Develop engineering specifications or cost estimates for automotive design concepts.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16433",
+            "Task": "Conduct automotive design reviews.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "19635",
+            "Task": "Design vehicles that use lighter materials, such as aluminum, magnesium alloy, or plastic, to improve fuel efficiency.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16425",
+            "Task": "Write, review, or maintain engineering documentation.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "19636",
+            "Task": "Develop specifications for vehicles powered by alternative fuels or alternative power methods.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16435",
+            "Task": "Build models for algorithm or control feature verification testing.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16427",
+            "Task": "Coordinate production activities with other functional units, such as procurement, maintenance, or quality control.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16439",
+            "Task": "Design control systems or algorithms for purposes such as automotive energy management, emissions management, or increased operational safety or performance.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16430",
+            "Task": "Develop or integrate control feature requirements.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "19637",
+            "Task": "Research computerized automotive applications, such as telemetrics, intelligent transportation systems, artificial intelligence, or automatic control.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "16421",
+            "Task": "Read current literature, attend meetings or conferences, or talk with colleagues to stay abreast of new automotive technology or competitive products.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "17-2141.02",
+            "Title": "Automotive Engineers",
+            "Task ID": "19634",
+            "Task": "Design vehicles for increased recyclability or use of natural, renewable, or recycled materials in vehicle construction.",
+            "Task Type": "Core",
+            "Incumbents Responding": "21",
+            "Date": "08/2022",
+            "Domain Source": "Occupational Expert"
+          }
+        ]
+      }
+    },
+    "researcher": {
+      "editorialKo": "식품 개발·조사·비교·기록 업무를 조리 없는 기획 활동으로 편집합니다.",
+      "mappingType": "KingCareer editorial crosswalk; not an official equivalence",
+      "esco": {
+        "uri": "http://data.europa.eu/esco/occupation/4b709f9e-6112-4d58-81b0-2d6e6a69d61b",
+        "title": "food technologist",
+        "code": "2145.1.4",
+        "version": "API default snapshot; version not reported by response",
+        "versionNote": "The documentation describes default v1.0.9; selectedVersion requests failed at collection. Do not infer latest version.",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://ec.europa.eu/esco/api/resource/occupation?uri=http%3A%2F%2Fdata.europa.eu%2Fesco%2Foccupation%2F4b709f9e-6112-4d58-81b0-2d6e6a69d61b&language=en",
+        "licenseUrl": "https://esco.ec.europa.eu/en/use-esco",
+        "attribution": "European Commission, ESCO; English labels and essential-skill relations, edited educational mapping by KingCareer.",
+        "skills": [
+          {
+            "uri": "http://data.europa.eu/esco/skill/f81ff65a-f235-41ea-af47-620e535c51e0",
+            "title": "traceability in food industry",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/b6ccadfa-695d-43f6-94c6-bfc9d1adb88f",
+            "title": "apply food technology principles",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/bacbf3d2-c151-4911-b376-e664faa313e3",
+            "title": "risks associated to physical, chemical, biological hazards in food and beverages",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/9e8377c5-ff35-4dd1-a7e4-f50bc7e6f39e",
+            "title": "combination of textures",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/8a203a8c-d42e-4063-9036-970434c424e4",
+            "title": "combination of flavours",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/cc1d0498-bcce-4b0f-aa2c-372246f8da6b",
+            "title": "manage discarded products",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/451c8010-7dbb-4f96-b4d4-0955766d9eff",
+            "title": "improve chemical processes",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/3761780c-a40f-409e-9320-4de0ec25472a",
+            "title": "food materials",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/ef258352-7226-4eb8-a943-4be6eaa5ec00",
+            "title": "perform food risk analysis",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c52d4012-4a97-436c-a452-b76c26ae423c",
+            "title": "pathogenic microorganisms in food",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/dc57f705-75b6-4232-b531-1f020afa0364",
+            "title": "food and beverage industry",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/77558a0f-5e48-44bb-80d2-6380592080de",
+            "title": "develop food production processes",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/886af2d0-64e5-4046-8883-68491cb4f9ca",
+            "title": "evaluate ingredient documentation from suppliers",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a92dbdb0-03b2-4547-a030-982d087a94eb",
+            "title": "assess HACCP implementation in plants",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f3c3e51d-f4dc-49a8-8725-2a2d3160446e",
+            "title": "processes of foods and beverages manufacturing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/6338e1e5-1cce-47ab-9e55-8914d8adc2f0",
+            "title": "manage the use of additives in food manufacturing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/42c7632a-b497-4995-b120-56932a59fc77",
+            "title": "translate chemical innovations in pragmatic terms",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c0326e27-5fa8-4dca-aecb-ed89ab491513",
+            "title": "prepare visual data",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/d11fd23b-ad01-4f12-85f4-e0d2ed16d5af",
+            "title": "functional properties of foods",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/27b86b4c-758e-4749-b242-f6dfde2e74f2",
+            "title": "food canning production line",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/a118a699-7258-48d1-bc45-45fc04f792c8",
+            "title": "ingredient threats",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/699d61dd-7e3f-40e6-87d5-2bd609055761",
+            "title": "food products composition",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/12d2c08a-3b23-4b15-8aae-15e675f60182",
+            "title": "use new technologies in food manufacturing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/97bba453-d31b-4ba3-8dca-51c5991c9e79",
+            "title": "watch food product trends",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/499c05a2-6f36-4407-83c1-dc3448d35818",
+            "title": "ensure public safety and security",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/4bbb309f-9162-49b9-93da-fb2c371e5c5f",
+            "title": "collect samples for analysis",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/bc250150-3372-42c9-834a-a1b65f89ca0b",
+            "title": "apply requirements concerning manufacturing of food and beverages",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/1289bd81-8daf-4e7c-bb46-6bbfe9141c49",
+            "title": "legislation about animal origin products",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/cde9911c-f92e-4de1-811f-336e177ac4ce",
+            "title": "chemistry",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/960e6f79-2606-4a45-8971-b74876cb584c",
+            "title": "strive for nutritional improvement of food manufacturing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2465763d-2bc8-4d76-8705-4755a2a120ce",
+            "title": "foodborne diseases",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/46d64d3c-22d6-4186-b2a7-9765e6585eae",
+            "title": "enzymatic processing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/918f5211-b99f-4b29-9a34-6e475583ef55",
+            "title": "write work-related reports",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/5966d07c-0242-43ad-b2e8-839031a084d9",
+            "title": "follow-up lab results",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/61bef658-d7f9-4759-b1b0-0f9cb3bc581a",
+            "title": "biotechnology",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/942948af-0959-418b-966a-732762f88519",
+            "title": "monitor developments used for food industry",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/bb992d83-2d7d-4618-9109-0f0e04881a8e",
+            "title": "food product ingredients",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/ee5e17b9-be48-48c8-a72f-a489988eaf74",
+            "title": "identify the factors causing changes in food during storage",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/78521a78-d0b6-41ca-ae11-d1af9da8a3cb",
+            "title": "food science",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/b07daddc-8625-4360-946e-ad2b0e56ebf6",
+            "title": "read engineering drawings",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2dbdd054-896a-4167-8f11-e9b9ebcf199d",
+            "title": "health, safety and hygiene legislation",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/4e081e0a-e25f-4f6e-9c75-e9043ba08aad",
+            "title": "food toxicity",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/3f4e4eab-a8e0-4aed-b8bb-79afe7c890e3",
+            "title": "food safety principles",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/10026df1-670d-4c75-b3d5-ee0037f9d59b",
+            "title": "lead process optimisation",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/f6fcc895-3dfc-4b00-bb83-348e3c9c72e1",
+            "title": "interpret data in food manufacturing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c1e6e283-bc66-4e78-b4ec-501ff082d9f1",
+            "title": "food allergies",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/713f1ba8-c7a8-43e5-a5cc-0b869474efe7",
+            "title": "food legislation",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/509ae385-e593-4535-8bac-28c96b200a70",
+            "title": "food engineering",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c7cc6dc5-d56b-4323-8e5c-47c4022f615f",
+            "title": "quality assurance methodologies",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/486e0580-470f-42a2-bd6d-ec940c239a9b",
+            "title": "analyse packaging requirements",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/5ba1d5b9-3f8d-46ca-bf9f-2e9ca65d1350",
+            "title": "apply HACCP",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/2ec7edc2-f184-4c7d-bcd1-52b9d994934c",
+            "title": "manage food manufacturing laboratory",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/de134835-030e-4f79-9873-e87c34c1a0db",
+            "title": "laboratory-based sciences",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/b4b3b539-81ae-43aa-a540-0e2ea2c7e802",
+            "title": "food storage",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/bf7a45c4-0d72-4e6e-9da7-127b2b6656b7",
+            "title": "apply GMP",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/67ba7f39-1ebc-4d71-ba11-5804a1712ff3",
+            "title": "analyse samples of food and beverages",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/7a9c3fa5-a9bb-46a0-8b5b-4d87427c8b76",
+            "title": "monitor processing conditions",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/c299c135-7cdf-4c06-ad9d-50da94ae2d21",
+            "title": "keep up with innovations in food manufacturing",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/7976294b-215b-4310-a53f-5b0b5ee23d16",
+            "title": "fermentation processes of food",
+            "relationship": "essential"
+          },
+          {
+            "uri": "http://data.europa.eu/esco/skill/e4a46d74-71a8-469a-85ad-e40278a23ba1",
+            "title": "food preservation",
+            "relationship": "essential"
+          }
+        ]
+      },
+      "onet": {
+        "code": "19-1012.00",
+        "version": "31.0",
+        "collectedAt": "2026-09-12T11:46:42.567190+00:00",
+        "sourceUrl": "https://www.onetonline.org/link/summary/19-1012.00",
+        "downloadUrl": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/task_statements.csv",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://www.onetcenter.org/license_db.html",
+        "attribution": "O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. KingCareer has modified this information. USDOL/ETA has not approved, endorsed, or tested these modifications.",
+        "occupation": {
+          "O*NET-SOC Code": "19-1012.00",
+          "Title": "Food Scientists and Technologists",
+          "Description": "Use chemistry, microbiology, engineering, and other sciences to study the principles underlying the processing and deterioration of foods; analyze food content to determine levels of vitamins, fat, sugar, and protein; discover new food sources; research ways to make processed foods safe, palatable, and healthful; and apply food science knowledge to determine best ways to process, package, preserve, store, and distribute food."
+        },
+        "tasks": [
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7494",
+            "Task": "Inspect food processing areas to ensure compliance with government regulations and standards for sanitation, safety, quality, and waste management.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7486",
+            "Task": "Check raw ingredients for maturity or stability for processing, and finished products for safety, quality, and nutritional value.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7489",
+            "Task": "Study methods to improve aspects of foods, such as chemical composition, flavor, color, texture, nutritional value, and convenience.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7492",
+            "Task": "Develop food standards and production specifications, safety and sanitary regulations, and waste management and water supply specifications.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "18612",
+            "Task": "Stay up to date on new regulations and current events regarding food science by reviewing scientific literature.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7490",
+            "Task": "Study the structure and composition of food or the changes foods undergo in storage and processing.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7487",
+            "Task": "Confer with process engineers, plant operators, flavor experts, and packaging and marketing specialists to resolve problems in product development.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7485",
+            "Task": "Test new products for flavor, texture, color, nutritional content, and adherence to government and industry standards.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "18611",
+            "Task": "Develop new food items for production, based on consumer feedback.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7491",
+            "Task": "Develop new or improved ways of preserving, processing, packaging, storing, and delivering foods, using knowledge of chemistry, microbiology, and other sciences.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7488",
+            "Task": "Evaluate food processing and storage operations and assist in the development of quality assurance programs for such operations.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7493",
+            "Task": "Demonstrate products to clients.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          },
+          {
+            "O*NET-SOC Code": "19-1012.00",
+            "Title": "Food Scientists and Technologists",
+            "Task ID": "7495",
+            "Task": "Seek substitutes for harmful or undesirable additives, such as nitrites.",
+            "Task Type": "Core",
+            "Incumbents Responding": "22",
+            "Date": "08/2025",
+            "Domain Source": "Occupational Expert"
+          }
+        ]
+      }
+    }
+  }
+}

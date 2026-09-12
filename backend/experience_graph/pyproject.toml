@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kingcareer-experience-graph"
+version = "0.1.0"
+description = "Evidence-backed educational career experience coverage on NetworkX"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = ["networkx>=3.4,<4"]
+
+[tool.setuptools]
+packages = ["kingcareer_experience_graph"]
+package-dir = { kingcareer_experience_graph = "." }

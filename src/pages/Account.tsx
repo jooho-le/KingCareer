@@ -5,10 +5,10 @@ import {
   ArrowUpRight,
   Check,
   Download,
-  GraduationCap,
   Heart,
-  ShieldCheck,
-  UserRound,
+  LogOut,
+  LockKeyhole,
+  AlertCircle,
 } from "lucide-react";
 import {
   Button,
@@ -18,20 +18,40 @@ import {
   JobIcon,
   Modal,
   PageHeading,
-  Progress,
   SectionHeading,
   Steps,
   Tag,
 } from "../components";
-import { careers, dateLabel, fields, getCareer } from "../data";
-import type { CareerId, Profile } from "../data";
+import { careers, fields, getCareer, initialState } from "../data";
+import type { Profile } from "../data";
 import { useApp } from "../store";
+import { api, json, errorMessage } from "../api";
+
+function profilePayload(profile: Profile) {
+  return {
+    name: profile.name.trim(),
+    school: profile.school,
+    grade: profile.grade,
+    region: profile.region,
+    interests: profile.interests,
+    notifications: profile.notifications,
+  };
+}
+function FormError({ message }: { message: string }) {
+  return message ? (
+    <div className="form-error" role="alert">
+      <AlertCircle size={17} />
+      <span>{message}</span>
+    </div>
+  ) : null;
+}
 
 export function Onboarding() {
-  const { state, setState, go } = useApp();
+  const { state, user, go, setOnboardingInterests, refresh, toast } = useApp();
   const [step, setStep] = useState(0);
-  const [role, setRole] = useState<Profile["role"]>(state.profile.role);
-  const [interests, setInterests] = useState<string[]>(state.profile.interests);
+  const [interests, setInterests] = useState(state.profile.interests);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const select = (field: string) =>
     setInterests((items) =>
       field === fields[5]
@@ -40,120 +60,107 @@ export function Onboarding() {
           ? items.filter((x) => x !== field)
           : [...items.filter((x) => x !== fields[5]), field],
     );
+  const finish = async () => {
+    setError("");
+    if (!user) {
+      setOnboardingInterests(interests);
+      go("auth");
+      return;
+    }
+    setBusy(true);
+    try {
+      await api("/profile", json("PATCH", { interests }));
+      await refresh();
+      toast("관심분야를 저장했어요.");
+      go("home");
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
     <>
       <PageHeading
-        eyebrow="WELCOME TO ITDA"
-        title="너의 가능성과 만나는 곳, 잇다"
-        description="꿈을 정하지 않아도 괜찮아. 경험하면서 너를 알아가면 되니까."
+        eyebrow="WELCOME TO KINGCAREER"
+        title="경험의 주인공은, 바로 너"
+        description="정해진 꿈이 없어도 괜찮아. 작은 경험부터 함께 시작해 보자."
       />
-      <Steps
-        current={step}
-        labels={["잇다 만나기", "함께하는 사람", "나의 관심"]}
-      />
+      <Steps current={step} labels={["KingCareer 만나기", "나의 관심 찾기"]} />
       {step === 0 ? (
         <section className="onboarding-hero">
           <div>
-            <Tag color="orange">진로는, 경험하고 선택하는 것</Tag>
+            <Tag color="orange">나의 가능성에 로그인</Tag>
             <h2>
-              아직 만나지 못한
+              해보기 전에는
               <br />
-              나의 세계를 잇다.
+              모르는 나의 세계.
             </h2>
             <p>
-              알고 있는 직업도, 직접 해본 일도 모두 다르니까.
+              직업의 하루를 경험하고, 작은 결과물을 만들고.
               <br />
-              잇다는 필요한 경험을 찾아 네가 직접 해보게 도와줘.
+              내가 좋아하는 일을 내 방식으로 찾아봐.
             </p>
             <div className="intro-points">
               <span>
                 <Check size={17} />
-                나를 알아가는 경험지도
+                경험의 빈칸을 찾는 나의 지도
               </span>
               <span>
                 <Check size={17} />
-                선택하며 배우는 직무체험
+                선택하며 배우는 직무 시뮬레이션
               </span>
               <span>
-                <Check size={17} />
-                결과물을 만드는 작은 프로젝트
+                <Check size={17} />내 손으로 만드는 미니 프로젝트
               </span>
             </div>
-            <Button kind="dark" onClick={() => setStep(1)}>
-              잇다 시작하기
+            <Button onClick={() => setStep(1)}>
+              나의 탐험 준비하기
               <ArrowRight size={17} />
             </Button>
           </div>
           <HeroArt />
         </section>
-      ) : step === 1 ? (
-        <section className="panel onboarding-panel">
-          <h2>어떤 모습으로 함께할까?</h2>
-          <p>나에게 맞는 시작을 준비할게.</p>
-          <div className="role-options">
-            <button
-              className={role === "student" ? "selected" : ""}
-              onClick={() => setRole("student")}
-            >
-              <UserRound size={36} />
-              <h3>학생</h3>
-              <p>직접 해보며 나의 가능성을 찾고 싶어요.</p>
-              {role === "student" && <Check size={20} />}
-            </button>
-            <button
-              className={role === "teacher" ? "selected" : ""}
-              onClick={() => setRole("teacher")}
-            >
-              <GraduationCap size={36} />
-              <h3>교사 / 멘토</h3>
-              <p>학생들의 다양한 경험을 함께하고 싶어요.</p>
-              {role === "teacher" && <Check size={20} />}
-            </button>
-          </div>
-          <div className="form-actions">
-            <Button kind="ghost" onClick={() => setStep(0)}>
-              <ArrowLeft size={17} />
-              이전
-            </Button>
-            <Button onClick={() => setStep(2)}>
-              다음
-              <ArrowRight size={17} />
-            </Button>
-          </div>
-        </section>
       ) : (
         <section className="panel onboarding-panel">
-          <h2>조금이라도 궁금한 분야가 있어?</h2>
-          <p>여러 개 골라도, 아직 몰라도 괜찮아. 나중에 바꿀 수 있어.</p>
+          <div className="onboarding-question">
+            <img src="/brand/01_mascots/mascot_01_explore.png" alt="" />
+            <div>
+              <h2>조금이라도 궁금한 분야가 있어?</h2>
+              <p>여러 개 골라도, 아직 몰라도 좋아. 나중에 바꿀 수 있어.</p>
+            </div>
+          </div>
           <div className="interest-options">
-            {fields.map((f, i) => (
+            {fields.map((field, index) => (
               <button
-                className={interests.includes(f) ? "selected" : ""}
-                key={f}
-                onClick={() => select(f)}
+                key={field}
+                className={interests.includes(field) ? "selected" : ""}
+                aria-pressed={interests.includes(field)}
+                onClick={() => select(field)}
               >
-                {i < 5 ? <JobIcon id={careers[i].id} /> : <Heart size={24} />}
-                <span>{f}</span>
-                {interests.includes(f) && <Check size={18} />}
+                {index < 5 ? (
+                  <JobIcon id={careers[index].id} />
+                ) : (
+                  <Heart size={24} />
+                )}
+                <span>{field}</span>
+                {interests.includes(field) && <Check size={18} />}
               </button>
             ))}
           </div>
+          <FormError message={error} />
           <div className="form-actions">
-            <Button kind="ghost" onClick={() => setStep(1)}>
+            <Button kind="ghost" disabled={busy} onClick={() => setStep(0)}>
               <ArrowLeft size={17} />
               이전
             </Button>
             <Button
-              disabled={!interests.length}
+              disabled={!interests.length || busy}
               onClick={() => {
-                setState((s) => ({
-                  ...s,
-                  profile: { ...s.profile, role, interests },
-                }));
-                go("auth");
+                void finish();
               }}
             >
-              이 관심으로 시작하기
+              {busy ? "관심을 저장하는 중…" : "이 관심으로 시작하기"}
               <ArrowRight size={17} />
             </Button>
           </div>
@@ -164,128 +171,223 @@ export function Onboarding() {
 }
 
 export function Auth() {
-  const { state, setState, go, toast } = useApp();
-  const [mode, setMode] = useState<"signup" | "login" | "find">("signup");
-  const [profile, setProfile] = useState(state.profile);
+  const { user, go, onboardingInterests, completeAuth, toast } = useApp();
+  const [mode, setMode] = useState<"login" | "signup">(
+    onboardingInterests.length ? "signup" : "login",
+  );
+  const [profile, setProfile] = useState<Profile>({
+    ...initialState.profile,
+    name: "",
+    interests: onboardingInterests,
+  });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const submit = async () => {
+    setError("");
+    if (mode === "signup" && password !== confirm) {
+      setError("비밀번호가 서로 달라요. 다시 확인해 주세요.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await api(
+        `/auth/${mode === "signup" ? "register" : "login"}`,
+        json("POST", {
+          username: username.trim(),
+          password,
+          ...(mode === "signup"
+            ? {
+                name: profile.name.trim(),
+                school: profile.school,
+                grade: profile.grade,
+                region: profile.region,
+                interests: profile.interests,
+              }
+            : {}),
+        }),
+      );
+      setPassword("");
+      setConfirm("");
+      await completeAuth();
+      toast(
+        mode === "signup"
+          ? "KingCareer에 온 걸 환영해!"
+          : "다시 돌아왔구나. 탐험을 이어가 보자.",
+      );
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
     <>
       <PageHeading
-        eyebrow="YOUR OWN LITTLE SPACE"
-        title="나의 이름으로, 탐험 시작"
-        description="네가 쌓은 경험을 다시 찾아올 수 있도록."
+        eyebrow="YOUR NEXT CHAPTER"
+        title="나의 이름으로, 새로운 시작"
+        description="작은 발견부터 완성한 프로젝트까지. 내 계정에 차곡차곡 쌓아봐."
       />
       <div className="auth-layout">
         <section className="auth-side">
-          <span className="eyebrow">NICE TO MEET YOU</span>
+          <span className="eyebrow">HELLO, KINGCAREER</span>
           <h2>
-            모든 가능성은
+            가능성의 주인공은
             <br />
-            너에게서 시작해.
+            언제나 너야.
           </h2>
           <HeroArt />
           <p>
-            발견하고, 경험하고, 선택하는
+            하나의 정답보다, 여러 번의 경험.
             <br />
-            너만의 이야기를 함께할게.
+            너만의 진로 이야기를 시작해 봐.
           </p>
         </section>
         <section className="panel auth-form">
-          <div className="filter-tabs">
-            <button
-              className={mode === "signup" ? "selected" : ""}
-              onClick={() => setMode("signup")}
-            >
-              프로필 만들기
-            </button>
-            <button
-              className={mode === "login" ? "selected" : ""}
-              onClick={() => setMode("login")}
-            >
-              다시 시작하기
-            </button>
-          </div>
-          {mode === "signup" ? (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setState((s) => ({
-                  ...s,
-                  profile: {
-                    ...profile,
-                    name: profile.name.trim(),
-                    onboarded: true,
-                  },
-                }));
-                toast("나만의 탐험 공간이 준비됐어요.");
-                go(profile.role === "teacher" ? "teacher" : "home");
-              }}
-            >
-              <h2>반가워, 어떤 이름으로 부를까?</h2>
-              <ProfileFields profile={profile} onChange={setProfile} />
-              <p className="local-notice">
-                <ShieldCheck size={19} />
-                체험판에서는 서버 계정 대신 이 브라우저에 프로필과 활동을
-                저장해요. 비밀번호는 수집하지 않아요.
-              </p>
-              <Button
-                className="full-width"
-                type="submit"
-                disabled={!profile.name.trim()}
-              >
-                나의 탐험 시작하기
+          {user ? (
+            <>
+              <Tag color="blue">로그인되어 있어요</Tag>
+              <h2>{user.name}, 반가워!</h2>
+              <div className="return-profile">
+                <img
+                  className="avatar"
+                  src="/brand/00_brand/brand_avatar.png"
+                  alt=""
+                />
+                <div>
+                  <b>{user.username}</b>
+                  <p>내 계정으로 경험을 이어갈 수 있어요.</p>
+                </div>
+              </div>
+              <Button className="full-width" onClick={() => go("home")}>
+                나의 베이스캠프로
                 <ArrowRight size={17} />
               </Button>
-            </form>
-          ) : mode === "login" ? (
-            <>
-              <h2>돌아왔구나!</h2>
-              {state.profile.onboarded ? (
-                <>
-                  <div className="return-profile">
-                    <span className="avatar">
-                      {state.profile.name.slice(0, 1)}
-                    </span>
-                    <div>
-                      <b>{state.profile.name}</b>
-                      <p>이 브라우저에 저장된 프로필</p>
-                    </div>
-                  </div>
-                  <Button className="full-width" onClick={() => go("home")}>
-                    이어서 탐험하기
-                    <ArrowRight size={17} />
-                  </Button>
-                </>
-              ) : (
-                <Empty
-                  title="이 브라우저에 저장된 프로필이 없어요"
-                  action="프로필 만들기"
-                  onClick={() => setMode("signup")}
-                >
-                  처음이라면 나의 이름부터 알려줘.
-                </Empty>
-              )}
-              <button className="text-button" onClick={() => setMode("find")}>
-                계정 찾기
-              </button>
-              <p className="fine-print">
-                서버 로그인과 다른 기기 동기화는 아직 제공하지 않아요.
-              </p>
+              <Button
+                className="full-width"
+                kind="ghost"
+                onClick={() => go("profile")}
+              >
+                계정 설정
+              </Button>
             </>
           ) : (
             <>
-              <h2>내 기록을 찾고 있나요?</h2>
-              <p>
-                이 체험판은 기록을 작성한 브라우저에 저장해요. 다른 기기를
-                이용하고 있다면, 처음 사용한 기기와 브라우저로 접속해 주세요.
-              </p>
-              <p>
-                브라우저 데이터를 삭제했다면 서버에서 복원할 수 없어요.
-                포트폴리오에서 활동 기록을 파일로 보관할 수 있어요.
-              </p>
-              <Button kind="secondary" onClick={() => setMode("login")}>
-                <ArrowLeft size={17} />
-                돌아가기
-              </Button>
+              <div className="filter-tabs">
+                <button
+                  className={mode === "login" ? "selected" : ""}
+                  disabled={busy}
+                  onClick={() => {
+                    setMode("login");
+                    setError("");
+                  }}
+                >
+                  로그인
+                </button>
+                <button
+                  className={mode === "signup" ? "selected" : ""}
+                  disabled={busy}
+                  onClick={() => {
+                    setMode("signup");
+                    setError("");
+                  }}
+                >
+                  회원가입
+                </button>
+              </div>
+              <h2>
+                {mode === "signup"
+                  ? "너의 이야기를 들려줘"
+                  : "다시 만나서 반가워!"}
+              </h2>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void submit();
+                }}
+              >
+                <label className="form-field">
+                  아이디
+                  <input
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    minLength={3}
+                    maxLength={32}
+                    autoComplete="username"
+                    pattern={"[A-Za-z0-9_.\\-]+"}
+                    placeholder="영문·숫자 3–32자, _ . - 사용 가능"
+                    disabled={busy}
+                  />
+                </label>
+                <label className="form-field">
+                  비밀번호
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    maxLength={128}
+                    autoComplete={
+                      mode === "login" ? "current-password" : "new-password"
+                    }
+                    placeholder="8자 이상 입력해 주세요"
+                    disabled={busy}
+                  />
+                </label>
+                {mode === "signup" && (
+                  <>
+                    <label className="form-field">
+                      비밀번호 확인
+                      <input
+                        type="password"
+                        value={confirm}
+                        onChange={(e) => setConfirm(e.target.value)}
+                        required
+                        minLength={8}
+                        maxLength={128}
+                        autoComplete="new-password"
+                        placeholder="한 번 더 입력해 주세요"
+                        disabled={busy}
+                      />
+                    </label>
+                    <label className="form-field">
+                      닉네임
+                      <input
+                        value={profile.name}
+                        onChange={(e) =>
+                          setProfile({ ...profile, name: e.target.value })
+                        }
+                        required
+                        minLength={1}
+                        maxLength={40}
+                        autoComplete="nickname"
+                        placeholder="어떤 이름으로 불러줄까?"
+                        disabled={busy}
+                      />
+                    </label>
+                    <p className="fine-print">
+                      학교·학년·지역은 가입 후 마이페이지에서 편하게 알려줘.
+                    </p>
+                  </>
+                )}
+                <FormError message={error} />
+                <Button className="full-width" type="submit" disabled={busy}>
+                  {busy
+                    ? "계정을 확인하는 중…"
+                    : mode === "signup"
+                      ? "나의 탐험 시작하기"
+                      : "로그인하고 이어하기"}
+                  <ArrowRight size={17} />
+                </Button>
+                <p className="fine-print">
+                  이메일을 수집하지 않는 학생 계정이에요. 현재 이메일·소셜
+                  로그인과 자동 비밀번호 찾기는 제공하지 않아요.
+                </p>
+              </form>
             </>
           )}
         </section>
@@ -293,23 +395,27 @@ export function Auth() {
     </>
   );
 }
+
 function ProfileFields({
   profile,
   onChange,
+  disabled = false,
 }: {
   profile: Profile;
   onChange: (profile: Profile) => void;
+  disabled?: boolean;
 }) {
   return (
-    <>
+    <fieldset disabled={disabled} className="profile-fields">
       <label className="form-field">
-        이름 / 닉네임
+        닉네임
         <input
           required
-          value={profile.name === "탐험가" ? "" : profile.name}
+          value={profile.name}
           onChange={(e) => onChange({ ...profile, name: e.target.value })}
-          placeholder="별명으로 시작해도 좋아요"
-          maxLength={20}
+          placeholder="어떤 이름으로 불러줄까?"
+          minLength={1}
+          maxLength={40}
           autoComplete="nickname"
         />
       </label>
@@ -329,6 +435,7 @@ function ProfileFields({
             value={profile.grade}
             onChange={(e) => onChange({ ...profile, grade: e.target.value })}
           >
+            <option value="">선택 안 함</option>
             {[
               "중학교 1학년",
               "중학교 2학년",
@@ -336,10 +443,9 @@ function ProfileFields({
               "고등학교 1학년",
               "고등학교 2학년",
               "고등학교 3학년",
-              "교사 / 멘토",
               "기타",
-            ].map((g) => (
-              <option key={g}>{g}</option>
+            ].map((value) => (
+              <option key={value}>{value}</option>
             ))}
           </select>
         </label>
@@ -349,6 +455,7 @@ function ProfileFields({
             value={profile.region}
             onChange={(e) => onChange({ ...profile, region: e.target.value })}
           >
+            <option value="">선택 안 함</option>
             {[
               "전주",
               "군산",
@@ -365,83 +472,171 @@ function ProfileFields({
               "고창",
               "부안",
               "기타",
-            ].map((r) => (
-              <option key={r}>{r}</option>
+            ].map((value) => (
+              <option key={value}>{value}</option>
             ))}
           </select>
         </label>
       </div>
-      <label className="form-field">
-        사용자 유형
-        <select
-          value={profile.role}
-          onChange={(e) =>
-            onChange({ ...profile, role: e.target.value as Profile["role"] })
-          }
-        >
-          <option value="student">학생</option>
-          <option value="teacher">교사 / 멘토</option>
-        </select>
-      </label>
       <fieldset className="interest-fieldset">
         <legend>관심분야</legend>
         <div className="chip-list">
-          {fields.map((f) => (
+          {fields.map((field) => (
             <button
               type="button"
-              className={`interest-chip ${profile.interests.includes(f) ? "selected" : ""}`}
-              key={f}
-              aria-pressed={profile.interests.includes(f)}
+              key={field}
+              className={`interest-chip ${profile.interests.includes(field) ? "selected" : ""}`}
+              aria-pressed={profile.interests.includes(field)}
               onClick={() =>
                 onChange({
                   ...profile,
                   interests:
-                    f === fields[5]
-                      ? [f]
-                      : profile.interests.includes(f)
-                        ? profile.interests.filter((x) => x !== f)
+                    field === fields[5]
+                      ? [field]
+                      : profile.interests.includes(field)
+                        ? profile.interests.filter((x) => x !== field)
                         : [
                             ...profile.interests.filter((x) => x !== fields[5]),
-                            f,
+                            field,
                           ],
                 })
               }
             >
-              {f}
+              {field}
             </button>
           ))}
         </div>
       </fieldset>
-    </>
+    </fieldset>
   );
 }
 
 export function ProfilePage() {
-  const { state, setState, go, save, toast } = useApp();
+  const { state, go, save, refresh, clearUser, toast } = useApp();
   const [profile, setProfile] = useState(state.profile);
   const [tab, setTab] = useState("profile");
-  const [reset, setReset] = useState(false);
-  const close = useCallback(() => setReset(false), []);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [deleteKind, setDeleteKind] = useState<"records" | "account" | null>(
+    null,
+  );
+  const [deletePassword, setDeletePassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const close = useCallback(() => {
+    setDeleteKind(null);
+    setDeletePassword("");
+    setError("");
+  }, []);
+  const saveProfile = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      await api("/profile", json("PATCH", profilePayload(profile)));
+      try {
+        await refresh();
+      } catch {
+        /* Top-level retry owns refresh failure. */
+      }
+      toast("지금의 나로 프로필을 저장했어요.");
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  const toggleNotifications = async () => {
+    setBusy(true);
+    setError("");
+    const notifications = !state.profile.notifications;
+    try {
+      await api("/profile", json("PATCH", { notifications }));
+      setProfile((p) => ({ ...p, notifications }));
+      await refresh();
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  const logout = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      await api("/auth/logout", json("POST"));
+      clearUser();
+      go("auth");
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  const changePassword = async () => {
+    setError("");
+    if (newPassword !== repeatPassword) {
+      setError("새 비밀번호가 서로 달라요.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await api(
+        "/auth/password",
+        json("POST", { currentPassword, newPassword }),
+      );
+      setCurrentPassword("");
+      setNewPassword("");
+      setRepeatPassword("");
+      toast("비밀번호를 변경했어요.");
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  const remove = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      if (deleteKind === "account") {
+        await api(
+          "/auth/account",
+          json("DELETE", { password: deletePassword }),
+        );
+        clearUser();
+        go("auth");
+        toast("계정과 연결된 기록을 삭제했어요.");
+      } else {
+        await api("/records", json("DELETE"));
+        await refresh();
+        toast("계정은 유지하고 학습 기록을 삭제했어요.");
+      }
+      close();
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
     <>
       <PageHeading
-        eyebrow="MY OWN CORNER"
-        title="나를 조금 더, 나답게"
-        description="관심은 언제든 바뀌어도 좋아. 지금의 나를 알려줘."
+        eyebrow="MY OWN KINGDOM"
+        title="지금의 나를, 나답게"
+        description="관심은 바뀌어도 괜찮아. 너의 이야기는 계속 이어지니까."
       />
       <div className="profile-banner">
-        <span className="avatar large-avatar">
-          {state.profile.name.slice(0, 1)}
-        </span>
+        <img
+          className="avatar large-avatar"
+          src="/brand/00_brand/brand_avatar.png"
+          alt=""
+        />
         <div>
-          <Tag>
-            {state.profile.role === "teacher"
-              ? "함께하는 멘토"
-              : "가능성을 탐험하는 중"}
-          </Tag>
+          <Tag color="blue">가능성을 탐험하는 중</Tag>
           <h2>{state.profile.name}</h2>
           <p>
-            {state.profile.school || "나의 탐험 공간"} · {state.profile.region}
+            @{state.profile.username} · {state.profile.region}
           </p>
         </div>
         <Button kind="white" onClick={() => go("portfolio")}>
@@ -451,16 +646,19 @@ export function ProfilePage() {
       </div>
       <div className="filter-tabs">
         {[
-          { id: "profile", text: "내 프로필" },
-          { id: "saved", text: `저장한 직업 ${state.saved.length}` },
-          { id: "settings", text: "알림·계정 설정" },
-        ].map((t) => (
+          { id: "profile", label: "내 프로필" },
+          { id: "saved", label: `저장한 직업 ${state.saved.length}` },
+          { id: "settings", label: "알림·계정 설정" },
+        ].map((item) => (
           <button
-            className={tab === t.id ? "selected" : ""}
-            key={t.id}
-            onClick={() => setTab(t.id)}
+            key={item.id}
+            className={tab === item.id ? "selected" : ""}
+            onClick={() => {
+              setTab(item.id);
+              setError("");
+            }}
           >
-            {t.text}
+            {item.label}
           </button>
         ))}
       </div>
@@ -469,21 +667,18 @@ export function ProfilePage() {
           className="panel profile-form"
           onSubmit={(e) => {
             e.preventDefault();
-            setState((s) => ({
-              ...s,
-              profile: {
-                ...profile,
-                name: profile.name.trim(),
-                onboarded: true,
-              },
-            }));
-            toast("지금의 나로 프로필을 업데이트했어요.");
+            void saveProfile();
           }}
         >
           <SectionHeading title="내 프로필과 관심" />
-          <ProfileFields profile={profile} onChange={setProfile} />
-          <Button type="submit" disabled={!profile.name.trim()}>
-            변경사항 저장
+          <ProfileFields
+            profile={profile}
+            onChange={setProfile}
+            disabled={busy}
+          />
+          <FormError message={error} />
+          <Button type="submit" disabled={busy || !profile.name.trim()}>
+            {busy ? "저장하는 중…" : "변경사항 저장"}
             <Check size={17} />
           </Button>
         </form>
@@ -511,29 +706,20 @@ export function ProfilePage() {
         )
       ) : (
         <section className="panel settings-panel">
-          <SectionHeading title="내가 편한 방식으로" />
+          <SectionHeading title="나의 계정 관리" />
           <div className="setting-row">
             <div>
-              <h3>탐험 안내 알림</h3>
+              <h3>탐험 안내 표시</h3>
               <p>홈 상단에 탐험 안내 표시를 보여줘요.</p>
             </div>
             <button
               role="switch"
               aria-checked={state.profile.notifications}
-              aria-label="탐험 안내 알림"
+              aria-label="탐험 안내 표시"
               className={`toggle ${state.profile.notifications ? "on" : ""}`}
+              disabled={busy}
               onClick={() => {
-                setState((s) => ({
-                  ...s,
-                  profile: {
-                    ...s.profile,
-                    notifications: !s.profile.notifications,
-                  },
-                }));
-                setProfile((p) => ({
-                  ...p,
-                  notifications: !state.profile.notifications,
-                }));
+                void toggleNotifications();
               }}
             >
               <span />
@@ -542,282 +728,160 @@ export function ProfilePage() {
           <div className="setting-row">
             <div>
               <h3>내 활동 보관하기</h3>
-              <p>포트폴리오에서 텍스트 파일로 내려받을 수 있어요.</p>
+              <p>포트폴리오를 파일로 내려받을 수 있어요.</p>
             </div>
             <Button kind="secondary" onClick={() => go("portfolio")}>
               <Download size={17} />
               포트폴리오
             </Button>
           </div>
+          <form
+            className="password-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              void changePassword();
+            }}
+          >
+            <h3>
+              <LockKeyhole size={18} />
+              비밀번호 변경
+            </h3>
+            <label className="form-field">
+              현재 비밀번호
+              <input
+                type="password"
+                autoComplete="current-password"
+                required
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                disabled={busy}
+              />
+            </label>
+            <div className="two-column">
+              <label className="form-field">
+                새 비밀번호
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  minLength={8}
+                  maxLength={128}
+                  required
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  disabled={busy}
+                />
+              </label>
+              <label className="form-field">
+                새 비밀번호 확인
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  minLength={8}
+                  maxLength={128}
+                  required
+                  value={repeatPassword}
+                  onChange={(e) => setRepeatPassword(e.target.value)}
+                  disabled={busy}
+                />
+              </label>
+            </div>
+            <Button type="submit" kind="secondary" disabled={busy}>
+              비밀번호 변경
+            </Button>
+          </form>
           <div className="setting-row">
             <div>
-              <h3>프로필 화면으로 돌아가기</h3>
-              <p>이 기기의 기록은 계속 보관돼요.</p>
+              <h3>로그아웃</h3>
+              <p>기록은 계정에 그대로 보관돼요.</p>
             </div>
-            <Button kind="secondary" onClick={() => go("auth")}>
-              프로필 선택
+            <Button
+              kind="secondary"
+              disabled={busy}
+              onClick={() => {
+                void logout();
+              }}
+            >
+              <LogOut size={16} />
+              로그아웃
             </Button>
           </div>
           <div className="setting-row">
             <div>
-              <h3>이 브라우저의 기록 삭제</h3>
-              <p>프로필, 활동, 프로젝트 초안과 저장한 직업을 지워요.</p>
+              <h3>학습 기록 초기화</h3>
+              <p>활동, 프로젝트 초안, 진단, 저장 직업을 삭제해요.</p>
             </div>
-            <button className="danger-button" onClick={() => setReset(true)}>
+            <button
+              className="danger-button"
+              disabled={busy}
+              onClick={() => {
+                setError("");
+                setDeleteKind("records");
+              }}
+            >
               기록 삭제
             </button>
           </div>
+          <div className="setting-row">
+            <div>
+              <h3>계정 삭제</h3>
+              <p>계정과 연결된 모든 기록을 삭제해요.</p>
+            </div>
+            <button
+              className="danger-button"
+              disabled={busy}
+              onClick={() => {
+                setError("");
+                setDeleteKind("account");
+              }}
+            >
+              계정 삭제
+            </button>
+          </div>
+          {!deleteKind && <FormError message={error} />}
         </section>
       )}
-      {reset && (
-        <Modal title="이 기기의 기록을 모두 지울까요?" onClose={close}>
+      {deleteKind && (
+        <Modal
+          title={
+            deleteKind === "account"
+              ? "계정과 기록을 모두 삭제할까요?"
+              : "학습 기록을 초기화할까요?"
+          }
+          onClose={close}
+        >
           <p>
-            활동 {state.activities.length}개와 프로필, 프로젝트 초안, 저장한
-            직업을 삭제해요. 서버에 사본이 없어 복원할 수 없어요.
+            {deleteKind === "account"
+              ? "내 프로필과 활동, 프로젝트 초안, 시뮬레이션 진행 기록을 모두 삭제합니다."
+              : "활동과 진단, 프로젝트 초안, 진행 중인 시뮬레이션, 저장한 직업을 삭제합니다. 계정과 프로필은 유지합니다."}{" "}
+            삭제 후 복원할 수 없으니 필요한 기록은 먼저 내려받아 주세요.
           </p>
+          {deleteKind === "account" && (
+            <label className="form-field">
+              현재 비밀번호
+              <input
+                type="password"
+                autoComplete="current-password"
+                value={deletePassword}
+                onChange={(e) => setDeletePassword(e.target.value)}
+                disabled={busy}
+              />
+            </label>
+          )}
+          <FormError message={error} />
           <div className="button-row">
-            <Button kind="secondary" onClick={close}>
+            <Button kind="secondary" disabled={busy} onClick={close}>
               취소
             </Button>
             <Button
               kind="dark"
+              disabled={busy || (deleteKind === "account" && !deletePassword)}
               onClick={() => {
-                localStorage.removeItem("itda-career-v1");
-                window.location.hash = "home";
-                window.location.reload();
+                void remove();
               }}
             >
-              기록 모두 삭제
+              {busy ? "삭제하는 중…" : "삭제 확인"}
             </Button>
           </div>
-        </Modal>
-      )}
-    </>
-  );
-}
-
-const students = [
-  {
-    id: "student-a",
-    name: "김하늘",
-    grade: "중학교 2학년",
-    interest: "IT·소프트웨어",
-    career: "developer" as CareerId,
-    activities: 2,
-    scores: [70, 30, 20, 35, 40, 0],
-    before: [35, 15, 0, 10, 40, 0],
-  },
-  {
-    id: "student-b",
-    name: "이도윤",
-    grade: "중학교 3학년",
-    interest: "농업·스마트팜",
-    career: "farmer" as CareerId,
-    activities: 4,
-    scores: [75, 60, 55, 50, 30, 25],
-    before: [40, 25, 15, 25, 30, 25],
-  },
-  {
-    id: "student-c",
-    name: "박서연",
-    grade: "고등학교 1학년",
-    interest: "의료·보건",
-    career: "nurse" as CareerId,
-    activities: 1,
-    scores: [45, 20, 10, 20, 50, 0],
-    before: [20, 10, 0, 10, 50, 0],
-  },
-];
-export function Teacher() {
-  const { state, setState, toast } = useApp();
-  const [selected, setSelected] = useState(students[0]);
-  const [filter, setFilter] = useState("all");
-  const [career, setCareer] = useState<CareerId>("developer");
-  const [report, setReport] = useState(false);
-  const close = useCallback(() => setReport(false), []);
-  const assigned = state.assignments.filter((a) => a.student === selected.id);
-  const assign = () => {
-    setState((s) => ({
-      ...s,
-      assignments: [
-        {
-          student: selected.id,
-          careerId: career,
-          date: new Date().toISOString(),
-        },
-        ...s.assignments,
-      ],
-    }));
-    toast(`${selected.name} 예시 학생에게 활동 배정을 기록했어요.`);
-  };
-  return (
-    <>
-      <PageHeading
-        eyebrow="GROW TOGETHER"
-        title="서로 다른 출발점, 함께하는 성장"
-        description="학생에게 필요한 경험을 발견하고, 다음 걸음을 함께해 주세요."
-      >
-        <Tag color="orange">가상 학생 데이터</Tag>
-      </PageHeading>
-      <div className="teacher-notice">
-        <ShieldCheck size={20} />
-        <p>
-          교사 화면의 사용 흐름을 확인하는 데모예요. 아래 학생은 모두 가상이며,
-          활동 배정은 이 브라우저에만 저장돼요.
-        </p>
-      </div>
-      <div className="stats-row">
-        <div className="stat">
-          <span>예시 학생</span>
-          <div>
-            <strong>3</strong>
-            <small>명</small>
-          </div>
-        </div>
-        <div className="stat">
-          <span>활동 경험 30 미만</span>
-          <div>
-            <strong>2</strong>
-            <small>명</small>
-          </div>
-        </div>
-        <div className="stat">
-          <span>기록한 활동 배정</span>
-          <div>
-            <strong>{state.assignments.length}</strong>
-            <small>건</small>
-          </div>
-        </div>
-      </div>
-      <div className="teacher-layout">
-        <section className="panel">
-          <SectionHeading title="학생 목록" />
-          <div className="filter-tabs">
-            <button
-              className={filter === "all" ? "selected" : ""}
-              onClick={() => setFilter("all")}
-            >
-              전체
-            </button>
-            <button
-              className={filter === "gap" ? "selected" : ""}
-              onClick={() => setFilter("gap")}
-            >
-              경험 공백 확인
-            </button>
-          </div>
-          {students
-            .filter((s) => filter === "all" || s.scores[2] < 30)
-            .map((s) => (
-              <button
-                className={`student-card ${selected.id === s.id ? "selected" : ""}`}
-                key={s.id}
-                onClick={() => {
-                  setSelected(s);
-                  setCareer(s.career);
-                }}
-              >
-                <span className="avatar">{s.name.slice(1, 2)}</span>
-                <div>
-                  <b>{s.name}</b>
-                  <small>
-                    {s.grade} · {s.interest}
-                  </small>
-                </div>
-                <ArrowRight size={17} />
-              </button>
-            ))}
-        </section>
-        <section className="panel">
-          <SectionHeading
-            title={`${selected.name} 학생의 경험`}
-            sub={`예시 활동 ${selected.activities}개 · ${selected.interest}`}
-          />
-          <div className="dimension-list">
-            {[
-              "직업 인식",
-              "직무 이해",
-              "활동 경험",
-              "역량 이해",
-              "학과 이해",
-              "현직자 교류",
-            ].map((label, i) => (
-              <div key={label}>
-                <div>
-                  <span>{label}</span>
-                  <b>{selected.scores[i]}</b>
-                </div>
-                <Progress
-                  value={selected.scores[i]}
-                  color={i % 2 ? "purple" : "orange"}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="teacher-assign">
-            <h3>다음 활동 배정</h3>
-            <label className="form-field">
-              추천 직무체험
-              <select
-                value={career}
-                onChange={(e) => setCareer(e.target.value as CareerId)}
-              >
-                {careers.map((c) => (
-                  <option value={c.id} key={c.id}>
-                    {c.title}의 하루
-                  </option>
-                ))}
-              </select>
-            </label>
-            <div className="button-row">
-              <Button onClick={assign}>
-                활동 배정 기록
-                <Check size={17} />
-              </Button>
-              <Button kind="secondary" onClick={() => setReport(true)}>
-                변화 리포트
-                <ArrowUpRight size={17} />
-              </Button>
-            </div>
-          </div>
-          <h3>배정한 활동</h3>
-          {assigned.length ? (
-            assigned.map((a, i) => (
-              <div className="assignment-row" key={a.date + i}>
-                <Check size={16} />
-                {getCareer(a.careerId).title}의 하루
-                <span>{dateLabel(a.date)}</span>
-              </div>
-            ))
-          ) : (
-            <p className="muted">아직 배정한 활동이 없어요.</p>
-          )}
-        </section>
-      </div>
-      {report && (
-        <Modal title={`${selected.name} 학생의 변화 리포트`} onClose={close}>
-          <Tag color="orange">가상 보고서 예시</Tag>
-          <h3>활동 전후 변화</h3>
-          <div className="change-grid">
-            {["직무 이해", "활동 경험", "역량 이해"].map((d, i) => (
-              <div key={d}>
-                <span>{d}</span>
-                <p>
-                  <small>{selected.before[i + 1]}</small>
-                  <ArrowRight size={15} />
-                  <strong>{selected.scores[i + 1]}</strong>
-                </p>
-              </div>
-            ))}
-          </div>
-          <h3>함께 이야기해 볼 질문</h3>
-          <p>“직접 해보면서 예상과 달랐던 점은 무엇이었나요?”</p>
-          <h3>다음 경험 방향</h3>
-          <p>
-            {selected.scores[2] < 30
-              ? "직무 시뮬레이션과 작은 프로젝트로 실제 업무의 과정을 탐색하도록 제안해요."
-              : "체험에서 생긴 질문을 정리하고 현직자에게 물어볼 기회를 탐색해요."}
-          </p>
         </Modal>
       )}
     </>

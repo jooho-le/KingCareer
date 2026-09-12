@@ -1,0 +1,6 @@
+# Preserve supplied originals and documented SHA-256 values on Windows checkouts.
+/public/brand/** -text
+/public/favicon.svg -text
+/public/landing/support.js -text
+/public/landing/source/** -text
+/public/landing/vendor/** -text
