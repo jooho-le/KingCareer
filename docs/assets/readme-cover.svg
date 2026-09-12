@@ -47,10 +47,6 @@
     <path d="M-60 432 C116 331 272 323 424 380 C598 445 712 423 847 334 C981 246 1110 269 1260 333 L1260 500 L-60 500 Z" fill="url(#purpleWave)" opacity="0.82"/>
     <path d="M-80 474 C97 390 254 361 431 402 C619 446 733 411 887 326 C1027 249 1146 268 1280 314 L1280 500 L-80 500 Z" fill="url(#blueWave)" opacity="0.88"/>
 
-    <path d="M824 83 C900 38 987 49 1047 102 C1101 149 1122 204 1204 212" fill="none" stroke="url(#line)" stroke-width="2" stroke-linecap="round" opacity="0.42"/>
-    <circle cx="824" cy="83" r="5" fill="#FF7A1A"/>
-    <circle cx="1047" cy="102" r="5" fill="#8B5CF6"/>
-    <circle cx="1176" cy="207" r="5" fill="#2F80ED"/>
   </g>
 
   <g font-family="Pretendard, 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif">
