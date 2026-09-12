@@ -207,10 +207,10 @@
 .kc-awards p {
   line-height: 1.75;
 }
-.kc-fieldwork button,
-.kc-workshop button,
-.kc-awards button,
-.kc-welcome button {
+.kc-fieldwork button:not(:where(.excalidraw *)),
+.kc-workshop button:not(:where(.excalidraw *)),
+.kc-awards button:not(:where(.excalidraw *)),
+.kc-welcome button:not(:where(.excalidraw *)) {
   font: inherit;
   cursor: pointer;
   border: 1px solid #dce0d9;
@@ -223,21 +223,21 @@
     background 0.18s,
     box-shadow 0.18s;
 }
-.kc-fieldwork button:hover:not(:disabled),
-.kc-workshop button:hover:not(:disabled),
-.kc-awards button:hover:not(:disabled) {
+.kc-fieldwork button:not(:where(.excalidraw *)):hover:not(:disabled),
+.kc-workshop button:not(:where(.excalidraw *)):hover:not(:disabled),
+.kc-awards button:not(:where(.excalidraw *)):hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 5px 0 #2028380a;
 }
-.kc-fieldwork button:disabled,
-.kc-workshop button:disabled,
-.kc-awards button:disabled {
+.kc-fieldwork button:not(:where(.excalidraw *)):disabled,
+.kc-workshop button:not(:where(.excalidraw *)):disabled,
+.kc-awards button:not(:where(.excalidraw *)):disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-.kc-fieldwork button:focus-visible,
-.kc-workshop button:focus-visible,
-.kc-awards button:focus-visible {
+.kc-fieldwork button:not(:where(.excalidraw *)):focus-visible,
+.kc-workshop button:not(:where(.excalidraw *)):focus-visible,
+.kc-awards button:not(:where(.excalidraw *)):focus-visible {
   outline: 3px solid #0967ff;
   outline-offset: 3px;
 }
@@ -488,7 +488,7 @@
   border-radius: 16px;
   padding: 19px;
   background: #f3f5ee;
-  border-left: 4px solid #ff6a1f;
+  border: 0;
 }
 .kc-inspection h3 {
   font-size: 17px;
@@ -548,7 +548,7 @@
   margin-top: 17px;
 }
 .kc-task-panel textarea,
-.kc-workshop textarea,
+.kc-workshop textarea:not(:where(.excalidraw *)),
 .kc-task-panel input:not([type="radio"]):not([type="range"]) {
   display: block;
   width: 100%;
@@ -1332,5 +1332,321 @@
   .kc-awards * {
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Keep the learning order readable before opening the interactive scene. */
+.kc-fieldwork .kc-current-task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 20px 0;
+  padding: 22px 24px;
+  border: 1px solid #dedbe7;
+  border-left: 0;
+  border-radius: 18px;
+  background: white;
+}
+.kc-fieldwork .kc-current-task-copy {
+  min-width: 0;
+}
+.kc-fieldwork .kc-current-task h2 {
+  margin: 6px 0;
+  font-size: 23px;
+  scroll-margin-top: 24px;
+}
+.kc-fieldwork .kc-current-task p {
+  margin: 7px 0 0;
+  max-width: 74ch;
+  font-size: 16px;
+  color: #4f5262;
+}
+.kc-fieldwork .kc-current-task .kc-material-progress {
+  font-size: 14px;
+  color: #513885;
+}
+.kc-fieldwork .kc-current-task > .kc-button {
+  flex-shrink: 0;
+}
+.kc-fieldwork .kc-current-task .diagnosis-guidance {
+  margin: 14px 0 0;
+}
+.kc-fieldwork .kc-workspace.is-brief {
+  grid-template-columns: 1fr;
+}
+.kc-fieldwork .kc-materials-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  min-height: 64px;
+  cursor: pointer;
+  list-style: none;
+  color: #303444;
+}
+.kc-fieldwork .kc-materials-heading::-webkit-details-marker {
+  display: none;
+}
+.kc-fieldwork .kc-materials-heading strong {
+  display: block;
+  font-size: 17px;
+}
+.kc-fieldwork .kc-materials-heading small {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #626475;
+  line-height: 1.5;
+}
+.kc-fieldwork .kc-materials-heading > svg {
+  flex-shrink: 0;
+  transition: transform 160ms ease;
+}
+.kc-fieldwork .kc-scene-panel[open] > summary > svg {
+  transform: rotate(180deg);
+}
+.kc-fieldwork .kc-materials-heading:focus-visible,
+.kc-fieldwork .kc-coach summary:focus-visible,
+.kc-fieldwork .kc-log summary:focus-visible,
+.kc-fieldwork .diagnosis-guidance summary:focus-visible {
+  outline: 3px solid #0967ff;
+  outline-offset: -4px;
+  border-radius: 12px;
+}
+.kc-fieldwork .kc-materials-next {
+  padding: 0 18px 18px;
+}
+.kc-fieldwork .kc-materials-next p {
+  font-size: 14px;
+  color: #565966;
+  margin: 0 0 10px;
+}
+.kc-fieldwork .kc-materials-next button {
+  width: 100%;
+}
+.kc-fieldwork .kc-task-panel h2 {
+  scroll-margin-top: 24px;
+}
+.kc-fieldwork .kc-task-panel p {
+  color: #535564;
+}
+.kc-fieldwork .kc-action-outcome {
+  margin: 22px 0 0;
+}
+.kc-fieldwork .kc-task-panel .kc-choice-cards label {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+.kc-fieldwork .kc-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+.kc-fieldwork .kc-resource-bar span,
+.kc-fieldwork .kc-scene-toolbar span,
+.kc-fieldwork .kc-scene-settings label,
+.kc-fieldwork .kc-object-list strong,
+.kc-fieldwork .kc-object-list small,
+.kc-fieldwork .kc-action-options small,
+.kc-fieldwork .kc-coach summary,
+.kc-fieldwork .kc-coach p,
+.kc-fieldwork .kc-log p,
+.kc-fieldwork .kc-log small,
+.kc-fieldwork .kc-note,
+.kc-fieldwork .kc-action-outcome p,
+.kc-fieldwork .kc-action-outcome small,
+.kc-fieldwork .kc-field-footer,
+.kc-fieldwork .kc-topline,
+.kc-fieldwork .kc-task-panel > small {
+  font-size: 14px;
+}
+.kc-fieldwork .kc-resource-bar b {
+  font-size: 16px;
+}
+.kc-fieldwork .kc-task-panel textarea,
+.kc-fieldwork .kc-task-panel label,
+.kc-fieldwork .kc-inspection p {
+  font-size: 16px;
+}
+.kc-fieldwork button,
+.kc-fieldwork .kc-button,
+.kc-fieldwork .kc-scene-settings select {
+  min-height: 44px;
+  font-size: 14px;
+}
+.kc-fieldwork .kc-coach summary,
+.kc-fieldwork .kc-log summary,
+.kc-fieldwork .diagnosis-guidance summary {
+  min-height: 44px;
+  align-content: center;
+}
+.kc-fieldwork .kc-object-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.kc-fieldwork .kc-object-list button {
+  min-width: 0;
+  padding: 12px;
+}
+.kc-fieldwork .kc-object-list strong {
+  overflow-wrap: anywhere;
+}
+.kc-fieldwork .kc-object-list small {
+  grid-column: 2;
+}
+.kc-fieldwork .kc-object-list button > span {
+  font-size: 12px;
+}
+.kc-fieldwork .kc-action-illustration {
+  font-size: 14px;
+}
+.kc-fieldwork .kc-choice-cards legend {
+  font-size: 16px;
+}
+.kc-refresh .kc-fieldwork .kc-button {
+  min-height: 44px;
+  font-size: 14px;
+}
+.kc-refresh .kc-fieldwork .kc-task-panel p {
+  color: #535564;
+}
+.kc-fieldwork .kc-scenario-context {
+  margin-top: 10px;
+  border-top: 1px solid #ece9f1;
+}
+.kc-fieldwork .kc-scenario-context summary {
+  min-height: 44px;
+  align-content: center;
+  font-size: 14px;
+  color: #5c5672;
+  cursor: pointer;
+}
+.kc-fieldwork .kc-scenario-context summary:focus-visible {
+  outline: 3px solid #0967ff;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.kc-fieldwork .kc-scenario-context small {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #626475;
+}
+@media (max-width: 850px) {
+  .kc-fieldwork.is-ongoing .kc-topline .kc-room,
+  .kc-fieldwork.is-ongoing .kc-topline .kc-mode {
+    display: none;
+  }
+  .kc-fieldwork.is-ongoing .kc-topline {
+    margin: 0;
+  }
+  .kc-fieldwork.is-ongoing .kc-section-heading {
+    margin: 4px 0 10px;
+  }
+  .kc-refresh .kc-fieldwork.is-ongoing .kc-section-heading h1 {
+    font-size: 22px;
+    line-height: 1.35;
+    margin: 6px 0 0;
+    letter-spacing: -0.04em;
+  }
+  .kc-fieldwork.is-ongoing .kc-phases {
+    margin: 12px 0;
+  }
+  .kc-fieldwork.is-ongoing .kc-current-task {
+    margin-top: 12px;
+  }
+  .kc-fieldwork .kc-current-task {
+    display: block;
+    padding: 18px;
+  }
+  .kc-fieldwork .kc-current-task h2 {
+    font-size: 21px;
+  }
+  .kc-fieldwork .kc-current-task > .kc-button {
+    width: 100%;
+    margin-top: 16px;
+  }
+  .kc-fieldwork .kc-section-heading {
+    margin-bottom: 16px;
+  }
+  .kc-fieldwork .kc-section-heading p {
+    font-size: 16px;
+  }
+  .kc-fieldwork .kc-phases {
+    gap: 0;
+    margin: 18px 0 12px;
+  }
+  .kc-fieldwork .kc-phases li {
+    font-size: 14px;
+  }
+  .kc-fieldwork .kc-phases li:not([aria-current="step"]) {
+    display: none;
+  }
+  .kc-fieldwork .kc-phases li[aria-current="step"] {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    padding: 0;
+  }
+  .kc-fieldwork .kc-phases li[aria-current="step"]::after {
+    content: "/ 5 단계";
+    color: #646775;
+  }
+  .kc-fieldwork .kc-scene {
+    height: 290px;
+  }
+  .kc-fieldwork .kc-task-panel {
+    padding: 20px;
+  }
+  .kc-fieldwork .kc-task-panel h2 {
+    font-size: 22px;
+  }
+  .kc-refresh .kc-fieldwork .kc-task-panel p {
+    font-size: 16px;
+  }
+  .kc-fieldwork .kc-scene-toolbar {
+    padding: 10px 12px;
+  }
+  .kc-fieldwork .kc-scene-toolbar > span {
+    width: 100%;
+  }
+  .kc-fieldwork .kc-scene-settings {
+    margin-left: 0;
+    flex-wrap: wrap;
+  }
+  .kc-fieldwork .kc-mode {
+    padding: 5px 10px;
+  }
+  .kc-fieldwork .kc-log {
+    margin-top: 18px;
+    padding: 14px 18px;
+  }
+  .kc-fieldwork .kc-reading-change {
+    font-size: 14px;
+  }
+}
+@media (max-width: 400px) {
+  .kc-fieldwork .kc-object-list button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .kc-fieldwork .kc-object-list button > span {
+    display: none;
+  }
+  .kc-fieldwork .kc-action-outcome {
+    display: block;
+  }
+  .kc-fieldwork .kc-action-illustration {
+    width: 100%;
+    height: auto;
+    padding: 12px;
+    flex-direction: row;
+    margin-bottom: 14px;
   }
 }

@@ -1,0 +1,28 @@
+.starting-point-card {
+  margin: 20px 0;
+  padding: clamp(22px, 3vw, 36px);
+  border: 2px solid #ded4fa;
+  border-radius: 28px;
+  background: #f3efff;
+  text-align: left;
+  color: #241f47;
+}
+.starting-point-card h2 { margin: 16px 0 12px; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.4; }
+.starting-point-card p { max-width: 760px; margin: 12px 0; line-height: 1.8; color: #514767; }
+.starting-point-card .starting-point-next { background: white; border-radius: 18px; padding: 16px 20px; }
+.starting-point-card .button-row { margin-top: 22px; flex-wrap: wrap; }
+.starting-point-card small { display: block; margin-top: 18px; line-height: 1.7; color: #655b77; }
+.diagnosis-review { max-width: 850px; margin: 0 auto; }
+.diagnosis-review > p { line-height: 1.8; }
+.diagnosis-review-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; border-bottom: 1px solid #e7e2ed; }
+.diagnosis-review-row p { margin: 8px 0 0; color: #635b71; line-height: 1.6; }
+.diagnosis-review > .button { margin-top: 24px; }
+.diagnosis-focus:focus-visible { outline: 2px solid #0967ff; outline-offset: 6px; border-radius: 8px; }
+.diagnosis-guidance { background: #fff0e4; border: 1px solid #ffcdac; border-radius: 18px; padding: 18px; margin-bottom: 20px; color: #713408; }
+.diagnosis-guidance summary { cursor: pointer; font-weight: 750; line-height: 1.6; }
+.diagnosis-guidance p, .diagnosis-guidance small { line-height: 1.8; color: #633e25; }
+@media (max-width: 560px) {
+  .diagnosis-review-row { align-items: flex-start; gap: 10px; }
+  .diagnosis-review-row > .button { flex: none; }
+  .starting-point-card .button-row > .button { width: 100%; }
+}

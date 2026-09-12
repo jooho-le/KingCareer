@@ -1,0 +1,8 @@
+.review-previous { margin: 24px 0; padding: 20px; border: 1px solid #dce7f8; background: #f2f7ff; border-radius: 18px; }
+.review-previous > div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.review-previous strong { color: #174b8c; font-size: 16px; }
+.review-previous button { padding: 8px 12px; border-radius: 10px; color: #0967ff; background: #fff; border: 1px solid #dce7f8; }
+.career-review-studio .review-previous p { margin: 12px 0; color: #3e506c; }
+.career-review-studio .review-previous-note { font-size: 14px; }
+.review-previous small { font-size: 13px; line-height: 1.7; color: #546681; }
+.review-questions:empty { display: none; }

@@ -63,7 +63,7 @@ class RequestInput(Input):
 
 class Diagnosis(RequestInput):
     careerId: CareerId
-    answers: list[AnswerIndex] = Field(min_length=6, max_length=6)
+    answers: list[Annotated[int, Field(ge=0, le=3)]] = Field(min_length=6, max_length=6)
 
 
 class ExperienceEvent(RequestInput):
@@ -98,6 +98,7 @@ class Draft(RequestInput):
     answers: list[DraftText] = Field(min_length=3, max_length=3)
     expectedVersion: Version
     scene: dict | None = None
+    interest: Interest | None = None
 
     @field_validator("scene")
     @classmethod
@@ -127,5 +128,11 @@ class Draft(RequestInput):
 
 
 class Submit(RequestInput):
-    interest: Interest
+    interest: Interest | None = None
     expectedVersion: Version
+
+
+class ProjectHelp(RequestInput):
+    expectedVersion: Version
+    mission: AnswerIndex
+    intent: Literal["start", "improve", "check"]

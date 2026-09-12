@@ -9,6 +9,12 @@ import {
   LogOut,
   LockKeyhole,
   AlertCircle,
+  Bookmark,
+  ChevronDown,
+  CircleHelp,
+  History,
+  Settings2,
+  UserRound,
 } from "lucide-react";
 import {
   Button,
@@ -18,7 +24,6 @@ import {
   JobIcon,
   Modal,
   PageHeading,
-  SectionHeading,
   Steps,
   Tag,
 } from "../components";
@@ -26,6 +31,9 @@ import { careers, fields, getCareer, initialState } from "../data";
 import type { Profile } from "../data";
 import { useApp } from "../store";
 import { api, json, errorMessage } from "../api";
+import ExperienceMap from "./ExperienceMap";
+import { ActivityHelpSettings } from "../fieldwork/ActivityHelp";
+import "./profile-page.css";
 
 function profilePayload(profile: Profile) {
   return {
@@ -104,7 +112,7 @@ export function Onboarding() {
             <div className="intro-points">
               <span>
                 <Check size={17} />
-                경험의 빈칸을 찾는 나의 지도
+                체험을 마치면 남는 나의 수료 카드
               </span>
               <span>
                 <Check size={17} />
@@ -262,7 +270,7 @@ export function Auth() {
                 </div>
               </div>
               <Button className="full-width" onClick={() => go("home")}>
-                나의 베이스캠프로
+                홈으로
                 <ArrowRight size={17} />
               </Button>
               <Button
@@ -512,9 +520,13 @@ function ProfileFields({
 }
 
 export function ProfilePage() {
-  const { state, go, save, refresh, clearUser, toast } = useApp();
+  const { state, go, save, refresh, clearUser, toast, logout, loggingOut } =
+    useApp();
   const [profile, setProfile] = useState(state.profile);
-  const [tab, setTab] = useState("profile");
+  const [tab, setTab] = useState(() => {
+    const value = new URLSearchParams(location.hash.split("?")[1]).get("tab");
+    return value && ["profile", "records", "saved", "settings"].includes(value) ? value : "profile";
+  });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [deleteKind, setDeleteKind] = useState<"records" | "account" | null>(
@@ -554,19 +566,6 @@ export function ProfilePage() {
       await api("/profile", json("PATCH", { notifications }));
       setProfile((p) => ({ ...p, notifications }));
       await refresh();
-    } catch (e) {
-      setError(errorMessage(e));
-    } finally {
-      setBusy(false);
-    }
-  };
-  const logout = async () => {
-    setBusy(true);
-    setError("");
-    try {
-      await api("/auth/logout", json("POST"));
-      clearUser();
-      go("auth");
     } catch (e) {
       setError(errorMessage(e));
     } finally {
@@ -620,67 +619,82 @@ export function ProfilePage() {
     }
   };
   return (
-    <>
-      <PageHeading
-        eyebrow="MY OWN KINGDOM"
-        title="지금의 나를, 나답게"
-        description="관심은 바뀌어도 괜찮아. 너의 이야기는 계속 이어지니까."
-      />
-      <div className="profile-banner">
-        <img
-          className="avatar large-avatar"
-          src="/brand/00_brand/brand_avatar.png"
-          alt=""
-        />
-        <div>
-          <Tag color="blue">가능성을 탐험하는 중</Tag>
-          <h2>{state.profile.name}</h2>
-          <p>
-            @{state.profile.username} · {state.profile.region}
-          </p>
+    <div className="kc-profile-page">
+      <header className="profile-identity">
+        <div className="profile-portrait" aria-hidden="true">
+          <img src="/brand/00_brand/brand_avatar.png" alt="" />
         </div>
-        <Button kind="white" onClick={() => go("portfolio")}>
-          내 활동 기록
-          <ArrowUpRight size={17} />
-        </Button>
-      </div>
-      <div className="filter-tabs">
+        <div className="profile-identity-copy">
+          <span className="profile-kicker">MY SPACE</span>
+          <h1>{state.profile.name}의 프로필</h1>
+          <p className="profile-handle">@{state.profile.username}</p>
+          <p>지금의 관심과 경험을, 나답게 모아봐.</p>
+        </div>
+        <div className="profile-account-actions">
+          <Button kind="white" onClick={() => go("portfolio")}>
+            내 포트폴리오
+            <ArrowUpRight size={17} />
+          </Button>
+          <Button
+            kind="ghost"
+            disabled={busy || loggingOut}
+            onClick={() => void logout()}
+          >
+            <LogOut size={16} />
+            {loggingOut ? "로그아웃 중…" : "로그아웃"}
+          </Button>
+        </div>
+      </header>
+      <nav className="profile-nav" aria-label="프로필 메뉴">
         {[
-          { id: "profile", label: "내 프로필" },
-          { id: "saved", label: `저장한 직업 ${state.saved.length}` },
-          { id: "settings", label: "알림·계정 설정" },
+          { id: "profile", label: "내 프로필", icon: UserRound },
+          { id: "records", label: "진로 기록", icon: History },
+          { id: "saved", label: "저장한 직업", icon: Bookmark },
+          { id: "settings", label: "설정", icon: Settings2 },
         ].map((item) => (
           <button
             key={item.id}
             className={tab === item.id ? "selected" : ""}
+            aria-current={tab === item.id ? "page" : undefined}
             onClick={() => {
               setTab(item.id);
+              go("profile", undefined, item.id);
               setError("");
             }}
           >
-            {item.label}
+            <item.icon size={19} aria-hidden="true" />
+            <span>{item.label}</span>
+            {item.id === "saved" && state.saved.length > 0 && <span className="profile-saved-count">{state.saved.length}</span>}
           </button>
         ))}
-      </div>
-      {tab === "profile" ? (
+      </nav>
+      <div className="profile-content">
+      {tab === "records" ? <ExperienceMap /> : tab === "profile" ? (
         <form
           className="panel profile-form"
+          aria-labelledby="profile-edit-heading"
           onSubmit={(e) => {
             e.preventDefault();
             void saveProfile();
           }}
         >
-          <SectionHeading title="내 프로필과 관심" />
+          <header className="profile-section-heading">
+            <span className="profile-section-icon"><UserRound size={21} aria-hidden="true" /></span>
+            <div><h2 id="profile-edit-heading">나를 소개할게</h2><p>닉네임과 관심분야는 언제든 바꿀 수 있어.</p></div>
+          </header>
           <ProfileFields
             profile={profile}
             onChange={setProfile}
             disabled={busy}
           />
           <FormError message={error} />
-          <Button type="submit" disabled={busy || !profile.name.trim()}>
-            {busy ? "저장하는 중…" : "변경사항 저장"}
-            <Check size={17} />
-          </Button>
+          <footer className="profile-save-row">
+            <p>학교·학년·지역은 선택사항이야.</p>
+            <Button type="submit" disabled={busy || !profile.name.trim()}>
+              {busy ? "저장하는 중…" : error ? "다시 저장하기" : "변경사항 저장"}
+              <Check size={17} />
+            </Button>
+          </footer>
         </form>
       ) : tab === "saved" ? (
         state.saved.length ? (
@@ -698,15 +712,21 @@ export function ProfilePage() {
         ) : (
           <Empty
             title="눈길이 가는 직업을 모아봐"
-            action="직업 발견하러 가기"
-            onClick={() => go("discovery")}
+            action="체험할 직업 둘러보기"
+            onClick={() => go("simulation")}
           >
             직업 카드의 저장 버튼을 누르면 여기서 다시 만날 수 있어.
           </Empty>
         )
       ) : (
-        <section className="panel settings-panel">
-          <SectionHeading title="나의 계정 관리" />
+        <div className="profile-settings">
+          {!deleteKind && <FormError message={error} />}
+          <section className="panel settings-panel" aria-labelledby="profile-help-heading">
+          <header className="profile-section-heading">
+            <span className="profile-section-icon blue"><CircleHelp size={21} aria-hidden="true" /></span>
+            <div><h2 id="profile-help-heading">내가 쓰기 편하게</h2><p>화면 안내를 다시 보고, 표시 방법을 정해봐.</p></div>
+          </header>
+          <ActivityHelpSettings />
           <div className="setting-row">
             <div>
               <h3>탐험 안내 표시</h3>
@@ -735,6 +755,14 @@ export function ProfilePage() {
               포트폴리오
             </Button>
           </div>
+          </section>
+          <section className="panel settings-panel profile-security" aria-labelledby="profile-account-heading">
+          <header className="profile-section-heading">
+            <span className="profile-section-icon"><LockKeyhole size={21} aria-hidden="true" /></span>
+            <div><h2 id="profile-account-heading">계정과 기록 관리</h2><p>비밀번호를 바꾸거나 저장한 기록을 관리해.</p></div>
+          </header>
+          <details className="profile-password-details">
+          <summary><LockKeyhole size={19} aria-hidden="true" /><span>비밀번호 변경</span><ChevronDown size={19} aria-hidden="true" /></summary>
           <form
             className="password-form"
             onSubmit={(e) => {
@@ -742,10 +770,6 @@ export function ProfilePage() {
               void changePassword();
             }}
           >
-            <h3>
-              <LockKeyhole size={18} />
-              비밀번호 변경
-            </h3>
             <label className="form-field">
               현재 비밀번호
               <input
@@ -789,22 +813,7 @@ export function ProfilePage() {
               비밀번호 변경
             </Button>
           </form>
-          <div className="setting-row">
-            <div>
-              <h3>로그아웃</h3>
-              <p>기록은 계정에 그대로 보관돼요.</p>
-            </div>
-            <Button
-              kind="secondary"
-              disabled={busy}
-              onClick={() => {
-                void logout();
-              }}
-            >
-              <LogOut size={16} />
-              로그아웃
-            </Button>
-          </div>
+          </details>
           <div className="setting-row">
             <div>
               <h3>학습 기록 초기화</h3>
@@ -837,9 +846,10 @@ export function ProfilePage() {
               계정 삭제
             </button>
           </div>
-          {!deleteKind && <FormError message={error} />}
         </section>
+        </div>
       )}
+      </div>
       {deleteKind && (
         <Modal
           title={
@@ -884,6 +894,6 @@ export function ProfilePage() {
           </div>
         </Modal>
       )}
-    </>
+    </div>
   );
 }

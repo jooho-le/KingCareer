@@ -1,0 +1,53 @@
+Generated with built-in image_gen for hackathon presentation.
+Create a presentation-ready architecture diagram image for a software hackathon judging IMPLEMENTATION of "KingCareer". This image will be inserted INTO a presentation slide, not an entire decorative poster. Landscape 16:9, preferably 3840x2160, extremely crisp readable type. Korean text exact. Flat WHITE background, no textures, NO gradients, no shadows, no mascots, no doodles, no marketing quotes, no stock icons. Restrained orange #FF6A1F, blue #0967FF, purple #7C3AED, dark navy text. Simple precise rounded rectangular modules, clean connectors, lots of breathing room. Professional engineering architecture with brand polish. Do not claim tests passed or deployment. Title modest top left "KingCareer 구현 아키텍처"; right small caption "로컬 웹 · FastAPI · SQLite". Diagram should occupy almost full frame, large type readable projected, maximum ~16 text labels of main importance. Use four architectural zones in two rows, with CLEAR labelled connections:
+
+Top left zone (about 29% width, blue header): "01  체험·제작 UI"
+two inner cards:
+"3D 직무체험"
+"Three.js · React Three Fiber"
+"현장 조사 · 조치 결과 시각화"
+and
+"미니 프로젝트"
+"Excalidraw"
+"배치도 편집 · PNG / SVG"
+small footer inside zone "React · TypeScript"
+
+Top middle zone (about 37% width, orange header border indicating own implementation): "02  자체 개발 · 직무체험 로직"
+inner one prominent card
+"직무별 시나리오 · 행동 규칙"
+a large orderly compact flow "조사 → 비교 → 조치 → 확인 → 회고"
+then separated footer
+"LangGraph · 진행 상태 관리"
+"FastAPI · 인증 / 명령 검증 / API"
+Arrow from first zone to second zone labelled "/api/v1" bidirectional, clear gap between zones.
+
+Top right zone (about 25% width, purple border): "03  외부 AI 연동"
+"Gemini API"
+"설명 · 질문 응답 · 코칭"
+"선택 연결"
+A dashed bidirectional arrow between own logic and Gemini, not from student UI to Gemini. Mark this module with no completion badges. No image generation.
+
+Bottom center-left large zone (about 62% width) orange border header: "04  자체 개발 · Experience Gap Engine"
+three inner horizontal steps connected:
+"xAPI 형식 기록"
+"행동 · 제출 · 회고"
+→
+"NetworkX 분석"
+"목표별 기록 충족률"
+→
+"다음 활동 추천"
+"부족한 목표 · 추천 이유"
+Arrow from own logic above down to first step labelled "검증된 활동 기록".
+A thin return connector from last recommendation step to UI zone labelled "경험지도 · 추천" route in available white space, no crossing text.
+
+Bottom right zone (about 29% width), neutral header "저장·분석 근거", two inner compact cards:
+"SQLite"
+"계정 · 결과물 · 세션 · 체크포인트"
+and
+"ESCO · O*NET"
+"직업·역량·업무 스냅샷"
+Connect SQLite to own logic bidirectionally along an unobstructed corridor; connect ESCO O*NET to NetworkX with one-way arrow labelled "교육용 목표 연결". If routing too complex use short port connectors with labels, never cross labels.
+
+Bottom tiny but still readable note: "분석 수치는 직무 능력 점수가 아닌 활동 기록 충족률입니다."
+Legend at bottom left: orange outline swatch "자체 개발" · blue/purple outline swatch "OSS·외부 연동" · dashed line "선택적 AI 호출".
+Focus graph on WORKING IMPLEMENTATION responsibilities rather than library catalog. All supplied labels technically accurate: xAPI FORMAT not LRS service; ESCO ONET STATIC snapshots not live APIs; rules in own backend, AI only coaching. No cloud, deployment, GPU, vector database, Qwen, no certification of quality or implementation percent, no checkmark badges. Overall sparse enough to read in 10 seconds. Make arrows correct, visually clear.

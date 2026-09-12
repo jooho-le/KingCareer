@@ -1,0 +1,121 @@
+.kc-refresh .basecamp-adventure .basecamp-heading { margin: 4px 0 24px; }
+.kc-refresh .basecamp-adventure .basecamp-heading h1 { font-size: clamp(28px, 3vw, 38px); }
+.kc-refresh .basecamp-adventure .basecamp-heading p { font-size: 16px; color: #626574; line-height: 1.65; }
+.kc-refresh .basecamp-adventure .basecamp-hero { display: flex; align-items: flex-start; min-height: 454px; padding: 36px 38px 94px; border: 2px solid #25223b; border-radius: 30px; background: #fff7ed; box-shadow: 0 7px 0 #25223b; }
+.kc-refresh .basecamp-adventure .basecamp-hero::before { inset: 0 0 0 auto; width: 43%; opacity: 1; filter: none; background: #0967ff; border-radius: 92px 0 0 0; animation: none; }
+.kc-refresh .basecamp-adventure .basecamp-hero-copy { width: 59%; margin: 0; padding: 0 18px 0 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; }
+.kc-refresh .basecamp-adventure .basecamp-label { display: inline-flex; align-items: center; gap: 7px; min-height: 32px; padding: 6px 12px; background: #ff6a1f; border: 1px solid #25223b; border-radius: 7px; color: #231c18; font-size: 14px; font-weight: 850; letter-spacing: 0; box-shadow: 2px 2px 0 #25223b; }
+.kc-refresh .basecamp-adventure .basecamp-hero h2 { margin: 22px 0 16px; font-size: clamp(34px, 4.05vw, 56px); line-height: 1.19; max-width: 620px; letter-spacing: -.06em; color: #25223b; word-break: keep-all; overflow-wrap: anywhere; }
+.kc-refresh .basecamp-adventure .basecamp-hero h2 em { position: relative; color: #7c3aed; font-style: normal; }
+.kc-refresh .basecamp-adventure .basecamp-hero p { margin-bottom: 24px; max-width: 450px; font-size: 16px; line-height: 1.65; color: #5b5464; word-break: keep-all; }
+.kc-refresh .basecamp-adventure .basecamp-hero-copy > button { min-height: 54px; padding: 14px 20px; gap: 18px; background: #25223b; color: #fff; border: 2px solid #25223b; border-radius: 12px; font-size: 16px; box-shadow: 4px 4px 0 #ff6a1f; transition: transform 160ms ease, box-shadow 160ms ease; }
+.kc-refresh .basecamp-adventure .basecamp-hero-copy > button:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #ff6a1f; }
+.kc-refresh .basecamp-adventure .basecamp-hero-copy > button:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #ff6a1f; }
+.kc-refresh .basecamp-adventure .basecamp-hero-copy > button:focus-visible { outline: 3px solid #0967ff; outline-offset: 5px; }
+.kc-refresh .basecamp-adventure .basecamp-hero-art { display: grid; place-items: center; inset: 12px 0 65px auto; width: 43%; height: auto; pointer-events: none; }
+.kc-refresh .basecamp-adventure .basecamp-hero-art img { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; max-width: none; max-height: none; padding: 14px 16px; object-fit: contain; filter: drop-shadow(0 10px 0 #003bd544); }
+.basecamp-adventure .basecamp-art-ring { position: absolute; width: 84%; aspect-ratio: 1; border: 2px solid #ffffff80; border-radius: 50%; transform: rotate(-18deg) scaleY(.79); }
+.basecamp-adventure .basecamp-art-ring::before { content: ""; position: absolute; width: 21px; height: 21px; border-radius: 50%; background: #ff6a1f; top: 14%; left: 4%; border: 2px solid #25223b; }
+.basecamp-adventure .basecamp-art-tile { position: absolute; right: 13%; top: 9%; width: 69px; height: 69px; border-radius: 18px; border: 2px solid #ffffff85; background: #7c3aed; transform: rotate(18deg); box-shadow: 7px 7px 0 #003cba; }
+.basecamp-adventure .basecamp-art-sticker { display: flex; gap: 8px; align-items: center; position: absolute; right: 12%; bottom: 10px; z-index: 3; padding: 10px 14px; border: 2px solid #25223b; border-radius: 8px; background: #fff; color: #25223b; box-shadow: 3px 3px 0 #25223b; transform: rotate(-5deg); font-size: 14px; font-weight: 850; white-space: nowrap; }
+.basecamp-adventure .basecamp-journey { display: flex; align-items: center; justify-content: center; gap: clamp(12px, 2vw, 30px); position: absolute; bottom: 0; left: 0; right: 0; min-height: 60px; padding: 12px 22px; border-top: 2px solid #25223b; background: #fff; color: #4c4360; }
+.basecamp-adventure .basecamp-journey span { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; }
+.basecamp-adventure .basecamp-journey span:nth-of-type(1) svg { color: #b4450b; }
+.basecamp-adventure .basecamp-journey span:nth-of-type(2) svg { color: #0967ff; }
+.basecamp-adventure .basecamp-journey span:nth-of-type(3) svg { color: #7c3aed; }
+.basecamp-adventure .basecamp-journey > svg { color: #aca4ba; flex-shrink: 0; }
+.kc-refresh .basecamp-adventure.basecamp-returning .basecamp-hero { min-height: 386px; }
+.kc-refresh .basecamp-adventure.basecamp-returning .basecamp-hero h2 { font-size: clamp(30px, 3.3vw, 44px); }
+.kc-refresh .basecamp-adventure .basecamp-recent { margin: 38px 0 28px; }
+.kc-refresh .basecamp-adventure .basecamp-records { display: grid; gap: 12px; }
+.kc-refresh .basecamp-adventure .basecamp-records > button { position: relative; min-width: 0; padding: 20px; gap: 18px; border: 1px solid #d3d6e7; border-radius: 18px; background: #fff; box-shadow: 0 4px 0 #e4e8fa; transition: transform 170ms ease, border-color 170ms ease; }
+.kc-refresh .basecamp-adventure .basecamp-records > button:hover { transform: translateY(-3px); border-color: #0967ff; }
+.kc-refresh .basecamp-adventure .basecamp-records > button.record-project { border-color: #ded2f5; box-shadow: 0 4px 0 #ebe1fc; }
+.kc-refresh .basecamp-adventure .basecamp-records > button.record-project:hover { border-color: #7c3aed; }
+.kc-refresh .basecamp-adventure .basecamp-records small { font-size: 14px; color: #626574; }
+.kc-refresh .basecamp-adventure .basecamp-records strong { margin-top: 7px; font-size: 18px; }
+.kc-refresh .basecamp-adventure .basecamp-records p { font-size: 15px; color: #626574; }
+.basecamp-adventure .basecamp-record-icon { display: grid; place-items: center; width: 54px; height: 62px; flex: 0 0 54px; border-radius: 12px; background: #0967ff; color: #fff; transform: rotate(-5deg); }
+.basecamp-adventure .basecamp-record-icon.purple { background: #7c3aed; }
+.kc-refresh .basecamp-adventure .basecamp-record-icon svg { color: #fff; }
+.kc-refresh .basecamp-adventure .basecamp-browse { margin-top: 28px; border: 2px solid #dfd5f2; background: #fff; border-radius: 20px; overflow: hidden; }
+.basecamp-adventure .basecamp-browse > summary { min-height: 98px; cursor: pointer; display: flex; align-items: center; gap: 18px; padding: 18px 22px; list-style: none; background: #f3edff; }
+.basecamp-adventure .basecamp-browse > summary::-webkit-details-marker { display: none; }
+.basecamp-adventure .basecamp-browse > summary > span { flex: 1; }
+.basecamp-adventure .basecamp-browse > summary > svg { color: #7c3aed; flex-shrink: 0; }
+.basecamp-adventure .basecamp-browse > summary strong, .basecamp-adventure .basecamp-browse > summary small { display: block; }
+.basecamp-adventure .basecamp-browse > summary strong { font-size: 17px; color: #36264f; }
+.basecamp-adventure .basecamp-browse > summary small { margin-top: 5px; font-size: 14px; color: #686076; }
+.basecamp-adventure .basecamp-browse[open] > summary > svg { transform: rotate(180deg); }
+.basecamp-adventure .basecamp-browse-crew { display: flex; align-items: center; flex-shrink: 0; padding-right: 6px; }
+.basecamp-adventure .basecamp-browse-crew img { width: 56px; height: 56px; border: 2px solid #fff; border-radius: 50%; background: #fff; object-fit: contain; box-shadow: 0 3px 0 #d8c5f7; }
+.basecamp-adventure .basecamp-browse-crew img + img { margin-left: -17px; }
+.basecamp-adventure .basecamp-job-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 16px 16px 0; }
+.basecamp-adventure .basecamp-job-preview button { display: grid; grid-template-columns: 68px minmax(0, 1fr) 22px; gap: 6px 10px; text-align: left; padding: 16px; border: 1px solid #e6dfef; border-radius: 14px; background: #fff; transition: background 150ms ease; }
+.basecamp-adventure .basecamp-job-preview button:hover { background: #f6f2ff; }
+.basecamp-adventure .basecamp-job-preview img { grid-column: 1; grid-row: 1 / 3; align-self: center; width: 68px; height: 68px; object-fit: contain; }
+.basecamp-adventure .basecamp-job-preview strong { font-size: 16px; grid-column: 2; }
+.basecamp-adventure .basecamp-job-preview span { font-size: 14px; color: #626574; grid-column: 2; line-height: 1.6; }
+.basecamp-adventure .basecamp-job-preview svg { grid-column: 3; grid-row: 1 / 3; align-self: center; color: #7c3aed; }
+.basecamp-adventure .basecamp-inline-link { min-height: 48px; display: flex; align-items: center; gap: 8px; margin: 8px 16px; padding: 8px; font-size: 15px; color: #5d33a8; }
+.basecamp-adventure .basecamp-context-links { margin-top: 18px; }
+.basecamp-adventure .basecamp-context-links p { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin: 0; color: #626574; font-size: 14px; }
+.basecamp-adventure .basecamp-context-links button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: #4c3b72; text-decoration: underline; text-underline-offset: 4px; }
+.basecamp-adventure .basecamp-browse summary:focus-visible, .basecamp-adventure .basecamp-job-preview button:focus-visible, .basecamp-adventure .basecamp-inline-link:focus-visible, .basecamp-adventure .basecamp-context-links button:focus-visible, .basecamp-adventure .basecamp-records button:focus-visible { outline: 3px solid #0967ff; outline-offset: -3px; }
+@media (min-width: 601px) and (max-width: 1000px) {
+  .kc-refresh .basecamp-adventure .basecamp-hero { padding: 28px 26px 90px; min-height: 422px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero h2 { font-size: 36px; }
+  .basecamp-adventure .basecamp-art-sticker { right: 7%; font-size: 12px; padding: 9px; }
+  .basecamp-adventure .basecamp-job-preview { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .kc-refresh .basecamp-adventure .basecamp-heading { margin-bottom: 20px; }
+  .kc-refresh .basecamp-adventure .basecamp-heading h1 { margin: 4px 0 8px; font-size: 29px; }
+  .kc-refresh .basecamp-adventure .basecamp-heading p { font-size: 15px; line-height: 1.6; }
+  .kc-refresh .basecamp-adventure .basecamp-hero, .kc-refresh .basecamp-adventure.basecamp-returning .basecamp-hero { padding: 23px 20px 72px; min-height: 0; border-radius: 24px; box-shadow: 0 5px 0 #25223b; }
+  .kc-refresh .basecamp-adventure .basecamp-hero::before { width: 40%; height: 212px; border-radius: 0 0 0 58px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero-copy { width: 100%; padding: 0; }
+  .kc-refresh .basecamp-adventure .basecamp-label { min-height: 29px; padding: 5px 8px; font-size: 12px; gap: 5px; }
+  .kc-refresh .basecamp-adventure .basecamp-label svg { width: 14px; height: 14px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero h2 { width: 65%; margin: 22px 0 22px; font-size: 31px; min-height: 122px; line-height: 1.3; }
+  .kc-refresh .basecamp-adventure.basecamp-returning .basecamp-hero h2 { font-size: 27px; min-height: 122px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero p { max-width: none; margin: 0 0 20px; font-size: 15px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero-copy > button { width: 100%; min-height: 52px; justify-content: space-between; padding: 12px 16px; font-size: 15px; gap: 8px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero-art { display: grid; inset: 35px 8px auto auto; width: 43%; height: 174px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero-art img { width: 100%; height: 100%; padding: 3px; }
+  .basecamp-adventure .basecamp-art-ring { width: 90%; }
+  .basecamp-adventure .basecamp-art-ring::before { width: 13px; height: 13px; }
+  .basecamp-adventure .basecamp-art-tile { top: 10px; right: 26px; width: 34px; height: 34px; border-radius: 10px; box-shadow: 4px 4px 0 #003cba; }
+  .basecamp-adventure .basecamp-art-sticker { display: none; }
+  .basecamp-adventure .basecamp-journey { min-height: 52px; padding: 10px 14px; gap: 8px; }
+  .basecamp-adventure .basecamp-journey span { font-size: 12px; gap: 4px; white-space: nowrap; }
+  .basecamp-adventure .basecamp-journey span svg { width: 14px; height: 14px; }
+  .basecamp-adventure .basecamp-journey > svg { width: 10px; }
+  .kc-refresh .basecamp-adventure .basecamp-recent { margin-top: 30px; }
+  .kc-refresh .basecamp-adventure .basecamp-records > button { gap: 12px; padding: 17px 14px; }
+  .kc-refresh .basecamp-adventure .basecamp-records strong { font-size: 16px; }
+  .basecamp-adventure .basecamp-record-icon { width: 43px; height: 54px; flex-basis: 43px; }
+  .basecamp-adventure .basecamp-records p { display: none; }
+  .basecamp-adventure .basecamp-browse > summary { gap: 12px; min-height: 108px; padding: 16px 14px; }
+  .basecamp-adventure .basecamp-browse > summary strong { font-size: 16px; line-height: 1.4; word-break: keep-all; }
+  .basecamp-adventure .basecamp-browse > summary small { font-size: 13px; line-height: 1.5; }
+  .basecamp-adventure .basecamp-browse-crew { width: 62px; height: 65px; position: relative; padding: 0; }
+  .basecamp-adventure .basecamp-browse-crew img { position: absolute; width: 43px; height: 43px; left: 0; top: 0; }
+  .basecamp-adventure .basecamp-browse-crew img:nth-child(2) { left: 21px; top: 19px; z-index: 1; margin: 0; }
+  .basecamp-adventure .basecamp-browse-crew img:nth-child(3) { display: none; }
+  .basecamp-adventure .basecamp-job-preview { grid-template-columns: 1fr; padding: 12px 10px 0; }
+  .basecamp-adventure .basecamp-job-preview button { grid-template-columns: 48px minmax(0, 1fr) 18px; padding: 12px; }
+  .basecamp-adventure .basecamp-job-preview img { width: 48px; height: 48px; }
+}
+@media (max-width: 360px) {
+  .kc-refresh .basecamp-adventure .basecamp-hero { padding-left: 16px; padding-right: 16px; }
+  .kc-refresh .basecamp-adventure .basecamp-hero h2 { font-size: 27px; }
+  .kc-refresh .basecamp-adventure.basecamp-returning .basecamp-hero h2 { font-size: 24px; }
+  .basecamp-adventure .basecamp-journey { gap: 5px; padding-left: 10px; padding-right: 10px; }
+  .basecamp-adventure .basecamp-journey span { font-size: 12px; gap: 3px; }
+  .basecamp-adventure .basecamp-journey span svg { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kc-refresh .basecamp-adventure *, .kc-refresh .basecamp-adventure *::before { animation: none !important; transition: none !important; }
+  .kc-refresh .basecamp-adventure .basecamp-records > button:hover, .kc-refresh .basecamp-adventure .basecamp-hero-copy > button:hover:not(:disabled), .kc-refresh .basecamp-adventure .basecamp-hero-copy > button:active:not(:disabled) { transform: none; }
+}

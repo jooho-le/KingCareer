@@ -11,6 +11,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test:e2e": "playwright test",
+    "test:ui": "playwright test --project=ui",
+    "test:api": "playwright test --project=api",
     "format": "prettier --write src app *.ts *.json",
     "format:check": "prettier --check src app *.ts *.json"
   },

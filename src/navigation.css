@@ -1,0 +1,30 @@
+.skip-link:not(:focus) { clip-path: inset(50%); }
+.skip-link:focus { clip-path: none; }
+.kc-refresh .app-sidebar .nav-item { min-height: 48px; font-size: 14px; }
+.kc-refresh .app-sidebar .sidebar-profile { min-height: 56px; }
+.kc-refresh .app-sidebar .intro-link { min-height: 44px; }
+.kc-refresh .app-sidebar .sidebar-profile[aria-current="page"] { background: #f0eafa; border-radius: 12px; }
+.kc-refresh .app-sidebar :is(button, a):focus-visible { outline: 3px solid #0967ff; outline-offset: 3px; }
+.kc-refresh .app-sidebar { background: #fffdf9; }
+.kc-refresh .app-sidebar .brand > img { width: 34px; height: 34px; padding: 6px; box-sizing: border-box; background: #fff0e6; border: 1px solid #ffbc94; border-radius: 10px; transform: rotate(-7deg); }
+.kc-refresh .app-sidebar .workspace-label { font-size: 12px; color: #746086; letter-spacing: 0; }
+.kc-refresh .app-sidebar .nav-item { margin-bottom: 10px; min-height: 52px; }
+.kc-refresh .app-sidebar .nav-active { background: #7c3aed; border: 1px solid #6924d3; box-shadow: 0 4px 0 #5622a5; }
+.kc-refresh .app-sidebar .nav-item.active { color: #fff; }
+.kc-refresh .app-sidebar .nav-item.active .nav-asset { filter: brightness(0) invert(1); }
+.kc-refresh .app-sidebar .nav-item:not(.active):hover { color: #6c29cb; background: #f0e7fc; }
+.kc-refresh .app-sidebar .sidebar-profile { background: #fff0e5; border: 1px solid #ffd1b7; border-radius: 15px; }
+.kc-refresh .app-sidebar .sidebar-profile .avatar { border: 2px solid #ffb080; border-radius: 50%; }
+.kc-refresh .app-sidebar { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); scroll-padding-bottom: 24px; }
+.kc-refresh .app-sidebar nav { flex-shrink: 0; }
+.kc-refresh .app-sidebar .sidebar-bottom { flex-shrink: 0; padding-top: 24px; }
+.kc-refresh .app-sidebar .sidebar-profile { padding: 14px 10px; gap: 8px; }
+.kc-refresh .app-sidebar .sidebar-profile > span { min-width: 0; flex: 1; }
+.kc-refresh .app-sidebar .sidebar-profile b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.kc-refresh .app-sidebar .sidebar-profile small { font-size: 11px; line-height: 1.5; }
+.kc-refresh .app-sidebar .sidebar-profile > svg { flex-shrink: 0; }
+.kc-refresh .topbar .breadcrumb strong { color: #6030ae; }
+.kc-refresh .topbar .mobile-menu { background: #efe4ff; color: #6730b3; border: 1px solid #decbf7; border-radius: 12px; }
+@media (max-width: 760px) {
+  .kc-refresh .topbar .mobile-menu, .kc-refresh .app-sidebar .sidebar-close { width: 44px; height: 44px; }
+}

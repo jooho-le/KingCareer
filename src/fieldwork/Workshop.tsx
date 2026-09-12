@@ -6,29 +6,49 @@ import {
   useRef,
   useState,
 } from "react";
-import { ArrowLeft, ArrowRight, Save, Download } from "lucide-react";
+import { ArrowLeft, ArrowRight, Save } from "lucide-react";
 import { api, errorMessage, json, requestId } from "../api";
 import type { Activity, CareerId } from "../data";
 import { useApp } from "../store";
+import CareerEntry from "./CareerEntry";
+import ProjectCoach from "./ProjectCoach";
+import ProjectBrief from "./ProjectBrief";
 import { downloadFile, type DrawingScene } from "./types";
 import "./fieldwork.css";
+import "./workshop-studio.css";
+import "./step-card-editor.css";
+import { hasWritingBlanks, writingReady } from "./project-writing";
+import GuidedWriting from "./GuidedWriting";
+import { preferredAuthoringMode } from "./step-card-data";
 
 import { projectFor } from "./workplaces";
 const DrawingBoard = lazy(() => import("./DrawingBoard"));
+const StepCardEditor = lazy(() => import("./StepCardEditor"));
 type Draft = {
   careerId: CareerId;
   answers: string[];
   version: number;
   scene: DrawingScene | null;
+  interest: number | null;
 };
-type Revision = Draft & { date: string };
+type Revision = {
+  version: number;
+  date: string;
+  interest: number | null;
+  hasDrawing: boolean;
+  completedAnswers: number;
+};
 type Artifact = Activity & { scene?: DrawingScene; observations?: string[] };
 const emptyScene = (): DrawingScene => ({
   elements: [],
   appState: { viewBackgroundColor: "#ffffff" },
 });
 const contentOf = (d: Draft) =>
-  JSON.stringify({ answers: d.answers, scene: d.scene });
+  JSON.stringify({
+    answers: d.answers,
+    scene: d.scene,
+    interest: d.interest ?? null,
+  });
 
 export default function Workshop() {
   const {
@@ -36,9 +56,10 @@ export default function Workshop() {
     careerId: cid,
     go,
     refresh,
-    requireAuth,
     registerNavigationGuard,
+    state,
   } = useApp();
+  const startingPoint = state.gaps[cid]?.startingPoint;
   const project = projectFor(cid);
   const [draft, setDraft] = useState<Draft | null>(null),
     [initialScene, setInitialScene] = useState<DrawingScene>(emptyScene);
@@ -48,9 +69,53 @@ export default function Workshop() {
   const [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [result, setResult] = useState<Artifact | null>(null);
-  const [interest, setInterest] = useState(3),
-    [revisions, setRevisions] = useState<Revision[]>([]),
+  const [revisions, setRevisions] = useState<Revision[]>([]),
     [historyOpen, setHistoryOpen] = useState(false);
+  const [panel, setPanel] = useState("brief");
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [authoringMode, setAuthoringMode] = useState<"cards" | "drawing">(
+    "cards",
+  );
+  const panelState = useRef({ panel, panelOpen });
+  panelState.current = { panel, panelOpen };
+  const beforeHelp = useRef<{ panel: string; panelOpen: boolean } | null>(null);
+  const editing = !!user && !!draft && !result;
+  useEffect(() => {
+    if (!editing) return;
+    const guide = (event: Event) => {
+      const step = (event as CustomEvent<{ step: string }>).detail?.step;
+      if (step === "close") {
+        if (beforeHelp.current) {
+          setPanel(beforeHelp.current.panel);
+          setPanelOpen(beforeHelp.current.panelOpen);
+          beforeHelp.current = null;
+        }
+        return;
+      }
+      if (!beforeHelp.current) beforeHelp.current = { ...panelState.current };
+      if (step === "brief" || step === "writing") {
+        setPanel(step);
+        setPanelOpen(true);
+        document.querySelector(".studio-panel-scroll")?.scrollTo(0, 0);
+      } else if (step === "tools" || step === "submit") setPanelOpen(false);
+    };
+    window.addEventListener("kingcareer:studio-help-step", guide);
+    return () =>
+      window.removeEventListener("kingcareer:studio-help-step", guide);
+  }, [editing]);
+  useEffect(() => {
+    if (!editing) return;
+    const previous = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = "hidden";
+    const firstButton = [...document.querySelectorAll<HTMLButtonElement>(".studio-topbar button")].find(button => button.getClientRects().length > 0);
+    firstButton?.focus({ preventScroll: true });
+    return () => {
+      document.body.style.overflow = previous;
+      if (previousFocus?.isConnected)
+        previousFocus.focus({ preventScroll: true });
+    };
+  }, [editing]);
   const current = useRef<Draft | null>(null),
     saved = useRef(""),
     pending = useRef<Promise<Draft> | null>(null);
@@ -78,13 +143,18 @@ export default function Workshop() {
     try {
       const response = await api<Draft>(`/projects/${cid}`);
       if (generation !== loadGeneration.current) return;
-      const value = { ...response, scene: response.scene || emptyScene() };
+      const value = {
+        ...response,
+        scene: response.scene || emptyScene(),
+        interest: response.interest ?? null,
+      };
       current.current = value;
       saved.current = contentOf(value);
       setDraft(value);
       setInitialScene(value.scene);
+      setAuthoringMode(preferredAuthoringMode(value.scene));
       setEpoch((e) => e + 1);
-      setStatus("서버 기록을 불러왔어요");
+      setStatus("저장한 초안을 불러왔어요");
     } catch (e) {
       if (generation === loadGeneration.current) {
         setError(errorMessage(e));
@@ -108,12 +178,13 @@ export default function Workshop() {
       if (!snapshot) throw new Error("프로젝트를 먼저 불러와 주세요.");
       if (saved.current === contentOf(snapshot)) return snapshot;
       if (mounted.current) {
-        setStatus("서버에 저장 중…");
+        setStatus("초안 저장 중…");
         setError("");
       }
       const body = {
         answers: snapshot.answers,
         scene: snapshot.scene,
+        interest: snapshot.interest,
         expectedVersion: snapshot.version,
       };
       const task = api<Draft>(
@@ -131,7 +202,7 @@ export default function Workshop() {
         if (mounted.current)
           setStatus(
             saved.current === contentOf(current.current!)
-              ? `서버 저장 완료 · 수정본 ${value.version}`
+              ? `초안 저장 완료 · 수정본 ${value.version}`
               : "추가 변경사항 저장 대기",
           );
       } catch (e) {
@@ -166,9 +237,7 @@ export default function Workshop() {
           await save();
           return true;
         } catch {
-          return window.confirm(
-            "저장에 실패한 변경사항이 있어요. 이 화면을 떠날까요? 취소하면 파일로 내려받거나 다시 저장할 수 있어요.",
-          );
+          return false;
         }
       }),
     [registerNavigationGuard, save],
@@ -206,7 +275,12 @@ export default function Workshop() {
     setError("");
     try {
       const value = await save();
-      const body = { expectedVersion: value.version, interest };
+      if (value.interest === null) {
+        setPanel("brief");
+        setPanelOpen(true);
+        throw new Error("이 직업이 어땠는지 관심도를 골라 주세요.");
+      }
+      const body = { expectedVersion: value.version, interest: value.interest };
       const activity = await api<Artifact>(
         `/projects/${cid}/submit`,
         json("POST", { ...body, clientRequestId: requestKey(body) }),
@@ -239,14 +313,19 @@ export default function Workshop() {
     setBusy(true);
     try {
       await save();
+      const detail = await api<Draft>(
+        `/projects/${cid}/revisions/${revision.version}`,
+      );
       const next = {
         ...current.current!,
-        answers: revision.answers,
-        scene: revision.scene || emptyScene(),
+        answers: detail.answers,
+        scene: detail.scene || emptyScene(),
+        interest: detail.interest ?? null,
       };
       current.current = next;
       setDraft(next);
       setInitialScene(next.scene);
+      setAuthoringMode(preferredAuthoringMode(next.scene));
       setEpoch((e) => e + 1);
       await save();
       setHistoryOpen(false);
@@ -287,16 +366,336 @@ export default function Workshop() {
         "application/json",
       );
   };
-  if (!user)
+  const openWriting = () => {
+    setPanel("writing");
+    setPanelOpen(true);
+    requestAnimationFrame(() => {
+      const missing = draft?.answers.findIndex(value => !writingReady(value)) ?? 0;
+      const target = document.querySelectorAll<HTMLElement>(".studio-writing-item")[Math.max(0, missing)];
+      target?.focus({ preventScroll: true });
+      target?.scrollIntoView({ block: "start", behavior: "auto" });
+    });
+  };
+  if (editing && draft)
     return (
-      <section className="kc-panel">
-        <h1>{project.title}</h1>
-        <p>{project.brief}</p>
-        <button className="kc-button" onClick={requireAuth}>
-          로그인하고 시작하기
-        </button>
-      </section>
+      <div className="studio-host">
+        <section className="kc-workshop kc-studio" aria-label="프로젝트 작업실">
+          <header className="studio-topbar kc-save-bar">
+            <button
+              className="kc-text-button"
+              onClick={() => go("projects")}
+              aria-label="프로젝트 목록으로"
+            >
+              <ArrowLeft size={18} />
+            </button>
+            <div className="studio-title">
+              <h1>{project.title}</h1>
+              <span role="status">{status}</span>
+            </div>
+            <button disabled={busy} onClick={() => void save().catch(() => {})}>
+              <Save size={16} /> 저장
+            </button>
+            <button
+              onClick={() =>
+                window.dispatchEvent(new Event("kingcareer:show-help"))
+              }
+            >
+              화면 안내
+            </button>
+            <button
+              className="kc-button"
+              data-help="studio-submit"
+              disabled={
+                busy ||
+                draft.interest === null ||
+                draft.answers.some((s) => !writingReady(s)) ||
+                !draft.scene?.elements.some((e) => !e.isDeleted)
+              }
+              onClick={() => void submit()}
+            >
+              {busy ? "제출 중…" : "제출하기"}
+            </button>
+          </header>
+          <div className="studio-errors">
+            {" "}
+            {error && (
+              <div className="kc-error" role="alert">
+                <p>{error}</p>
+                <button
+                  disabled={busy}
+                  onClick={() =>
+                    draft ? void save().catch(() => {}) : void load()
+                  }
+                >
+                  저장·연결 다시 시도
+                </button>
+                {draft && (
+                  <>
+                    <button onClick={backup}>입력한 내용 파일로 보관</button>
+                    <button
+                      disabled={busy}
+                      onClick={() => {
+                        if (
+                          confirm(
+                            "화면의 변경사항을 마지막으로 저장한 초안으로 바꿀까요? 필요하면 먼저 파일로 보관해 주세요.",
+                          )
+                        )
+                          void load();
+                      }}
+                    >
+                      저장한 초안 다시 불러오기
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="studio-body">
+            <div className="studio-canvas">
+              <div
+                className="studio-authoring-tools"
+                data-help="studio-tools"
+                role="group"
+                aria-label="결과물 작성 방식"
+              >
+                <span>아이디어 만들기</span>
+                {(
+                  [
+                    ["cards", "단계 카드로 만들기"],
+                    ["drawing", "자유롭게 그리기"],
+                  ] as const
+                ).map(([mode, label]) => (
+                  <button
+                    key={mode}
+                    disabled={busy}
+                    aria-pressed={authoringMode === mode}
+                    onClick={() => {
+                      if (mode === authoringMode) return;
+                      setInitialScene(current.current?.scene || emptyScene());
+                      setEpoch((value) => value + 1);
+                      setAuthoringMode(mode);
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <Suspense
+                fallback={
+                  <div className="kc-panel" role="status">
+                    설계 도구를 준비하는 중…
+                  </div>
+                }
+              >
+                {authoringMode === "cards" ? (
+                  <StepCardEditor
+                    key={epoch}
+                    initial={initialScene}
+                    onChange={draw}
+                    locked={busy}
+                    example={project.nodes[0] || "자료 확인하기"}
+                    careerId={cid}
+                    onWriting={openWriting}
+                  />
+                ) : (
+                  <DrawingBoard
+                    key={epoch}
+                    careerId={cid}
+                    initial={initialScene}
+                    onChange={draw}
+                    locked={busy}
+                  />
+                )}
+              </Suspense>
+            </div>
+            <aside
+              className={`studio-panel ${panelOpen ? "is-open" : ""}`}
+              aria-label="프로젝트 작업 도움"
+            >
+              <div className="studio-panel-heading">
+                <div
+                  className="studio-tabs"
+                  role="tablist"
+                  aria-label="작업 패널"
+                  onKeyDown={(event) => {
+                    const ids = ["brief", "writing", "coach"];
+                    let next = ids.indexOf(panel);
+                    if (event.key === "ArrowRight")
+                      next = (next + 1) % ids.length;
+                    else if (event.key === "ArrowLeft")
+                      next = (next + ids.length - 1) % ids.length;
+                    else if (event.key === "Home") next = 0;
+                    else if (event.key === "End") next = ids.length - 1;
+                    else return;
+                    event.preventDefault();
+                    setPanel(ids[next]);
+                    setPanelOpen(true);
+                    document.getElementById(`studio-tab-${ids[next]}`)?.focus();
+                  }}
+                >
+                  {[
+                    ["brief", "과제"],
+                    ["writing", "내 설명"],
+                    ["coach", "크랩 도움"],
+                  ].map(([id, label]) => (
+                    <button
+                      key={id}
+                      id={`studio-tab-${id}`}
+                      role="tab"
+                      tabIndex={panel === id ? 0 : -1}
+                      aria-selected={panel === id}
+                      aria-controls={`studio-panel-${id}`}
+                      onClick={() => {
+                        setPanel(id);
+                        setPanelOpen(true);
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  className="studio-panel-close"
+                  onClick={() => setPanelOpen(false)}
+                  aria-label="패널 접기"
+                >
+                  접기
+                </button>
+              </div>
+              <div className="studio-panel-scroll">
+                <div
+                  role="tabpanel"
+                  id="studio-panel-brief"
+                  aria-labelledby="studio-tab-brief"
+                  hidden={panel !== "brief"}
+                >
+                  {startingPoint && (
+                    <div className="diagnosis-guidance">
+                      <b>{startingPoint.label}</b>
+                      <p>
+                        {startingPoint.level === "challenge"
+                          ? "만들어본 경험을 살려 두 가지 개선안을 비교해 봐. 선택한 안의 근거와 효과를 확인할 방법까지 결과물에 담아보자."
+                          : startingPoint.level === "guided"
+                            ? "처음이라면 직무체험에서 본 물체 하나부터 그려봐. 발견한 문제, 바꿀 점, 확인할 방법을 차례로 채우면 돼."
+                            : "체험에서 선택했던 조치를 결과물로 이어가 보자. 배치도와 짧은 설명으로 개선 이유를 보여줘."}
+                      </p>
+                    </div>
+                  )}
+                  <ProjectBrief
+                    brief={project.brief}
+                    careerId={cid}
+                    answers={draft.answers}
+                    hasDrawing={
+                      !!draft.scene?.elements.some((e) => !e.isDeleted)
+                    }
+                    interest={draft.interest}
+                    busy={busy}
+                    onInterest={(interest) => update({ interest })}
+                    onWriting={openWriting}
+                    onSimulation={() => go("simulation", cid)}
+                    onHistory={() => void history()}
+                    onBackup={backup}
+                  />
+                  {historyOpen && (
+                    <div className="kc-revisions">
+                      <h3>저장된 수정 이력</h3>
+                      {revisions.length ? (
+                        revisions.map((r) => (
+                          <button
+                            key={r.version}
+                            disabled={busy}
+                            onClick={() => void restore(r)}
+                          >
+                            수정본 {r.version} ·{" "}
+                            {new Date(r.date).toLocaleString("ko-KR")} · 이
+                            내용으로 복원
+                          </button>
+                        ))
+                      ) : (
+                        <p>아직 저장된 수정본이 없어요.</p>
+                      )}
+                      <button onClick={() => setHistoryOpen(false)}>
+                        닫기
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <div
+                  role="tabpanel"
+                  id="studio-panel-writing"
+                  aria-labelledby="studio-tab-writing"
+                  hidden={panel !== "writing"}
+                >
+                  <div className="kc-writing-grid">
+                    {[
+                      {
+                        title: "01 · 발견한 문제",
+                        hint: "어떤 현장 자료에서 무엇이 불편하거나 위험하다고 느꼈나요?",
+                      },
+                      {
+                        title: "02 · 개선 제안과 근거",
+                        hint: "무엇을 어디에 바꿨고, 그렇게 설계한 이유는 무엇인가요?",
+                      },
+                      {
+                        title: "03 · 확인과 검증 계획",
+                        hint: "개선 효과를 어떤 수치와 관찰로 확인할 건가요? 남은 한계도 적어 봐요.",
+                      },
+                    ].map((item, i) => (
+                      <div className="studio-writing-item" key={i} tabIndex={-1}>
+                        <label htmlFor={`project-answer-${i}`}>
+                          {i === 0 && (
+                            <span
+                              className="studio-writing-heading"
+                              data-help="studio-writing"
+                            >
+                              아이디어를 짧게 설명해 봐
+                            </span>
+                          )}
+                          <strong>{item.title}</strong>
+                          <span>{project.hints[i] || item.hint}</span>
+                        </label>
+                          <GuidedWriting key={`${cid}-${epoch}-${i}`} careerId={cid} index={i} value={draft.answers[i]} disabled={busy} onChange={value => update({ answers: draft.answers.map((s, n) => n === i ? value : s) })} />
+                          <textarea
+                            id={`project-answer-${i}`}
+                            disabled={busy}
+                            maxLength={5000}
+                            value={draft.answers[i]}
+                            onChange={(e) =>
+                              update({
+                                answers: draft.answers.map((s, n) =>
+                                  n === i ? e.target.value : s,
+                                ),
+                              })
+                            }
+                            placeholder="내가 발견한 것부터 한 문장으로 적어봐."
+                          />
+                          <small className="writing-readiness" role="status">
+                            {hasWritingBlanks(draft.answers[i]) ? "아직 빈칸이 있어요. 내 생각으로 마저 채워줘요." : writingReady(draft.answers[i]) ? "설명을 적었어요. 내 생각과 맞는지 읽어봐요." : "예시를 보거나 두 칸으로 시작해 봐요. 설명은 10자 이상 적어요."}
+                          </small>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div
+                  role="tabpanel"
+                  id="studio-panel-coach"
+                  aria-labelledby="studio-tab-coach"
+                  hidden={panel !== "coach"}
+                >
+                  <ProjectCoach
+                    key={cid}
+                    careerId={cid}
+                    save={save}
+                    disabled={busy}
+                  />
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
     );
+  if (!user) return <CareerEntry mode="project" />;
   return (
     <section className="kc-workshop">
       <button className="kc-text-button" onClick={() => go("projects")}>
@@ -310,7 +709,7 @@ export default function Workshop() {
         </div>
         <img
           className="kc-guide-small"
-          src="/brand/01_mascots/mascot_04_project.png"
+          src={`/brand/12_career_kingcrabs/${cid}.png`}
           alt="프로젝트를 돕는 크랩"
         />
       </div>
@@ -331,13 +730,13 @@ export default function Workshop() {
                 onClick={() => {
                   if (
                     confirm(
-                      "화면의 변경사항을 서버 기록으로 바꿀까요? 필요하면 먼저 파일로 보관해 주세요.",
+                      "화면의 변경사항을 마지막으로 저장한 초안으로 바꿀까요? 필요하면 먼저 파일로 보관해 주세요.",
                     )
                   )
                     void load();
                 }}
               >
-                서버 기록 다시 불러오기
+                저장한 초안 다시 불러오기
               </button>
             </>
           )}
@@ -349,7 +748,7 @@ export default function Workshop() {
             src="/brand/08_badges/experience_badge_04.png"
             alt="개선 설계자 배지"
           />
-          <span className="kc-eyebrow">FIRST PORTFOLIO PIECE</span>
+          <span className="kc-eyebrow">나의 포트폴리오</span>
           <h2>생각이 결과물이 됐어요.</h2>
           <p>
             설계도와 세 가지 설명을 수정본별로 저장했어요. 개선 설계자 배지를
@@ -358,8 +757,8 @@ export default function Workshop() {
           <div className="kc-note">
             <strong>
               {result.evaluationStatus === "ai_feedback"
-                ? "Gemini 코치의 텍스트 피드백"
-                : "제출 완료 · AI 내용 평가 미연결"}
+                ? "AI 코치의 글 피드백"
+                : "프로젝트 제출 완료 · AI 피드백 없음"}
             </strong>
             <p>{result.feedback}</p>
             {result.observations?.map((s, i) => (
@@ -370,8 +769,13 @@ export default function Workshop() {
             </small>
           </div>
           <div className="kc-button-row">
-            <button className="kc-button" onClick={() => go("portfolio")}>
-              포트폴리오에서 보기 <ArrowRight size={18} />
+            <button
+              className="kc-button"
+              onClick={() =>
+                go("review", cid, undefined, { activityId: result.id })
+              }
+            >
+              경험 돌아보고 다음 활동 고르기 <ArrowRight size={18} />
             </button>
             <button
               disabled={busy || result.evaluationStatus === "ai_feedback"}
@@ -387,139 +791,6 @@ export default function Workshop() {
             </a>
           </div>
         </div>
-      ) : draft ? (
-        <>
-          <div className="kc-project-brief">
-            <strong>프로젝트 의뢰</strong>
-            <p>{project.brief}</p>
-            <span>예상 20–30분 · 설계도 + 개선 근거 + 확인 계획</span>
-            <button
-              className="kc-text-button"
-              onClick={() => go("simulation", cid)}
-            >
-              현장 체험으로 돌아가기
-            </button>
-          </div>
-          <div className="kc-save-bar">
-            <span role="status">
-              <Save size={16} /> {status}
-            </span>
-            <div>
-              <button
-                disabled={busy}
-                onClick={() => void save().catch(() => {})}
-              >
-                지금 저장
-              </button>
-              <button disabled={busy} onClick={() => void history()}>
-                수정 이력
-              </button>
-              <button onClick={backup}>
-                <Download size={15} /> 작업 백업
-              </button>
-            </div>
-          </div>
-          {historyOpen && (
-            <div className="kc-revisions">
-              <h3>저장된 수정 이력</h3>
-              {revisions.length ? (
-                revisions.map((r) => (
-                  <button
-                    key={r.version}
-                    disabled={busy}
-                    onClick={() => void restore(r)}
-                  >
-                    수정본 {r.version} ·{" "}
-                    {new Date(r.date).toLocaleString("ko-KR")} · 이 내용으로
-                    복원
-                  </button>
-                ))
-              ) : (
-                <p>아직 저장된 수정본이 없어요.</p>
-              )}
-              <button onClick={() => setHistoryOpen(false)}>닫기</button>
-            </div>
-          )}
-          <Suspense
-            fallback={
-              <div className="kc-panel" role="status">
-                설계 도구를 준비하는 중…
-              </div>
-            }
-          >
-            <DrawingBoard
-              key={epoch}
-              careerId={cid}
-              initial={initialScene}
-              onChange={draw}
-              locked={busy}
-            />
-          </Suspense>
-          <div className="kc-writing-grid">
-            {[
-              {
-                title: "01 · 발견한 문제",
-                hint: "어떤 현장 자료에서 무엇이 불편하거나 위험하다고 느꼈나요?",
-              },
-              {
-                title: "02 · 개선 제안과 근거",
-                hint: "무엇을 어디에 바꿨고, 그렇게 설계한 이유는 무엇인가요?",
-              },
-              {
-                title: "03 · 확인과 검증 계획",
-                hint: "개선 효과를 어떤 수치와 관찰로 확인할 건가요? 남은 한계도 적어 봐요.",
-              },
-            ].map((item, i) => (
-              <label key={i}>
-                <strong>{item.title}</strong>
-                <span>{project.hints[i] || item.hint}</span>
-                <textarea
-                  disabled={busy}
-                  maxLength={5000}
-                  value={draft.answers[i]}
-                  onChange={(e) =>
-                    update({
-                      answers: draft.answers.map((s, n) =>
-                        n === i ? e.target.value : s,
-                      ),
-                    })
-                  }
-                  placeholder="10자 이상으로 생각을 설명해 주세요."
-                />
-                <small>{draft.answers[i].trim().length}자</small>
-              </label>
-            ))}
-          </div>
-          <div className="kc-submit-bar">
-            <label>
-              프로젝트 후 관심도 · {interest}/5
-              <input
-                type="range"
-                min={1}
-                max={5}
-                value={interest}
-                disabled={busy}
-                onChange={(e) => setInterest(Number(e.target.value))}
-              />
-            </label>
-            <p>
-              제출은 작업물의 저장을 뜻해요. 내용 피드백은 AI 코치 연결 후 따로
-              요청할 수 있어요.
-            </p>
-            <button
-              className="kc-button"
-              disabled={
-                busy ||
-                draft.answers.some((s) => s.trim().length < 10) ||
-                !draft.scene?.elements.length
-              }
-              onClick={() => void submit()}
-            >
-              {busy ? "제출물 저장 중…" : "포트폴리오에 제출하기"}
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        </>
       ) : (
         <p role="status">{status}</p>
       )}

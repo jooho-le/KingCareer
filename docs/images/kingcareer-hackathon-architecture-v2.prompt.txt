@@ -1,0 +1,40 @@
+Generated using built-in image_gen.
+Create a professional enterprise SOFTWARE ARCHITECTURE DIAGRAM for a hackathon presentation, KingCareer. It is a graphic inserted in a slide. Landscape 16:9 high resolution, crisp Korean and English labels. Use a precise technical vector diagram aesthetic like polished cloud architecture diagrams, NOT a marketing infographic. White background, thin light gray container borders, navy typography, restrained solid orange #FF6A1F for custom application modules, blue #0967FF for frontend, purple #7C3AED for AI. NO gradients, no thick colored banner headers, no decorative quotes, no mascots, no ornamental shapes. Generous spacing, simple aligned modules, orthogonal connectors avoiding every label. Title small top left "KingCareer | System Architecture". Subtitle small "로컬 개발 구성". Show recognizable purpose-specific icons: browser window, server rack, connected graph nodes, document event, drawing canvas, wireframe cube, DATABASE CYLINDERS, and Gemini's recognizable four-point sparkle star in blue-purple solid segments beside Gemini API (do not use chat bubble or generic robot). Use actual technology names in readable typography instead of inventing logos.
+
+LAYOUT:
+Top row three distinct containers spaced apart.
+LEFT at x~4%-30%, y~18%-58% labelled "Client · React / TypeScript" with browser icon.
+Inside two side by side or stacked neat modules:
+wireframe cube icon "3D 직무체험" with "Three.js · React Three Fiber";
+drawing canvas icon "미니 프로젝트" with "Excalidraw".
+Bottom single line "경험지도 · 수료증 · 포트폴리오".
+CENTER at x~39%-70%, y~18%-58%, server rack icon label "Application Server · FastAPI".
+Inside a subtle orange outlined module badge "자체 구현" and main text "직무 시나리오 · 행동 검증".
+Next compact progression "조사 → 비교 → 조치 → 확인 → 회고".
+Lower line "LangGraph · 상태 전이 / 체크포인트".
+Bottom small "인증 · 세션 · 프로젝트 API".
+Bidirectional arrow CLIENT to SERVER, text "HTTP /api/v1".
+RIGHT at x~79%-96%, y~18%-45%, thin purple border label "External AI".
+Large Gemini sparkle star with text "Gemini API".
+Below "설명 · 질문 응답 · 코칭".
+Dashed bidirectional connector from application server to Gemini labelled "선택적 호출".
+
+BOTTOM:
+Left-center large container at x~9%-66%, y~68%-88%, header "Experience Gap Engine" with small orange badge "자체 구현".
+Three equal inner modules horizontally:
+document icon "xAPI 형식 기록" smaller "행동 · 제출 · 회고";
+graph icon "NetworkX" smaller "경험목표 · 기록 충족률";
+route icon "추천 로직" smaller "다음 활동 · 추천 근거".
+Connect in order with thin arrows.
+Route arrow from application server bottom to xAPI top via gap BETWEEN rows, labelled "검증된 활동 기록", no text crossing.
+Return path from recommendation to client via LEFT OUTSIDE edge of bottom engine, label "경험지도 / 추천", avoid crossing engine nodes.
+
+BOTTOM RIGHT at x~76%-96%, y~56%-91%: container label "Persistence & Reference Data".
+Two clearly separated database cylinder icons stacked with labels:
+blue cylinder "SQLite" below "계정 · 결과물 · 세션" and "체크포인트".
+purple cylinder "ESCO · O*NET" below "직업·역량·업무 스냅샷".
+SQLite bidirectional connection to application server, route through free vertical corridor to right of server, label "저장 / 조회".
+ESCO ONET one-way connector MUST ROUTE BELOW ALL BOTTOM MODULES at y~92%, then rise into BOTTOM of NetworkX module. Label "교육용 목표 연결" along lower horizontal route. It must NOT pass through recommendation box or any other box.
+Tiny footer at y97%: "기록 충족률은 직무 능력 점수가 아닙니다."
+Small legend top right or bottom left: orange stroke "자체 구현"; dashed stroke "외부 AI 호출".
+Keep spacing so lower route and footer do not overlap. Use large text for projection, concise labels exactly as specified. Professional icons with consistent 2px strokes, databases with real cylindrical silhouettes, Gemini with recognizable sparkle identity. Data is snapshot, not live API. No cloud deployment, GPU, Kubernetes, Docker, vector db, model training, AI image generation. Do not imply tests passed. Prioritize technical clarity and visual hierarchy over decorative color.

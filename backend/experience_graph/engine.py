@@ -5,6 +5,7 @@ visible but never treated as demonstrated skill or verified offline contact.
 """
 import networkx as nx
 from .mappings import CONTEXT
+from .starting_point import starting_point
 
 DIMENSIONS = ["직업 인식", "직무 이해", "활동 경험", "역량 이해", "학과 이해", "현직자 교류"]
 GOALS = [
@@ -109,7 +110,8 @@ class ExperienceGraph:
                                "unknown": not bool(ids), "evidenceCount": len(ids),
                                "missing": [label for key, label in goals if not recorded[key]],
                                "missingObjectiveIds": [key for key, _ in goals if not recorded[key]]})
-        return {"careerId": career_id, "scores": [d["coverage"] for d in dimensions],
+        return {"careerId": career_id, "startingPoint": starting_point(career_id, self.careers[career_id]["title"], relevant),
+                "scores": [d["coverage"] for d in dimensions],
                 "dimensions": dimensions, "evidence": relevant, "version": self.version,
                 "scoreMeaning": "교육용 목표의 기록 충족률입니다. 직무 능력·적성·이해도의 검증 점수가 아닙니다.",
                 "unavailableVerification": ["전공 조사 확인", "실제 현직자 교류 확인"]}
@@ -118,6 +120,10 @@ class ExperienceGraph:
         result = []
         for cid, report in reports.items():
             missing = {key for d in report["dimensions"] for key in d["missingObjectiveIds"]}
+            start = report.get("startingPoint")
+            preferred = start["firstActivity"] if start else None
+            if preferred and preferred + "_done" not in missing:
+                preferred = "project" if "project_done" in missing else "simulation" if "simulation_done" in missing else None
             for kind in ("simulation", "project", "discovery"):
                 # No activity in this MVP can verify offline mentor or major evidence.
                 candidates = [(key, label) for key, _, label, activity in GOALS
@@ -132,9 +138,13 @@ class ExperienceGraph:
                                 if self.graph.nodes[parent].get("kind") in {"task", "skill"}]
                 nodes = (source_paths[0] if source_paths else nx.shortest_path(self.graph, f"career:{cid}", goal)) + [self.goal_actions[goal]]
                 result.append({"careerId": cid, "kind": kind,
-                               "reason": f"{candidates[0][1]}이 아직 없어 이 활동을 제안해요.",
+                               "reason": (start["reason"] if kind == preferred and preferred == start["firstActivity"]
+                                          else "앞선 활동을 마쳤으니 다음 경험으로 이어가 보자." if kind == preferred else "")
+                                         + f" {candidates[0][1]}이 아직 없어 이 활동을 제안해요.",
+                               "startingPoint": start,
                                "missingObjectives": [label for _, label in candidates],
                                "path": [self.graph.nodes[node].get("labelKo", self.graph.nodes[node]["label"]) for node in nodes],
                                "sourcePath": source_paths[0] if source_paths else [],
-                               "priority": len(candidates) + (3 if self.careers[cid]["field"] in profile_interests else 0)})
+                               "priority": len(candidates) + (20 if kind == preferred else 0)
+                                           + (3 if self.careers[cid]["field"] in profile_interests else 0)})
         return sorted(result, key=lambda item: (-item["priority"], item["careerId"], item["kind"]))

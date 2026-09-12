@@ -4,6 +4,7 @@ import { useApp } from "../store";
 import type { Achievements, Certificate } from "./types";
 import { downloadFile } from "./types";
 import "./fieldwork.css";
+import "./simulation-feedback.css";
 
 const art = {
   farmer: "smartfarm",
@@ -24,6 +25,10 @@ const escape = (s: string) =>
         "'": "&apos;",
       })[c]!,
   );
+const wrapText = (text: string, size = 18) => {
+  const chars = Array.from(text);
+  return Array.from({ length: Math.ceil(chars.length / size) }, (_, i) => chars.slice(i * size, (i + 1) * size).join(""));
+};
 async function imageData(path: string): Promise<string> {
   const response = await fetch(path);
   if (!response.ok) throw new Error("캐릭터 이미지를 불러오지 못했어요.");
@@ -38,12 +43,13 @@ async function imageData(path: string): Promise<string> {
 export function CertificateCard({ certificate }: { certificate: Certificate }) {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+  const crabPath = `/brand/12_career_kingcrabs/${certificate.careerId}.png`;
   const imagePath = `/brand/05_career_illustrations/${art[certificate.careerId]}.png`;
   const exportCard = async () => {
     setBusy(true);
     setError("");
     try {
-      const png = await imageData("/brand/01_mascots/mascot_06_celebrate.png");
+      const png = await imageData(crabPath);
       const occupation = await imageData(imagePath);
       const badgeImages = await Promise.all(
         certificate.badges.map((b) =>
@@ -54,8 +60,11 @@ export function CertificateCard({ certificate }: { certificate: Certificate }) {
         420,
         Array.from(certificate.name).length * 27,
       );
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="720" viewBox="0 0 900 720">
-        <rect width="900" height="720" rx="32" fill="#F6F5F1"/><rect width="900" height="16" fill="#FF6A1F"/>
+      const badgeReasons = certificate.badges.map((badge) => wrapText(badge.earnedReason || badge.description));
+      const badgeHeight = 76 + Math.max(1, ...badgeReasons.map((lines) => lines.length)) * 20;
+      const cardHeight = 540 + badgeHeight + 100;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="${cardHeight}" viewBox="0 0 900 ${cardHeight}">
+        <rect width="900" height="${cardHeight}" rx="32" fill="#F6F5F1"/><rect width="900" height="16" fill="#FF6A1F"/>
         <circle cx="745" cy="160" r="72" fill="#0967FF"/>
         <image href="${png}" x="510" y="180" width="340" height="340"/>
         <circle cx="785" cy="460" r="60" fill="white" stroke="#0967FF" stroke-width="3"/>
@@ -67,9 +76,9 @@ export function CertificateCard({ certificate }: { certificate: Certificate }) {
           <text x="52" y="295" font-size="27" textLength="${nameLength}" lengthAdjust="spacingAndGlyphs">${escape(certificate.name)}</text>
           <text x="52" y="334" font-size="17">${escape(new Date(certificate.date).toLocaleDateString("ko-KR"))}</text>
           <text x="52" y="395" font-size="17">${escape(certificate.summary)}</text>
-          ${certificate.badges.map((b, i) => `<rect x="${52 + i * 263}" y="540" width="250" height="74" rx="18" fill="#ede5fa"/><image href="${badgeImages[i]}" x="${61 + i * 263}" y="550" width="52" height="52"/><text x="${119 + i * 263}" y="582" font-size="15">${escape(b.name)}</text>`).join("")}
-          <text x="52" y="658" font-size="14">KingCareer 교육용 직무체험 기록 · 자격증이나 직무 능력 인증이 아닙니다.</text>
-          <text x="52" y="690" font-size="12" fill="#727782">기록 ${escape(certificate.id)}</text>
+          ${certificate.badges.map((b, i) => `<rect x="${52 + i * 263}" y="540" width="250" height="${badgeHeight}" rx="18" fill="#ede5fa"/><image href="${badgeImages[i]}" x="${61 + i * 263}" y="550" width="52" height="52"/><text x="${119 + i * 263}" y="582" font-size="15">${escape(b.name)}</text>${badgeReasons[i].map((line, n) => `<text x="${64 + i * 263}" y="${620 + n * 20}" font-size="12">${escape(line)}</text>`).join("")}`).join("")}
+          <text x="52" y="${cardHeight - 62}" font-size="14">KingCareer 교육용 직무체험 기록 · 자격증이나 직무 능력 인증이 아닙니다.</text>
+          <text x="52" y="${cardHeight - 30}" font-size="12" fill="#727782">기록 ${escape(certificate.id)}</text>
         </g></svg>`;
       downloadFile(
         "KingCareer-수료카드.svg",
@@ -94,15 +103,15 @@ export function CertificateCard({ certificate }: { certificate: Certificate }) {
         <p className="kc-certificate-name">{certificate.name}</p>
         <p>{new Date(certificate.date).toLocaleDateString("ko-KR")}</p>
         <p>{certificate.summary}</p>
-        <div className="kc-badges">
+        <div className="kc-earned-badges">
           {certificate.badges.map((b) => (
-            <span key={b.id} title={b.description}>
+            <div key={b.id} className="kc-earned-badge">
               <img
                 src={`/brand/08_badges/experience_badge_${b.art}.png`}
                 alt=""
               />
-              {b.name}
-            </span>
+              <div><strong>{b.name}</strong><p>{b.earnedReason || b.description}</p></div>
+            </div>
           ))}
         </div>
         <small>
@@ -121,7 +130,7 @@ export function CertificateCard({ certificate }: { certificate: Certificate }) {
       <div className="kc-certificate-art-wrap">
         <img
           className="kc-certificate-art"
-          src="/brand/01_mascots/mascot_06_celebrate.png"
+          src={crabPath}
           alt="수료를 축하하는 크랩 캐릭터"
         />
         <img
@@ -177,7 +186,7 @@ export function AwardsShelf({ activityId }: { activityId?: string }) {
       {!activityId && (
         <div className="kc-badge-grid">
           {data.availableBadges.map((b) => {
-            const earned = data.badges.some((x) => x.id === b.id);
+            const earned = data.badges.find((x) => x.id === b.id);
             return (
               <article key={b.id} className={earned ? "" : "is-locked"}>
                 <img
@@ -185,7 +194,7 @@ export function AwardsShelf({ activityId }: { activityId?: string }) {
                   alt=""
                 />
                 <strong>{b.name}</strong>
-                <p>{b.description}</p>
+                <p>{earned?.earnedReason || b.description}</p>
                 <small>{earned ? "획득했어요" : "아직 만나지 않은 배지"}</small>
               </article>
             );

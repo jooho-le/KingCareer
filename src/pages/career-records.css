@@ -1,0 +1,17 @@
+.career-records { max-width: 860px; display: grid; gap: 20px; }
+.career-records-list { background: #fff; border: 1px solid #e7e3ed; border-radius: 22px; padding: 24px; }
+.career-records-list header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.career-records-list h2 { margin: 0; font-size: 21px; }
+.career-records button { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font: inherit; }
+.career-records-list button { background: transparent; border: 0; color: #0967FF; padding: 8px 0; }
+.career-records button:focus-visible { outline: 3px solid #0967FF; outline-offset: 4px; }
+.career-records-list ul { list-style: none; padding: 0; margin: 16px 0 0; }
+.career-records-list li { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-top: 1px solid #efedf2; }
+.career-records-list img { object-fit: contain; flex-shrink: 0; }
+.career-records-list li > div { flex: 1; min-width: 0; }
+.career-records-list h3 { margin: 0; font-size: 17px; }
+.career-records-list p { margin: 5px 0 0; color: #646574; font-size: 15px; line-height: 1.6; }
+.career-records-list time { color: #737480; font-size: 13px; }
+.career-records-empty { padding: 24px 0 0; }
+.career-records > .review-map-card { padding: 24px; border-radius: 22px; }
+@media (max-width: 540px) { .career-records-list, .career-records > .review-map-card { padding: 18px; } .career-records-list li { flex-wrap: wrap; } .career-records-list time { width: 100%; padding-left: 70px; } .career-records-list header { flex-wrap: wrap; } }

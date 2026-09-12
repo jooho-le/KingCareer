@@ -415,7 +415,7 @@ function Room({
   const spots = layouts[cid];
   const moving = useRef<Group>(null),
     rotor = useRef<Group>(null);
-  const effect = field.action?.id;
+  const effect = field.visual?.action || field.action?.id;
   useFrame(({ clock }, delta) => {
     if (moving.current) {
       const target =
@@ -553,7 +553,7 @@ export default function WorkplaceScene(props: {
       dpr={[1, props.quality === "balanced" ? 1.25 : 2]}
       gl={{
         antialias: true,
-        powerPreference: "high-performance",
+        powerPreference: props.quality === "balanced" ? "low-power" : "high-performance",
         toneMapping: ACESFilmicToneMapping,
         outputColorSpace: SRGBColorSpace,
       }}

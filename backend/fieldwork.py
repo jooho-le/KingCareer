@@ -72,7 +72,8 @@ OPTIONS = {
 def present(session):
     if "fieldwork" in session:
         session["mode"] = "template"
-        session["fieldwork"]["options"] = options_for(session["careerId"], OPTIONS) if session["careerId"] in WORKPLACES else OPTIONS
+        # Never replace a saved variant's options with the original incident.
+        session["fieldwork"].setdefault("options", options_for(session["careerId"], OPTIONS, session["fieldwork"].get("presentation")) if session["careerId"] in WORKPLACES else OPTIONS)
         session["coachMode"] = "ai" if AI_MODE == "ai" else "template"
     return session
 
@@ -84,9 +85,9 @@ def choice_text(kind, choice_id):
     return option["label"]
 
 
-def initial_fieldwork(cid="farmer"):
+def initial_fieldwork(cid="farmer", presentation=None):
     if cid in WORKPLACES:
-        return initial_workplace(cid, OPTIONS)
+        return initial_workplace(cid, OPTIONS, presentation)
     return {"schema": "smartfarm-v1", "phase": "inspect", "minutes": 75, "budget": 100,
             "inspected": [], "objects": OBJECTS, "actions": ACTIONS, "comparison": "", "action": None,
             "verification": "", "handover": "", "temperature": 33, "log": [], "ending": None, "options": OPTIONS}
@@ -135,11 +136,22 @@ def advance(session, command):
         if phase != "verify":
             raise HTTPException(409, "조치 결과를 먼저 확인해 주세요.")
         field.update(verification=text, phase="handover")
-        field["minutes"] -= 10
-        response = f"10분 뒤 가상 재측정도 {field['temperature']}°C예요. 관찰 결과와 남은 일을 다음 교대자에게 전해 주세요."
         lesson = "한 번의 수치보다 추세와 미해결 과제를 함께 기록해요."
         if command["optionId"] == "done":
-            response = "확인 없이 끝내면 남은 문제를 놓칠 수 있어요. 이번에는 코치가 재측정을 도왔어요. " + response
+            response = "재측정을 생략했어요. 현재 온도는 조치 직후의 기록이며 안정적으로 유지되는지는 아직 몰라요."
+            remaining = ["온도·수분 다시 측정", "자동 환기 설정 확인"]
+            status = "unverified"
+        else:
+            field["minutes"] -= 10
+            response = f"10분 뒤 가상 재측정도 {field['temperature']}°C예요. "
+            if command["optionId"] == "more":
+                response += "장치 설정도 확인했어요. "
+            remaining = {"ventilate": ["다음 시간대 온도 추세 확인"],
+                         "water": ["환기 설정 복구 검토", "높아진 토양 수분 추적 관찰"],
+                         "escalate": ["자동 환기 복구 여부 확인", "목표 온도 도달 여부 재측정"]}[field["action"]["id"]]
+            status = "rechecked"
+        field["verificationOutcome"] = {"status": status, "finding": response, "remaining": remaining}
+        response += " 남은 일: " + " · ".join(remaining)
     elif kind == "handover":
         if phase != "handover":
             raise HTTPException(409, "결과를 재확인한 뒤 인계를 작성해 주세요.")
@@ -152,6 +164,13 @@ def advance(session, command):
             "water": "원인 재검토 · 추가 점검으로 인계",
             "escalate": "담당자 협업 · 설정 확인으로 인계",
         }[field["action"]["id"]])
+        verification = field.get("verificationOutcome")
+        if verification:
+            if command["optionId"] in {"full", "ask"}:
+                text += " 남은 일: " + " · ".join(verification["remaining"])
+                field["handover"] = text
+            if verification["status"] == "unverified":
+                field["ending"] = "재측정 보류 · 다음 교대에 확인 필요"
         session["stage"] = "reflection"
         response, lesson = "교대 업무를 마쳤어요. 이번 경험이 나와 어떻게 맞았는지 돌아볼까요?", "해결되지 않은 일도 정확히 인계하면 다음 판단에 도움이 돼요."
     else:
@@ -175,4 +194,12 @@ def completion_badges(session):
         "reasoner": [f"simulation:{session['id']}:field:{kind}:" for kind in ("compare", "act")],
         "handover": [f"simulation:{session['id']}:field:{kind}:" for kind in ("verify", "handover")],
     }
-    return [{**BADGES[key], "evidenceSources": sources[key], "criteriaVersion": session["fieldwork"]["schema"]} for key in ids]
+    names = [obj["name"] for obj in field["objects"] if obj["id"] in field["inspected"]]
+    reasons = {
+        "observer": f"{len(names)}곳 조사 · " + ", ".join(names[:2]) + (f" 외 {len(names) - 2}곳" if len(names) > 2 else ""),
+        "reasoner": "가설을 세우고 ‘" + (field.get("action") or {}).get("name", "조치") + "’의 이유를 골랐어요.",
+        "handover": "확인 방법과 동료에게 전달할 내용을 직접 골랐어요.",
+    }
+    if field.get("verificationOutcome", {}).get("status") == "unverified":
+        reasons["handover"] = "재확인 보류 선택과 인계 내용을 기록했어요. 재확인은 아직 남아 있어요."
+    return [{**BADGES[key], "earnedReason": reasons[key], "evidenceSources": sources[key], "criteriaVersion": session["fieldwork"]["schema"]} for key in ids]

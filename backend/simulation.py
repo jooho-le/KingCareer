@@ -12,7 +12,7 @@ from fastapi import HTTPException
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.sqlite import SqliteSaver
 from .catalog import career
-from .workplaces import WORKPLACES
+from .workplaces import WORKPLACES, scenario_for
 from .config import AI_MODE, DATA_DIR
 from .db import WRITE_LOCK, transaction
 from .inference import provider
@@ -26,6 +26,50 @@ class GraphState(TypedDict):
 
 def dispatch(state):
     return state["command"]["kind"]
+
+
+def prepare_command(canonical, command):
+    """Generate against a read snapshot, before the caller acquires a write lock.
+
+    The caller must recheck ownership, expectedVersion and request replay under
+    its transaction before committing. These private fields never come from the
+    API model and are not stored in the idempotency request fingerprint.
+    """
+    prepared = deepcopy(command)
+    kind = command["kind"]
+    if canonical.get("coachMode", canonical["mode"]) != "ai":
+        return prepared
+    source = career(canonical["careerId"])
+    if kind == "question":
+        if canonical["stage"] != "play":
+            raise HTTPException(409, "진행 중인 직무 상황에서 질문할 수 있어요.")
+        question = command.get("text", "").strip()
+        if not question:
+            raise HTTPException(422, "궁금한 점을 적어 주세요.")
+        context = {"career": source["title"], "scenario": canonical["scenario"],
+                   "question": question, "fieldwork": canonical.get("fieldwork")}
+    elif kind in {"choice", "free"} and "fieldwork" not in canonical:
+        if canonical["stage"] != "play" or canonical["response"] is not None:
+            raise HTTPException(409, "현재 상황의 결과를 확인한 뒤 다음으로 이동해 주세요.")
+        if kind == "choice":
+            index = command.get("choiceIndex")
+            if index is None or not 0 <= index < len(canonical["scenario"]["choices"]):
+                raise HTTPException(422, "선택지를 골라 주세요.")
+            answer = canonical["scenario"]["choices"][index]
+        else:
+            answer = command.get("text", "").strip()
+            if not answer:
+                raise HTTPException(422, "답변을 적어 주세요.")
+        context = {"career": source["title"], "scenario": canonical["scenario"], "answer": answer}
+    else:
+        return prepared
+    try:
+        generated = provider().generate(context)
+    except Exception as error:
+        raise HTTPException(503, "AI 응답을 받지 못했어요. 입력과 이전 진행 상태는 유지돼요. 다시 시도해 주세요.") from error
+    prepared["_generatedReply"] = generated.response
+    prepared["_generatedLesson"] = generated.lesson
+    return prepared
 
 
 def apply_command(state: GraphState):
@@ -52,7 +96,7 @@ def apply_command(state: GraphState):
             raise HTTPException(409, "현재 상황의 결과를 확인한 뒤 다음으로 이동해 주세요.")
         if kind == "choice":
             choice = command.get("choiceIndex")
-            if choice is None or choice >= len(scenario["choices"]):
+            if choice is None or not 0 <= choice < len(scenario["choices"]):
                 raise HTTPException(422, "선택지를 골라 주세요.")
             answer = scenario["choices"][choice]
             response = source["scenarios"][session["step"]]["responses"][choice]
@@ -63,17 +107,10 @@ def apply_command(state: GraphState):
                 raise HTTPException(422, "답변을 적어 주세요.")
             response = "답변을 기록했어요. 지금은 준비된 시나리오 모드라 자유 답변의 내용을 평가하지 않아요. 다음 상황에서 다른 관점도 살펴보세요."
             lesson = source["scenarios"][session["step"]]["lesson"]
-        if session.get("fieldwork", {}).get("presentation"):
-            field = session["fieldwork"]
-            reply = "준비된 학습 안내: " + field["presentation"]["brief"] + " 서로 다른 기록을 비교하고, 조치 뒤 같은 조건에서 결과를 확인해 봐요."
-            if field.get("action"):
-                reply += " 선택한 조치의 결과: " + field["action"]["result"]
         if session.get("coachMode", session["mode"]) == "ai":
-            try:
-                generated = provider().generate({"career": source["title"], "scenario": scenario, "answer": answer})
-                response, lesson = generated.response, generated.lesson
-            except Exception as error:
-                raise HTTPException(503, "AI 응답을 받지 못했어요. 입력과 이전 진행 상태는 유지돼요. 다시 시도해 주세요.") from error
+            if "_generatedReply" not in command:
+                raise HTTPException(503, "AI 응답을 준비하지 못했어요. 이전 진행 상태는 유지돼요.")
+            response, lesson = command["_generatedReply"], command["_generatedLesson"]
         result = {"answer": answer, "response": response, "lesson": lesson}
         session["turns"].append(result)
         session["response"] = result
@@ -91,11 +128,9 @@ def apply_command(state: GraphState):
             if field.get("action"):
                 reply += " 선택한 조치의 결과: " + field["action"]["result"]
         if session.get("coachMode", session["mode"]) == "ai":
-            try:
-                reply = provider().generate({"career": source["title"], "scenario": scenario, "question": text,
-                                             "fieldwork": session.get("fieldwork")}).response
-            except Exception as error:
-                raise HTTPException(503, "AI 응답을 받지 못했어요. 질문을 유지한 채 다시 시도해 주세요.") from error
+            if "_generatedReply" not in command:
+                raise HTTPException(503, "AI 응답을 준비하지 못했어요. 질문을 유지한 채 다시 시도해 주세요.")
+            reply = command["_generatedReply"]
         session.setdefault("questions", []).append({"question": text, "reply": reply, "step": session["step"]})
         session["questionReply"] = reply
     elif kind == "continue":
@@ -162,11 +197,12 @@ class SimulationEngine:
         self.connection.close()
 
 
-def new_session(session_id, cid):
-    scenario = {"title": WORKPLACES[cid]["title"], "text": WORKPLACES[cid]["brief"], "choices": []} if cid in WORKPLACES else career(cid)["scenarios"][0]
+def new_session(session_id, cid, completed_count=0):
+    presentation = scenario_for(cid, completed_count) if cid in WORKPLACES else None
+    scenario = {"title": presentation["title"], "text": presentation["brief"], "choices": []} if presentation else career(cid)["scenarios"][0]
     return {"id": session_id, "careerId": cid, "mode": "ai" if AI_MODE == "ai" else "template",
             "stage": "brief", "step": 0, "version": 0,
             "scenario": ({"title": "온실의 아침을 부탁해", "text": "가상의 김제 토마토 온실 A구역 과열을 조사하고 조치한 뒤 재측정하고 인계한다. 모든 수치와 결과는 교육용 가상 상황이다.", "choices": []}
                          if cid == "farmer" else {key: scenario[key] for key in ("title", "text", "choices")}),
             "turns": [], "questions": [], "response": None,
-            "fieldwork": initial_fieldwork(cid)}
+            "fieldwork": initial_fieldwork(cid, presentation=presentation)}

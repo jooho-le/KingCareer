@@ -8,9 +8,12 @@ import type {
   SourceReference,
 } from "./data";
 
+export type RouteOptions = { activityId?: string; sessionId?: string };
 export type Store = {
   state: AppState;
-  go: (page: Page, career?: CareerId) => void;
+  go: (page: Page, career?: CareerId, tab?: string, options?: RouteOptions) => void;
+  activityId?: string;
+  sessionId?: string;
   careerId: CareerId;
   setCareerId: (id: CareerId) => void;
   toast: (message: string) => void;
@@ -23,10 +26,14 @@ export type Store = {
   requireAuth: () => boolean;
   completeAuth: () => Promise<void>;
   clearUser: () => void;
+  logout: () => Promise<void>;
+  loggingOut: boolean;
   catalog: (Career & { sources?: SourceReference[] })[];
   onboardingInterests: string[];
   setOnboardingInterests: (interests: string[]) => void;
-  registerNavigationGuard: (guard: () => Promise<boolean>) => () => void;
+  registerNavigationGuard: (
+    guard: (reason?: "navigate" | "logout") => Promise<boolean>,
+  ) => () => void;
   search: string;
   setSearch: (value: string) => void;
 };

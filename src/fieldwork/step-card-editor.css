@@ -1,0 +1,215 @@
+.kc-refresh .kc-studio .studio-canvas {
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #e1dce9;
+  border-radius: 16px;
+  background: #fff;
+}
+.studio-authoring-tools {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #ebe7f0;
+  background: #fff;
+}
+.studio-authoring-tools > span {
+  color: #5d5568;
+  font-size: 14px;
+  margin-right: auto;
+}
+.kc-refresh .kc-studio .studio-canvas > .kc-editor-panel {
+  flex: 1;
+  border: 0;
+  border-radius: 0;
+}
+.step-editor .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.kc-refresh .kc-studio .studio-authoring-tools button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #51465e;
+  background: #fff;
+  border: 1px solid #ded9e5;
+}
+.kc-refresh .kc-studio .studio-authoring-tools button[aria-pressed="true"] {
+  border-color: #7c3aed;
+  color: #6730c2;
+  background: #f3edff;
+  font-weight: 700;
+}
+.kc-refresh .kc-studio .step-editor {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 24px clamp(16px, 4vw, 48px);
+}
+.step-editor > header,
+.step-card-list,
+.step-editor .step-add,
+.step-editor-footnote {
+  width: 100%;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.kc-refresh .step-editor h2 {
+  font-size: 22px;
+  margin: 0 0 8px;
+  color: #2c2636;
+}
+.step-editor header p {
+  color: #655e70;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+.step-layout-note { display: block; margin: -8px 0 22px; color: #73697e; font-size: 14px; line-height: 1.6; }
+.step-card-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+.step-card-list li {
+  min-width: 0;
+}
+.step-card-list fieldset {
+  padding: 18px;
+  border: 1px solid #dcd5e6;
+  border-radius: 14px;
+  min-width: 0;
+  background: #fff;
+}
+.step-card-list legend {
+  padding: 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #4e3a6a;
+}
+.step-card-list legend span {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 4px;
+  background: #ede5fb;
+  border-radius: 8px;
+}
+.step-card-list label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #453b50;
+}
+.step-card-list label + label {
+  margin-top: 14px;
+}
+.step-card-list label small {
+  font-size: 14px;
+  font-weight: 400;
+  color: #73697e;
+}
+.kc-refresh .kc-studio .step-card-list input,
+.kc-refresh .kc-studio .step-card-list textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  color: #292433;
+  background: #faf9fc;
+  border: 1px solid #dcd5e6;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.6;
+  resize: vertical;
+}
+.step-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.kc-refresh .kc-studio .step-card-actions button {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid #e4dfeb;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: #61536f;
+}
+.step-card-actions button:last-child {
+  margin-left: auto;
+}
+.kc-refresh .kc-studio .step-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  border: 1px dashed #9e85ba;
+  border-radius: 10px;
+  color: #61379a;
+  background: #faf7ff;
+  font-size: 15px;
+}
+.step-add span {
+  font-size: 14px;
+  color: #71607f;
+}
+.step-editor-footnote {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #73697e;
+  margin-top: 16px;
+}
+.step-editor :is(input, textarea, button):focus-visible,
+.studio-authoring-tools button:focus-visible {
+  outline: 3px solid #0967ff;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .studio-authoring-tools {
+    gap: 6px;
+    padding: 8px;
+  }
+  .studio-authoring-tools > span {
+    display: none;
+  }
+  .kc-refresh .kc-studio .studio-authoring-tools button {
+    flex: 1;
+    padding: 8px 6px;
+  }
+  .kc-refresh .kc-studio .step-editor {
+    padding: 18px 12px;
+  }
+  .kc-refresh .step-editor h2 {
+    font-size: 20px;
+  }
+  .step-card-list fieldset {
+    padding: 12px;
+  }
+}

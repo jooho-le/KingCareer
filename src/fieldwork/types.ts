@@ -19,6 +19,12 @@ export type FarmAction = {
 };
 export type Fieldwork = {
   presentation?: Workplace;
+  incidentId?: string;
+  verificationOutcome?: {
+    status: "unverified" | "rechecked" | "shared";
+    finding: string;
+    remaining: string[];
+  };
   metricValue?: number;
   options: Record<string, { id: string; label: string }[]>;
   visual?: {
@@ -52,6 +58,7 @@ export type Badge = {
   id: string;
   name: string;
   description: string;
+  earnedReason?: string;
   art: string;
 };
 export type Certificate = {

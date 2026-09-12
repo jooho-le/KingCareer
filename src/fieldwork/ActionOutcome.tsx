@@ -34,7 +34,7 @@ export default function ActionOutcome({ field }: { field: Fieldwork }) {
         </span>
       </div>
       <div>
-        <span className="kc-eyebrow">MY ACTION → WHAT CHANGED</span>
+        <span className="kc-eyebrow">내 조치로 달라진 점</span>
         <h3>{field.action.name}</h3>
         {workplace ? (
           <div className="kc-reading-change">
@@ -66,6 +66,23 @@ export default function ActionOutcome({ field }: { field: Fieldwork }) {
           </div>
         )}
         <p>{field.action.result}</p>
+        {field.verificationOutcome && (
+          <div
+            className={`kc-verification-outcome ${field.verificationOutcome.status === "unverified" ? "is-pending" : ""}`}
+          >
+            <strong>
+              {field.verificationOutcome.status === "unverified"
+                ? "아직 확인하지 않은 일"
+                : "다시 확인하고 발견한 일"}
+            </strong>
+            <p>{field.verificationOutcome.finding}</p>
+            <ul>
+              {field.verificationOutcome.remaining.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <small>
           선택한 조치를 재현한 모습이에요. 장면과 수치는 저장된 결과를 보여줘요.
         </small>

@@ -1,4 +1,4 @@
-import type { CareerId } from "./data";
+import type { CareerId, StartingPoint } from "./data";
 
 export class ApiError extends Error {
   constructor(
@@ -84,6 +84,7 @@ export type SimulationTurn = {
   lesson: string;
 };
 export type SimulationSession = {
+  startingPoint?: StartingPoint | null;
   id: string;
   careerId: CareerId;
   mode: "template" | "ai";

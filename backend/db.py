@@ -1,5 +1,5 @@
 """SQLite transactional store. Start one uvicorn worker; writes are serialized."""
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from datetime import datetime, timezone
 import json
 import sqlite3
@@ -42,7 +42,7 @@ def transaction():
 
 def initialize():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    with connect() as con:
+    with closing(connect()) as con, con:
         con.execute("PRAGMA journal_mode=WAL")
         con.execute("CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)")
         applied = {row[0] for row in con.execute("SELECT version FROM schema_migrations")}

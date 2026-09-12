@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Excalidraw,
   MainMenu,
@@ -14,7 +14,7 @@ import type { DrawingScene } from "./types";
 import { downloadFile } from "./types";
 
 import type { CareerId } from "../data";
-import { projectFor } from "./workplaces";
+import { projectTemplate } from "./project-templates";
 export default function DrawingBoard({
   initial,
   careerId = "farmer",
@@ -31,6 +31,14 @@ export default function DrawingBoard({
   const [libraryBusy, setLibraryBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const libraryFile = useRef<HTMLInputElement>(null);
+  const canvasHost = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const host = canvasHost.current;
+    if (!host) return;
+    const containWheel = (event: WheelEvent) => { event.preventDefault(); };
+    host.addEventListener("wheel", containWheel, { passive: false });
+    return () => host.removeEventListener("wheel", containWheel);
+  }, []);
   const importLibrary = async (file?: File) => {
     if (!editor || libraryBusy) return;
     setLibraryBusy(true);
@@ -88,42 +96,7 @@ export default function DrawingBoard({
     )
       return;
     if (careerId !== "farmer") {
-      const project = projectFor(careerId);
-      const elements = convertToExcalidrawElements([
-        {
-          type: "text",
-          x: 80,
-          y: 60,
-          text: project.title,
-          fontSize: 26,
-          strokeColor: "#262938",
-        },
-        ...project.nodes.map((label, i) => ({
-          type: "rectangle" as const,
-          x: 80 + i * 210,
-          y: 180,
-          width: 170,
-          height: 100,
-          backgroundColor: ["#ffe1ce", "#e6d6ff", "#d6e7ff", "#ffe1ce"][i],
-          fillStyle: "solid" as const,
-          label: { text: label },
-        })),
-        ...[0, 1, 2].map((i) => ({
-          type: "arrow" as const,
-          x: 253 + i * 210,
-          y: 230,
-          width: 32,
-          height: 0,
-        })),
-        {
-          type: "text",
-          x: 80,
-          y: 340,
-          text: "연결, 배치, 안내를 바꾸고 나만의 해결 방법을 추가해 보세요.",
-          fontSize: 18,
-          strokeColor: "#5c6570",
-        },
-      ]);
+      const elements = projectTemplate(careerId);
       editor.updateScene({ elements });
       editor.scrollToContent();
       return;
@@ -209,7 +182,7 @@ export default function DrawingBoard({
     }
   };
   return (
-    <>
+    <section className="kc-editor-panel" aria-label="프로젝트 설계 도구">
       <div className="kc-board-tools">
         <button disabled={locked || !editor} onClick={seed}>
           {careerId === "farmer"
@@ -225,49 +198,52 @@ export default function DrawingBoard({
         <span>도형·화살표·글자로 표현해 봐요.</span>
       </div>
       {!locked && (
-        <div className="kc-library-tools">
-          <button
-            disabled={!editor || libraryBusy}
-            onClick={() => void importLibrary()}
-          >
-            {libraryBusy
-              ? "도형 불러오는 중…"
-              : "공개 배치도 도형 42개 가져오기"}
-          </button>
-          <button
-            disabled={!editor || libraryBusy}
-            onClick={() => libraryFile.current?.click()}
-          >
-            받아둔 라이브러리 파일 열기
-          </button>
-          <a
-            href="https://libraries.excalidraw.com"
-            target="_blank"
-            rel="noreferrer"
-          >
-            공개 도형 둘러보기
-          </a>
-          <input
-            ref={libraryFile}
-            type="file"
-            hidden
-            accept=".excalidrawlib,.json"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) void importLibrary(file);
-            }}
-          />
-          <small>
-            Architecture floor plan symbols · Arqtangeles · MIT ·{" "}
+        <details className="kc-library-section">
+          <summary>도형 라이브러리 · 필요한 도형 추가하기</summary>
+          <div className="kc-library-tools">
+            <button
+              disabled={!editor || libraryBusy}
+              onClick={() => void importLibrary()}
+            >
+              {libraryBusy
+                ? "도형 불러오는 중…"
+                : "공개 배치도 도형 42개 가져오기"}
+            </button>
+            <button
+              disabled={!editor || libraryBusy}
+              onClick={() => libraryFile.current?.click()}
+            >
+              받아둔 라이브러리 파일 열기
+            </button>
             <a
-              href="/libraries/LICENSE-excalidraw-libraries.txt"
+              href="https://libraries.excalidraw.com"
               target="_blank"
               rel="noreferrer"
             >
-              이용 조건
+              공개 도형 둘러보기
             </a>
-          </small>
-        </div>
+            <input
+              ref={libraryFile}
+              type="file"
+              hidden
+              accept=".excalidrawlib,.json"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void importLibrary(file);
+              }}
+            />
+            <small>
+              Architecture floor plan symbols · Arqtangeles · MIT ·{" "}
+              <a
+                href="/libraries/LICENSE-excalidraw-libraries.txt"
+                target="_blank"
+                rel="noreferrer"
+              >
+                이용 조건
+              </a>
+            </small>
+          </div>
+        </details>
       )}
       {notice && (
         <p className="kc-note" role="status">
@@ -275,7 +251,7 @@ export default function DrawingBoard({
         </p>
       )}
       {error && <p role="alert">{error}</p>}
-      <div className="kc-drawing-board">
+      <div className="kc-drawing-board" ref={canvasHost}>
         <Excalidraw
           excalidrawAPI={setEditor}
           langCode="ko-KR"
@@ -321,9 +297,9 @@ export default function DrawingBoard({
         </Excalidraw>
       </div>
       <small className="kc-board-footnote">
-        도형과 텍스트를 서버에 저장해요. 외부 이미지·링크 삽입은 지원하지
+        도형과 글로 아이디어를 표현해 봐요. 외부 이미지·링크 삽입은 지원하지
         않아요.
       </small>
-    </>
+    </section>
   );
 }

@@ -1,0 +1,27 @@
+.activity-help-entry { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+.activity-help-entry button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 12px; border: 1px solid #e3deeb; border-radius: 12px; background: #fff; color: #625978; font: inherit; font-size: 14px; cursor: pointer; }
+.activity-help > img { display: block; margin: 0 auto 16px; object-fit: contain; }
+.activity-help ol { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 20px; }
+.activity-help li { display: flex; align-items: flex-start; gap: 12px; }
+.activity-help li > span { display: grid; place-items: center; background: #FF6A1F; color: #fff; width: 28px; height: 28px; flex-shrink: 0; border-radius: 9px; font-weight: 700; }
+.activity-help li:nth-child(2) > span { background: #7C3AED; }
+.activity-help li:nth-child(3) > span { background: #0967FF; }
+.activity-help h3 { margin: 0 0 5px; font-size: 17px; }
+.activity-help li p { margin: 0; line-height: 1.65; font-size: 15px; color: #646574; }
+.activity-help-checkbox { display: flex; align-items: center; gap: 9px; cursor: pointer; font-size: 15px; }
+.activity-help-checkbox input { width: 18px; height: 18px; accent-color: #7C3AED; }
+.activity-help-note { color: #737480; font-size: 13px; line-height: 1.6; }
+.activity-help-settings { flex-wrap: wrap; gap: 16px; }
+.activity-help-entry button:focus-visible { outline: 3px solid #0967FF; outline-offset: 3px; }
+.activity-tour-anchor { position: relative; z-index: 5; width: 100%; min-width: 0; grid-column: 1 / -1; }
+.activity-tour-card { position: relative; max-width: 580px; margin: 16px 0; padding: 22px; background: #fff7ef; border: 2px solid #FF6A1F; border-radius: 18px; color: #292637; box-shadow: 0 6px 20px #33224412; font-size: 15px; }
+.activity-tour-card h3 { margin: 8px 28px 8px 0; font-size: 20px; }
+.activity-tour-card p { line-height: 1.6; }
+.activity-tour-card .button-row { margin-top: 16px; }
+.activity-tour-card .activity-tour-close { position: absolute; right: 12px; top: 12px; padding: 6px; border: 0; background: transparent; cursor: pointer; }
+.activity-tour-target { outline: 3px solid #FF6A1F !important; outline-offset: 5px; }
+.kc-project-coach { margin: 24px 0; padding: 24px; border: 1px solid #dfd4fa; border-radius: 20px; background: #f6f1ff; }
+.kc-project-coach h2 { font-size: 21px; margin: 0 0 16px; }
+.kc-coach-controls { display: grid; gap: 14px; margin-bottom: 14px; }
+.kc-coach-controls select { font: inherit; padding: 8px; max-width: 100%; margin-left: 8px; border-radius: 8px; border: 1px solid #d8cfea; background: white; }
+.kc-project-coach > small { font-size: 14px; line-height: 1.6; color: #646574; }

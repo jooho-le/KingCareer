@@ -13,7 +13,7 @@ import {
   CarFront,
   FlaskConical,
 } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { Career, CareerId } from "./data";
 
 export const jobIcons = {
@@ -53,11 +53,12 @@ export function Button({
   type?: "button" | "submit";
   className?: string;
 }) {
+  const reduced = useReducedMotion();
   return (
     <motion.button
       type={type}
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.97 }}
+      whileHover={reduced || disabled ? undefined : { y: -2 }}
+      whileTap={reduced || disabled ? undefined : { scale: 0.97 }}
       className={`button ${kind} ${className}`}
       onClick={onClick}
       disabled={disabled}
@@ -261,14 +262,22 @@ export function CareerCard({
   compact?: boolean;
 }) {
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
+  const reduced = useReducedMotion();
   return (
     <motion.article
       className={`career-card ${compact ? "compact" : ""}`}
-      whileHover={{ y: -5 }}
+      whileHover={reduced ? undefined : { y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
     >
       <div className={`career-art ${career.color}`}>
-        <JobArt id={career.id} />
+        <button
+          className="career-art-open"
+          aria-label={`${career.title} 자세히 보기`}
+          onClick={onOpen}
+        >
+          <JobArt id={career.id} />
+        </button>
         <span className="art-label">직접 경험하는 {career.field}</span>
         <button
           aria-label={`${career.title} ${saved ? "저장 취소" : "저장"}`}
@@ -277,8 +286,15 @@ export function CareerCard({
           disabled={saving}
           onClick={async () => {
             setSaving(true);
+            setSaveError("");
             try {
               await onSave();
+            } catch (error) {
+              setSaveError(
+                error instanceof Error
+                  ? error.message
+                  : "저장하지 못했어요. 다시 눌러 주세요.",
+              );
             } finally {
               setSaving(false);
             }
@@ -303,24 +319,18 @@ export function CareerCard({
           </span>
         </div>
       </button>
+      {saveError && (
+        <p className="career-save-error" role="alert">
+          {saveError}
+        </p>
+      )}
     </motion.article>
   );
 }
 export function JobArt({ id }: { id: CareerId }) {
-  const asset = {
-    developer: "developer",
-    nurse: "nurse",
-    farmer: "smartfarm",
-    engineer: "automotive",
-    researcher: "food_research",
-  }[id];
   return (
     <div className={`career-scene scene-${id}`} aria-hidden="true">
-      <img
-        src={`/brand/05_career_illustrations/${asset}.svg`}
-        alt=""
-        loading="lazy"
-      />
+      <img src={`/brand/12_career_kingcrabs/${id}.png`} alt="" loading="lazy" />
     </div>
   );
 }
@@ -331,7 +341,7 @@ export function HeroArt() {
       <span className="king-hero-block" />
       <img
         className="king-main-mascot"
-        src="/brand/01_mascots/mascot_00_original.png"
+        src="/brand/12_career_kingcrabs/hello.png"
         alt=""
         fetchPriority="high"
       />

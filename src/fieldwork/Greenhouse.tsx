@@ -390,7 +390,7 @@ export default function Greenhouse(props: {
       frameloop={props.reduced ? "demand" : "always"}
       gl={{
         antialias: true,
-        powerPreference: "high-performance",
+        powerPreference: props.quality === "balanced" ? "low-power" : "high-performance",
         toneMapping: ACESFilmicToneMapping,
         outputColorSpace: SRGBColorSpace,
       }}

@@ -1,0 +1,284 @@
+.career-review-studio {
+  padding: 28px;
+  margin: 26px 0;
+  background: #fff;
+  border: 1px solid #e0d7ef;
+  border-radius: 24px;
+}
+.career-review-studio > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.career-review-studio > header img {
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.review-kicker {
+  color: #7c3aed;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+.career-review-studio h2 {
+  margin: 10px 0;
+  font-size: 26px;
+}
+.career-review-studio p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: #655d72;
+}
+.review-select,
+.review-note {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #50465f;
+  margin: 20px 0;
+}
+.review-select select,
+.review-note textarea {
+  width: 100%;
+  border: 1px solid #d9d0e6;
+  border-radius: 12px;
+  background: #faf8fd;
+  padding: 14px;
+  font-size: 16px;
+  color: #353043;
+  line-height: 1.7;
+  font-weight: 400;
+}
+.review-note textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.review-questions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 28px 0;
+}
+.review-questions fieldset,
+.review-agreement {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.review-questions legend,
+.review-agreement legend {
+  font-size: 16px;
+  font-weight: 750;
+  margin-bottom: 12px;
+  color: #352f43;
+}
+.review-questions label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #faf8fd;
+  border: 1px solid #e6dfed;
+  border-radius: 12px;
+  padding: 14px 12px;
+  margin-bottom: 9px;
+  font-size: 14px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.review-questions label.is-selected {
+  background: #efe5ff;
+  border-color: #7c3aed;
+  color: #5d25b9;
+}
+.career-review-studio input[type="radio"] {
+  accent-color: #7c3aed;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+.career-review-studio .review-disclosure {
+  padding: 15px 18px;
+  border-radius: 12px;
+  background: #f2f5fb;
+  font-size: 13px;
+  color: #5c6578;
+}
+.review-error {
+  background: #fff0e8;
+  color: #994a2d;
+  padding: 16px;
+  margin: 15px 0;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.review-error button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  margin-left: 12px;
+  border-radius: 9px;
+  background: white;
+  border: 1px solid #e7cabc;
+}
+.review-result {
+  border-top: 1px solid #ece5f3;
+  padding-top: 22px;
+  margin-top: 26px;
+}
+.review-result-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.review-result-label > span:last-child {
+  font-size: 13px;
+  color: #6c45a0;
+}
+.review-result h3 {
+  font-size: 19px;
+  margin: 25px 0 12px;
+}
+.review-result .review-summary {
+  font-size: 16px;
+  color: #393245;
+  white-space: pre-wrap;
+}
+.review-result details {
+  background: #f7f4fb;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px 0;
+  font-size: 14px;
+}
+.review-result summary {
+  cursor: pointer;
+  color: #695280;
+}
+.review-result ul {
+  padding-left: 21px;
+  font-size: 14px;
+  color: #6f627d;
+  line-height: 1.9;
+}
+.review-result small {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #786b87;
+}
+.review-agreement {
+  margin: 26px 0 18px;
+}
+.review-agreement label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 20px 10px 0;
+  font-size: 15px;
+}
+.review-confirmed {
+  background: #edf3ff;
+  border: 1px solid #dae5fb;
+  border-radius: 14px;
+  padding: 20px;
+  margin: 22px 0;
+}
+.review-confirmed strong {
+  color: #2453a8;
+}
+.review-confirmed p {
+  white-space: pre-wrap;
+}
+.review-confirmed span {
+  font-size: 14px;
+  color: #456290;
+}
+.career-review-studio .button-row {
+  flex-wrap: wrap;
+}
+.review-map-card {
+  padding: 23px;
+  background: white;
+  border: 1px solid #ded3ef;
+  border-radius: 23px;
+}
+.review-map-card h3 {
+  font-size: 20px;
+  margin: 12px 0;
+}
+.review-map-card p {
+  color: #6c607c;
+  font-size: 14px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.review-map-card small {
+  display: block;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #83788f;
+}
+.review-map-card strong {
+  display: block;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.review-map-card button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  width: 100%;
+  padding: 13px 15px;
+  background: #7c3aed;
+  color: white;
+  border: 0;
+  border-radius: 11px;
+  font-size: 14px;
+  margin-top: 17px;
+}
+.review-map-card .review-map-secondary {
+  color: #775799;
+  background: #f4eefb;
+  margin-top: 9px;
+}
+@media (max-width: 1000px) {
+  .review-questions {
+    grid-template-columns: 1fr;
+  }
+  .review-questions fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .review-questions label {
+    flex: 1 1 200px;
+    margin: 0;
+  }
+}
+@media (max-width: 600px) {
+  .career-review-studio {
+    padding: 21px;
+  }
+  .career-review-studio > header img {
+    width: 68px;
+    height: 68px;
+  }
+  .career-review-studio h2 {
+    font-size: 23px;
+  }
+  .review-questions label {
+    flex-basis: 100%;
+  }
+  .review-select select {
+    text-overflow: ellipsis;
+  }
+}

@@ -6,6 +6,7 @@ from .catalog import CAREERS, SOURCES, career
 from .config import PUBLIC_ORIGIN
 from .db import dump, now
 from .experience_graph import ExperienceGraph
+from .project_readiness import answer_is_complete
 
 ENGINE = ExperienceGraph(CAREERS, SOURCES)
 VERBS = {"explored": "experienced", "saved": "preferred", "questioned": "asked", "choice": "answered",
@@ -22,7 +23,20 @@ def replay(con, uid, key, body):
     if row:
         if row["body_hash"] != hashed:
             raise HTTPException(409, "같은 요청 번호로 다른 내용을 보낼 수 없어요.")
-        return json.loads(row["response"])
+        result = json.loads(row["response"])
+        if isinstance(result, dict) and "_projectRevision" in result:
+            reference = result["_projectRevision"]
+            revision = con.execute("SELECT * FROM project_revisions WHERE user_id=? AND career_id=? AND version=?",
+                                   (uid, reference["careerId"], reference["version"])).fetchone()
+            if revision:
+                return {"careerId": reference["careerId"], "version": revision["version"],
+                        "answers": json.loads(revision["answers"]), "scene": json.loads(revision["scene"]) if revision["scene"] else None,
+                        "interest": revision["interest"], "updatedAt": revision["created_at"]}
+            if reference["version"] == 0:
+                return {"careerId": reference["careerId"], "version": 0, "answers": ["", "", ""],
+                        "scene": None, "interest": None, "updatedAt": None}
+            raise HTTPException(409, "해당 저장 이력을 찾을 수 없어요. 최신 초안을 다시 불러와 주세요.")
+        return result
     return None
 
 
@@ -30,6 +44,36 @@ def remember(con, uid, key, body, result):
     hashed = hashlib.sha256(dump(body).encode()).hexdigest()
     con.execute("INSERT INTO requests VALUES (?,?,?,?,?)", (uid, key, hashed, dump(result), now()))
     return result
+
+
+def remember_project(con, uid, key, body, project):
+    # Revisions remain the immutable source. Repeated autosaves no longer copy
+    # an entire scene into every idempotency response; old responses still work.
+    remember(con, uid, key, body, {"_projectRevision": {"careerId": project["careerId"], "version": project["version"]}})
+    return project
+
+
+def active_activities(con, uid):
+    result = []
+    for row in con.execute("SELECT * FROM simulations WHERE user_id=? AND completed=0", (uid,)):
+        session = json.loads(row["state"])
+        if session.get("stage") in {"brief", "completed"}:
+            continue
+        result.append({"id": row["id"], "sessionId": row["id"], "careerId": row["career_id"],
+                       "kind": "simulation", "title": career(row["career_id"])["title"] + " 직무체험",
+                       "updatedAt": row["updated_at"] or row["created_at"]})
+    for row in con.execute("SELECT * FROM projects WHERE user_id=?", (uid,)):
+        answers = json.loads(row["answers"])
+        scene = json.loads(row["scene"]) if row["scene"] else {}
+        if not any(answer.strip() for answer in answers) and not any(not e.get("isDeleted") for e in scene.get("elements", [])):
+            continue
+        source_key = f"project:{row['career_id']}:revision:{row['version']}"
+        if con.execute("SELECT 1 FROM activities WHERE user_id=? AND source_key=?", (uid, source_key)).fetchone():
+            continue
+        result.append({"id": f"project:{row['career_id']}", "careerId": row["career_id"], "kind": "project",
+                       "title": career(row["career_id"])["project"], "updatedAt": row["updated_at"],
+                       "completedAnswers": sum(answer_is_complete(answer) for answer in answers)})
+    return sorted(result, key=lambda item: item["updatedAt"], reverse=True)
 
 
 def add_event(con, uid, cid, kind, source_key, text="", objectives=None, category="participation", metadata=None):

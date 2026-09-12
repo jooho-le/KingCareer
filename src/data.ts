@@ -7,6 +7,7 @@ export type Page =
   | "discovery"
   | "recommendation"
   | "portfolio"
+  | "review"
   | "profile"
   | "onboarding"
   | "auth";
@@ -397,6 +398,21 @@ for (const item of careers) {
 }
 export const getCareer = (id: string) =>
   careers.find((c) => c.id === id) ?? careers[0];
+export type StartingPoint = {
+  careerId: CareerId;
+  diagnosisId: string;
+  date: string;
+  version: string;
+  basis: "self_report";
+  answers: number[];
+  level: "guided" | "standard" | "challenge";
+  label: string;
+  summary: string;
+  reason: string;
+  firstActivity: "simulation" | "project";
+  followUp: string;
+  guidance: Record<string, string>;
+};
 export type Activity = {
   id: string;
   careerId: CareerId;
@@ -409,7 +425,13 @@ export type Activity = {
   before: number[];
   after: number[];
   interest?: number;
+  liked?: string;
+  disliked?: string;
   evaluationStatus?: string;
+  observations?: string[];
+  selfReport?: number[];
+  startingPoint?: StartingPoint | null;
+  nextActivity?: Recommendation | null;
 };
 export type Profile = {
   name: string;
@@ -425,6 +447,7 @@ export type AppState = {
   profile: Profile;
   saved: CareerId[];
   activities: Activity[];
+  activeActivities?: { id: string; careerId: CareerId; kind: "simulation" | "project"; title: string; updatedAt: string; sessionId?: string }[];
   scores: Partial<Record<CareerId, number[]>>;
   interests: Partial<Record<CareerId, number>>;
   drafts: Partial<Record<CareerId, string[]>>;
@@ -444,6 +467,7 @@ export type ExperienceEvidence = {
   metadata: Record<string, unknown>;
 };
 export type GapReport = {
+  startingPoint?: StartingPoint | null;
   careerId: CareerId;
   scores: number[];
   dimensions: {
@@ -462,6 +486,7 @@ export type GapReport = {
   unavailableVerification: string[];
 };
 export type Recommendation = {
+  startingPoint?: StartingPoint | null;
   careerId: CareerId;
   kind: "simulation" | "project" | "discovery";
   reason: string;

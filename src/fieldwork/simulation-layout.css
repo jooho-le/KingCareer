@@ -1,0 +1,134 @@
+/* Keep the app navigation, while giving the active shift a compact work surface. */
+.kc-refresh .main-content:has(.kc-fieldwork) > .activity-help-entry { display: none; }
+.kc-fieldwork .kc-topline { gap: 12px; margin-bottom: 10px; }
+.kc-fieldwork .kc-simulation-help { margin-left: auto; flex-shrink: 0; font-size: 14px; background: #fff; }
+.kc-fieldwork.is-ongoing .kc-topline .kc-room,
+.kc-fieldwork.is-ongoing .kc-topline .kc-mode { display: none; }
+.kc-fieldwork .kc-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 8px 0 18px; }
+.kc-fieldwork .kc-section-heading > div { min-width: 0; }
+.kc-fieldwork .kc-shift-mascot { width: 94px; height: 94px; object-fit: contain; flex-shrink: 0; }
+.kc-fieldwork.is-ongoing .kc-section-heading h1 { font-size: clamp(23px, 2.3vw, 32px); margin: 6px 0; line-height: 1.3; }
+.kc-fieldwork .kc-phases { margin: 12px 0; gap: 8px; }
+.kc-fieldwork .kc-phases li { border-radius: 12px; padding: 10px 12px; border: 1px solid #e2ddec; background: #fff; }
+.kc-fieldwork .kc-phases li[aria-current="step"] { color: #97390c; border-color: #ffc49d; background: #fff0e5; }
+.kc-fieldwork .kc-current-task { padding: 16px 20px; margin: 12px 0 18px; background: #f4efff; border-color: #e2d5f7; border-left-color: #7c3aed; }
+.kc-fieldwork .kc-current-task h2 { font-size: 21px; scroll-margin-top: 88px; }
+.kc-fieldwork .kc-current-task p { margin-top: 4px; line-height: 1.6; }
+.kc-fieldwork .kc-current-task .kc-eyebrow { font-size: 12px; }
+.kc-fieldwork .kc-scenario-context { margin-top: 8px; }
+.kc-fieldwork .kc-workspace { gap: 16px; grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr); }
+.kc-fieldwork .kc-scene-panel, .kc-fieldwork .kc-task-panel { border: 1px solid #ddd9e9; border-radius: 22px; min-width: 0; }
+.kc-fieldwork .kc-materials-heading { padding: 14px 16px; }
+.kc-fieldwork .kc-materials-heading small { font-size: 13px; }
+.kc-fieldwork .kc-resource-bar { background: #0967ff; padding: 12px 14px; gap: 8px 12px; }
+.kc-fieldwork .kc-resource-bar span { font-size: 13px; }
+.kc-fieldwork .kc-resource-bar b { font-size: 16px; }
+.kc-fieldwork .kc-resource-bar svg { color: #fff; }
+.kc-fieldwork .kc-scene-toolbar { background: #f4f5fb; padding: 10px 12px; gap: 8px; }
+.kc-fieldwork .kc-scene-toolbar > span { width: 100%; color: #666176; font-size: 13px; }
+.kc-fieldwork .kc-scene-settings { margin-left: 0; margin-right: auto; flex-wrap: wrap; }
+.kc-fieldwork .kc-scene { height: clamp(230px, 30vh, 340px); overscroll-behavior: contain; }
+.kc-fieldwork .kc-scene-fallback { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 16px; background: #f2edfc; color: #65557c; }
+.kc-scene-fallback img { width: 116px; height: 116px; object-fit: contain; }
+.kc-fieldwork .kc-scene-fallback p { max-width: 36ch; font-size: 14px; line-height: 1.5; margin: 0; }
+.kc-fieldwork .kc-material-desk { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 16px; align-items: start; }
+.kc-material-index, .kc-material-reading { min-width: 0; }
+.kc-material-index h3 { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 15px; }
+.kc-material-index h3 span { color: #7c3aed; font-size: 13px; }
+.kc-fieldwork .kc-material-index .kc-object-list { padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.kc-fieldwork .kc-material-index .kc-object-list button { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 10px; margin: 0; }
+.kc-fieldwork .kc-material-index .kc-object-list button > span { display: none; }
+.kc-fieldwork .kc-material-index .kc-object-list strong { align-self: auto; font-size: 14px; overflow-wrap: anywhere; }
+.kc-fieldwork .kc-material-index .kc-object-list small { font-size: 12px; line-height: 1.4; }
+.kc-fieldwork .kc-material-reading .kc-inspection { margin: 0; padding: 16px; background: #fff3e8; }
+.kc-fieldwork .kc-material-reading .kc-inspection h3 { font-size: 17px; line-height: 1.5; }
+.kc-fieldwork .kc-material-reading .kc-inspection p { font-size: 15px; color: #584839; line-height: 1.7; }
+.kc-inspection-empty { padding: 18px; background: #f5f1fc; border-radius: 16px; color: #685882; }
+.kc-inspection-empty strong { display: block; margin: 10px 0; font-size: 16px; color: #51327b; }
+.kc-fieldwork .kc-inspection-empty p { font-size: 14px; margin: 0; line-height: 1.7; }
+.kc-fieldwork .kc-materials-next { padding: 4px 16px 16px; }
+.kc-fieldwork .kc-task-panel { padding: 20px; }
+.kc-fieldwork .kc-task-panel h2 { font-size: 23px; margin: 8px 0 14px; scroll-margin-top: 90px; }
+.kc-fieldwork .kc-task-panel .kc-action-outcome { display: block; margin: 12px 0 20px; padding: 16px; border-radius: 16px; }
+.kc-fieldwork .kc-task-panel .kc-action-illustration { width: auto; height: auto; display: flex; flex-direction: row; justify-content: flex-start; gap: 10px; padding: 0; margin-bottom: 14px; background: transparent; color: #0967ff; }
+.kc-fieldwork .kc-task-panel .kc-action-illustration svg { width: 24px; height: 24px; }
+.kc-fieldwork .kc-task-panel .kc-action-outcome h3 { font-size: 19px; line-height: 1.5; margin: 8px 0; }
+.kc-fieldwork .kc-task-panel .kc-action-outcome p { font-size: 15px; line-height: 1.7; }
+.kc-fieldwork .kc-task-panel .kc-action-outcome small { display: block; font-size: 12px; line-height: 1.6; }
+.kc-fieldwork .kc-reading-change { flex-wrap: wrap; }
+.kc-fieldwork .kc-choice-cards label { font-size: 16px; line-height: 1.6; }
+.kc-fieldwork .kc-result-recap summary { min-height: 44px; padding: 12px 0; color: #63389e; font-size: 15px; cursor: pointer; }
+.kc-fieldwork .kc-result-recap summary:focus-visible { outline: 3px solid #0967ff; outline-offset: 2px; }
+.kc-fieldwork .kc-decision-submit { min-height: 48px; white-space: normal; line-height: 1.5; }
+.kc-shift-completed { scroll-margin-top: 88px; }
+.kc-fieldwork .kc-reflection-extra { border: 1px solid #e2d8f0; border-radius: 14px; padding: 0 12px; margin: 12px 0 20px; }
+.kc-reflection-extra summary { padding: 12px 0; min-height: 44px; font-size: 15px; cursor: pointer; line-height: 1.6; }
+.kc-reflection-extra summary small { color: #675978; }
+.kc-reflection-extra summary:focus-visible { outline: 3px solid #0967ff; outline-offset: 2px; }
+.kc-fieldwork .kc-reflection-interest { border: 0; padding: 0; margin: 24px 0 8px; min-width: 0; }
+.kc-reflection-interest legend { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.kc-reflection-interest > div { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.kc-fieldwork .kc-reflection-interest label { position: relative; margin: 0; min-width: 0; }
+.kc-reflection-interest input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: pointer; }
+.kc-reflection-interest label span { display: grid; place-items: center; min-height: 46px; border: 1px solid #ddd2ed; border-radius: 12px; color: #664b8b; background: #f7f3fc; }
+.kc-reflection-interest input:checked + span { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+.kc-reflection-interest input:focus-visible + span { outline: 3px solid #0967ff; outline-offset: 3px; }
+.kc-fieldwork .kc-reflection-interest p { display: flex; justify-content: space-between; gap: 6px; font-size: 12px; color: #685b77; }
+@media (min-width: 1101px) and (min-height: 700px) {
+  .kc-fieldwork .kc-workspace:not(.is-brief) { align-items: stretch; height: min(840px, calc(100dvh - 110px)); }
+  .kc-fieldwork .kc-workspace:not(.is-brief) > .kc-scene-panel,
+  .kc-fieldwork .kc-task-panel { height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable; scroll-padding-block: 18px 84px; }
+  .kc-fieldwork .kc-decision-submit { position: sticky; bottom: 0; z-index: 2; box-shadow: 0 0 0 8px #fff, 0 -10px 20px #29223c12; }
+  .kc-fieldwork .kc-workspace:not(.is-brief) > .kc-scene-panel:not([open]) { height: auto; align-self: start; }
+}
+@media (max-width: 1100px) {
+  .kc-fieldwork .kc-workspace { grid-template-columns: minmax(0, 1fr); }
+  .kc-fieldwork .kc-task-panel { max-height: none; }
+  .kc-fieldwork .kc-task-panel.is-waiting-for-materials { display: none; }
+}
+@media (max-width: 600px) {
+  .kc-fieldwork .kc-topline { flex-wrap: wrap; gap: 6px; }
+  .kc-fieldwork:not(.is-ongoing) .kc-topline .kc-room,
+  .kc-fieldwork:not(.is-ongoing) .kc-topline .kc-mode { display: none; }
+  .kc-fieldwork .kc-shift-mascot { width: 62px; height: 72px; }
+  .kc-fieldwork .kc-section-heading { gap: 6px; margin: 8px 0 12px; }
+  .kc-refresh .kc-fieldwork .kc-section-heading h1 { font-size: 22px; line-height: 1.35; letter-spacing: -.6px; }
+  .kc-fieldwork .kc-phases li[aria-current="step"] { padding: 8px 12px; }
+  .kc-fieldwork .kc-current-task { padding: 14px 16px; }
+  .kc-fieldwork .kc-current-task h2 { font-size: 20px; }
+  .kc-fieldwork .kc-current-task p { font-size: 15px; }
+  .kc-fieldwork .kc-scene { height: 230px; }
+  .kc-fieldwork .kc-material-desk { grid-template-columns: 1fr; padding: 14px; }
+  .kc-fieldwork .kc-material-index .kc-object-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kc-fieldwork .kc-material-index .kc-object-list button { padding: 9px 7px; }
+  .kc-fieldwork .kc-material-index .kc-object-list strong { font-size: 13px; }
+  .kc-fieldwork .kc-task-panel { padding: 16px; }
+  .kc-fieldwork .kc-task-panel h2 { font-size: 21px; }
+  .kc-fieldwork .kc-materials-next button { font-size: 15px; }
+  .kc-fieldwork .kc-shift-completed .kc-next { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .kc-fieldwork *, .kc-fieldwork *::before { scroll-behavior: auto !important; } }
+.kc-fieldwork .kc-mission-bar { margin: 12px 0 16px; padding: 12px 16px; background: #fff; border-radius: 20px; box-shadow: 0 5px 20px #37215808; }
+.kc-fieldwork .kc-mission-bar .kc-phases { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.kc-fieldwork .kc-mission-bar .kc-phases li { flex: 0 0 auto; flex-direction: row; align-items: center; gap: 7px; padding: 6px 10px; border: 0; background: #f2f0f6; color: #746d80; font-size: 13px; border-radius: 20px; }
+.kc-fieldwork .kc-mission-bar .kc-phases li span { width: 21px; height: 21px; border-radius: 50%; font-size: 11px; background: transparent; }
+.kc-fieldwork .kc-mission-bar .kc-phases li.is-active { background: #e9f0ff; color: #0967ff; }
+.kc-fieldwork .kc-mission-bar .kc-phases li[aria-current="step"] { color: #fff; background: #ff6a1f; }
+.kc-fieldwork .kc-mission-bar .kc-phases li[aria-current="step"] span { background: #fff; color: #b94309; }
+.kc-fieldwork .kc-mission-bar .kc-current-task { padding: 0; margin: 0; border: 0; background: transparent; border-radius: 0; }
+.kc-fieldwork.is-ongoing .kc-mission-bar .kc-current-task-copy { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; width: 100%; }
+.kc-fieldwork .kc-mission-bar .kc-current-task h2 { font-size: 18px; line-height: 1.4; margin: 0; }
+.kc-fieldwork.is-ongoing .kc-mission-bar .kc-current-task h2 { flex: 1; }
+.kc-fieldwork .kc-mission-bar .kc-material-progress { order: 3; width: 100%; margin: 0; font-size: 13px; line-height: 1.5; color: #685880; }
+.kc-fieldwork .kc-mission-bar .kc-scenario-context { margin: 0; padding: 0; border: 0; max-width: none; }
+.kc-fieldwork .kc-mission-bar .kc-scenario-context summary { padding: 6px 10px; min-height: 36px; display: flex; align-items: center; border: 0; border-radius: 12px; background: #f0e8ff; color: #6732b3; font-size: 13px; cursor: pointer; }
+.kc-fieldwork .kc-mission-bar .kc-scenario-context[open] { width: 100%; order: 4; padding: 12px; border-radius: 14px; background: #f5f0ff; }
+.kc-fieldwork .kc-mission-bar .diagnosis-guidance { width: 100%; order: 5; }
+@media (max-width: 850px) {
+  .kc-fieldwork .kc-mission-bar { padding: 12px 14px; }
+  .kc-fieldwork .kc-mission-bar .kc-phases li:not([aria-current="step"]) { display: none; }
+  .kc-fieldwork .kc-mission-bar .kc-phases li[aria-current="step"]::after { color: #fff; }
+  .kc-fieldwork.is-ongoing .kc-mission-bar .kc-current-task h2 { flex-basis: 100%; }
+  .kc-fieldwork .kc-mission-bar .kc-scenario-context { order: 4; }
+  .kc-fieldwork .kc-mission-bar .kc-scenario-context summary { min-height: 44px; }
+}

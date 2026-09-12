@@ -1,0 +1,274 @@
+/* Original background artwork stays intact; only its decorative layer is blurred. */
+.kc-refresh .basecamp-hero,
+.kc-refresh .simulation-intro,
+.kc-refresh .project-intro,
+.kc-refresh .atlas-board-cover {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #edf2ff;
+}
+.kc-refresh .basecamp-hero::before,
+.kc-refresh .simulation-intro::before,
+.kc-refresh .project-intro::before,
+.kc-refresh .atlas-board-cover::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  z-index: -1;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: kc-scene-arrive 700ms ease-out both;
+}
+.kc-refresh .basecamp-hero {
+  min-height: 430px;
+  padding: 28px;
+}
+.kc-refresh .basecamp-hero::before {
+  background-image: url("/brand/11_backgrounds/background01.png");
+  filter: blur(0.6px);
+}
+.kc-refresh .basecamp-hero-copy {
+  width: 64%;
+  margin-left: auto;
+  padding: 23px;
+  background: #fffffff0;
+  border: 1px solid #ffffff;
+  border-radius: 22px;
+  backdrop-filter: blur(6px);
+}
+.kc-refresh .basecamp-hero h2 {
+  font-size: clamp(29px, 3vw, 39px);
+}
+.kc-refresh .basecamp-hero-art {
+  right: auto;
+  left: -3%;
+  top: auto;
+  bottom: -5px;
+  width: 43%;
+  height: 80%;
+  pointer-events: none;
+}
+.kc-refresh .basecamp-hero-art > span,
+.kc-refresh .atlas-character-shape {
+  display: none;
+}
+.kc-refresh .basecamp-art-ticket {
+  right: 12%;
+  bottom: 22px;
+}
+.kc-refresh .basecamp-hero p,
+.kc-refresh .basecamp-hero-note {
+  color: #746557;
+}
+.kc-refresh .simulation-intro {
+  min-height: 285px;
+  padding: 30px;
+}
+.kc-refresh .simulation-intro::before {
+  background-image: url("/brand/11_backgrounds/background02.png");
+  filter: blur(1px);
+}
+.kc-refresh .simulation-intro > div,
+.kc-refresh .project-intro > div {
+  position: relative;
+  background: #fffffff2;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(5px);
+}
+.kc-refresh .simulation-intro .lobby-crab {
+  width: 195px;
+  height: 220px;
+  align-self: flex-end;
+  filter: drop-shadow(0 10px 8px #25375c18);
+}
+.kc-refresh .simulation-intro > .tag {
+  background: #0967ff;
+  color: #fff;
+}
+.kc-refresh .project-intro {
+  min-height: 315px;
+  padding: 30px;
+  gap: 25px;
+}
+.kc-refresh .project-intro::before {
+  background-image: url("/brand/11_backgrounds/background03.png");
+  filter: blur(2px);
+}
+.kc-refresh .project-intro > div {
+  max-width: 570px;
+}
+.kc-refresh .project-intro .lobby-crab {
+  align-self: flex-end;
+  filter: drop-shadow(0 10px 8px #25375c18);
+}
+.kc-refresh .simulation-intro p,
+.kc-refresh .project-intro p {
+  color: #65657b;
+  font-size: 13px;
+}
+.kc-refresh .atlas-board-cover {
+  min-height: 360px;
+  padding: 25px;
+}
+.kc-refresh .atlas-board-cover::before {
+  background-image: url("/brand/11_backgrounds/background04.png");
+  filter: blur(0.5px);
+}
+.kc-refresh .atlas-cover-copy {
+  width: 63%;
+  background: #fffffff2;
+  padding: 23px;
+  border: 1px solid #fff;
+  border-radius: 19px;
+  backdrop-filter: blur(5px);
+}
+.kc-refresh .atlas-cover-copy h2 {
+  font-size: clamp(23px, 2.7vw, 31px);
+}
+.kc-refresh .atlas-character {
+  top: auto;
+  bottom: 0;
+  height: 86%;
+  width: 40%;
+}
+.kc-refresh .logout-error {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #97382d;
+  background: #fff0e9;
+  padding: 15px;
+  border-radius: 13px;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+.kc-refresh .logout-error button {
+  border: 1px solid #d9b7ac;
+  border-radius: 8px;
+  padding: 7px 10px;
+  background: white;
+  color: inherit;
+  cursor: pointer;
+}
+@keyframes kc-scene-arrive {
+  from {
+    transform: scale(1.035);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@media (max-width: 1100px) {
+  .kc-refresh .global-search {
+    width: 180px;
+  }
+  .kc-refresh .basecamp-hero-copy {
+    max-width: 530px;
+  }
+}
+@media (max-width: 800px) {
+  .kc-refresh .topbar-actions {
+    gap: 8px;
+  }
+  .kc-refresh .notification-button {
+    display: none;
+  }
+  .kc-refresh .simulation-intro {
+    gap: 12px;
+    padding: 22px;
+  }
+  .kc-refresh .simulation-intro .lobby-crab {
+    width: 135px;
+  }
+  .kc-refresh .project-intro .lobby-crab {
+    width: 165px;
+  }
+}
+@media (max-width: 600px) {
+  .kc-refresh .basecamp-hero {
+    min-height: 565px;
+    padding: 20px;
+  }
+  .kc-refresh .basecamp-hero-copy {
+    width: 100%;
+    padding: 22px;
+  }
+  .kc-refresh .basecamp-hero-art {
+    width: 63%;
+    height: 220px;
+    left: auto;
+    right: -2%;
+    bottom: -10px;
+  }
+  .kc-refresh .basecamp-hero-note {
+    max-width: none;
+    margin-top: 13px;
+  }
+  .kc-refresh .basecamp-art-ticket {
+    right: 73%;
+    bottom: 39px;
+  }
+  .kc-refresh .simulation-intro,
+  .kc-refresh .project-intro {
+    gap: 10px;
+    padding: 20px;
+  }
+  .kc-refresh .simulation-intro > div,
+  .kc-refresh .project-intro > div {
+    width: 100%;
+    padding: 20px;
+  }
+  .kc-refresh .simulation-intro .lobby-crab {
+    order: 2;
+    width: 160px;
+    height: 150px;
+  }
+  .kc-refresh .project-intro .lobby-crab {
+    width: 160px;
+    height: 150px;
+  }
+  .kc-refresh .atlas-board-cover {
+    min-height: 470px;
+    padding: 18px;
+    align-items: flex-start;
+  }
+  .kc-refresh .atlas-cover-copy {
+    width: 100%;
+    padding: 20px;
+  }
+  .kc-refresh .atlas-character {
+    width: 60%;
+    height: 210px;
+    bottom: -7px;
+    right: 0;
+  }
+  .kc-refresh .atlas-character img {
+    max-height: 200px;
+  }
+  .kc-refresh .atlas-name-tag {
+    bottom: 15px;
+  }
+  .kc-refresh .basecamp-hero::before,
+  .kc-refresh .atlas-board-cover::before {
+    background-position: 60% center;
+  }
+  .kc-refresh .simulation-intro::before,
+  .kc-refresh .project-intro::before {
+    filter: blur(2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kc-refresh .basecamp-hero::before,
+  .kc-refresh .simulation-intro::before,
+  .kc-refresh .project-intro::before,
+  .kc-refresh .atlas-board-cover::before {
+    animation: none;
+  }
+}

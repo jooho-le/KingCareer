@@ -9,6 +9,7 @@ import json
 import logging
 import sqlite3
 import uuid
+from threading import Lock
 from pathlib import Path
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,14 +20,19 @@ from .auth import (DUMMY_HASH, HASHER, check_login_rate, clear_cookie, create_se
 from .catalog import CAREERS, DIAGNOSIS_ANSWERS, FIELDS, catalog, career
 from .config import ALLOWED_ORIGINS, COOKIE_NAME, ROOT
 from .db import dump, initialize, now, transaction
-from .records import (ENGINE, activity_for, add_event, all_activities, remember,
-                      replay, reports_for, request_key, scores_for)
-from .simulation import SimulationEngine, new_session
+from .records import (ENGINE, active_activities, activity_for, add_event, all_activities, remember,
+                      remember_project, replay, reports_for, request_key, scores_for)
+from .simulation import SimulationEngine, new_session, prepare_command
+from .drawing_context import drawing_context
+from .project_readiness import answer_is_complete, has_unfilled_blank
 from .fieldwork import BADGES, completion_badges, present
 from .inference import provider
 from .config import AI_MODE
+from .reviews import router as reviews_router, confirmed_reviews
 
 log = logging.getLogger("kingcareer")
+project_help_lock = Lock()
+artifact_evaluation_lock = Lock()
 
 
 @asynccontextmanager
@@ -42,6 +48,7 @@ async def lifespan(application):
 
 app = FastAPI(title="KingCareer Student API", version="1.0.0", lifespan=lifespan,
               description="학생 소유 기록, 교육용 경험목표 충족률, 준비된 직무체험. API 인증은 HttpOnly 세션 쿠키입니다.")
+app.include_router(reviews_router)
 app.add_middleware(CORSMiddleware, allow_origins=sorted(ALLOWED_ORIGINS), allow_credentials=True,
                    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
@@ -91,8 +98,8 @@ def assert_version(actual, expected):
 
 
 def persist_simulation(con, uid, session):
-    con.execute("UPDATE simulations SET state=?,version=?,completed=?,checkpoint_version=? WHERE id=? AND user_id=?",
-                (dump(session), session["version"], int(session["stage"] == "completed"), session["version"], session["id"], uid))
+    con.execute("UPDATE simulations SET state=?,version=?,completed=?,checkpoint_version=?,updated_at=? WHERE id=? AND user_id=?",
+                (dump(session), session["version"], int(session["stage"] == "completed"), session["version"], now(), session["id"], uid))
 
 
 @app.get("/api/v1/catalog")
@@ -206,7 +213,8 @@ def get_state(user=Depends(user_for)):
                 interests[item["careerId"]] = item["interest"]
         return {"profile": profile_for(user),
                 "saved": [row[0] for row in con.execute("SELECT career_id FROM saved WHERE user_id=?", (user["id"],))],
-                "activities": activities, "scores": {cid: report["scores"] for cid, report in reports.items()},
+                "activities": activities, "activeActivities": active_activities(con, user["id"]),
+                "scores": {cid: report["scores"] for cid, report in reports.items()},
                 "interests": interests,
                 "drafts": {row["career_id"]: json.loads(row["answers"]) for row in con.execute("SELECT * FROM projects WHERE user_id=?", (user["id"],))},
                 "gaps": reports, "recommendations": ENGINE.recommend(reports, profile_for(user)["interests"])}
@@ -257,14 +265,17 @@ def diagnose(body: M.Diagnosis, user=Depends(user_for)):
         if old is not None:
             return old
         before = scores_for(con, user["id"], body.careerId)
-        summaries = [f"{dimension}: {choices[answer]}" for (dimension, choices), answer in zip(DIAGNOSIS_ANSWERS, body.answers)]
+        summaries = [f"{dimension}: {choices[answer] if answer < 3 else '아직 모르겠어요 / 기억이 나지 않아요'}" for (dimension, choices), answer in zip(DIAGNOSIS_ANSWERS, body.answers)]
         con.execute("INSERT INTO diagnoses VALUES (?,?,?,?,?)", (str(uuid.uuid4()), user["id"], body.careerId, dump(body.answers), now()))
         add_event(con, user["id"], body.careerId, "diagnosis", key,
-                  text="\n".join(summaries), category="self_report", metadata={"answers": body.answers, "questionnaireVersion": "diagnosis-v1"})
+                  text="\n".join(summaries), category="self_report", metadata={"answers": body.answers, "questionnaireVersion": "diagnosis-v2"})
+        report = reports_for(con, user["id"])[body.careerId]
+        next_steps = [r for r in ENGINE.recommend({body.careerId: report}, profile_for(user)["interests"])]
         result = activity_for(con, user["id"], body.careerId, "diagnosis", key, before,
                               summaries, "",
                               "현재 알고 있거나 경험했다고 답한 내용을 저장했어요. 자기보고 기록은 실제 활동 근거와 구분하며 능력 점수로 바꾸지 않아요.",
-                              extra={"evaluationStatus": "self_report", "selfReport": body.answers})
+                              extra={"evaluationStatus": "self_report", "selfReport": body.answers,
+                                     "startingPoint": report["startingPoint"], "nextActivity": next_steps[0] if next_steps else None})
         return remember(con, user["id"], key, body.model_dump(), result)
 
 
@@ -273,8 +284,17 @@ def create_simulation(body: M.SimulationCreate, user=Depends(user_for)):
     with transaction() as con:
         row = con.execute("SELECT state FROM simulations WHERE user_id=? AND career_id=? AND completed=0 AND variant='fieldwork'", (user["id"], body.careerId)).fetchone()
         if row:
-            return present(json.loads(row[0]))
-        session = present(new_session(str(uuid.uuid4()), body.careerId))
+            session = present(json.loads(row[0]))
+            if session["stage"] == "brief" or not session.get("startingPoint"):
+                start = reports_for(con, user["id"])[body.careerId]["startingPoint"]
+                if start != session.get("startingPoint"):
+                    session["startingPoint"] = start
+                    session["version"] += 1
+                    persist_simulation(con, user["id"], session)
+            return session
+        completed_count = con.execute("SELECT COUNT(*) FROM simulations WHERE user_id=? AND career_id=? AND completed=1", (user["id"], body.careerId)).fetchone()[0]
+        session = present(new_session(str(uuid.uuid4()), body.careerId, completed_count=completed_count))
+        session["startingPoint"] = reports_for(con, user["id"])[body.careerId]["startingPoint"]
         session["initialScores"] = scores_for(con, user["id"], body.careerId)
         con.execute("INSERT INTO simulations (id,user_id,career_id,state,version,created_at,variant) VALUES (?,?,?,?,?,?,?)",
                     (session["id"], user["id"], body.careerId, dump(session), session["version"], now(), "fieldwork"))
@@ -296,7 +316,14 @@ def simulation_turn(session_id: str, body: M.SimulationTurn, request: Request, u
             return old
         _, session = owned_simulation(con, user["id"], session_id)
         assert_version(session["version"], body.expectedVersion)
-        updated = request.app.state.simulator.transition(session, body.model_dump())
+    command = prepare_command(session, body.model_dump())
+    with transaction() as con:
+        old = replay(con, user["id"], key, body.model_dump())
+        if old is not None:
+            return old
+        _, session = owned_simulation(con, user["id"], session_id)
+        assert_version(session["version"], body.expectedVersion)
+        updated = request.app.state.simulator.transition(session, command)
         if body.kind in {"choice", "free"}:
             add_event(con, user["id"], session["careerId"], body.kind,
                       f"simulation:{session_id}:turn:{session['step']}",
@@ -355,7 +382,8 @@ def project_for(con, uid, cid):
     career(cid)
     row = con.execute("SELECT * FROM projects WHERE user_id=? AND career_id=?", (uid, cid)).fetchone()
     return {"careerId": cid, "answers": json.loads(row["answers"]) if row else ["", "", ""], "version": row["version"] if row else 0,
-            "scene": json.loads(row["scene"]) if row and row["scene"] else None}
+            "scene": json.loads(row["scene"]) if row and row["scene"] else None,
+            "interest": row["interest"] if row else None, "updatedAt": row["updated_at"] if row else None}
 
 
 @app.get("/api/v1/projects/{career_id}")
@@ -368,27 +396,83 @@ def get_project(career_id: str, user=Depends(user_for)):
 def project_revisions(career_id: str, user=Depends(user_for)):
     career(career_id)
     with transaction() as con:
-        return [{"version": row["version"], "answers": json.loads(row["answers"]), "date": row["created_at"], "scene": json.loads(row["scene"]) if row["scene"] else None}
+        return [{"version": row["version"], "date": row["created_at"], "interest": row["interest"],
+                 "completedAnswers": sum(answer_is_complete(answer) for answer in json.loads(row["answers"])),
+                 "hasDrawing": any(not e.get("isDeleted") for e in (json.loads(row["scene"]) if row["scene"] else {}).get("elements", []))}
                 for row in con.execute("SELECT * FROM project_revisions WHERE user_id=? AND career_id=? ORDER BY version DESC", (user["id"], career_id))]
+
+
+@app.get("/api/v1/projects/{career_id}/revisions/{version}")
+def project_revision(career_id: str, version: int, user=Depends(user_for)):
+    career(career_id)
+    with transaction() as con:
+        row = con.execute("SELECT * FROM project_revisions WHERE user_id=? AND career_id=? AND version=?", (user["id"], career_id, version)).fetchone()
+        if row is None:
+            raise HTTPException(404, "수정 이력을 찾을 수 없어요.")
+        return {"careerId": career_id, "version": row["version"], "date": row["created_at"],
+                "answers": json.loads(row["answers"]), "scene": json.loads(row["scene"]) if row["scene"] else None,
+                "interest": row["interest"]}
+
+
+@app.post("/api/v1/projects/{career_id}/help")
+def project_help(career_id: str, body: M.ProjectHelp, user=Depends(user_for)):
+    job = career(career_id)
+    key = request_key("project-help:" + career_id, body.clientRequestId)
+    if not project_help_lock.acquire(blocking=False):
+        raise HTTPException(429, "코치가 답변 중이에요. 잠시 후 다시 요청해 주세요.")
+    try:
+        with transaction() as con:
+            old = replay(con, user["id"], key, body.model_dump())
+            if old is not None:
+                return old
+            project = project_for(con, user["id"], career_id)
+            assert_version(project["version"], body.expectedVersion)
+        if AI_MODE != "ai":
+            reply = {"mode": "template", "hint": job["missions"][body.mission],
+                     "nextAction": "과제에서 확인할 대상 하나를 고르고, 내 생각을 짧게 적어봐요."}
+        else:
+            try:
+                hint = provider().help_project({"career": job["title"], "project": job["project"],
+                    "brief": job["problem"], "mission": job["missions"][body.mission], "request": body.intent,
+                    "answers": project["answers"], "drawingGraph": drawing_context(project.get("scene"))})
+            except Exception as error:
+                raise HTTPException(503, "코치 답변을 받지 못했어요. 저장한 초안은 그대로예요. 다시 요청해 주세요.") from error
+            reply = {"mode": "ai", **hint.model_dump()}
+        reply.update(version=project["version"], mission=body.mission)
+        with transaction() as con:
+            if not con.execute("SELECT 1 FROM users WHERE id=?", (user["id"],)).fetchone():
+                raise HTTPException(401, "계정이 변경됐어요. 다시 로그인해 주세요.")
+            current = project_for(con, user["id"], career_id)
+            if current != project:
+                raise HTTPException(409, "초안이 변경됐어요. 최신 내용을 저장한 뒤 다시 요청해 주세요.")
+            if project["version"] == 0:
+                return reply
+            return remember(con, user["id"], key, body.model_dump(), reply)
+    finally:
+        project_help_lock.release()
 
 
 @app.put("/api/v1/projects/{career_id}/draft")
 def save_draft(career_id: str, body: M.Draft, user=Depends(user_for)):
     key = request_key("project-draft:" + career_id, body.clientRequestId)
+    # Omitted fields preserve prior content, explicit null clears it. Their
+    # idempotency fingerprints must remain different.
+    payload = body.model_dump(exclude_unset=True)
     with transaction() as con:
-        old = replay(con, user["id"], key, body.model_dump())
+        old = replay(con, user["id"], key, payload)
         if old is not None:
             return old
         project = project_for(con, user["id"], career_id)
         assert_version(project["version"], body.expectedVersion)
         scene = body.scene if "scene" in body.model_fields_set else project["scene"]
-        if project["answers"] != body.answers or project["scene"] != scene:
-            project = {"careerId": career_id, "answers": body.answers, "version": project["version"] + 1, "scene": scene}
+        interest = body.interest if "interest" in body.model_fields_set else project["interest"]
+        if project["answers"] != body.answers or project["scene"] != scene or project["interest"] != interest:
             timestamp = now()
-            con.execute("INSERT INTO projects (user_id,career_id,answers,version,updated_at,scene) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id,career_id) DO UPDATE SET answers=excluded.answers,version=excluded.version,updated_at=excluded.updated_at,scene=excluded.scene",
-                        (user["id"], career_id, dump(body.answers), project["version"], timestamp, dump(scene) if scene is not None else None))
-            con.execute("INSERT INTO project_revisions (user_id,career_id,version,answers,created_at,scene) VALUES (?,?,?,?,?,?)", (user["id"], career_id, project["version"], dump(body.answers), timestamp, dump(scene) if scene is not None else None))
-        return remember(con, user["id"], key, body.model_dump(), project)
+            project = {"careerId": career_id, "answers": body.answers, "version": project["version"] + 1, "scene": scene, "interest": interest, "updatedAt": timestamp}
+            con.execute("INSERT INTO projects (user_id,career_id,answers,version,updated_at,scene,interest) VALUES (?,?,?,?,?,?,?) ON CONFLICT(user_id,career_id) DO UPDATE SET answers=excluded.answers,version=excluded.version,updated_at=excluded.updated_at,scene=excluded.scene,interest=excluded.interest",
+                        (user["id"], career_id, dump(body.answers), project["version"], timestamp, dump(scene) if scene is not None else None, interest))
+            con.execute("INSERT INTO project_revisions (user_id,career_id,version,answers,created_at,scene,interest) VALUES (?,?,?,?,?,?,?)", (user["id"], career_id, project["version"], dump(body.answers), timestamp, dump(scene) if scene is not None else None, interest))
+        return remember_project(con, user["id"], key, payload, project)
 
 
 @app.post("/api/v1/projects/{career_id}/submit")
@@ -400,7 +484,16 @@ def submit_project(career_id: str, body: M.Submit, user=Depends(user_for)):
             return old
         project = project_for(con, user["id"], career_id)
         assert_version(project["version"], body.expectedVersion)
-        if any(len(value.strip()) < 10 for value in project["answers"]):
+        if body.interest is not None and project["interest"] is not None and body.interest != project["interest"]:
+            raise HTTPException(409, "관심도가 저장된 초안과 달라요. 최신 내용을 저장한 뒤 제출해 주세요.")
+        # Old clients only sent interest on submit. New clients save it in the
+        # draft; once saved, that canonical value is authoritative.
+        interest = project["interest"] if project["interest"] is not None else body.interest
+        if interest is None:
+            raise HTTPException(422, "프로젝트 후 관심도를 선택한 뒤 제출해 주세요.")
+        if any(has_unfilled_blank(value) for value in project["answers"]):
+            raise HTTPException(422, "내 설명에 남아 있는 채우기 칸을 모두 작성한 뒤 제출해 주세요. 초안은 저장되어 있어요.")
+        if not all(answer_is_complete(value) for value in project["answers"]):
             raise HTTPException(422, "세 가지 미션을 각각 10자 이상 작성한 뒤 제출해 주세요.")
         if not any(not e.get("isDeleted") for e in (project["scene"] or {}).get("elements", [])):
             raise HTTPException(422, "개선 설계도에 도형이나 설명을 추가한 뒤 제출해 주세요.")
@@ -416,7 +509,7 @@ def submit_project(career_id: str, body: M.Submit, user=Depends(user_for)):
         add_event(con, user["id"], career_id, "project", source_key, objectives=["project_done"], category="artifact")
         result = activity_for(con, user["id"], career_id, "project", source_key, before, project["answers"], "",
                               "세 단계 결과물을 저장했어요. 기록 충족 여부만 반영했고, 내용의 정확성·완성도·역량에 대한 AI 평가는 아직 연결되지 않았어요.",
-                              body.interest, {"projectVersion": project["version"], "completion": {"submittedMissions": 3, "totalMissions": 3},
+                              interest, {"projectVersion": project["version"], "completion": {"submittedMissions": 3, "totalMissions": 3},
                                               "scene": project["scene"], "badges": [{**BADGES["maker"], "evidenceSources": [source_key], "criteriaVersion": "workplace-project-v1"}], "evaluationStatus": "not_connected"})
         return remember(con, user["id"], key, body.model_dump(), result)
 
@@ -449,28 +542,44 @@ def evaluate_artifact(activity_id: str, body: M.RequestInput, user=Depends(user_
     if AI_MODE != "ai":
         raise HTTPException(503, "AI 코치가 아직 연결되지 않았어요. 제출한 결과물은 안전하게 저장되어 있어요.")
     key = request_key("evaluate:" + activity_id, body.clientRequestId)
-    with transaction() as con:
-        old = replay(con, user["id"], key, body.model_dump())
-        if old is not None:
-            return old
-        row = con.execute("SELECT data FROM activities WHERE id=? AND user_id=?", (activity_id, user["id"])).fetchone()
-        if not row:
-            raise HTTPException(404, "결과물을 찾을 수 없어요.")
-        activity = json.loads(row[0])
-        if activity["kind"] != "project":
-            raise HTTPException(422, "제출된 프로젝트에서 코치 피드백을 요청해 주세요.")
-        if activity.get("evaluationStatus") == "ai_feedback":
-            return remember(con, user["id"], key, body.model_dump(), activity)
+    if not artifact_evaluation_lock.acquire(blocking=False):
+        raise HTTPException(429, "코치가 결과물을 확인 중이에요. 잠시 후 다시 요청해 주세요.")
+    try:
+        with transaction() as con:
+            old = replay(con, user["id"], key, body.model_dump())
+            if old is not None:
+                return old
+            row = con.execute("SELECT data FROM activities WHERE id=? AND user_id=?", (activity_id, user["id"])).fetchone()
+            if not row:
+                raise HTTPException(404, "결과물을 찾을 수 없어요.")
+            snapshot = row["data"]
+            activity = json.loads(snapshot)
+            if activity["kind"] != "project":
+                raise HTTPException(422, "제출된 프로젝트에서 코치 피드백을 요청해 주세요.")
+            if activity.get("evaluationStatus") == "ai_feedback":
+                return remember(con, user["id"], key, body.model_dump(), activity)
+        # Network latency must never hold SQLite's process-wide write lock.
         try:
-            # Text and authored shape labels only; this is not visual inspection.
-            labels = [e.get("text", "") for e in (activity.get("scene") or {}).get("elements", []) if not e.get("isDeleted")]
             feedback = provider().evaluate({"career": career(activity["careerId"])["title"], "answers": activity["answers"],
-                                            "drawingLabels": labels, "limitation": "배치도의 시각적 배치와 연결 관계는 평가하지 않는다."})
+                                            "drawingGraph": drawing_context(activity.get("scene"))})
         except Exception as error:
             raise HTTPException(503, "AI 응답을 받지 못했어요. 제출물은 그대로 보존돼요. 다시 시도해 주세요.") from error
-        activity.update(feedback=feedback.feedback, observations=feedback.observations, evaluationStatus="ai_feedback")
-        con.execute("UPDATE activities SET data=? WHERE id=? AND user_id=?", (dump(activity), activity_id, user["id"]))
-        return remember(con, user["id"], key, body.model_dump(), activity)
+        with transaction() as con:
+            row = con.execute("SELECT data FROM activities WHERE id=? AND user_id=?", (activity_id, user["id"])).fetchone()
+            if not row:
+                # Deleting a record/account while the provider is busy must not
+                # recreate feedback, request rows, or any student data.
+                raise HTTPException(404, "결과물이 삭제되어 피드백을 저장하지 않았어요.")
+            old = replay(con, user["id"], key, body.model_dump())
+            if old is not None:
+                return old
+            if row["data"] != snapshot:
+                raise HTTPException(409, "결과물이 변경됐어요. 최신 기록에서 다시 요청해 주세요.")
+            activity.update(feedback=feedback.feedback, observations=feedback.observations, evaluationStatus="ai_feedback")
+            con.execute("UPDATE activities SET data=? WHERE id=? AND user_id=?", (dump(activity), activity_id, user["id"]))
+            return remember(con, user["id"], key, body.model_dump(), activity)
+    finally:
+        artifact_evaluation_lock.release()
 
 
 @app.get("/api/v1/portfolio/export")
@@ -478,14 +587,19 @@ def export_portfolio(user=Depends(user_for)):
     with transaction() as con:
         activities = all_activities(con, user["id"])
         reports = reports_for(con, user["id"])
+        reviews = confirmed_reviews(con, user["id"])
     lines = ["KingCareer 진로경험 포트폴리오", "닉네임: " + profile_for(user)["name"],
              "교육용 목표의 기록 충족률이며 직무 능력·적성 평가가 아닙니다.",
-             "AI 코치 피드백은 요청한 프로젝트에만 표시하며 직무 능력 인증이 아닙니다.", ""]
+             "AI 프로젝트 피드백과 경험 회고는 직무 능력 인증이 아닙니다.", ""]
     for cid, report in reports.items():
         lines.append(career(cid)["title"])
         lines.extend(f"  {d['name']}: 기록 {d['observed']}/{d['target']}" + (" (확인 근거 없음)" if d["unknown"] else "") for d in report["dimensions"])
     for activity in activities:
         lines.extend(["", activity["title"], activity["date"], *activity["answers"], activity["reflection"], activity["feedback"]])
+    for review in reviews:
+        lines.extend(["", "확인한 경험 회고 · " + review["activityTitle"],
+                      "AI 정리" if review["mode"] == "ai" else "기록 기반 정리 (AI 미사용)",
+                      review["confirmation"]["summary"], "다음 경험: " + review["confirmation"]["next"]["title"]])
     lines.extend(["", "출처: ESCO / European Commission; O*NET 31.0 / USDOL/ETA, CC BY 4.0.",
                   "한국어 교육용 목표와 활동은 KingCareer의 편집 내용입니다."])
     return PlainTextResponse("\n".join(lines), headers={"Content-Disposition": 'attachment; filename="KingCareer-portfolio.txt"'})

@@ -125,7 +125,7 @@ button {
 .app-shell {
   min-height: 100vh;
 }
-.sidebar {
+.app-sidebar {
   width: 232px;
   background: #fff;
   position: fixed;
@@ -180,7 +180,7 @@ button {
   font-weight: 700;
   padding: 14px 12px 14px;
 }
-.sidebar nav {
+.app-sidebar nav {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -3262,7 +3262,7 @@ button {
   }
 }
 @media (max-width: 1200px) {
-  .sidebar {
+  .app-sidebar {
     width: 205px;
     padding-left: 15px;
     padding-right: 15px;
@@ -3401,7 +3401,7 @@ button {
   }
 }
 @media (max-width: 1000px) {
-  .sidebar {
+  .app-sidebar {
     width: 186px;
     padding: 28px 12px 0;
   }
@@ -3615,7 +3615,7 @@ button {
   }
 }
 @media (max-width: 760px) {
-  .sidebar {
+  .app-sidebar {
     transform: translateX(-100%);
     transition: transform 0.25s ease;
     width: 245px;
@@ -3623,7 +3623,7 @@ button {
     box-shadow: 10px 0 40px #251b3b20;
     z-index: 80;
   }
-  .sidebar.is-open {
+  .app-sidebar.is-open {
     transform: translateX(0);
   }
   .sidebar-scrim {
@@ -3640,7 +3640,7 @@ button {
     right: 14px;
     top: 25px;
   }
-  .sidebar .nav-item {
+  .app-sidebar .nav-item {
     font-size: 12px;
     padding: 13px;
   }

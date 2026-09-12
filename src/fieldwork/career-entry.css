@@ -1,0 +1,212 @@
+.career-entry {
+  padding: 4px 0 24px;
+}
+.career-entry-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  border: 0;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  color: #625b72;
+  font-size: 15px;
+}
+.career-entry-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  align-items: center;
+  gap: 25px;
+  padding: 34px;
+  background: #edf2ff;
+  border: 1px solid #e0e4ef;
+  border-radius: 28px;
+  overflow: hidden;
+}
+.career-entry-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -4px;
+  background: url("/brand/11_backgrounds/background02.png") center / cover
+    no-repeat;
+  filter: blur(1px);
+}
+.entry-project .career-entry-hero::before {
+  background-image: url("/brand/11_backgrounds/background03.png");
+  filter: blur(2px);
+}
+.career-entry-copy {
+  background: #fffffff2;
+  padding: 30px;
+  border: 1px solid white;
+  border-radius: 22px;
+  backdrop-filter: blur(5px);
+  min-width: 0;
+}
+.career-entry-copy h1 {
+  font-size: clamp(28px, 3.5vw, 42px);
+  line-height: 1.4;
+  letter-spacing: -0.05em;
+  margin: 18px 0;
+  overflow-wrap: anywhere;
+}
+.career-entry-copy p {
+  color: #656275;
+  font-size: 16px;
+  line-height: 1.85;
+}
+.career-entry-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b6377;
+  font-size: 14px;
+  margin: 22px 0;
+}
+.kc-refresh .career-entry-copy .button {
+  font-size: 15px;
+  min-height: 48px;
+}
+.career-entry-copy small {
+  display: block;
+  color: #767084;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 16px;
+}
+.career-entry-character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  align-self: end;
+}
+.career-entry-character img {
+  width: 100%;
+  height: auto;
+  max-height: 390px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 10px #2937581a);
+  animation: entry-arrive 0.5s ease-out both;
+}
+.career-entry-character > span {
+  background: #0967ff;
+  color: white;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 18px;
+  text-align: center;
+}
+.entry-project .career-entry-character > span {
+  background: #7c3aed;
+}
+.career-entry-plan {
+  border: 1px solid #e4dfea;
+  background: white;
+  padding: 28px;
+  border-radius: 23px;
+  margin-top: 24px;
+}
+.career-entry-plan h2 {
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+.career-entry-plan p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #6d6579;
+}
+.career-entry-plan ol {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.career-entry-plan li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f5f1fc;
+  padding: 20px 16px;
+  border-radius: 14px;
+}
+.career-entry-plan li:nth-child(2) {
+  background: #eef3ff;
+}
+.career-entry-plan li:nth-child(3) {
+  background: #fff1e7;
+}
+.career-entry-plan li > span {
+  color: #7c3aed;
+  font-size: 14px;
+  font-weight: 800;
+}
+.career-entry-plan strong {
+  font-size: 15px;
+  line-height: 1.7;
+}
+.career-entry-plan .career-entry-record {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+  color: #585567;
+}
+@keyframes entry-arrive {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@media (max-width: 950px) {
+  .career-entry-hero {
+    padding: 24px;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.7fr);
+  }
+  .career-entry-copy {
+    padding: 24px;
+  }
+  .career-entry-plan ol {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .career-entry-hero {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+  .career-entry-copy {
+    padding: 22px;
+  }
+  .career-entry-character img {
+    max-height: 210px;
+    width: 220px;
+  }
+  .career-entry-character > span {
+    margin-bottom: 0;
+  }
+  .career-entry-copy h1 {
+    font-size: 28px;
+  }
+  .career-entry-plan {
+    padding: 22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .career-entry-character img {
+    animation: none;
+  }
+}

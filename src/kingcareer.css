@@ -29,7 +29,7 @@ textarea:focus-visible,
 select:focus-visible {
   outline-color: var(--blue);
 }
-.sidebar {
+.app-sidebar {
   border-right: 1px solid var(--border);
   padding-top: 30px;
   background: #fff;

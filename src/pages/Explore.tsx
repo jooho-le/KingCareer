@@ -16,20 +16,16 @@ import {
   Search,
   Share2,
 } from "lucide-react";
-import { motion } from "motion/react";
 import {
   Button,
   CareerCard,
   Empty,
-  HeroArt,
   JobIcon,
   Modal,
   PageHeading,
-  SectionHeading,
-  Stat,
   Tag,
 } from "../components";
-import { dateLabel, fields } from "../data";
+import { dateLabel, fields, getCareer } from "../data";
 import type {
   Activity,
   Career,
@@ -41,6 +37,10 @@ import type {
 import { api, errorMessage, json, requestId } from "../api";
 import { useApp } from "../store";
 import { AwardsShelf } from "../fieldwork/Awards";
+import ArtifactThumbnail from "../fieldwork/ArtifactThumbnail";
+import PortfolioEvaluation from "../fieldwork/PortfolioEvaluation";
+import "./portfolio-flow.css";
+import "./portfolio-preview.css";
 const ArtifactPreview = lazy(() => import("../fieldwork/ArtifactPreview"));
 
 type CatalogCareer = Career & { sources?: SourceReference[] };
@@ -71,7 +71,7 @@ function FeedbackLabel({ activity }: { activity: Activity }) {
         ? "AI 피드백 완료"
         : activity.evaluationStatus === "pending"
           ? "AI 평가 대기"
-          : "AI 평가 미연결";
+          : "활동 기록 · AI 평가 없음";
   return (
     <Tag color={activity.evaluationStatus === "completed" ? "blue" : "purple"}>
       {label}
@@ -97,264 +97,7 @@ function RetryNotice({
   );
 }
 
-export function Home() {
-  const { state, user, catalog, go, save } = useApp();
-  const recommendation = state.recommendations[0];
-  const recommended = catalog.find((c) => c.id === recommendation?.careerId);
-  const completed = state.activities.filter((a) => a.kind !== "diagnosis");
-  const explored = Object.values(state.gaps).filter((g) =>
-    g?.evidence.some((e) => e.kind === "explored"),
-  ).length;
-  const steps: {
-    label: string;
-    caption: string;
-    icon: string;
-    page: Page;
-    color: string;
-  }[] = [
-    {
-      label: "나 알아가기",
-      caption: "나의 출발점",
-      icon: "profile",
-      page: "diagnosis",
-      color: "orange",
-    },
-    {
-      label: "직업 발견",
-      caption: "처음 만난 세계",
-      icon: "compass",
-      page: "discovery",
-      color: "purple",
-    },
-    {
-      label: "직접 해보기",
-      caption: "직업의 하루",
-      icon: "simulation",
-      page: "simulation",
-      color: "blue",
-    },
-    {
-      label: "기록 모으기",
-      caption: "나만의 이야기",
-      icon: "journal",
-      page: "portfolio",
-      color: "purple",
-    },
-  ];
-  return (
-    <>
-      <div className="home-greeting">
-        <div>
-          <div className="greeting-label">KINGCAREER BASECAMP</div>
-          <h1>
-            반가워, {user ? state.profile.name : "탐험가"}
-            <span className="greeting-dot">.</span>
-          </h1>
-          <p>정해진 꿈이 없어도 괜찮아. 궁금한 일부터 하나씩 해보자.</p>
-        </div>
-        <Tag color="blue">오늘의 가능성, 열어보는 중</Tag>
-      </div>
-      <section className="hero">
-        <div className="hero-copy">
-          <span className="hero-eyebrow">LET'S PLAY YOUR NEXT</span>
-          <h2>
-            오늘은 어떤
-            <br />
-            내가 되어볼까?
-            <br />
-            <span>일단, 해보는 거야.</span>
-          </h2>
-          <p>
-            오늘은 개발자, 내일은 스마트팜 전문가.
-            <br />
-            작은 경험으로 너의 세계를 넓혀봐.
-          </p>
-          <Button
-            kind="dark"
-            onClick={() =>
-              go(
-                recommendation ? kindPages[recommendation.kind] : "discovery",
-                recommended?.id,
-              )
-            }
-          >
-            {recommendation ? "나의 다음 경험 열기" : "궁금한 직업 만나기"}
-            <ArrowUpRight size={19} />
-          </Button>
-          <div className="hero-bottom">
-            <span>{catalog.length}가지 직업에서 시작하는 나의 이야기</span>
-          </div>
-        </div>
-        <HeroArt />
-      </section>
-      <section className="kc-farm-entry">
-        <img
-          src="/brand/01_mascots/mascot_01_explore.png"
-          alt="현장 체험을 안내하는 크랩"
-        />
-        <div>
-          <span className="kc-eyebrow">FIVE WORKPLACES · YOUR FIRST SHIFT</span>
-          <h2>오늘은 어떤 현장으로 출근할까?</h2>
-          <p>3D 현장 조사부터 교대 업무, 나만의 개선 설계까지.</p>
-        </div>
-        <button className="kc-button" onClick={() => go("simulation")}>
-          현장 골라보기 <ArrowRight size={17} />
-        </button>
-      </section>
-      <div className="dashboard-grid">
-        <section className="panel journey-panel">
-          <SectionHeading
-            title="너의 속도로, 한 걸음씩"
-            action="지도 펼치기"
-            onClick={() => go("map")}
-          />
-          <div className="journey-track kingcareer-steps">
-            {steps.map((step, i) => (
-              <button
-                className={`journey-stop stop-${i} ${step.color}`}
-                key={step.page}
-                onClick={() => go(step.page)}
-              >
-                <motion.span whileHover={{ rotate: 7, scale: 1.06 }}>
-                  <img
-                    src={`/brand/03_icons/${step.icon}.svg`}
-                    width="30"
-                    height="30"
-                    alt=""
-                  />
-                </motion.span>
-                <b>{step.label}</b>
-                <small>{step.caption}</small>
-              </button>
-            ))}
-          </div>
-          <div className="journey-footer">
-            <img
-              src="/brand/01_mascots/mascot_05_idea.png"
-              width="48"
-              height="48"
-              alt=""
-            />
-            <p>잘하는지 몰라도 괜찮아. 해본 것부터 함께 알아보자.</p>
-            <button onClick={() => go("diagnosis")}>
-              나의 출발점
-              <ArrowRight size={15} />
-            </button>
-          </div>
-        </section>
-        <section className="weekly-card">
-          <div className="weekly-top">
-            <span>MY LITTLE STEPS</span>
-            <img
-              src="/brand/03_icons/crown.svg"
-              width="36"
-              height="36"
-              alt=""
-            />
-          </div>
-          <h2>
-            하나씩 해본 게<br />
-            나의 이야기가 돼.
-          </h2>
-          <div className="weekly-stats">
-            <div>
-              <strong>{completed.length}</strong>
-              <span>완료한 경험</span>
-            </div>
-            <div>
-              <strong>
-                {explored}
-                <small>/{catalog.length}</small>
-              </strong>
-              <span>소개를 살펴본 직업</span>
-            </div>
-          </div>
-          <button onClick={() => go("portfolio")}>
-            나의 기록 보기
-            <ArrowUpRight size={18} />
-          </button>
-        </section>
-      </div>
-      <section className="home-careers">
-        <SectionHeading
-          title="직업의 하루가 기다리고 있어"
-          sub="준비된 상황 속에서 골라보고, 질문하고, 느낀 점을 남겨봐."
-          onClick={() => go("simulation")}
-        />
-        <div className="career-grid three">
-          {catalog.slice(0, 3).map((c) => (
-            <CareerCard
-              key={c.id}
-              career={c}
-              saved={state.saved.includes(c.id)}
-              onSave={() => {
-                void save(c.id);
-              }}
-              onOpen={() => go("simulation", c.id)}
-            />
-          ))}
-        </div>
-      </section>
-      <div className="home-bottom-grid">
-        <section className="project-teaser">
-          <img
-            src="/brand/03_icons/project.svg"
-            width="48"
-            height="48"
-            alt=""
-          />
-          <div>
-            <span className="eyebrow">MAKE SOMETHING YOURS</span>
-            <h3>아이디어를 내 손으로 만들어보면?</h3>
-            <p>
-              {recommended?.project ??
-                "작은 프로젝트에서 너만의 결과물을 만들어 봐."}
-            </p>
-          </div>
-          <button
-            className="circle-button"
-            aria-label="미니 프로젝트 보기"
-            onClick={() => go("projects", recommended?.id)}
-          >
-            <ArrowUpRight />
-          </button>
-        </section>
-        <section className="portfolio-teaser">
-          <Bookmark size={25} />
-          <div>
-            <small>경험이 쌓이는 나의 기록</small>
-            <h3>수료증과 배지를 모아 봐요</h3>
-          </div>
-          <button
-            className="circle-button"
-            aria-label="포트폴리오 보기"
-            onClick={() => go("portfolio")}
-          >
-            <ArrowUpRight />
-          </button>
-        </section>
-      </div>
-      {state.activities.length > 0 && (
-        <section className="spaced-panel">
-          <SectionHeading
-            title="최근에 남긴 나의 경험"
-            action="기록 모아보기"
-            onClick={() => go("portfolio")}
-          />
-          <div className="activity-list">
-            {state.activities.slice(0, 3).map((activity) => (
-              <ActivityRow
-                key={activity.id}
-                activity={activity}
-                onClick={() => go("portfolio")}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-    </>
-  );
-}
+export { default as Home } from "./Basecamp";
 
 export { default as CareerMap } from "./ExperienceMap";
 
@@ -471,7 +214,7 @@ export function Discovery() {
         </div>
         <img
           className="discovery-mascot"
-          src="/brand/01_mascots/mascot_01_explore.png"
+          src="/brand/12_career_kingcrabs/hello.png"
           alt="직업을 찾아보는 킹크랩 캐릭터"
         />
       </div>
@@ -613,7 +356,7 @@ export function Discovery() {
                 ))}
               </ul>
             ) : (
-              <p>출처 정보를 아직 불러오지 못했어. 서버 연결 후 다시 열어봐.</p>
+              <p>출처 정보를 불러오지 못했어. 잠시 후 다시 열어봐.</p>
             )}
             <p className="fine-print">
               직업 자료를 바탕으로 KingCareer가 한국어 설명과 교육용 활동을
@@ -677,7 +420,7 @@ export function Recommendation() {
           </div>
           <img
             className="recommendation-mascot"
-            src="/brand/01_mascots/mascot_08_guide.png"
+            src={`/brand/12_career_kingcrabs/${leadCareer.id}.png`}
             alt="다음 경험을 안내하는 킹크랩"
           />
         </section>
@@ -717,7 +460,14 @@ export function Recommendation() {
               key={`${item.careerId}-${item.kind}`}
             >
               <div className="recommendation-card-top">
-                <JobIcon id={career.id} size={28} />
+                <img
+                  className="recommendation-crab"
+                  src={`/brand/12_career_kingcrabs/${career.id}.png`}
+                  alt=""
+                  width={84}
+                  height={84}
+                  loading="lazy"
+                />
                 <Tag
                   color={
                     item.kind === "project"
@@ -762,8 +512,8 @@ export function Recommendation() {
         <p className="muted">이 종류에서 추가로 추천할 경험은 아직 없어.</p>
       )}
       <p className="fine-print">
-        추천은 서버에 저장된 경험 기록과 교육용 목표의 연결을 바탕으로 만들어져.
-        직업 적합성이나 능력의 순위가 아니야.
+        추천은 네가 남긴 경험과 아직 해보지 않은 활동을 바탕으로 만들어져. 직업
+        적합성이나 능력의 순위가 아니야.
       </p>
     </>
   );
@@ -804,9 +554,18 @@ export function ActivityRow({
 }
 
 export function Portfolio() {
-  const { state, go, toast } = useApp();
-  const [filter, setFilter] = useState("all");
+  const { state, go, toast, activityId } = useApp();
+  const [filter, setFilter] = useState(() => {
+    const tab = new URLSearchParams(location.hash.split("?")[1]).get("tab");
+    if (tab && ["project", "certificates", "simulation"].includes(tab)) return tab;
+    const latest = [...state.activities].filter((a) => a.kind !== "diagnosis").sort((a, b) => b.date.localeCompare(a.date))[0];
+    return latest?.kind === "simulation" ? "certificates" : "project";
+  });
   const [detail, setDetail] = useState<Activity | null>(null);
+  useEffect(() => {
+    if (location.hash.split("?")[0] === "#portfolio" && activityId)
+      setDetail(state.activities.find((a) => a.id === activityId) || null);
+  }, [activityId, state.activities]);
   useEffect(() => {
     setDetail((current) =>
       current
@@ -821,7 +580,6 @@ export function Portfolio() {
   const list = state.activities.filter(
     (activity) => filter === "all" || filter === activity.kind,
   );
-  const latest = state.activities[0];
   const download = async () => {
     if (downloadLock.current) return;
     downloadLock.current = true;
@@ -847,7 +605,7 @@ export function Portfolio() {
       }
       if (!response.headers.get("content-type")?.includes("text/plain"))
         throw new Error(
-          "포트폴리오 파일을 읽을 수 없어요. 서버 연결을 확인해 주세요.",
+          "포트폴리오 파일을 읽을 수 없어요. 연결을 확인한 뒤 다시 내려받아 주세요.",
         );
       const text = await response.text();
       const url = URL.createObjectURL(
@@ -855,12 +613,12 @@ export function Portfolio() {
       );
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "KingCareer-진로-포트폴리오.txt";
+      anchor.download = "KingCareer-활동-요약.txt";
       document.body.appendChild(anchor);
       anchor.click();
       anchor.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      toast("서버에 저장된 포트폴리오를 내려받았어요.");
+      toast("활동 요약 텍스트를 내려받았어요. 그림이 포함된 문서는 개별 결과물에서 받을 수 있어요.");
     } catch (error) {
       setDownloadError(errorMessage(error));
     } finally {
@@ -880,10 +638,11 @@ export function Portfolio() {
   };
   return (
     <>
+      <div className="portfolio-collection-hero">
       <PageHeading
-        eyebrow="MY GROWING STORY"
-        title="해본 만큼, 나다워지는 중"
-        description="작은 선택과 결과물까지. 여기엔 너만의 이야기가 쌓여."
+        eyebrow="내가 모은 경험"
+        title="나의 포트폴리오"
+        description="직접 해본 일, 내가 만든 아이디어. 하나씩 모으면 나만의 이야기가 돼."
       >
         <div className="button-row">
           <Button
@@ -903,11 +662,22 @@ export function Portfolio() {
             }}
           >
             <Download size={17} />
-            {downloading ? "내려받는 중" : "다운로드"}
+            {downloading ? "내려받는 중" : "활동 요약 TXT"}
           </Button>
         </div>
       </PageHeading>
-      <AwardsShelf />
+        <div className="portfolio-collection-art" aria-hidden="true">
+          <span className="collection-orbit" />
+          <span className="collection-mini-card collection-mini-card-back" />
+          <span className="collection-mini-card collection-mini-card-front" />
+          <img src="/brand/01_mascots/mascot_06_celebrate.png" alt="" width={200} height={200} />
+          <span className="collection-sticker">나의 가능성 수집 중</span>
+        </div>
+        <div className="collection-record-strip">
+          <span><b>{state.activities.filter((activity) => activity.kind === "simulation").length}</b>번의 직무체험</span>
+          <span><b>{state.activities.filter((activity) => activity.kind === "project").length}</b>개의 프로젝트 결과물</span>
+        </div>
+      </div>
       {downloadError && (
         <RetryNotice
           message={downloadError}
@@ -917,86 +687,32 @@ export function Portfolio() {
           }}
         />
       )}
-      <div className="stats-row">
-        <Stat
-          label="완료한 직무체험"
-          value={state.activities.filter((a) => a.kind === "simulation").length}
-          unit="개"
-          color="orange"
-        />
-        <Stat
-          label="제출한 프로젝트"
-          value={state.activities.filter((a) => a.kind === "project").length}
-          unit="개"
-          color="purple"
-        />
-        <Stat
-          label="기록을 남긴 직업"
-          value={new Set(state.activities.map((a) => a.careerId)).size}
-          unit="개"
-          color="blue"
-        />
-      </div>
-      <section className="panel spaced-panel">
-        <SectionHeading
-          title="최근에 달라진 나의 기록"
-          sub="교육용 목표의 기록 충족도 변화야. 직무 능력 점수와는 달라."
-        />
-        {latest ? (
-          <div className="change-grid">
-            {["직무 이해", "활동 경험", "역량 이해"].map((name, i) => (
-              <div key={name}>
-                <span>{name}</span>
-                <p>
-                  <small>{latest.before[i + 1] ?? 0}%</small>
-                  <ArrowRight size={17} />
-                  <strong>{latest.after[i + 1] ?? 0}%</strong>
-                </p>
-              </div>
-            ))}
-            <div>
-              <span>활동 후 내가 남긴 관심</span>
-              <p>
-                <strong>{latest.interest ?? "미기록"}</strong>
-                {latest.interest !== undefined && <small>/ 5</small>}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className="portfolio-empty-intro">
-            <img
-              src="/brand/01_mascots/mascot_04_project.png"
-              width="116"
-              height="116"
-              alt=""
-            />
-            <p className="muted">
-              활동을 마치면 전후 기록과 회고를 여기서 꺼내볼 수 있어.
-            </p>
-          </div>
-        )}
-      </section>
-      <SectionHeading title="나의 활동 기록" />
-      <div className="filter-tabs">
+      <div className="filter-tabs portfolio-collection-tabs">
         {[
-          { id: "all", label: "모든 기록" },
-          { id: "simulation", label: "직무체험" },
-          { id: "project", label: "미니 프로젝트" },
-          { id: "diagnosis", label: "진로 진단" },
+          { id: "project", label: "프로젝트 결과물" },
+          { id: "certificates", label: "수료 카드·배지" },
+          { id: "simulation", label: "체험 기록" },
         ].map((item) => (
           <button
             className={filter === item.id ? "selected" : ""}
             key={item.id}
+            aria-pressed={filter === item.id}
             onClick={() => setFilter(item.id)}
           >
             {item.label}
           </button>
         ))}
       </div>
-      {list.length ? (
-        <div className="activity-list">
+      {filter === "certificates" ? <AwardsShelf /> : list.length ? (
+        <div className={filter === "project" ? "portfolio-work-grid" : "activity-list"}>
           {list.map((activity) => (
-            <ActivityRow
+            filter === "project" ? <button className="portfolio-work-card" data-career={activity.careerId} key={activity.id} onClick={() => setDetail(activity)}>
+              <ArtifactThumbnail activity={activity} />
+              <span>{dateLabel(activity.date)} · 제출한 결과물</span>
+              <h2>{activity.title}</h2>
+              <p>{activity.answers[0] || "저장한 설계도와 아이디어를 펼쳐봐."}</p>
+              <strong>설계도와 설명 보기 <ArrowRight size={17} /></strong>
+            </button> : <ActivityRow
               key={activity.id}
               activity={activity}
               onClick={() => setDetail(activity)}
@@ -1006,74 +722,41 @@ export function Portfolio() {
       ) : (
         <Empty
           title="나의 첫 번째 이야기를 기다리는 중"
-          action="직무체험 시작하기"
-          onClick={() => go("simulation")}
+          action={filter === "project" ? "첫 프로젝트 만들기" : "직무체험 시작하기"}
+          onClick={() => go(filter === "project" ? "projects" : "simulation")}
         >
           경험을 마치면 나의 선택과 결과물을 다시 꺼내볼 수 있어.
         </Empty>
       )}
       {detail && (
         <Modal title={detail.title} onClose={close}>
-          <div className="chip-list">
-            <Tag>{dateLabel(detail.date)}</Tag>
-            <FeedbackLabel activity={detail} />
+          <div className="portfolio-preview" data-kind={detail.kind}>
+            <div className="portfolio-preview-meta">
+              <img src={`/brand/12_career_kingcrabs/${detail.careerId}.png`} alt="" width={64} height={64} />
+              <div><span className="portfolio-preview-kind">{detail.kind === "project" ? "나의 프로젝트" : "나의 직무체험"}</span><strong>{getCareer(detail.careerId).title}</strong><span>{dateLabel(detail.date)} · 저장한 기록</span></div>
+              {detail.interest !== undefined && <span className="portfolio-preview-interest">활동 후 관심 <b>{detail.interest}<small> / 5</small></b></span>}
+            </div>
+            <div className="portfolio-result-layout">
+              {detail.kind === "project" && <Suspense fallback={<p role="status">결과물을 여는 중…</p>}><ArtifactPreview activityId={detail.id} evaluation={detail} /></Suspense>}
+              <section className="portfolio-result-story" aria-label={detail.kind === "project" ? "나의 설명" : "나의 선택"}>
+                <h3>{detail.kind === "project" ? "내 아이디어는 이렇게" : "현장에서 내가 한 선택"}</h3>
+                <ol className="portfolio-story-cards">
+                  {detail.answers.map((answer, index) => <li key={index}><span className="portfolio-story-number">{index + 1}</span><div><h4>{detail.kind === "project" ? ["발견한 문제", "개선 제안과 근거", "확인 방법"][index] || "나의 설명" : `선택 ${index + 1}`}</h4><p className="preserve-text">{answer || "이 부분은 설명을 남기지 않았어."}</p></div></li>)}
+                </ol>
+                {detail.reflection && <details className="portfolio-personal-note"><summary>나에게 남은 것</summary><p className="preserve-text">{detail.reflection}</p></details>}
+              </section>
+            </div>
+            <section className="portfolio-feedback-block" aria-label="결과물 피드백">
+              {detail.kind === "project" ? <>
+                {detail.evaluationStatus === "ai_feedback" && <div className="portfolio-feedback-summary"><span>AI 코치 피드백</span><p className="preserve-text">{detail.feedback}</p></div>}
+                <PortfolioEvaluation key={detail.id} activity={detail} onEvaluated={(updated) => setDetail(current => current?.id === updated.id ? updated : current)} />
+              </> : <><FeedbackLabel activity={detail} /><h3>{detail.evaluationStatus === "completed" || detail.evaluationStatus === "ai_feedback" ? "AI 피드백" : "활동 기록 안내"}</h3><p className="preserve-text">{detail.feedback}</p></>}
+            </section>
+            <div className="portfolio-preview-next">
+              <div><strong>이번 경험에서 무엇을 발견했을까?</strong><p>크랩과 돌아보고 다음 경험을 골라 봐.</p></div>
+              <Button onClick={() => { close(); go("review", detail.careerId, undefined, { activityId: detail.id }); }}>크랩과 경험 돌아보기 <ArrowRight size={17} /></Button>
+            </div>
           </div>
-          <h3>나의 활동</h3>
-          <ol className="answer-list">
-            {detail.answers.map((answer, i) => (
-              <li className="preserve-text" key={i}>
-                {answer}
-              </li>
-            ))}
-          </ol>
-          <h3>
-            {detail.evaluationStatus === "completed" ||
-            detail.evaluationStatus === "ai_feedback"
-              ? "AI 피드백"
-              : "활동 기록 안내"}
-          </h3>
-          <p className="preserve-text">{detail.feedback}</p>
-          {detail.evaluationStatus !== "completed" &&
-            detail.evaluationStatus !== "ai_feedback" &&
-            detail.evaluationStatus !== "self_report" && (
-              <p className="fine-print">
-                {detail.evaluationStatus === "pending"
-                  ? "활동은 저장됐어. AI의 내용 평가는 아직 기다리는 중이야."
-                  : "활동은 저장됐어. 지금은 AI가 결과물의 내용이나 직무 역량을 평가하지 않아."}
-              </p>
-            )}
-          <h3>나에게 남은 것</h3>
-          <p className="preserve-text">
-            {detail.reflection || "별도의 회고를 남기지 않았어."}
-          </p>
-          {detail.kind === "project" && (
-            <>
-              <p>
-                <a href={`/api/v1/portfolio/${detail.id}/artifact`} download>
-                  이 수정본의 배치도·설명 JSON 다운로드
-                </a>
-              </p>
-              <Suspense fallback={<p>결과물을 여는 중…</p>}>
-                <ArtifactPreview activityId={detail.id} />
-              </Suspense>
-            </>
-          )}
-          <h3>활동 후 관심</h3>
-          <p>
-            {detail.interest !== undefined
-              ? `${detail.interest} / 5`
-              : "관심을 별도로 기록하지 않았어."}
-          </p>
-          <Button
-            kind="secondary"
-            onClick={() => {
-              close();
-              go("map", detail.careerId);
-            }}
-          >
-            진로지도에서 보기
-            <ArrowRight size={16} />
-          </Button>
         </Modal>
       )}
     </>

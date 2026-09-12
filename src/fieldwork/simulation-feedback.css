@@ -1,0 +1,29 @@
+.kc-earned-badges {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0;
+}
+.kc-earned-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e8def8;
+  border-radius: 16px;
+  background: #f3edfc;
+}
+.kc-earned-badge img { width: 48px; height: 48px; object-fit: contain; flex: 0 0 auto; }
+.kc-earned-badge strong { color: #5d31a1; font-size: 14px; }
+.kc-certificate .kc-earned-badge p { font-size: 13px; line-height: 1.6; margin: 4px 0 0; overflow-wrap: anywhere; }
+.kc-verification-outcome {
+  padding: 14px 16px;
+  margin: 14px 0;
+  border: 0;
+  border-radius: 16px;
+  background: #eef4ff;
+  color: #283b61;
+}
+.kc-verification-outcome.is-pending { background: #fff1e8; color: #75452f; }
+.kc-verification-outcome strong { font-size: 14px; }
+.kc-verification-outcome p, .kc-verification-outcome li { font-size: 14px; line-height: 1.6; }
+.kc-verification-outcome ul { padding-left: 20px; margin-bottom: 0; }

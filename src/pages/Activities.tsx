@@ -1,7 +1,6 @@
 import {
   Suspense,
   lazy,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -13,7 +12,6 @@ import {
   ArrowUpRight,
   Check,
   Clock3,
-  FileText,
   Flag,
   Lightbulb,
   MessageCircle,
@@ -25,18 +23,19 @@ import {
 import {
   Button,
   CareerCard,
-  JobIcon,
   PageHeading,
   Progress,
-  Steps,
   Tag,
 } from "../components";
 import { careers, dimensions, getCareer } from "../data";
 import type { Activity, CareerId } from "../data";
 import { api, ApiError, json, requestId } from "../api";
-import type { ProjectDraft, SimulationSession } from "../api";
+import type { SimulationSession } from "../api";
 import { useApp } from "../store";
 import ChoiceCards from "../fieldwork/ChoiceCards";
+import StartingPointCard from "../fieldwork/StartingPointCard";
+import ProjectLobby from "./ProjectLobby";
+import SimulationLobby from "./SimulationLobby";
 
 const reflectionChoices = [
   "생각보다 여러 정보를 살펴보고 판단하는 직업이었어요.",
@@ -216,14 +215,20 @@ function Mascot({
 }
 
 export function Diagnosis() {
-  const { go, careerId, setCareerId, refresh, toast, requireAuth, catalog } =
+  const { go, careerId, setCareerId, refresh, toast, requireAuth, catalog, state } =
     useApp();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>(Array(6).fill(-1));
   const [result, setResult] = useState<Activity | null>(null);
+  const [editingReview, setEditingReview] = useState(false);
   const action = useAction();
   const keyFor = useRequestKeys();
   const reduceMotion = useReducedMotion();
+  const savedPoint = state.gaps[careerId]?.startingPoint;
+  const next = state.recommendations.find((item) => item.careerId === careerId);
+  useEffect(() => {
+    document.querySelector<HTMLElement>(".diagnosis-focus")?.focus({ preventScroll: true });
+  }, [step]);
   const availableCareers = catalog.length ? catalog : careers;
   const job =
     availableCareers.find((item) => item.id === careerId) ??
@@ -238,7 +243,7 @@ export function Diagnosis() {
         json("POST", { ...payload, clientRequestId }),
       );
       setResult(activity);
-      setStep(7);
+      setStep(8);
       await refresh().catch(() =>
         toast("진단은 저장됐어요. 경험지도는 연결 후 다시 불러와 주세요."),
       );
@@ -251,6 +256,7 @@ export function Diagnosis() {
         title="꿈 말고, 해본 것부터 이야기해 봐"
         description="지금까지 알게 된 것과 직접 해본 일을 모아 나의 출발점을 찾아보자."
       />
+      {step === 0 && savedPoint && <StartingPointCard point={savedPoint} next={next} />}
       {step === 0 ? (
         <section className="panel diagnosis-intro">
           <div className="activity-hero-row">
@@ -273,10 +279,21 @@ export function Diagnosis() {
                 className={`career-select ${careerId === c.id ? "selected" : ""}`}
                 key={c.id}
                 aria-pressed={careerId === c.id}
-                onClick={() => setCareerId(c.id)}
+                onClick={() => {
+                  setCareerId(c.id);
+                  setAnswers(Array(6).fill(-1));
+                  setResult(null);
+                  setEditingReview(false);
+                }}
               >
                 <span className={`job-badge ${c.color}`}>
-                  <JobIcon id={c.id} />
+                  <img
+                    src={`/brand/12_career_kingcrabs/${c.id}.png`}
+                    alt=""
+                    width={76}
+                    height={76}
+                    loading="lazy"
+                  />
                 </span>
                 <b>{c.title}</b>
                 {careerId === c.id && <Check size={18} />}
@@ -288,7 +305,7 @@ export function Diagnosis() {
               if (requireAuth()) setStep(1);
             }}
           >
-            나의 출발점 알아보기
+            {savedPoint ? "지금의 경험으로 다시 진단하기" : "나의 출발점 알아보기"}
             <ArrowRight size={18} />
           </Button>
         </section>
@@ -308,10 +325,10 @@ export function Diagnosis() {
               transition={{ duration: reduceMotion ? 0 : 0.18 }}
             >
               <span className="eyebrow">{dimensions[step - 1]}</span>
-              <h2>{questions[step - 1].title}</h2>
+              <h2 className="diagnosis-focus" tabIndex={-1}>{questions[step - 1].title}</h2>
               <p>{questions[step - 1].description}</p>
               <div className="choices">
-                {questions[step - 1].answers.map((answer, i) => (
+                {[...questions[step - 1].answers, "아직 모르겠어요 / 기억이 나지 않아요"].map((answer, i) => (
                   <button
                     key={answer}
                     disabled={action.busy}
@@ -347,47 +364,51 @@ export function Diagnosis() {
             </Button>
             <Button
               disabled={answers[step - 1] < 0 || action.busy}
-              onClick={() => (step === 6 ? finish() : setStep(step + 1))}
+              onClick={() => {
+                setStep(editingReview ? 7 : step + 1);
+                setEditingReview(false);
+              }}
             >
               {action.busy
                 ? "진단 저장 중"
-                : step === 6
-                  ? "나의 출발점 기록하기"
+                : step === 6 || editingReview
+                  ? "답변 함께 확인하기"
                   : "다음 질문"}
               <ArrowRight size={17} />
             </Button>
           </div>
         </section>
+      ) : step === 7 ? (
+        <section className="panel diagnosis-review">
+          <Tag color="orange">마지막으로 확인해 봐</Tag>
+          <h2 className="diagnosis-focus" tabIndex={-1}>{job.title}, 지금의 내 출발점</h2>
+          <p>정답은 없어. 다른 답이 떠오르면 수정한 뒤 기록해 줘.</p>
+          {questions.map((question, i) => (
+            <div className="diagnosis-review-row" key={question.title}>
+              <div><b>{question.title}</b><p>{question.answers[answers[i]] ?? "아직 모르겠어요 / 기억이 나지 않아요"}</p></div>
+              <Button kind="ghost" disabled={action.busy} onClick={() => { action.clear(); setEditingReview(true); setStep(i + 1); }}>수정</Button>
+            </div>
+          ))}
+          <RequestError {...action} />
+          <Button disabled={action.busy || answers.some((answer) => answer < 0)} onClick={finish}>
+            {action.busy ? "출발점 저장 중…" : "내 출발점과 추천 경험 보기"}<ArrowRight size={17} />
+          </Button>
+        </section>
       ) : (
         result && (
           <section className="panel result-panel">
             <Mascot pose="mascot_06_celebrate" />
-            <Tag color="purple">첫 번째 기록을 남겼어</Tag>
-            <h2>이제 너의 출발점이 생겼어.</h2>
+            <Tag color="purple">나의 출발점을 기록했어</Tag>
+            <h2 className="diagnosis-focus" tabIndex={-1}>이제 너의 출발점이 생겼어.</h2>
             <p>
               {job.title}에 대해 알려준 내용을 저장했어. 직접 경험하며 지도를
               채워보자.
             </p>
-            <div className="diagnosis-results">
-              {dimensions.map((d, i) => (
-                <div key={d}>
-                  <span>{d}</span>
-                  <Progress
-                    value={result.after[i] ?? 0}
-                    color={i % 2 ? "purple" : "orange"}
-                  />
-                  <b>{result.after[i] ?? 0}%</b>
-                </div>
-              ))}
-            </div>
-            <p className="fine-print">
-              기록으로 확인한 경험목표 충족도예요. 자기보고는 실제 활동 기록과
-              구분하며, 능력이나 적성을 평가하는 점수가 아니에요.
-            </p>
+            {result.startingPoint && <StartingPointCard point={result.startingPoint} next={result.nextActivity} />}
             <p>{result.feedback}</p>
-            <div className="button-row centered">
+            {!result.startingPoint && <div className="button-row centered">
               <Button onClick={() => go("map", careerId)}>
-                나의 지도 펼치기
+                나의 진로 기록 보기
                 <ArrowUpRight size={17} />
               </Button>
               <Button
@@ -397,7 +418,7 @@ export function Diagnosis() {
                 직접 경험해 보기
                 <Play size={16} />
               </Button>
-            </div>
+            </div>}
           </section>
         )
       )}
@@ -434,7 +455,7 @@ export function Simulation() {
       <Smartfarm legacy={<ClassicSimulation />} />
     </Suspense>
   ) : (
-    <ClassicSimulation />
+    <SimulationLobby />
   );
 }
 
@@ -577,15 +598,21 @@ function ClassicSimulation() {
       {stage === "lobby" ? (
         <>
           <section className="simulation-intro">
-            <Mascot pose="mascot_01_explore" />
+            <img
+              className="lobby-crab"
+              src="/brand/12_career_kingcrabs/engineer.png"
+              alt="직무 현장으로 안내하는 크랩"
+              width={180}
+              height={180}
+            />
             <div>
-              <h3>직업을 고르고, 새로운 하루로 들어가 봐.</h3>
+              <h3>새로운 직업의 첫 출근, 준비됐어?</h3>
               <p>
-                현장 조사 → 객관식 조치 → 결과 확인·인계 → 회고와 수료 카드.
-                저장한 지점부터 이어할 수 있어.
+                현장을 살펴보고, 직접 조치를 골라봐. 하루의 업무를 마치면 나만의
+                수료 카드가 생겨. 하던 체험은 이어서 할 수 있어.
               </p>
             </div>
-            <Tag color="orange">준비된 시나리오</Tag>
+            <Tag color="orange">5가지 직업의 하루</Tag>
           </section>
           {action.busy && (
             <p className="save-status" role="status">
@@ -610,8 +637,8 @@ function ClassicSimulation() {
             ))}
           </div>
           <p className="fine-print">
-            준비된 직무 상황에서 선택하면 3D 현장과 결과가 달라져요. AI 코치는
-            연결 설정에 따라 질문을 설명해 줘요.
+            체험은 교육용 시나리오로 진행돼요. 선택한 조치에 따라 현장의 변화와
+            결과를 확인할 수 있어요.
           </p>
         </>
       ) : (
@@ -620,11 +647,11 @@ function ClassicSimulation() {
             <div className="simulation-mode">
               <Tag color={session.mode === "template" ? "orange" : "purple"}>
                 {session.mode === "template"
-                  ? "준비된 시나리오 · AI 미연결"
+                  ? "시나리오 체험 · AI 응답 없음"
                   : "AI 시뮬레이션"}
               </Tag>
               <span className="save-status" role="status">
-                {action.busy ? "서버에 기록 중" : "서버에 저장된 체험"}
+                {action.busy ? "체험 기록 저장 중" : "저장한 체험 이어가기"}
               </span>
             </div>
             {stage === "brief" ? (
@@ -1026,14 +1053,6 @@ export function Interest({
   );
 }
 
-type SaveAttempt = {
-  careerId: CareerId;
-  answers: string[];
-  expectedVersion: number;
-  clientRequestId: string;
-};
-type ProjectRevision = { version: number; answers: string[]; date: string };
-
 export function Projects() {
   const selected = new URLSearchParams(location.hash.split("?")[1] || "").get(
     "career",
@@ -1050,594 +1069,6 @@ export function Projects() {
       <Workshop />
     </Suspense>
   ) : (
-    <ClassicProjects />
-  );
-}
-
-function ClassicProjects() {
-  const {
-    state,
-    go,
-    careerId,
-    setCareerId,
-    refresh,
-    toast,
-    requireAuth,
-    user,
-    registerNavigationGuard,
-    catalog,
-  } = useApp();
-  const [stage, setStage] = useState<"list" | "detail" | "work" | "result">(
-    () => (window.location.hash.includes("?career=") ? "detail" : "list"),
-  );
-  const [mission, setMission] = useState(0);
-  const [hint, setHint] = useState(false);
-  const [interest, setInterest] = useState(3);
-  const [draft, setDraft] = useState<ProjectDraft | null>(null);
-  const [answers, setAnswers] = useState<string[]>(["", "", ""]);
-  const [saveState, setSaveState] = useState<
-    "saved" | "dirty" | "saving" | "error"
-  >("saved");
-  const [saveError, setSaveError] = useState<Error | null>(null);
-  const [result, setResult] = useState<Activity | null>(null);
-  const [reloadRequired, setReloadRequired] = useState(false);
-  const [revisions, setRevisions] = useState<ProjectRevision[] | null>(null);
-  const action = useAction();
-  const keyFor = useRequestKeys();
-  const reduceMotion = useReducedMotion();
-  const draftRef = useRef<ProjectDraft | null>(null);
-  const answersRef = useRef<string[]>(["", "", ""]);
-  const dirtyRef = useRef(false);
-  const rebaseBlocked = useRef(false);
-  const inflight = useRef<Promise<boolean> | null>(null);
-  const attemptRef = useRef<SaveAttempt | null>(null);
-  const selectedRef = useRef(careerId);
-  const mountedRef = useRef(true);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const availableCareers = catalog.length ? catalog : careers;
-  const job =
-    availableCareers.find((item) => item.id === careerId) ??
-    getCareer(careerId);
-
-  const flushDraft = useCallback(async (): Promise<boolean> => {
-    if (timer.current) clearTimeout(timer.current);
-    if (rebaseBlocked.current) return false;
-    if (inflight.current) return inflight.current;
-    if (!dirtyRef.current && !attemptRef.current) return true;
-    if (!draftRef.current) return false;
-    const task = (async () => {
-      if (mountedRef.current) {
-        setSaveState("saving");
-        setSaveError(null);
-      }
-      try {
-        while (dirtyRef.current || attemptRef.current) {
-          const current = draftRef.current!;
-          const attempt = attemptRef.current ?? {
-            careerId: current.careerId,
-            answers: [...answersRef.current],
-            expectedVersion: current.version,
-            clientRequestId: requestId(),
-          };
-          attemptRef.current = attempt;
-          const saved = await api<ProjectDraft>(
-            `/projects/${attempt.careerId}/draft`,
-            json("PUT", {
-              answers: attempt.answers,
-              expectedVersion: attempt.expectedVersion,
-              clientRequestId: attempt.clientRequestId,
-            }),
-          );
-          draftRef.current = saved;
-          attemptRef.current = null;
-          dirtyRef.current =
-            JSON.stringify(answersRef.current) !==
-            JSON.stringify(attempt.answers);
-          if (mountedRef.current) setDraft(saved);
-        }
-        if (mountedRef.current) {
-          setSaveState("saved");
-          setSaveError(null);
-        }
-        return true;
-      } catch (cause) {
-        if (mountedRef.current) {
-          setSaveState("error");
-          setSaveError(
-            cause instanceof Error
-              ? cause
-              : new Error("초안을 저장하지 못했어요."),
-          );
-        }
-        return false;
-      }
-    })();
-    inflight.current = task;
-    try {
-      return await task;
-    } finally {
-      inflight.current = null;
-    }
-  }, []);
-
-  useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-      if (timer.current) clearTimeout(timer.current);
-    };
-  }, []);
-  useEffect(
-    () =>
-      registerNavigationGuard(async () => {
-        const saved = await flushDraft();
-        if (!saved)
-          toast(
-            "초안을 저장하지 못해 이 화면에 머물렀어요. 저장을 다시 시도해 주세요.",
-          );
-        return saved;
-      }),
-    [registerNavigationGuard, flushDraft, toast],
-  );
-  useEffect(() => {
-    const warn = (event: BeforeUnloadEvent) => {
-      if (dirtyRef.current || inflight.current || attemptRef.current) {
-        event.preventDefault();
-        event.returnValue = "";
-      }
-    };
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, []);
-
-  const loadDraft = async (id: CareerId) => {
-    const saved = await api<ProjectDraft>(`/projects/${id}`);
-    if (selectedRef.current !== id) return;
-    draftRef.current = saved;
-    answersRef.current = [...saved.answers];
-    dirtyRef.current = false;
-    attemptRef.current = null;
-    rebaseBlocked.current = false;
-    setDraft(saved);
-    setAnswers([...saved.answers]);
-    setSaveState("saved");
-    setSaveError(null);
-    setReloadRequired(false);
-  };
-  useEffect(() => {
-    if (!user || stage === "list" || draftRef.current?.careerId === careerId)
-      return;
-    selectedRef.current = careerId;
-    void action.run(() => loadDraft(careerId));
-    // Changing a career loads its own server draft; live edits are never reset by a refresh.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [careerId, user, stage]);
-
-  const openProject = (id: CareerId) => {
-    const params = new URLSearchParams(window.location.hash.split("?")[1]);
-    if (params.get("career") !== id) {
-      go("projects", id);
-      return;
-    }
-    if (!requireAuth()) return;
-    void action.run(async () => {
-      if (!(await flushDraft())) return;
-      selectedRef.current = id;
-      setDraft(null);
-      setCareerId(id);
-      setStage("detail");
-      setMission(0);
-      setHint(false);
-      setResult(null);
-      setRevisions(null);
-      setInterest(3);
-      await loadDraft(id);
-    });
-  };
-  const updateDraft = (value: string) => {
-    const next = answersRef.current.map((v, index) =>
-      index === mission ? value : v,
-    );
-    answersRef.current = next;
-    setAnswers(next);
-    dirtyRef.current =
-      JSON.stringify(next) !== JSON.stringify(draftRef.current?.answers);
-    if (!saveError) setSaveState(dirtyRef.current ? "dirty" : "saved");
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      if (!saveError) void flushDraft();
-    }, 650);
-  };
-  const reloadVersion = () => {
-    void action.run(async () => {
-      const current = await api<ProjectDraft>(`/projects/${careerId}`);
-      draftRef.current = current;
-      setDraft(current);
-      attemptRef.current = null;
-      dirtyRef.current =
-        JSON.stringify(answersRef.current) !== JSON.stringify(current.answers);
-      rebaseBlocked.current = dirtyRef.current;
-      setSaveError(null);
-      setReloadRequired(dirtyRef.current);
-      setSaveState(dirtyRef.current ? "dirty" : "saved");
-    });
-  };
-  const finish = () => {
-    if (!requireAuth()) return;
-    void action.run(async () => {
-      if (!(await flushDraft())) return;
-      const current = draftRef.current!;
-      const payload = { interest, expectedVersion: current.version };
-      const clientRequestId = keyFor({ careerId, ...payload });
-      const activity = await api<Activity>(
-        `/projects/${careerId}/submit`,
-        json("POST", { ...payload, clientRequestId }),
-      );
-      setResult(activity);
-      setStage("result");
-      await refresh().catch(() =>
-        toast("프로젝트는 저장됐어요. 활동 목록은 연결 후 다시 불러와 주세요."),
-      );
-    });
-  };
-  const nextMission = () =>
-    action.run(async () => {
-      if (!(await flushDraft())) return;
-      setMission((old) => Math.min(2, old + 1));
-      setHint(false);
-    });
-  const leaveWork = () =>
-    action.run(async () => {
-      if (!(await flushDraft())) return;
-      if (mission === 0) setStage("detail");
-      else setMission((old) => Math.max(0, old - 1));
-      setHint(false);
-    });
-  const hints = [
-    "‘누가, 언제, 무엇 때문에 불편할까?’를 한 문장으로 쓰고, 그 사람이 하는 행동을 떠올려 봐.",
-    "아이디어를 3개 쓰고, 가장 간단하게 시작할 수 있는 것 하나를 골라봐. 누구에게 왜 필요한지도 적어줘.",
-    "성공했는지 알아볼 질문과 관찰할 행동을 정해봐. 비교할 때 무엇을 같은 조건으로 둘지도 생각해 봐.",
-  ];
-  const showHistory = () => {
-    if (!requireAuth()) return;
-    if (revisions) {
-      setRevisions(null);
-      return;
-    }
-    void action.run(async () => {
-      setRevisions(
-        await api<ProjectRevision[]>(`/projects/${careerId}/revisions`),
-      );
-    });
-  };
-
-  return (
-    <>
-      <PageHeading
-        eyebrow="MAKE SOMETHING YOURS"
-        title={
-          stage === "list" ? "작게 만들어도, 크게 발견할 거야" : job.project
-        }
-        description="생각만 했던 아이디어를 나만의 결과물로. 완벽하지 않아도 괜찮아."
-      />
-      <RequestError {...action} onConflict={reloadVersion} />
-      <RequestError
-        error={saveError}
-        busy={saveState === "saving"}
-        retry={() => {
-          void flushDraft();
-        }}
-        onConflict={reloadVersion}
-      />
-      {reloadRequired && (
-        <div className="request-error" role="alert">
-          <p>
-            다른 화면에서 초안이 변경됐어요. 이 화면의 입력은 유지했어요. 현재
-            입력으로 저장하면 서버의 최신 초안을 새 버전으로 갱신해요.
-          </p>
-          <Button
-            kind="secondary"
-            onClick={() => {
-              rebaseBlocked.current = false;
-              setReloadRequired(false);
-              void flushDraft();
-            }}
-          >
-            현재 입력으로 저장하기
-          </Button>
-        </div>
-      )}
-      {stage === "list" ? (
-        <>
-          <section className="project-intro">
-            <div>
-              <Tag color="purple">MY FIRST PROJECT</Tag>
-              <h2>
-                작은 결과물 하나가,
-                <br />
-                나를 설명하는 이야기가 되니까.
-              </h2>
-              <p>관심 직업의 문제를 골라 3개의 미션을 완성해 봐.</p>
-            </div>
-            <Mascot large />
-          </section>
-          <div className="project-grid">
-            {availableCareers.map((c) => (
-              <motion.button
-                whileHover={reduceMotion ? undefined : { y: -4 }}
-                className="project-card"
-                key={c.id}
-                disabled={action.busy}
-                onClick={() => openProject(c.id)}
-              >
-                <div className="project-card-top">
-                  <span className={`job-badge ${c.color}`}>
-                    <JobIcon id={c.id} />
-                  </span>
-                  <Tag color={c.color}>
-                    {state.drafts[c.id]?.some((x) => x.trim())
-                      ? "작성 중"
-                      : "입문"}
-                  </Tag>
-                </div>
-                <small>{c.title}</small>
-                <h3>{c.project}</h3>
-                <p>{c.problem}</p>
-                <div className="project-card-meta">
-                  <span>
-                    <Clock3 size={14} />
-                    20~30분
-                  </span>
-                  <span>
-                    3개 미션
-                    <ArrowUpRight size={17} />
-                  </span>
-                </div>
-              </motion.button>
-            ))}
-          </div>
-        </>
-      ) : stage === "detail" ? (
-        <section className="panel project-detail">
-          <Tag color={job.color}>{job.title} · 입문</Tag>
-          <div className="activity-hero-row">
-            <div>
-              <h2>{job.project}</h2>
-              <p className="detail-intro">{job.problem}</p>
-            </div>
-            <img
-              className="activity-illustration"
-              src="/brand/04_feature_illustrations/feature_04_project.svg"
-              alt="아이디어를 결과물로 만드는 프로젝트"
-              width="240"
-              height="180"
-            />
-          </div>
-          <div className="chip-list">
-            {job.skills.map((s) => (
-              <Tag key={s}>{s}</Tag>
-            ))}
-          </div>
-          <h3>함께 해볼 미션</h3>
-          <div className="mission-list">
-            {job.missions.map((m, i) => (
-              <div key={m}>
-                <span>{i + 1}</span>
-                <b>{m}</b>
-                <small>약 {i === 1 ? 10 : 5}분</small>
-              </div>
-            ))}
-          </div>
-          <div className="example-output">
-            <FileText size={25} />
-            <div>
-              <b>완성하면 이런 결과물이 남아</b>
-              <p>
-                문제 정의, 아이디어, 확인 계획을 담은 나만의 기획 노트. 세
-                단계의 답변이 포트폴리오에 저장돼.
-              </p>
-            </div>
-          </div>
-          <div className="button-row">
-            <Button
-              disabled={
-                action.busy ||
-                Boolean(user && (!draft || draft.careerId !== careerId))
-              }
-              onClick={() => {
-                if (!requireAuth()) return;
-                setMission(0);
-                setHint(false);
-                setStage("work");
-              }}
-            >
-              {action.busy
-                ? "초안 불러오는 중"
-                : answers.some((x) => x.trim())
-                  ? "작성하던 프로젝트 이어하기"
-                  : "내 프로젝트 시작하기"}
-              <ArrowRight size={17} />
-            </Button>
-            <Button
-              kind="ghost"
-              disabled={action.busy}
-              onClick={() => {
-                void flushDraft().then((ok) => {
-                  if (ok) setStage("list");
-                });
-              }}
-            >
-              다른 프로젝트 보기
-            </Button>
-            <Button kind="ghost" disabled={action.busy} onClick={showHistory}>
-              {revisions ? "수정 이력 접기" : "저장된 수정 이력 보기"}
-            </Button>
-          </div>
-          {revisions && (
-            <div className="project-revisions">
-              <h3>내 아이디어가 바뀌어 온 과정</h3>
-              {revisions.length ? (
-                revisions.map((revision) => (
-                  <details key={revision.version}>
-                    <summary>
-                      버전 {revision.version} ·{" "}
-                      {new Date(revision.date).toLocaleString("ko-KR")}
-                    </summary>
-                    {revision.answers.map((answer, index) => (
-                      <div key={index}>
-                        <b>미션 {index + 1}</b>
-                        <p className="revision-answer">
-                          {answer || "아직 작성하지 않았어요."}
-                        </p>
-                      </div>
-                    ))}
-                  </details>
-                ))
-              ) : (
-                <p>첫 초안을 저장하면 수정 이력이 여기에 남아요.</p>
-              )}
-            </div>
-          )}
-        </section>
-      ) : stage === "work" ? (
-        <>
-          <Steps
-            current={mission}
-            labels={["문제 발견", "아이디어 만들기", "확인하고 제출"]}
-          />
-          <div className="project-work-grid">
-            <section className="panel">
-              <div className="question-top">
-                <Tag>MISSION {mission + 1}</Tag>
-                <span className={`save-status ${saveState}`} role="status">
-                  {saveState === "saved"
-                    ? "서버에 저장됨"
-                    : saveState === "saving"
-                      ? "초안 저장 중"
-                      : saveState === "dirty"
-                        ? "아직 저장되지 않은 변경"
-                        : "저장 실패 · 다시 시도해 주세요"}
-                </span>
-              </div>
-              <h2>{job.missions[mission]}</h2>
-              <p className="muted">
-                구체적인 대상과 이유를 적어주면 아이디어가 더 선명해져.
-              </p>
-              <label className="form-field">
-                나의 결과물
-                <textarea
-                  disabled={action.busy || !draft || reloadRequired}
-                  rows={9}
-                  value={answers[mission]}
-                  onChange={(e) => updateDraft(e.target.value)}
-                  placeholder="내 생각을 10자 이상 적어줘. 짧게 시작해도 괜찮아."
-                  maxLength={5000}
-                />
-                <small>{answers[mission].length} / 5,000</small>
-              </label>
-              {mission === 2 && (
-                <Interest
-                  value={interest}
-                  onChange={setInterest}
-                  disabled={action.busy}
-                />
-              )}
-              <div className="form-actions">
-                <Button
-                  kind="ghost"
-                  disabled={
-                    action.busy || saveState === "saving" || reloadRequired
-                  }
-                  onClick={() => {
-                    void leaveWork();
-                  }}
-                >
-                  <ArrowLeft size={17} />
-                  이전
-                </Button>
-                <Button
-                  disabled={
-                    action.busy ||
-                    saveState === "saving" ||
-                    reloadRequired ||
-                    !draft ||
-                    (mission === 2
-                      ? answers.some((x) => x.trim().length < 10)
-                      : answers[mission].trim().length < 10)
-                  }
-                  onClick={() => {
-                    if (mission === 2) finish();
-                    else void nextMission();
-                  }}
-                >
-                  {action.busy
-                    ? mission === 2
-                      ? "제출 중"
-                      : "초안 저장 중"
-                    : mission === 2
-                      ? "프로젝트 제출하기"
-                      : "다음 미션"}
-                  {mission === 2 ? (
-                    <Check size={17} />
-                  ) : (
-                    <ArrowRight size={17} />
-                  )}
-                </Button>
-              </div>
-            </section>
-            <aside className="panel hint-panel">
-              <Mascot pose="mascot_05_idea" />
-              <Tag color="orange">준비된 작성 가이드</Tag>
-              <h3>막막할 땐, 작은 힌트</h3>
-              <p>질문을 작게 나눠서 생각해 보자.</p>
-              <Button kind="secondary" onClick={() => setHint(!hint)}>
-                {hint ? "힌트 접기" : "단계별 힌트 보기"}
-                <Lightbulb size={16} />
-              </Button>
-              {hint && <div className="hint-box">{hints[mission]}</div>}
-              <p className="fine-print">
-                지금은 준비된 가이드를 제공해요. AI 질문 답변과 내용 평가는 연결
-                예정이에요.
-              </p>
-              <div className="side-note">
-                <FileText size={20} />
-                <p>
-                  초안은 서버에 자동 저장돼. 저장 중에는 완료될 때까지 이 화면에
-                  머물러줘.
-                </p>
-              </div>
-            </aside>
-          </div>
-        </>
-      ) : (
-        result && (
-          <section className="panel result-panel">
-            <Mascot pose="mascot_06_celebrate" />
-            <Tag color="purple">내 손으로 만든 첫 가능성</Tag>
-            <h2>너만의 프로젝트가 완성됐어!</h2>
-            <p>{result.title}</p>
-            <div className="project-result-feedback">
-              <h3>제출 완료 안내</h3>
-              <p>{result.feedback}</p>
-              <Tag color="orange">AI 내용 평가 · 미연결</Tag>
-              <p className="fine-print">
-                결과물 제출과 회고를 활동 기록으로 남겼어요. 결과물의 품질이나
-                역량을 AI가 평가한 상태는 아니에요.
-              </p>
-            </div>
-            <div className="button-row centered">
-              <Button onClick={() => go("portfolio")}>
-                포트폴리오에서 보기
-                <ArrowUpRight size={17} />
-              </Button>
-              <Button kind="secondary" onClick={() => go("map", careerId)}>
-                경험지도 확인하기
-                <ArrowRight size={17} />
-              </Button>
-            </div>
-          </section>
-        )
-      )}
-    </>
+    <ProjectLobby />
   );
 }

@@ -5,6 +5,10 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 45000,
+  projects: [
+    { name: "ui", testIgnore: "**/studio-ui.spec.ts" },
+    { name: "api", testMatch: "**/studio-ui.spec.ts" },
+  ],
   use: {
     baseURL: "http://127.0.0.1:5173",
     channel: "chrome",

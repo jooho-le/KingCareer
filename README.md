@@ -89,9 +89,17 @@ Vite가 `/api` 요청을 FastAPI로 전달합니다. 브라우저 주소는 `127
 | 문서 | 내용 |
 | --- | --- |
 | [학생 화면 IA](docs/front-ia.md) | 페이지 경로, 로그인 범위, 화면 사이의 연결 |
+| [학생 앱 디자인 개편](docs/design-refresh.md) | 홈·크랩 카드·체험·프로젝트·수료 카드의 변경과 사용자 확인 항목 |
+| [AI 경험 회고와 다음 선택](docs/career-review.md) | 객관식 회고, 근거를 포함한 정리, 학생 확인·수정, 직업 지도 연결 |
 | [API 계약](docs/api.md) | 인증, 요청·응답 타입, 버전·재시도·오류 처리 |
 | [OSS와 데이터 출처](docs/data-sources.md) | 사용 기술, 수집한 직업 데이터, 버전과 이용 조건 |
 | [소개 페이지 원본](docs/landing-source.md) | HTML·3D·지원 런타임·제공 이미지의 보존 범위 |
 | [사용자 확인 목록](docs/manual-review.md) | 실행 후 확인할 흐름과 기존 테스트 수정 사항 |
 
-요청에 따라 테스트는 새로 작성하거나 실행하지 않았습니다. 기존 브라우저 테스트는 이전 체험판의 경로와 저장 방식에 맞춰져 있어 수정이 필요합니다.
+최근 리뷰의 수정 내용과 확인 결과는 [흐름·저장 개선 기록](docs/review-improvements.md)에 정리했습니다. 기존 체험판 테스트는 현재 학생용 경로로 교체했습니다.
+
+메뉴·홈 간소화, 모바일 체험 순서, 단계 카드 작성, 최초 방문 도움말은 [학생 사용 흐름 개선](docs/student-usability.md)에 정리했습니다.
+
+`npm.cmd run test:ui`는 브라우저 테스트 응답으로 화면을 확인합니다. `npm.cmd run test:api`는 로컬 FastAPI에 임시 계정을 만들고 검사 후 삭제하여 실제 저장·복원을 확인합니다. 두 검사는 모델 생성 응답을 대체하므로 Gemini를 호출하지 않습니다. 전체 브라우저 검사는 `npm.cmd run test:e2e`입니다.
+
+백엔드는 `.\.venv\Scripts\python.exe tests/backend_review_test.py`와 `.\.venv\Scripts\python.exe tests/test_simulation_review.py`로 확인합니다. 사용자 DB와 분리된 임시 SQLite와 모의 AI를 사용합니다. 기존 데이터는 서버 재시작 시 적용되는 `005_project_progress.sql` 마이그레이션으로 관심도 저장 필드를 추가합니다.

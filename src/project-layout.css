@@ -1,0 +1,307 @@
+.kc-refresh .profile-account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.kc-refresh[data-page="projects"] .page-heading p,
+.kc-refresh[data-page="projects"] .project-intro p,
+.kc-refresh[data-page="projects"] .project-card p {
+  font-size: 16px;
+  line-height: 1.8;
+}
+.kc-refresh[data-page="projects"] .project-card h3 {
+  font-size: 22px;
+}
+.kc-refresh[data-page="projects"] .project-card small,
+.kc-refresh[data-page="projects"] .project-card-meta,
+.kc-refresh[data-page="projects"] .tag,
+.kc-refresh[data-page="projects"] .eyebrow {
+  font-size: 13px;
+}
+.kc-refresh[data-page="projects"] .project-template-preview span {
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 13px 7px;
+  overflow-wrap: anywhere;
+}
+.kc-refresh[data-page="projects"] .button,
+.kc-refresh[data-page="projects"] .text-button {
+  font-size: 15px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) {
+  font-size: 16px;
+  min-width: 0;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-section-heading {
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-section-heading > div {
+  min-width: 0;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-section-heading p {
+  font-size: 16px;
+  color: #626477;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-eyebrow {
+  font-size: 12px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-brief {
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-brief strong {
+  color: #6034a6;
+  font-size: 16px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-brief p {
+  font-size: 16px;
+  line-height: 1.85;
+  margin: 10px 0 18px;
+  max-width: 900px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-brief-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-brief-meta span {
+  color: #626477;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-brief .kc-text-button {
+  position: static;
+  font-size: 15px;
+  flex-shrink: 0;
+  white-space: normal;
+  text-align: left;
+  margin: 0;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-save-bar {
+  padding: 18px 22px;
+  margin: 0 0 22px;
+  flex-wrap: wrap;
+  font-size: 15px;
+  gap: 14px 22px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-save-bar > span {
+  line-height: 1.6;
+  color: #626477;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-save-bar > div {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-save-bar button,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-board-tools button,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-library-tools button {
+  min-height: 44px;
+  padding: 11px 15px;
+  font-size: 15px;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel {
+  min-width: 0;
+  border: 1px solid #e1dce9;
+  border-radius: 22px;
+  background: #fff;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-board-tools {
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: 0;
+  border-bottom: 1px solid #e6dfee;
+  background: #f3effb;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-board-tools span {
+  font-size: 14px;
+  color: #6b587f;
+  line-height: 1.6;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-library-section {
+  background: #fbf9fd;
+  border-bottom: 1px solid #e7e1ee;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-library-section > summary {
+  padding: 17px 22px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 650;
+  color: #644c84;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-library-section > summary:focus-visible {
+  outline: 3px solid #0967ff;
+  outline-offset: -4px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-library-tools {
+  padding: 0 22px 20px;
+  gap: 12px;
+  background: transparent;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-library-tools a {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-library-tools small,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-library-tools small a {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-drawing-board {
+  height: clamp(500px, 65vh, 740px);
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-board-footnote {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #697082;
+  padding: 14px 20px;
+  margin: 0;
+  border-top: 1px solid #eeeaf3;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel > .kc-note,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel > p[role="alert"] {
+  margin: 14px 20px;
+  font-size: 15px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 20px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid label {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 23px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid strong {
+  font-size: 17px;
+  line-height: 1.6;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid span {
+  font-size: 15px;
+  color: #666577;
+  line-height: 1.8;
+  min-height: 82px;
+  margin-bottom: 16px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid textarea {
+  font-size: 16px;
+  line-height: 1.8;
+  min-height: 210px;
+  width: 100%;
+  padding: 15px;
+  margin-top: auto;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid small {
+  font-size: 13px;
+  color: #727184;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-submit-bar {
+  flex-wrap: wrap;
+  gap: 22px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-submit-bar p {
+  min-width: 200px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-submit-bar label,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-button,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-text-button {
+  font-size: 15px;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-result p,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-note p,
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-revisions button {
+  font-size: 16px;
+  line-height: 1.8;
+}
+.kc-refresh .kc-workshop:not(.kc-studio) .kc-project-result small {
+  font-size: 13px;
+}
+/* Legacy saved projects use the same readable type scale. */
+.kc-refresh[data-page="projects"] .project-detail p,
+.kc-refresh[data-page="projects"] .project-work-grid p,
+.kc-refresh[data-page="projects"] .hint-panel p,
+.kc-refresh[data-page="projects"] .project-work-grid textarea {
+  font-size: 16px;
+  line-height: 1.8;
+}
+@media (max-width: 1050px) {
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid {
+    grid-template-columns: 1fr;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid span {
+    min-height: 0;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid textarea {
+    min-height: 170px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-board-tools span {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+@media (max-width: 600px) {
+  .kc-refresh .profile-account-actions {
+    margin-left: 0;
+    width: 100%;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-project-brief {
+    padding: 20px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-save-bar {
+    padding: 17px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-save-bar > div {
+    width: 100%;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-save-bar button {
+    flex: 1 1 auto;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-board-tools {
+    padding: 16px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-board-tools button {
+    flex: 1 1 140px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-library-tools {
+    padding: 0 16px 18px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-library-section > summary {
+    padding: 16px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-editor-panel .kc-drawing-board {
+    height: 520px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-writing-grid label {
+    padding: 20px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-submit-bar {
+    display: flex;
+    padding: 20px;
+  }
+  .kc-refresh .kc-workshop:not(.kc-studio) .kc-submit-bar p {
+    min-width: 0;
+    flex-basis: 100%;
+  }
+}

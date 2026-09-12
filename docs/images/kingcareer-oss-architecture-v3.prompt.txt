@@ -1,0 +1,29 @@
+Generated using built-in image_gen.
+Generate a polished professional hackathon slide architecture diagram for KingCareer emphasizing ACTUAL OPEN SOURCE INTEGRATION. Landscape 16:9 high resolution, clean pure white canvas, crisp dark navy Korean typography, precise orthogonal connectors. Restrained solid blue #0967FF open-source modules, orange #FF6A1F own implementation, purple #7C3AED external API; no gradients, no mascots, no marketing art. Technical architecture, not a software logo collage. Large readable technology names with simple consistent recognizable technical icons, tiny licenses optional only where specified. Moderate detail, strong hierarchy. Title "KingCareer | Open Source Architecture". Subtitle "오픈소스 기반 직무체험 · 자체 경험 분석 엔진". Legend "파랑: OSS   주황: 자체 구현   보라: 외부 API   회색: 표준·데이터".
+
+Main layout four zones, keep paths clean:
+LEFT tall blue-outline group "학생 웹 · React / TypeScript", browser icon.
+Inside two large vertically stacked technology cards:
+wireframe triangle or cube icon "Three.js + React Three Fiber" small blue badge "MIT" then "3D 현장 · 장비 조사 · 조치 시각화".
+drawing-pad icon "Excalidraw" blue badge "MIT" then "프로젝트 편집 · PNG / SVG".
+Bottom tiny card "Motion · 화면 전환 / 피드백".
+Below this left group separate small gray card "공개 에셋" / "Kenney · CC0" and "Excalidraw Libraries · MIT"; arrow UP from assets to web client.
+
+CENTER upper wide group "백엔드", actual blue technology header card server icon "FastAPI · API / 인증 / 검증" blue badge "MIT".
+Within below this header two SIDE BY SIDE cards to show integration: blue outline connected-state-node icon "LangGraph" badge "MIT" subtitle "분기 · 상태 전이"; orange outline badge "자체 구현" card "직무 시나리오" subtitle "행동 규칙 · 조치 결과". Bidirectional connector between these two, use generous space.
+Below a thin gray label "조사 → 비교 → 조치 → 확인 → 회고".
+Client to FastAPI bidirectional arrow labelled "/api/v1".
+
+CENTER lower wide orange-outline group "KingCareer Experience Gap Engine" small orange badge "자체 구현".
+Inner three ordered cards horizontally:
+gray document icon "xAPI 1.0.3 형식" subtitle "행동 기록 표준"
+→ blue graph-nodes icon "NetworkX" blue badge "BSD-3-Clause" subtitle "목표 · 활동 · 기록 연결"
+→ orange icon "공백 분석 · 추천" subtitle "충족률 · 다음 활동 · 근거".
+Backend above to lower engine labelled "검증된 활동 기록". Engine return to client label "경험지도 · 다음 활동". Keep path through whitespace without crossing any box/text.
+
+RIGHT upper distinct purple box "외부 AI API", recognizable four-point Gemini sparkle star in flat blue-purple segments, text "Gemini API", smaller "설명 · 질문 응답 · 코칭". Dashed bidirectional arrow to backend labelled "선택 연결". Do not mark as OSS.
+RIGHT middle blue-outline storage card real cylinder icon "SQLite" small note "Public Domain" then "계정 · 활동 · 결과물" / "세션 · LangGraph 체크포인트". Bidirectional connection to backend.
+RIGHT bottom gray-outline reference card with stacked document/archive icon (NOT OSS logo) "직업 데이터 스냅샷", text "ESCO · O*NET", smaller "직업 · 역량 · 업무". One-way arrow routed BELOW bottom engine and then up into NetworkX card, label "자체 교육용 목표 연결". Never cross other nodes.
+Bottom small exact note "기록 충족률은 직무 능력 점수가 아닙니다."
+
+Visually emphasize named OSS components THREE.JS, REACT THREE FIBER, EXCALIDRAW, FASTAPI, LANGGRAPH, NETWORKX, SQLITE, each in its own clear blue framed card or grouped technology card. Their relationship to actual implemented functionality should be obvious. Own work still distinctly orange and named. xAPI is a standard not LRS; ESCO ONET are stored data not live APIs; Gemini is external API not open source. No Qwen/GPU/vector database/cloud deployment/docker or test badges. Professional 16:9 architecture asset for presentation, not a full promotional poster. All arrows clean and all Korean labels accurate, prevent overlapped small text.

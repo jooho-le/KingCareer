@@ -6,7 +6,7 @@ import {
   X,
   ArrowUpRight,
   Search,
-  Bell,
+  Compass,
   ChevronRight,
   CheckCircle2,
   RotateCcw,
@@ -24,32 +24,28 @@ import type {
   SourceReference,
 } from "./data";
 import { api, ApiError, errorMessage, json } from "./api";
-import { StoreContext } from "./store";
+import { StoreContext, type RouteOptions } from "./store";
 import {
   Home,
-  CareerMap,
   Discovery,
   Recommendation,
   Portfolio,
 } from "./pages/Explore";
 import { Diagnosis, Simulation, Projects } from "./pages/Activities";
 import { Onboarding, Auth, ProfilePage } from "./pages/Account";
+import { CareerReviewStudio } from "./fieldwork/CareerReview";
+import { ActivityHelp } from "./fieldwork/ActivityHelp";
+import "./navigation.css";
 
-const nav = [
-  { id: "home", title: "나의 베이스캠프", icon: "home" },
-  { id: "map", title: "진로경험 지도", icon: "experience_map" },
-  { id: "simulation", title: "직무체험", icon: "simulation", badge: "PLAY" },
-  { id: "projects", title: "미니 프로젝트", icon: "project" },
-  { id: "discovery", title: "직업 발견", icon: "compass" },
-  { id: "portfolio", title: "나의 포트폴리오", icon: "journal" },
-] as const;
+import { mainNavigation as nav } from "./navigation";
 const titles: Record<Page, string> = {
-  home: "나의 탐험 베이스캠프",
-  map: "나의 진로지도",
+  home: "홈",
+  map: "나의 진로 기록",
+  review: "이번 경험 돌아보기",
   simulation: "직무체험",
   projects: "미니 프로젝트",
   discovery: "직업 발견",
-  portfolio: "나의 포트폴리오",
+  portfolio: "포트폴리오",
   diagnosis: "관심·경험 진단",
   recommendation: "다음 경험 추천",
   profile: "마이페이지",
@@ -59,12 +55,19 @@ const titles: Record<Page, string> = {
 const privatePages: Page[] = [
   "map",
   "portfolio",
+  "review",
   "diagnosis",
   "recommendation",
   "profile",
 ];
 function readPage(): Page {
   const route = window.location.hash.slice(1).split("?")[0];
+  if (route === "map") {
+    const params = new URLSearchParams(location.hash.split("?")[1]);
+    params.set("tab", "records");
+    history.replaceState(null, "", `${location.pathname}${location.search}#profile?${params}`);
+    return "profile";
+  }
   return Object.hasOwn(titles, route) ? (route as Page) : "home";
 }
 export default function App() {
@@ -86,20 +89,26 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [menu, setMenu] = useState(false);
+  const [compactMenu, setCompactMenu] = useState(() => matchMedia("(max-width: 760px)").matches);
   const [notice, setNotice] = useState(false);
   const [message, setMessage] = useState("");
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
+  const logoutBusy = useRef(false);
   const [onboardingInterests, setOnboardingInterests] = useState<string[]>([]);
   const mainRef = useRef<HTMLElement>(null);
   const sidebarRef = useRef<HTMLElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
-  const guard = useRef<null | (() => Promise<boolean>)>(null);
+  const guard = useRef<
+    null | ((reason?: "navigate" | "logout") => Promise<boolean>)
+  >(null);
   const guardBusy = useRef(false);
   const acceptedHash = useRef(location.hash);
   const skipHashGuard = useRef(false);
   const fetchSequence = useRef(0);
-  const afterAuth = useRef<{ page: Page; careerId?: CareerId } | null>(null);
+  const afterAuth = useRef<{ page: Page; careerId?: CareerId; tab?: string; options?: RouteOptions } | null>(null);
   const saving = useRef(new Set<CareerId>());
   const toast = useCallback((value: string) => {
     setMessage(value);
@@ -143,10 +152,20 @@ export default function App() {
     };
   }, [load]);
   useEffect(() => () => clearTimeout(toastTimer.current), []);
+  useEffect(() => {
+    const viewport = matchMedia("(max-width: 760px)");
+    const update = () => {
+      setCompactMenu(viewport.matches);
+      if (!viewport.matches) setMenu(false);
+    };
+    viewport.addEventListener("change", update);
+    return () => viewport.removeEventListener("change", update);
+  }, []);
   const applyHash = useCallback(() => {
+    const nextPage = readPage();
     acceptedHash.current = location.hash;
     setRouteHash(location.hash);
-    setPage(readPage());
+    setPage(nextPage);
     const id = new URLSearchParams(location.hash.split("?")[1]).get("career");
     if (id) setCareerId(getCareer(id).id);
     setMenu(false);
@@ -174,16 +193,22 @@ export default function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, [applyHash]);
   const go = useCallback(
-    async (target: Page, id?: CareerId) => {
+    async (target: Page, id?: CareerId, tab?: string, options?: RouteOptions) => {
       if (guardBusy.current) return;
       guardBusy.current = true;
       try {
         if (guard.current && !(await guard.current())) return;
         if (id) setCareerId(id);
-        const hash = `#${target}${id ? `?career=${id}` : ""}`;
+        const destination = target === "map" ? "profile" : target;
+        const params = new URLSearchParams();
+        if (id) params.set("career", id);
+        if (options?.activityId) params.set("activityId", options.activityId);
+        if (options?.sessionId) params.set("sessionId", options.sessionId);
+        if (target === "map" || tab) params.set("tab", target === "map" ? "records" : tab!);
+        const hash = `#${destination}${params.size ? `?${params}` : ""}`;
         if (location.hash === hash) {
           setMenu(false);
-          setPage(target);
+          setPage(destination);
           return;
         }
         skipHashGuard.current = true;
@@ -197,7 +222,7 @@ export default function App() {
     [toast],
   );
   const registerNavigationGuard = useCallback(
-    (value: () => Promise<boolean>) => {
+    (value: (reason?: "navigate" | "logout") => Promise<boolean>) => {
       guard.current = value;
       return () => {
         if (guard.current === value) guard.current = null;
@@ -207,7 +232,9 @@ export default function App() {
   );
   const requireAuth = useCallback(() => {
     if (user) return true;
-    afterAuth.current = { page, careerId };
+    const params = new URLSearchParams(location.hash.split("?")[1]);
+    afterAuth.current = { page, careerId, tab: params.get("tab") || undefined,
+      options: { activityId: params.get("activityId") || undefined, sessionId: params.get("sessionId") || undefined } };
     void go("auth");
     toast("나의 계정으로 시작하면 경험을 계속 이어갈 수 있어요.");
     return false;
@@ -220,7 +247,7 @@ export default function App() {
     setError("");
     const next = afterAuth.current;
     afterAuth.current = null;
-    void go(next?.page ?? "home", next?.careerId);
+    void go(next?.page ?? "home", next?.careerId, next?.tab, next?.options);
   }, [go]);
   const clearUser = useCallback(() => {
     ++fetchSequence.current;
@@ -228,7 +255,43 @@ export default function App() {
     setState(initialState);
     setOnboardingInterests([]);
     setError("");
+    setNotice(false);
+    setSearch("");
+    setSearchInput("");
+    afterAuth.current = null;
   }, []);
+  const logout = useCallback(async () => {
+    if (logoutBusy.current || guardBusy.current) return;
+    logoutBusy.current = true;
+    guardBusy.current = true;
+    setLoggingOut(true);
+    setLogoutError("");
+    try {
+      if (guard.current && !(await guard.current("logout"))) {
+        setLogoutError(
+          "작성 중인 내용을 저장하지 못했어요. 저장을 마친 뒤 다시 로그아웃해 주세요.",
+        );
+        return;
+      }
+      try {
+        await api("/auth/logout", json("POST"));
+      } catch (e) {
+        if (!(e instanceof ApiError && e.status === 401)) throw e;
+      }
+      guard.current = null;
+      clearUser();
+      setMenu(false);
+      guardBusy.current = false;
+      void go("auth");
+      toast("로그아웃했어요. 저장한 경험은 다음에 이어갈 수 있어요.");
+    } catch (e) {
+      setLogoutError(`로그아웃하지 못했어요. ${errorMessage(e)}`);
+    } finally {
+      logoutBusy.current = false;
+      guardBusy.current = false;
+      setLoggingOut(false);
+    }
+  }, [clearUser, go, toast]);
   const save = useCallback(
     async (id: CareerId) => {
       if (!requireAuth() || saving.current.has(id)) return;
@@ -289,7 +352,8 @@ export default function App() {
   }, [menu]);
   const pages: Record<Page, ReactNode> = {
     home: <Home />,
-    map: <CareerMap />,
+    map: <ProfilePage />,
+    review: <CareerReviewStudio />,
     simulation: <Simulation />,
     projects: <Projects />,
     discovery: <Discovery />,
@@ -301,6 +365,9 @@ export default function App() {
     auth: <Auth />,
   };
   const closeNotice = useCallback(() => setNotice(false), []);
+  const activeNav = page === "discovery" ? "simulation"
+    : page === "diagnosis" || page === "recommendation" ? "home"
+    : page === "review" ? "portfolio" : page;
   return (
     <MotionConfig reducedMotion="user">
       <StoreContext.Provider
@@ -312,6 +379,8 @@ export default function App() {
           catalog,
           go,
           careerId,
+          activityId: new URLSearchParams(routeHash.split("?")[1]).get("activityId") || undefined,
+          sessionId: new URLSearchParams(routeHash.split("?")[1]).get("sessionId") || undefined,
           setCareerId,
           save,
           toast,
@@ -322,6 +391,8 @@ export default function App() {
           requireAuth,
           completeAuth,
           clearUser,
+          logout,
+          loggingOut,
           search,
           setSearch,
           onboardingInterests,
@@ -339,7 +410,7 @@ export default function App() {
         >
           본문으로 건너뛰기
         </a>
-        <div className="app-shell">
+        <div className="app-shell kc-refresh" data-page={page}>
           {menu && (
             <button
               className="sidebar-scrim"
@@ -348,8 +419,10 @@ export default function App() {
             />
           )}
           <aside
-            className={`sidebar ${menu ? "is-open" : ""}`}
+            className={`app-sidebar ${menu ? "is-open" : ""}`}
             aria-label="주 메뉴"
+            inert={compactMenu && !menu}
+            aria-hidden={compactMenu && !menu ? true : undefined}
             ref={sidebarRef}
           >
             <button
@@ -368,18 +441,18 @@ export default function App() {
             >
               <X />
             </button>
-            <div className="workspace-label">YOUR NEXT CHAPTER</div>
-            <nav>
+            <div className="workspace-label">나의 진로 탐험</div>
+            <nav aria-label="주요 활동">
               {nav.map((item) => (
                 <button
                   key={item.id}
-                  aria-current={page === item.id ? "page" : undefined}
-                  className={`nav-item ${page === item.id ? "active" : ""}`}
+                  aria-current={activeNav === item.id ? page === item.id ? "page" : "location" : undefined}
+                  className={`nav-item ${activeNav === item.id ? "active" : ""}`}
                   onClick={() => {
                     void go(item.id);
                   }}
                 >
-                  {page === item.id && (
+                  {activeNav === item.id && (
                     <motion.span
                       className="nav-active"
                       layoutId="nav-active"
@@ -396,52 +469,10 @@ export default function App() {
                     alt=""
                   />
                   <span>{item.title}</span>
-                  {"badge" in item && <small>{item.badge}</small>}
                 </button>
               ))}
             </nav>
-            <div className="sidebar-divider" />
-            <button
-              className={`nav-item ${page === "diagnosis" ? "active" : ""}`}
-              onClick={() => {
-                void go("diagnosis");
-              }}
-            >
-              <img
-                className="nav-asset"
-                src="/brand/03_icons/profile.svg"
-                alt=""
-              />
-              <span>관심·경험 진단</span>
-            </button>
-            <button
-              className={`nav-item ${page === "recommendation" ? "active" : ""}`}
-              onClick={() => {
-                void go("recommendation");
-              }}
-            >
-              <img
-                className="nav-asset"
-                src="/brand/03_icons/branch.svg"
-                alt=""
-              />
-              <span>다음 경험 추천</span>
-            </button>
             <div className="sidebar-bottom">
-              <button
-                className="sidebar-prompt"
-                onClick={() => {
-                  void go("onboarding");
-                }}
-              >
-                <img src="/brand/01_mascots/mascot_08_guide.png" alt="" />
-                <strong>정답보다, 너의 경험.</strong>
-                <p>KingCareer와 시작해 봐.</p>
-                <span>
-                  나의 가능성 알아보기
-                  <ArrowUpRight size={15} />
-                </span>
-              </button>
               <a
                 className="intro-link"
                 href="/"
@@ -456,6 +487,7 @@ export default function App() {
               </a>
               <button
                 className="sidebar-profile"
+                aria-current={page === "profile" ? "page" : undefined}
                 onClick={() => {
                   void go(user ? "profile" : "auth");
                 }}
@@ -468,7 +500,7 @@ export default function App() {
                 <span>
                   <b>{user ? state.profile.name : "나의 계정으로 시작"}</b>
                   <small>
-                    {user ? state.profile.grade : "경험을 차곡차곡 저장해 봐"}
+                    {user ? "프로필 · 기록 · 설정" : "경험을 차곡차곡 저장해 봐"}
                   </small>
                 </span>
                 <ChevronRight size={16} />
@@ -491,12 +523,12 @@ export default function App() {
                 <strong>{titles[page]}</strong>
               </div>
               <div className="topbar-actions">
-                <form
+                {page !== "simulation" && <form
                   className="global-search"
                   onSubmit={(e) => {
                     e.preventDefault();
                     setSearch(searchInput);
-                    void go("discovery");
+                    void go("simulation");
                   }}
                 >
                   <Search size={16} />
@@ -506,17 +538,18 @@ export default function App() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                   />
-                </form>
+                </form>}
                 {user ? (
                   <>
-                    <button
-                      className="icon-button notification-button"
-                      aria-label="탐험 안내 보기"
-                      onClick={() => setNotice(true)}
-                    >
-                      <Bell size={20} />
-                      {state.profile.notifications && <i />}
-                    </button>
+                    {state.profile.notifications && (
+                      <button
+                        className="icon-button notification-button"
+                        aria-label="내 경험 안내 보기"
+                        onClick={() => setNotice(true)}
+                      >
+                        <Compass size={20} />
+                      </button>
+                    )}
                     <button
                       className="profile-avatar-button"
                       aria-label="내 프로필"
@@ -546,9 +579,19 @@ export default function App() {
             <main
               className="main-content"
               id="main-content"
+              inert={loggingOut}
               tabIndex={-1}
               ref={mainRef}
             >
+              <ActivityHelp topic={page === "simulation" || page === "projects" ? page : undefined} />
+              {logoutError && (
+                <div className="logout-error" role="alert">
+                  {logoutError}
+                  <button disabled={loggingOut} onClick={() => void logout()}>
+                    다시 시도
+                  </button>
+                </div>
+              )}
               {error && (
                 <div className="server-error" role="alert">
                   <AlertCircle size={20} />
@@ -603,8 +646,7 @@ export default function App() {
                 <span>
                   KingCareer<span>경험이 모여, 나의 가능성이 되다.</span>
                 </span>
-                <span>학생 전용 · 준비된 시나리오 체험</span>
-                <span>MADE FOR JEONBUK</span>
+                <span>직무체험 · 프로젝트 · 나의 포트폴리오</span>
               </footer>
             </main>
           </div>
@@ -623,7 +665,7 @@ export default function App() {
             </motion.div>
           )}
           {notice && (
-            <Modal title="나에게 온 탐험 안내" onClose={closeNotice}>
+            <Modal title="나의 경험 안내" onClose={closeNotice}>
               <div className="notice-item">
                 <img
                   className="guide-mascot"
@@ -649,8 +691,7 @@ export default function App() {
                 <ArrowUpRight size={17} />
               </Button>
               <p className="fine-print">
-                현재 활동을 바탕으로 보여주는 안내예요. 외부 알림을 발송하지
-                않아요.
+                저장한 활동을 바탕으로 다음 경험을 찾아드려요.
               </p>
             </Modal>
           )}
