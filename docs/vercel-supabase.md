@@ -38,7 +38,8 @@ Copy-Item deployment.env.example deployment.env
 | `KINGCAREER_COOKIE_SECURE` | `true`. Vercel에서는 코드에서도 HTTPS 쿠키를 강제한다. |
 | `KINGCAREER_AI_MODE` | `template` 또는 `ai` |
 | `KINGCAREER_AI_PROVIDER` | `gemini` |
-| `KINGCAREER_AI_MODEL`, `KINGCAREER_AI_KEY` | 실제 AI 연결 시 서버에만 등록 |
+| `KINGCAREER_AI_MODEL` | `gemini-3.5-flash-lite` |
+| `KINGCAREER_AI_KEY` | 실제 AI 연결 시 서버에만 등록 |
 
 ## 저장과 동시 요청
 

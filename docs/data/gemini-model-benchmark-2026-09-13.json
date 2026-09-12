@@ -1,0 +1,268 @@
+[
+  {
+    "model": "gemini-3.5-flash-lite",
+    "task": "help_project",
+    "status": "success",
+    "output": {
+      "hint": "친구에게 실제로 시험해본 결과나 계획한 확인 방법을 조금 더 적어보면 근거가 탄탄해져요.",
+      "nextAction": "친구를 대상으로 테스트해본 계획을 한 문장으로 추가해 보세요."
+    },
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 459,
+      "candidatesTokenCount": 58,
+      "totalTokenCount": 517,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 459
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.4
+  },
+  {
+    "model": "gemini-3.5-flash-lite",
+    "task": "generate",
+    "status": "success",
+    "output": {
+      "response": "로그인 오류 로그와 직전 배포 버전을 대조하여 원인을 분석합니다.",
+      "lesson": "소프트웨어 개발 과정에서 발생한 문제를 해결할 때는 변경 사항과 로그를 꼼꼼히 비교하는 능력이 중요합니다."
+    },
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 127,
+      "candidatesTokenCount": 62,
+      "totalTokenCount": 189,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 127
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.55
+  },
+  {
+    "model": "gemini-3.5-flash-lite",
+    "task": "evaluate",
+    "status": "success",
+    "output": {
+      "feedback": "소프트웨어 개발자 진로 프로젝트에서 연결 오류 상황에 대응하기 위해 '다시 시도'와 '도움 요청' 버튼을 포함한 안내 문구를 작성하고 요소 간의 연결을 구성했습니다.",
+      "observations": [
+        "연결 오류 발생 시 입력 유지 및 후속 행동 안내의 필요성을 확인했습니다.",
+        "'notice' 텍스트 요소에서 'retry' 및 'help' 요소로 연결 관계가 설정되어 있습니다.",
+        "두 가지 연결 상태에 대해 실제 시험 계획을 세웠습니다."
+      ]
+    },
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 399,
+      "candidatesTokenCount": 111,
+      "totalTokenCount": 510,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 399
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.4
+  },
+  {
+    "model": "gemini-3.5-flash-lite",
+    "task": "reflect",
+    "status": "success",
+    "output": {
+      "summary": "학생은 record1에서 소프트웨어 개발자 프로젝트 활동 중 연결 오류 후 입력 소실 문제에 대한 해결책으로 입력 유지 및 재시도 버튼을 구상하였으나, 아직 친구에게 실제 시험해 보지 못하고 계획만 세운 상태입니다. 반성(reflection)에서는 원인 찾기를 즐겼으나 결정하기가 어려웠고 향후 활동에 대해 아직 모르겠다고 응답하여 관심 변화의 불확실성이 존재합니다.",
+      "evidenceRefs": [
+        "record1"
+      ],
+      "nextKey": "developer:simulation",
+      "reason": "설계 뒤의 실제 선택을 경험해 봐요."
+    },
+    "references_valid": true,
+    "recommendation_valid": true,
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 462,
+      "candidatesTokenCount": 149,
+      "totalTokenCount": 611,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 462
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.59
+  },
+  {
+    "model": "gemini-3.1-flash-lite",
+    "task": "help_project",
+    "status": "success",
+    "output": {
+      "hint": "오류 상황에서 사용자가 버튼을 눌렀을 때, 실제로 어떤 일이 일어나는지 구체적인 결과 화면이나 단계를 생각해보면 좋아요.",
+      "nextAction": "각 버튼을 눌렀을 때 연결될 다음 화면이나 반응을 종이에 간단히 그려보세요."
+    },
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 459,
+      "candidatesTokenCount": 65,
+      "totalTokenCount": 524,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 459
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.93
+  },
+  {
+    "model": "gemini-3.1-flash-lite",
+    "task": "generate",
+    "status": "success",
+    "output": {
+      "response": "정확한 접근입니다. 배포 직후 발생한 오류는 대개 새로 적용된 코드의 환경 설정이나 데이터베이스 연결 문자열 문제인 경우가 많습니다. 이제 버전 관리 도구의 로그를 확인해 변경 사항 중 연결과 관련된 부분이 있는지 함께 찾아봅시다.",
+      "lesson": "소프트웨어 개발 과정에서 발생하는 오류는 변경 이력을 추적하여 문제의 원인을 좁혀 나가는 것이 중요합니다."
+    },
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 127,
+      "candidatesTokenCount": 100,
+      "totalTokenCount": 227,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 127
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.65
+  },
+  {
+    "model": "gemini-3.1-flash-lite",
+    "task": "evaluate",
+    "status": "success",
+    "output": {
+      "feedback": "사용자의 흐름이 끊기지 않도록 입력값을 유지하고, 문제 해결을 위해 재시도와 도움 요청이라는 두 가지 선택지를 명확하게 제시한 점이 인상적입니다. 앞으로 실제 사용자가 이 인터페이스를 마주했을 때 어떤 경로로 이동하는지 테스트해보며 설계를 보완해 보세요.",
+      "observations": [
+        "연결 오류 발생 시 입력값이 초기화되는 문제를 인지하고 이를 해결하기 위한 안내 문구를 작성했습니다.",
+        "사용자가 다시 시도하거나 도움을 받을 수 있도록 두 개의 버튼 경로를 연결했습니다.",
+        "두 가지 연결 상태를 가정하여 향후 실사용 확인을 위한 계획을 수립했습니다."
+      ]
+    },
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 399,
+      "candidatesTokenCount": 160,
+      "totalTokenCount": 559,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 399
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.58
+  },
+  {
+    "model": "gemini-3.1-flash-lite",
+    "task": "reflect",
+    "status": "success",
+    "output": {
+      "summary": "record1에서 소프트웨어 개발 프로젝트를 수행하며 연결 오류 발생 시 사용자가 겪는 불편함을 해결하기 위해 데이터 유지 기능과 도움 요청 버튼을 설계했습니다. 직접적인 사용자 테스트보다는 계획 수립 단계에 집중했으나, 기술적 문제의 원인을 파악하는 과정에서 흥미를 느꼈습니다. 결정의 어려움으로 인해 향후 진로에 대한 불확실성이 확인됩니다.",
+      "evidenceRefs": [
+        "record1"
+      ],
+      "nextKey": "developer:simulation",
+      "reason": "설계한 기능이 실제 환경에서 어떻게 작동하는지 시뮬레이션함으로써, 오류 해결 과정에서 느낀 흥미가 실무 경험으로 이어질 수 있는지 확인해 볼 수 있습니다."
+    },
+    "references_valid": true,
+    "recommendation_valid": true,
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 462,
+      "candidatesTokenCount": 163,
+      "totalTokenCount": 625,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 462
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.82
+  },
+  {
+    "model": "gemini-2.5-flash-lite",
+    "task": "help_project",
+    "status": "failure",
+    "error_type": "HTTPStatusError",
+    "http_status": 404,
+    "provider_status": "NOT_FOUND",
+    "finish_reason": null,
+    "usage": null,
+    "seconds": 0.51
+  },
+  {
+    "model": "gemma-4-26b-a4b-it",
+    "task": "help_project",
+    "status": "failure",
+    "error_type": "ValidationError",
+    "validation_errors": [
+      {
+        "loc": [],
+        "type": "json_invalid"
+      }
+    ],
+    "http_status": 200,
+    "provider_status": null,
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 459,
+      "candidatesTokenCount": 15,
+      "totalTokenCount": 474,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 459
+        }
+      ],
+      "serviceTier": "standard"
+    },
+    "seconds": 1.54
+  },
+  {
+    "model": "gemma-4-31b-it",
+    "task": "help_project",
+    "status": "failure",
+    "error_type": "ReadTimeout",
+    "seconds": 30.29
+  }
+]
