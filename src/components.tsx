@@ -269,7 +269,7 @@ export function CareerCard({
     >
       <div className={`career-art ${career.color}`}>
         <JobArt id={career.id} />
-        <span className="art-label">{career.region}에서 만나는 직업</span>
+        <span className="art-label">직접 경험하는 {career.field}</span>
         <button
           aria-label={`${career.title} ${saved ? "저장 취소" : "저장"}`}
           aria-pressed={saved}

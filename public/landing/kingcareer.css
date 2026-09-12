@@ -1,4 +1,68 @@
-/* Additions to the supplied Experience page. Original cube and scene styles stay in index.html. */
+/* KingCareer mascot edition. Original scroll scene runtime stays in index.html. */
+:root { --cube-size: clamp(250px, 27vw, 370px); }
+.kc-wordmark { display:flex; align-items:center; gap:4px; color:#ff6a1f; font-size:23px; font-weight:900; letter-spacing:-1px; }
+.kc-wordmark img { object-fit:contain; }
+.kc-wordmark span span { color:#0967ff; }
+.kingcareer-header { padding-block:8px !important; background:rgba(246,245,241,.94) !important; }
+.kingcareer-header nav > a { background:#0967ff !important; padding:12px 22px !important; }
+.kingcareer-hero { max-width:1440px !important; padding-inline:clamp(24px,5vw,80px) !important; gap:20px !important; }
+.kingcareer-hero h1 { font-size:clamp(42px,5.3vw,76px) !important; line-height:1.13 !important; font-weight:900 !important; }
+.kingcareer-hero > div:first-child > div:first-child { display:inline-block; padding:11px 16px; border-radius:999px; background:#ffeadb; color:#a63d06 !important; letter-spacing:0 !important; }
+.kingcareer-guide p { background:white; border:2px solid #e5e9f5; border-radius:20px 20px 20px 4px; padding:12px 18px; }
+.kc-cube-stage { position:relative; isolation:isolate; min-height:640px !important; }
+.kc-cube-stage::before { content:""; position:absolute; inset:9% -3%; background:#ece8fb; border-radius:48% 48% 42% 42%; z-index:-1; transform:rotate(-7deg); }
+.kc-bubble { background:#fff; border:2px solid #dbe5ff; border-radius:24px 24px 24px 5px; padding:17px 24px; font-size:clamp(14px,1.4vw,20px); font-weight:800; color:#0967ff; box-shadow:0 7px 0 #dbe5ff; }
+.kc-cube-bubble { position:absolute; top:0; left:8%; transform:rotate(-5deg); }
+.kc-sticker { position:absolute; z-index:2; font-size:13px; font-weight:800; padding:12px 18px; border-radius:999px; }
+.kc-sticker-one { bottom:8%; left:0; background:#ff6a1f; color:white; transform:rotate(-9deg); }
+.kc-sticker-two { bottom:0; right:0; background:#0967ff; color:white; transform:rotate(5deg); }
+.kc-cube-face { border-radius:26px !important; border:3px solid rgba(255,255,255,.7) !important; backface-visibility:hidden; overflow:hidden; padding:18px 22px !important; }
+.kc-cube-art { position:absolute; top:-4%; left:0; width:100%; height:85%; object-fit:contain; pointer-events:none; }
+.kc-cube-face > div { position:relative; z-index:1; }
+.kc-cube-face > div:last-child { font-size:clamp(17px,2vw,24px) !important; }
+.kc-manifesto { position:relative; padding-right:22%; }
+.kc-pin-crab { position:absolute; width:clamp(240px,39vw,550px); height:auto; right:-16%; bottom:-90px; transform:rotate(12deg); pointer-events:none; }
+[data-scene="pin"] > div { background:#fff4e9; border-radius:60px; }
+[data-pinline] { position:relative; z-index:1; }
+[data-pinline]:not([data-pinline="3"]) { font-size:clamp(30px,5vw,70px) !important; }
+[data-scene="track"] > div > div:first-child { background:white; padding:10px 16px; border-radius:999px; font-family:inherit !important; font-weight:800 !important; font-size:11px !important; letter-spacing:.03em !important; }
+.kc-job-panel { width:100vw; height:100%; flex:none; display:grid; grid-template-columns:43% 57%; align-items:center; padding:130px 4vw 60px 7vw; overflow:hidden; position:relative; }
+.kc-job-copy { position:relative; z-index:2; }
+.kc-job-counter { display:inline-block; background:#fff; color:#7c3aed; border:2px solid #ded3ff; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:800; }
+.kc-job-region { margin:24px 0 12px; font-size:15px; font-weight:700; color:#635b78; }
+.kc-job-copy h2 { margin:0; font-size:clamp(36px,5.1vw,76px); line-height:1.12; letter-spacing:-.055em; font-weight:900; word-break:keep-all; max-width:570px; }
+.kc-job-scene { max-width:490px; margin:28px 0; font-size:clamp(17px,1.8vw,24px); line-height:1.65; word-break:keep-all; color:#554d69; }
+.kc-job-cta { display:inline-flex; align-items:center; gap:26px; background:#0967ff; color:white; padding:18px 25px; border-radius:999px; font-size:17px; font-weight:800; box-shadow:0 6px 0 #c4d7ff; transition:transform .25s,box-shadow .25s; }
+.kc-job-cta:hover { transform:translateY(-5px) rotate(-2deg); box-shadow:0 11px 0 #c4d7ff; color:white; }
+.kc-job-cta span { font-size:24px; }
+.kc-job-hint { color:#6b627d; margin-top:25px; font-size:12px; }
+.kc-job-visual { position:relative; display:flex; justify-content:center; align-items:center; height:min(75vh,800px); min-width:0; }
+.kc-job-orbit { position:absolute; width:88%; aspect-ratio:1; background:#fff; border-radius:44% 48% 40% 46%; transform:rotate(-10deg); }
+.kc-job-art { position:relative; width:120%; max-width:860px; height:auto; max-height:83vh; object-fit:contain; animation:kc-bob 4.6s ease-in-out infinite; }
+.kc-job-bubble { position:absolute; top:0; right:4%; z-index:2; transform:rotate(5deg); }
+.kc-job-nameplate { position:absolute; bottom:0; background:#fff; padding:14px 24px; border-radius:20px; color:#7c3aed; font-size:10px; letter-spacing:.12em; text-align:center; border:2px solid #e7dfff; transform:rotate(-4deg); }
+.kc-job-nameplate b { display:block; margin-top:5px; color:#241f47; font-size:17px; letter-spacing:-.02em; }
+.kc-demo-heading { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.kc-demo-heading h2 { font-size:clamp(30px,4.3vw,56px); line-height:1.2; letter-spacing:-.04em; }
+.kc-demo-heading img { width:35%; height:auto; object-fit:contain; transform:rotate(6deg); }
+.kc-section-pill { display:inline-block; background:#fff; color:#0967ff; border-radius:999px; padding:10px 18px; font-size:14px; font-weight:800; }
+.kc-chat-bubble { padding:24px; border:1px solid #76a7ff; border-radius:26px 26px 26px 5px; background:#075be0; }
+.kc-demo-choice { background:#fff !important; color:#241f47 !important; border:2px solid #dce8ff !important; padding:20px 24px !important; border-radius:20px; margin-top:12px; transition:transform .2s !important; }
+.kc-demo-choice:hover { transform:translateX(8px); background:#fff0e4 !important; }
+.kc-map-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+[data-bar] { background:white; border:2px solid #e5e6f1 !important; border-radius:28px; padding:26px !important; box-shadow:0 6px 0 #ebe9f1; }
+[data-bar] > div:nth-child(2) { height:12px !important; border-radius:999px; overflow:hidden; }
+.kc-map-grid > div:last-child:not([data-bar]) { grid-column:1/-1; border:0 !important; background:#ffeadb; border-radius:24px; padding:24px !important; max-width:none !important; }
+.kc-map-grid > div:last-child:not([data-bar]) > div { color:#a13d0b !important; }
+[data-anchor="workplaces"] { border-radius:48px; margin:0 20px; overflow:hidden; }
+[data-anchor="workplaces"] > div:nth-child(2) { max-width:1160px; padding:0 24px; margin:auto; }
+[data-anchor="workplaces"] a { background:#fff !important; color:#241f47 !important; border:0 !important; border-radius:24px; margin:14px 0; padding:24px !important; }
+[data-anchor="workplaces"] a:hover { transform:translateX(6px); }
+[data-anchor="workplaces"] a > div > div:not(:first-child) { color:#645779 !important; }
+.kc-finale { position:relative; }
+.kingcareer-finale-mascot { width:min(75vw,390px); height:auto; margin-bottom:0 !important; animation:kc-bob 4.6s ease-in-out infinite; }
+.kc-finale h2 { font-size:clamp(30px,4.6vw,62px) !important; line-height:1.2 !important; }
+@keyframes kc-bob { 0%,100% { transform:translateY(0) rotate(-2deg); } 50% { transform:translateY(-15px) rotate(1deg); } }
 .kingcareer-header nav { white-space: nowrap; }
 .kingcareer-guide { display: flex; align-items: center; gap: 10px; margin-top: 24px; }
 .kingcareer-guide img { object-fit: contain; flex: none; }
@@ -8,13 +72,55 @@
 .kingcareer-finale-mascot { display: block; object-fit: contain; margin: 0 auto 34px; }
 button:focus-visible, a:focus-visible { outline: 3px solid #ff6a1f; outline-offset: 6px; }
 @media (max-width: 740px) {
+  :root { --cube-size:clamp(210px,53vw,290px); }
+  .kc-wordmark { font-size:19px; }
+  .kc-wordmark img { width:40px; height:40px; }
+  .kc-cube-stage { margin:35px 0 25px; min-height:460px !important; }
+  .kc-cube-stage::before { inset:9% 2%; }
+  .kc-cube-bubble { top:-8px; left:0; }
+  .kc-sticker { font-size:11px; padding:10px 12px; }
+  .kc-manifesto { padding-right:0; padding-bottom:180px; }
+  .kc-pin-crab { width:240px; bottom:-70px; right:-30px; }
+  [data-scene="pin"] > div { border-radius:32px; }
+  .kc-job-panel { grid-template-columns:1fr; grid-template-rows:auto minmax(0,1fr); gap:4px; padding:135px 24px 22px; }
+  .kc-job-counter { font-size:11px; padding:6px 12px; }
+  .kc-job-region { display:inline; font-size:12px; margin-left:10px; }
+  .kc-job-copy h2 { margin-top:14px; font-size:clamp(29px,7.8vw,44px); }
+  .kc-job-scene { font-size:14px; margin:12px 0 16px; max-width:90%; }
+  .kc-job-cta { font-size:14px; padding:10px 18px; gap:18px; }
+  .kc-job-hint { display:none; }
+  .kc-job-visual { height:100%; min-height:0; }
+  .kc-job-art { width:100%; height:100%; max-height:46vh; }
+  .kc-job-orbit { height:85%; width:auto; }
+  .kc-job-bubble { font-size:12px; padding:10px 14px; top:8%; right:-5px; }
+  .kc-job-nameplate { bottom:0; padding:8px 18px; }
+  .kc-job-nameplate b { font-size:13px; }
+  .kc-map-grid { grid-template-columns:1fr; }
+  .kc-demo-heading img { width:36%; }
+  .kc-demo-heading h2 { font-size:28px; }
+  .kc-chat-bubble { max-width:100% !important; padding:20px; }
+  [data-anchor="workplaces"] { margin:0 10px; border-radius:28px; }
+  [data-anchor="workplaces"] a > div { gap:10px !important; }
+  [data-anchor="workplaces"] a > div > div:last-child { margin-left:0 !important; width:100%; }
   .kingcareer-header { padding: 14px 18px !important; gap: 12px !important; }
   .kingcareer-header nav { gap: 12px !important; }
   .kingcareer-header nav button { display: none; }
   .kingcareer-hero { grid-template-columns: minmax(0, 1fr) !important; padding-inline: 22px !important; }
   .kingcareer-hero > div > div:has(> button) { flex-wrap: wrap; }
-  .kingcareer-hero > div:last-child { min-height: 340px !important; }
-  .kingcareer-finale-mascot { width: 172px; height: 172px; }
+  .kingcareer-finale-mascot { width: min(80vw,320px); height: auto; }
+}
+@media (max-height:650px) and (min-width:741px) {
+  .kc-job-art { max-height:72vh; }
+  .kc-job-copy h2 { font-size:42px; }
+  .kc-job-scene { font-size:17px; margin:15px 0; }
+  .kc-job-bubble { top:-25px; }
+}
+@media (max-height:700px) and (max-width:740px) {
+  .kc-job-panel { padding-top:122px; }
+  .kc-job-region, .kc-job-nameplate { display:none; }
+  .kc-job-copy h2 { margin-top:8px; font-size:29px; }
+  .kc-job-scene { margin:8px 0; font-size:13px; }
+  .kc-job-bubble { font-size:10px; padding:7px 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
@@ -26,5 +132,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid #ff6a1f; outline-offs
   [data-scene="track"] > div > div:first-child { top: 34px !important; }
   [data-htrack] { display: block !important; height: auto !important; transform: none !important; }
   [data-htrack] > div { min-height: 75vh; }
+  .kc-job-panel { height:auto; }
+  .kc-job-visual { height:clamp(300px,50vw,650px); }
   [data-cube] { will-change: auto !important; }
 }

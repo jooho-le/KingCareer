@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -6,7 +13,6 @@ import {
   Check,
   ChevronRight,
   Download,
-  MapPin,
   Search,
   Share2,
 } from "lucide-react";
@@ -36,6 +42,8 @@ import type {
 } from "../data";
 import { api, errorMessage, json, requestId } from "../api";
 import { useApp } from "../store";
+import { AwardsShelf } from "../fieldwork/Awards";
+const ArtifactPreview = lazy(() => import("../fieldwork/ArtifactPreview"));
 
 type CatalogCareer = Career & { sources?: SourceReference[] };
 type RecordEvidence = ExperienceEvidence & {
@@ -43,11 +51,6 @@ type RecordEvidence = ExperienceEvidence & {
   objectives?: string[];
   text?: string;
   date?: string;
-};
-type RegionRecord = {
-  name: string;
-  industries: string[];
-  careerIds: CareerId[];
 };
 const artwork: Record<CareerId, string> = {
   developer: "developer",
@@ -89,7 +92,8 @@ function FeedbackLabel({ activity }: { activity: Activity }) {
   const label =
     activity.evaluationStatus === "self_report"
       ? "자기보고 기록"
-      : activity.evaluationStatus === "completed"
+      : activity.evaluationStatus === "completed" ||
+          activity.evaluationStatus === "ai_feedback"
         ? "AI 피드백 완료"
         : activity.evaluationStatus === "pending"
           ? "AI 평가 대기"
@@ -209,6 +213,20 @@ export function Home() {
         </div>
         <HeroArt />
       </section>
+      <section className="kc-farm-entry">
+        <img
+          src="/brand/01_mascots/mascot_01_explore.png"
+          alt="현장 체험을 안내하는 크랩"
+        />
+        <div>
+          <span className="kc-eyebrow">FIVE WORKPLACES · YOUR FIRST SHIFT</span>
+          <h2>오늘은 어떤 현장으로 출근할까?</h2>
+          <p>3D 현장 조사부터 교대 업무, 나만의 개선 설계까지.</p>
+        </div>
+        <button className="kc-button" onClick={() => go("simulation")}>
+          현장 골라보기 <ArrowRight size={17} />
+        </button>
+      </section>
       <div className="dashboard-grid">
         <section className="panel journey-panel">
           <SectionHeading
@@ -327,16 +345,16 @@ export function Home() {
             <ArrowUpRight />
           </button>
         </section>
-        <section className="region-teaser">
-          <MapPin size={25} />
+        <section className="portfolio-teaser">
+          <Bookmark size={25} />
           <div>
-            <small>가까운 곳의 새로운 발견</small>
-            <h3>전북에도 이런 직업이?</h3>
+            <small>경험이 쌓이는 나의 기록</small>
+            <h3>수료증과 배지를 모아 봐요</h3>
           </div>
           <button
             className="circle-button"
-            aria-label="전북 지역 직업 보기"
-            onClick={() => go("region")}
+            aria-label="포트폴리오 보기"
+            onClick={() => go("portfolio")}
           >
             <ArrowUpRight />
           </button>
@@ -852,8 +870,8 @@ export function Discovery() {
             )}
             <p className="fine-print">
               직업 자료를 바탕으로 KingCareer가 한국어 설명과 교육용 활동을
-              구성했어. 지역 연결과 학생 평가 기준은 원본 자료의 공식 분류가
-              아니야.
+              구성했어. 교육용 경험목표와 기록 기준은 프로젝트에서 만든
+              기준이야.
             </p>
           </details>
           <div className="button-row">
@@ -877,168 +895,6 @@ export function Discovery() {
             </Button>
           </div>
         </Modal>
-      )}
-    </>
-  );
-}
-
-export function Region() {
-  const { state, catalog, go, save } = useApp();
-  const [regions, setRegions] = useState<RegionRecord[]>([]);
-  const [selectedName, setSelectedName] = useState(state.profile.region);
-  const [busy, setBusy] = useState(true);
-  const [error, setError] = useState("");
-  const [attempt, setAttempt] = useState(0);
-  const [org, setOrg] = useState(false);
-  const close = useCallback(() => setOrg(false), []);
-  useEffect(() => {
-    const controller = new AbortController();
-    setBusy(true);
-    setError("");
-    api<{ regions: RegionRecord[] }>("/regions", { signal: controller.signal })
-      .then((data) => {
-        if (!controller.signal.aborted) setRegions(data.regions);
-      })
-      .catch((error) => {
-        if (!controller.signal.aborted) setError(errorMessage(error));
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setBusy(false);
-      });
-    return () => controller.abort();
-  }, [attempt]);
-  const selected = regions.find((r) => r.name === selectedName) ?? regions[0];
-  const jobs = catalog.filter((c) => selected?.careerIds.includes(c.id));
-  const job = jobs[0];
-  return (
-    <>
-      <PageHeading
-        eyebrow="YOUR NEXT, JEONBUK"
-        title="가능성은, 생각보다 가까이에"
-        description="내가 사는 곳에서 새로운 직업의 하루를 상상해 봐."
-      />
-      {busy && (
-        <div className="loading-state" role="status">
-          <img src="/brand/01_mascots/mascot_07_read.png" alt="" />
-          <p>전북의 이야기를 불러오고 있어요.</p>
-        </div>
-      )}
-      {error && (
-        <RetryNotice
-          message={error}
-          busy={busy}
-          retry={() => setAttempt((value) => value + 1)}
-        />
-      )}
-      {selected && job && (
-        <>
-          <div className="region-layout">
-            <section className="region-map panel">
-              <div className="region-map-title">
-                <Tag color="blue">JEONBUK</Tag>
-                <h2>우리 동네에서 시작하는 탐험</h2>
-              </div>
-              <img
-                className="region-landscape"
-                src="/brand/11_backgrounds/bg_09_regional.svg"
-                alt="전북의 도시와 자연을 표현한 추상 풍경"
-              />
-              <div className="region-picker" aria-label="지역 선택">
-                {regions.map((r) => (
-                  <button
-                    key={r.name}
-                    aria-pressed={selected.name === r.name}
-                    className={selected.name === r.name ? "selected" : ""}
-                    onClick={() => setSelectedName(r.name)}
-                  >
-                    <MapPin size={16} />
-                    {r.name}
-                  </button>
-                ))}
-              </div>
-              <p className="fine-print">
-                지역 산업 연결은 콘텐츠 기획 예시야. 그림은 실제 지도 경계를
-                나타내지 않아.
-              </p>
-            </section>
-            <motion.section
-              key={selected.name}
-              className="region-info panel"
-              initial={{ opacity: 0, x: 14 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
-              <Tag color="blue">우리 지역에서 떠올린 하루</Tag>
-              <h2>{selected.name}</h2>
-              <h3>{selected.industries.join(" · ")}</h3>
-              <p>
-                익숙한 지역을 새로운 눈으로 바라보자. {job.title}의 일을
-                경험하며 어떤 역량을 사용하는지 찾아봐.
-              </p>
-              <div className="region-job">
-                <span className={`job-badge ${job.color}`}>
-                  <JobIcon id={job.id} />
-                </span>
-                <div>
-                  <small>이 지역에서 상상하는 하루</small>
-                  <b>{job.title}</b>
-                </div>
-              </div>
-              <Button onClick={() => go("simulation", job.id)}>
-                지역 직무체험 시작
-                <ArrowRight size={17} />
-              </Button>
-              <button className="text-button" onClick={() => setOrg(true)}>
-                체험 속 가상 팀 보기
-                <ArrowUpRight size={16} />
-              </button>
-              <p className="fine-print">
-                실제 기관과의 제휴·방문 프로그램은 아직 제공하지 않아.
-              </p>
-            </motion.section>
-          </div>
-          <SectionHeading title="우리 지역에서 이런 일을 해볼 수 있어" />
-          <div className="career-grid three">
-            {jobs.map((c) => (
-              <CareerCard
-                key={c.id}
-                career={c}
-                saved={state.saved.includes(c.id)}
-                onSave={() => {
-                  void save(c.id);
-                }}
-                onOpen={() => go("simulation", c.id)}
-              />
-            ))}
-          </div>
-          {org && (
-            <Modal title={`${selected.name} 체험 속 팀`} onClose={close}>
-              <Tag color="orange">가상 기관</Tag>
-              <h3>{selected.name} 내일연구소</h3>
-              <p>
-                지역의 문제를 해결하는 가상의 팀이야. 실제 기업 정보나 채용
-                공고가 아니야.
-              </p>
-              <h3>함께하는 직무</h3>
-              <p>
-                {job.title} · {job.skills.join(" · ")}
-              </p>
-              <Button
-                onClick={() => {
-                  close();
-                  go("simulation", job.id);
-                }}
-              >
-                이 팀의 하루 체험하기
-                <ArrowRight size={16} />
-              </Button>
-            </Modal>
-          )}
-        </>
-      )}
-      {!busy && !error && (!selected || !job) && (
-        <Empty title="지역 이야기를 준비하고 있어">
-          지역과 연결된 직업 자료가 들어오면 여기서 만날 수 있어.
-        </Empty>
       )}
     </>
   );
@@ -1204,6 +1060,13 @@ export function Portfolio() {
   const { state, go, toast } = useApp();
   const [filter, setFilter] = useState("all");
   const [detail, setDetail] = useState<Activity | null>(null);
+  useEffect(() => {
+    setDetail((current) =>
+      current
+        ? state.activities.find((item) => item.id === current.id) || null
+        : null,
+    );
+  }, [state.activities]);
   const [downloading, setDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState("");
   const downloadLock = useRef(false);
@@ -1297,6 +1160,7 @@ export function Portfolio() {
           </Button>
         </div>
       </PageHeading>
+      <AwardsShelf />
       {downloadError && (
         <RetryNotice
           message={downloadError}
@@ -1416,12 +1280,14 @@ export function Portfolio() {
             ))}
           </ol>
           <h3>
-            {detail.evaluationStatus === "completed"
+            {detail.evaluationStatus === "completed" ||
+            detail.evaluationStatus === "ai_feedback"
               ? "AI 피드백"
               : "활동 기록 안내"}
           </h3>
           <p className="preserve-text">{detail.feedback}</p>
           {detail.evaluationStatus !== "completed" &&
+            detail.evaluationStatus !== "ai_feedback" &&
             detail.evaluationStatus !== "self_report" && (
               <p className="fine-print">
                 {detail.evaluationStatus === "pending"
@@ -1433,6 +1299,18 @@ export function Portfolio() {
           <p className="preserve-text">
             {detail.reflection || "별도의 회고를 남기지 않았어."}
           </p>
+          {detail.kind === "project" && (
+            <>
+              <p>
+                <a href={`/api/v1/portfolio/${detail.id}/artifact`} download>
+                  이 수정본의 배치도·설명 JSON 다운로드
+                </a>
+              </p>
+              <Suspense fallback={<p>결과물을 여는 중…</p>}>
+                <ArtifactPreview activityId={detail.id} />
+              </Suspense>
+            </>
+          )}
           <h3>활동 후 관심</h3>
           <p>
             {detail.interest !== undefined

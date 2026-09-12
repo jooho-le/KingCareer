@@ -11,12 +11,18 @@
 | LangGraph | 직무체험의 분기·상태와 SQLite 체크포인트 관리 | [공식 문서](https://docs.langchain.com/oss/python/langgraph/overview) |
 | FastAPI·SQLite | 학생 인증·API·서버 데이터 저장 | [FastAPI](https://github.com/fastapi/fastapi), [SQLite](https://sqlite.org/) |
 | Argon2-cffi | 비밀번호 해시 | [공식 저장소](https://github.com/hynek/argon2-cffi) |
+| Three.js · React Three Fiber | 다섯 직무 현장 렌더링·카메라·조사 클릭 | [Three.js](https://github.com/mrdoob/three.js), [R3F](https://github.com/pmndrs/react-three-fiber) · MIT |
+| Excalidraw | 개선 배치도 편집·표시·SVG 내보내기. 그림과 수정본은 KingCareer SQLite에 저장 | [공식 저장소](https://github.com/excalidraw/excalidraw) · MIT |
+
+장면의 공간·점검 장비는 프로젝트에서 작성하며, 차량·휠·콘과 일부 가구는 Kenney Car Kit·Furniture Kit의 CC0 GLB를 사용합니다. 원본 파일·텍스처·라이선스·출처 해시는 [모델 폴더](../public/models/kenney/README.md)에 보관합니다. 환경 반사 조명은 Three.js RoomEnvironment로 로컬에서 생성합니다. [3D 품질 개선 내역](scene-quality.md)을 참고하세요. Gemini는 선택 연결하는 외부 API이며 OSS 가중치를 배포하는 구성이 아닙니다. 추가 구현 위치는 [로컬 문서](local-fieldwork.md)에 있습니다.
 
 xAPI는 서버 제품을 설치한 것이 아니라 이벤트 표현 형식을 적용한 것입니다. 현재 출력은 `version: "1.0.3"`이며 최신 사양을 구현했다는 뜻이 아닙니다. ADL 저장소도 1.0.3과 후속 사양을 구분합니다. 외부 LRS와 완전한 LRS 적합성 검증은 포함하지 않습니다. [xAPI 버전 안내](https://github.com/adlnet/xAPI-Spec#specification-versions)
 
 Python 의존성 범위는 [requirements.txt](../backend/requirements.txt), 프론트엔드 설치 버전은 [package-lock.json](../package-lock.json)이 기준입니다. 설치하지 않은 라이브러리를 사용 기술로 표시하지 않습니다. PostgreSQL·pgvector는 제외했고, BGE-M3·Qwen3·vLLM은 이후 모델 연동 후보로 남겼습니다.
 
 ## 포함된 데이터
+
+Excalidraw 공개 도형도 추가했습니다. `public/libraries/architecture.excalidrawlib`는 Arqtangeles의 42개 평면 배치도 도형 원본이며 [공식 저장소](https://github.com/excalidraw/excalidraw-libraries/blob/main/libraries/Arqtangeles/architecture.excalidrawlib)에서 가져왔습니다. MIT 라이선스 전문을 같은 폴더에 보관합니다. 3D 온실은 계속 프로젝트의 자체 도형 코드로 구성합니다.
 
 [sources.json](../backend/data/sources.json)은 2026-09-12 수집 스냅샷입니다. ESCO 원본 직업 URI·필수 역량 URI, O*NET 직업 코드·업무 ID·원문, 수집 시각·출처·이용 조건을 저장합니다. [careers.json](../backend/data/careers.json)의 학생용 한국어 설명·시나리오·프로젝트와 [교육용 연결](../backend/experience_graph/mappings.py)은 KingCareer의 편집 내용입니다.
 
@@ -28,7 +34,7 @@ Python 의존성 범위는 [requirements.txt](../backend/requirements.txt), 프�
 | 모빌리티 엔지니어 | automotive engineer | `17-2141.02` |
 | 식품 연구원 | food technologist | `19-1012.00` |
 
-스마트팜과 agricultural engineer를 포함한 연결은 교육용 대응입니다. 미국·유럽의 직업 분류를 한국의 자격·학과·학생 능력 기준과 동일하게 취급하지 않습니다. 전북의 지역산업 연결 역시 교육용 콘텐츠이며 실시간 기업·채용·제휴 데이터가 아닙니다.
+스마트팜과 agricultural engineer를 포함한 연결은 교육용 대응입니다. 미국·유럽의 직업 분류를 한국의 자격·학과·학생 능력 기준과 동일하게 취급하지 않습니다. 기존 전북 지역산업 탐색 기능은 제거했습니다. 프로필 지역과 원본 출처 자료는 기록 보존을 위해 유지합니다.
 
 ESCO API 수집 응답에는 데이터 버전이 명시되지 않아 `API default snapshot; version not reported by response`로 기록했습니다. 공식 API 문서의 기본 버전 안내와 실제 수집 응답은 구분하며 스냅샷을 최신 데이터라고 표시하지 않습니다. 재사용 조건은 [Use ESCO](https://esco.ec.europa.eu/en/use-esco)에 따릅니다.
 

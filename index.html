@@ -21,9 +21,9 @@
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:#F7F5F1;color:#241F47;font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:#2A5AE0;text-decoration:none}
-a:hover{color:#7B3FE4}
+body{margin:0;background:#F6F5F1;color:#241F47;font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:#0967FF;text-decoration:none}
+a:hover{color:#7C3AED}
 button{font-family:inherit}
 ::selection{background:#FFDCC6}
 @keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
@@ -37,16 +37,11 @@ button{font-family:inherit}
 
 <header class="kingcareer-header" style="position:fixed;top:0;left:0;right:0;z-index:60;padding:16px 28px;display:flex;align-items:center;gap:20px;background:rgba(247,245,241,.78);backdrop-filter:blur(16px);border-bottom:1px solid rgba(36,31,71,.08)">
   <div style="display:flex;align-items:center;gap:9px">
-    <div style="display:flex;gap:3px">
-      <div style="width:8px;height:20px;border-radius:2px;background:#C44C13"></div>
-      <div style="width:8px;height:20px;border-radius:2px;background:#2A5AE0"></div>
-      <div style="width:8px;height:20px;border-radius:2px;background:#7B3FE4"></div>
-    </div>
-    <div style="font-weight:800;font-size:15.5px;letter-spacing:-.02em">KingCareer</div>
+    <a class="kc-wordmark" href="/" aria-label="KingCareer 홈"><img src="/brand/12_career_kingcrabs/hello.png" alt="" width="52" height="52"><span>King<span>Career</span></span></a>
   </div>
   <nav style="display:flex;gap:18px;margin-left:auto;align-items:center">
     <sc-for list="{{ anchors }}" as="a" hint-placeholder-count="4">
-      <button onClick="{{ a.go }}" style="border:0;background:transparent;cursor:pointer;font-size:13.5px;font-weight:600;color:rgba(36,31,71,.72);padding:0" style-hover="color:#2A5AE0">{{ a.label }}</button>
+      <button onClick="{{ a.go }}" style="border:0;background:transparent;cursor:pointer;font-size:13.5px;font-weight:600;color:rgba(36,31,71,.72);padding:0" style-hover="color:#0967FF">{{ a.label }}</button>
     </sc-for>
     <a href="/app/#onboarding" style="font-size:13.5px;font-weight:700;color:#fff;background:#241F47;padding:9px 16px;border-radius:999px">시작하기</a>
   </nav>
@@ -54,22 +49,26 @@ button{font-family:inherit}
 
 <section class="kingcareer-hero" style="min-height:100vh;padding:120px 28px 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center;max-width:1320px;margin:0 auto">
   <div style="min-width:0">
-    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A83F0E;animation:fadeUp .7s both">전북 진로경험 플랫폼</div>
-    <h1 style="margin:20px 0 0;font-size:clamp(40px,7vw,96px);line-height:1.02;letter-spacing:-.045em;font-weight:800;animation:fadeUp .8s .08s both">직업을,<br>오늘<br><span data-verb="1" style="color:#2A5AE0">해본다.</span></h1>
-    <p style="margin:28px 0 0;max-width:460px;font-size:clamp(15px,1.7vw,19px);line-height:1.75;color:rgba(36,31,71,.74);animation:fadeUp .8s .16s both">검사하고 추천받는 대신, 그 직업의 하루 안으로 들어갑니다. AI가 학생마다 다른 상황을 만들고, 선택에 따라 이야기가 이어집니다.</p>
+    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#FF6A1F;animation:fadeUp .7s both">킹크랩과 함께하는 첫 직업 탐험</div>
+    <h1 style="margin:20px 0 0;font-size:clamp(40px,7vw,96px);line-height:1.02;letter-spacing:-.045em;font-weight:800;animation:fadeUp .8s .08s both">궁금한 직업,<br>오늘은 내가<br><span data-verb="1" style="color:#0967FF">해본다.</span></h1>
+    <p style="margin:28px 0 0;max-width:460px;font-size:clamp(15px,1.7vw,19px);line-height:1.75;color:rgba(36,31,71,.74);animation:fadeUp .8s .16s both">꿈이 아직 없어도 괜찮아. 킹크랩과 직업의 하루에 들어가 보자. 직접 선택하고, 만들어 보면서 나만의 경험을 모으는 거야.</p>
     <div style="display:flex;gap:22px;align-items:center;margin-top:36px;animation:fadeUp .8s .24s both">
-      <button onClick="{{ goTrack }}" style="border:0;cursor:pointer;padding:17px 28px;border-radius:999px;font-size:15.5px;font-weight:700;color:#fff;background:#2A5AE0;transition:transform .25s" style-hover="transform:translateY(-3px)">직업 5개 둘러보기</button>
-      <a href="/app/#simulation?career=developer" style="border:0;background:transparent;cursor:pointer;font-size:15.5px;font-weight:700;color:#241F47;padding:0;border-bottom:2px solid #C44C13">바로 체험하기</a>
+      <button onClick="{{ goTrack }}" style="border:0;cursor:pointer;padding:17px 28px;border-radius:999px;font-size:15.5px;font-weight:700;color:#fff;background:#0967FF;transition:transform .25s" style-hover="transform:translateY(-3px)">직업 5개 둘러보기</button>
+      <a href="/app/#simulation?career=developer" style="border:0;background:transparent;cursor:pointer;font-size:15.5px;font-weight:700;color:#241F47;padding:0;border-bottom:2px solid #FF6A1F">바로 체험하기</a>
     </div>
-    <div class="kingcareer-guide"><img src="/brand/01_mascots/mascot_08_guide.png" width="72" height="72" alt="파란 후드티를 입은 킹크랩 안내 캐릭터"><p>안녕, KingCareer야.<br><a href="/app/#discovery">궁금한 직업부터 만나보자.</a></p></div>
+    <div class="kingcareer-guide"><img src="/brand/12_career_kingcrabs/hello.png" width="72" height="72" alt="파란 후드티를 입은 킹크랩 안내 캐릭터"><p>안녕! 네 첫 출근을 함께할 킹크랩이야.<br><a href="/app/#discovery">궁금한 직업부터 만나보자.</a></p></div>
     <div style="margin-top:64px;display:flex;align-items:center;gap:10px;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(36,31,71,.74)">
       <div style="width:1px;height:22px;background:rgba(36,31,71,.3);animation:cue 2s ease-in-out infinite"></div>SCROLL
     </div>
   </div>
-  <div style="display:flex;justify-content:center;align-items:center;min-height:min(74vh,560px);perspective:1100px">
-    <div data-cube="1" style="width:min(46vw,270px);height:min(46vw,270px);position:relative;transform-style:preserve-3d;will-change:transform">
+  <div class="kc-cube-stage" style="display:flex;justify-content:center;align-items:center;min-height:min(74vh,560px);perspective:1400px">
+    <div class="kc-bubble kc-cube-bubble">오늘은 어떤 내가 되어볼까?</div>
+    <span class="kc-sticker kc-sticker-one">다섯 가지 첫 출근</span>
+    <span class="kc-sticker kc-sticker-two">경험 한 조각, 나의 가능성!</span>
+    <div data-cube="1" style="width:var(--cube-size);height:var(--cube-size);position:relative;transform-style:preserve-3d;will-change:transform">
       <sc-for list="{{ faces }}" as="f" hint-placeholder-count="6">
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;border-radius:18px;transform:{{ f.t }};background:{{ f.bg }};color:{{ f.fg }};border:1px solid rgba(36,31,71,.1)">
+        <div class="kc-cube-face" style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;border-radius:18px;transform:{{ f.t }};background:{{ f.bg }};color:{{ f.fg }};border:1px solid rgba(36,31,71,.1)">
+          <img class="kc-cube-art" src="{{ f.art }}" alt="{{ f.label }} 킹크랩" width="1280" height="1280">
           <div style="font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.1em;opacity:.85">{{ f.tag }}</div>
           <div style="margin-top:8px;font-size:clamp(18px,3.4vw,26px);font-weight:800;letter-spacing:-.025em;line-height:1.2">{{ f.label }}</div>
         </div>
@@ -80,38 +79,50 @@ button{font-family:inherit}
 
 <section data-scene="pin" style="height:300vh;position:relative">
   <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 28px;overflow:hidden">
-    <div style="max-width:1100px;width:100%">
-      <div data-pinline="0" style="font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:rgba(36,31,71,.28);will-change:opacity,transform">검사하지 않는다.</div>
-      <div data-pinline="1" style="margin-top:14px;font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:rgba(36,31,71,.28);will-change:opacity,transform">추천하지 않는다.</div>
-      <div data-pinline="2" style="margin-top:14px;font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:#C44C13;will-change:opacity,transform">경험하게 한다.</div>
+    <div class="kc-manifesto" style="max-width:1100px;width:100%">
+      <img class="kc-pin-crab" src="/brand/12_career_kingcrabs/hello.png" alt="두 팔을 들고 응원하는 킹크랩" width="1280" height="1280">
+      <div data-pinline="0" style="font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:rgba(36,31,71,.28);will-change:opacity,transform">꿈이 아직 없어도.</div>
+      <div data-pinline="1" style="margin-top:14px;font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:rgba(36,31,71,.28);will-change:opacity,transform">처음이라 서툴러도.</div>
+      <div data-pinline="2" style="margin-top:14px;font-size:clamp(30px,6.4vw,80px);line-height:1.1;letter-spacing:-.04em;font-weight:800;color:#FF6A1F;will-change:opacity,transform">해보면 알게 될 거야.</div>
       <div data-pinline="3" style="margin-top:34px;max-width:560px;font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:rgba(36,31,71,.74);will-change:opacity,transform">학생마다 알고 있는 직업의 범위와 경험의 깊이가 다릅니다. 그래서 모두에게 같은 체험을 주지 않습니다.</div>
     </div>
   </div>
 </section>
 
-<section data-scene="track" style="height:480vh;position:relative">
+<section data-scene="track" style="height:600vh;position:relative">
   <div style="position:sticky;top:0;height:100vh;overflow:hidden">
-    <div style="position:absolute;top:82px;left:28px;z-index:5;font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(36,31,71,.74)">MVP 직업군 5</div>
+    <div style="position:absolute;top:82px;left:28px;z-index:5;font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(36,31,71,.74)">MEET YOUR CREW · 킹크랩과 첫 출근</div>
     <div data-htrack="1" style="display:flex;height:100%;will-change:transform">
       <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="5">
-        <div style="width:100vw;height:100%;flex:none;display:flex;flex-direction:column;justify-content:center;padding:120px clamp(28px,7vw,120px) 80px;background:{{ j.bg }};color:{{ j.fg }}">
-          <div style="font:600 11.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;opacity:.9">{{ j.n }} · {{ j.region }}</div>
-          <div style="margin-top:18px;font-size:clamp(38px,8.4vw,112px);line-height:1;letter-spacing:-.045em;font-weight:800">{{ j.name }}</div>
-          <div style="margin-top:30px;max-width:660px;font-size:clamp(17px,2.4vw,30px);line-height:1.5;letter-spacing:-.02em;font-weight:600">{{ j.scene }}</div>
-          <a href="{{ j.href }}" style="margin-top:40px;align-self:flex-start;border:0;background:transparent;cursor:pointer;font-size:15.5px;font-weight:700;color:{{ j.fg }};padding:0 0 5px;border-bottom:2px solid {{ j.fg }}">이 하루 들어가기</a>
+        <div class="kc-job-panel" style="background:{{ j.bg }};color:{{ j.fg }}">
+          <div class="kc-job-copy">
+            <span class="kc-job-counter">오늘의 직업 {{ j.n }} / 05</span>
+            <p class="kc-job-region">{{ j.region }}</p>
+            <h2>{{ j.name }}</h2>
+            <p class="kc-job-scene">{{ j.scene }}</p>
+            <a class="kc-job-cta" href="{{ j.href }}">킹크랩과 출근하기 <span aria-hidden="true">↗</span></a>
+            <p class="kc-job-hint">상황을 보고 · 직접 선택하고 · 경험을 모아요</p>
+          </div>
+          <div class="kc-job-visual">
+            <div class="kc-job-orbit" aria-hidden="true"></div>
+            <span class="kc-bubble kc-job-bubble">{{ j.greeting }}</span>
+            <img class="kc-job-art" src="{{ j.art }}" alt="{{ j.name }} 킹크랩" width="1280" height="1280">
+            <span class="kc-job-nameplate">KINGCAREER CREW <b>{{ j.name }}</b></span>
+          </div>
         </div>
       </sc-for>
     </div>
   </div>
 </section>
 
-<section data-anchor="sim" style="background:#2A5AE0;color:#fff;padding:clamp(70px,10vw,130px) 28px">
-  <div style="max-width:940px;margin:0 auto">
+<section data-anchor="sim" style="background:#0967FF;color:#fff;padding:clamp(70px,10vw,130px) 28px">
+  <div class="kc-demo" style="max-width:940px;margin:0 auto">
+    <div class="kc-demo-heading"><div><span class="kc-section-pill">먼저, 한 입 체험</span><h2>첫 출근, 어렵지 않아.<br>함께 골라볼까?</h2></div><img src="/brand/12_career_kingcrabs/developer.png" alt="노트북을 든 개발자 킹크랩" width="300" height="300"></div>
     <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(255,255,255,.94)">직무체험 미리보기 · {{ simProgress }}</div>
     <p class="kingcareer-demo-note">준비된 시나리오로 진행하는 예시입니다. 아래 대화와 수치는 설명을 위한 가상 데이터이며, 학생 활동 기록에 저장되지 않습니다.</p>
     <div style="margin-top:30px;display:flex;flex-direction:column;gap:22px">
       <sc-for list="{{ simLog }}" as="m" hint-placeholder-count="2">
-        <div style="align-self:{{ m.align }};max-width:88%;animation:pop .45s both">
+        <div class="kc-chat-bubble" style="align-self:{{ m.align }};max-width:88%;animation:pop .45s both">
           <div style="font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:{{ m.tagColor }};margin-bottom:9px">{{ m.tag }}</div>
           <div style="font-size:clamp(18px,2.4vw,27px);line-height:1.6;letter-spacing:-.02em;font-weight:{{ m.weight }};white-space:pre-line;color:{{ m.fg }}">{{ m.text }}</div>
         </div>
@@ -127,7 +138,7 @@ button{font-family:inherit}
     <sc-if value="{{ simChoices.length }}" hint-placeholder-val="{{ true }}">
       <div style="margin-top:38px;display:flex;flex-direction:column">
         <sc-for list="{{ simChoices }}" as="c" hint-placeholder-count="3">
-          <button onClick="{{ c.pick }}" style="text-align:left;cursor:pointer;border:0;border-top:1px solid rgba(255,255,255,.32);background:transparent;color:#fff;padding:22px 0;font-size:clamp(15px,1.9vw,20px);font-weight:600;line-height:1.5;transition:padding-left .25s,color .25s" style-hover="padding-left:16px;color:#FFD9C2">{{ c.label }}</button>
+          <button class="kc-demo-choice" onClick="{{ c.pick }}" style="text-align:left;cursor:pointer;border:0;border-top:1px solid rgba(255,255,255,.32);background:transparent;color:#fff;padding:22px 0;font-size:clamp(15px,1.9vw,20px);font-weight:600;line-height:1.5;transition:padding-left .25s,color .25s" style-hover="padding-left:16px;color:#FFD9C2">{{ c.label }}</button>
         </sc-for>
       </div>
     </sc-if>
@@ -157,10 +168,10 @@ button{font-family:inherit}
 
 <section data-anchor="map" style="padding:clamp(70px,10vw,130px) 28px">
   <div style="max-width:1100px;margin:0 auto">
-    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#7B3FE4">체험이 끝나면 지도가 채워진다</div>
+    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#7C3AED">체험이 끝나면 지도가 채워진다</div>
     <h2 style="margin:20px 0 0;font-size:clamp(28px,5.2vw,64px);line-height:1.1;letter-spacing:-.04em;font-weight:800">이주호 학생의<br>진로경험 지도</h2>
     <p class="kingcareer-demo-note">가상 학생의 경험지도 예시입니다. 아래 수치는 실제 진단 결과가 아닙니다.</p>
-    <div style="margin-top:56px">
+    <div class="kc-map-grid" style="margin-top:56px">
       <sc-for list="{{ mapRows }}" as="r" hint-placeholder-count="6">
         <div data-bar="1" style="padding:24px 0;border-top:1px solid rgba(36,31,71,.14)">
           <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap">
@@ -174,22 +185,22 @@ button{font-family:inherit}
         </div>
       </sc-for>
       <div style="border-top:1px solid rgba(36,31,71,.14);padding-top:34px;margin-top:8px;max-width:620px">
-        <div style="font-size:clamp(18px,2.4vw,26px);line-height:1.55;font-weight:700;letter-spacing:-.02em;color:#A83F0E">비어 있는 두 칸 — 실제 경험과 현직자 대화. AI는 다음 경험을 여기에 맞춰 만듭니다.</div>
+        <div style="font-size:clamp(18px,2.4vw,26px);line-height:1.55;font-weight:700;letter-spacing:-.02em;color:#FF6A1F">비어 있는 두 칸 — 실제 경험과 현직자 대화. AI는 다음 경험을 여기에 맞춰 만듭니다.</div>
       </div>
     </div>
   </div>
 </section>
 
-<section data-anchor="region" style="background:#7B3FE4;color:#fff;padding:clamp(70px,10vw,130px) 0">
+<section data-anchor="workplaces" style="background:#7C3AED;color:#fff;padding:clamp(70px,10vw,130px) 0">
   <div style="max-width:1100px;margin:0 auto;padding:0 28px">
-    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(255,255,255,.94)">전북과의 연결</div>
-    <h2 style="margin:20px 0 46px;font-size:clamp(28px,5.2vw,64px);line-height:1.1;letter-spacing:-.04em;font-weight:800">“내가 사는 지역에도<br>이런 직업이 있구나.”</h2>
+    <div style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(255,255,255,.94)">다섯 가지 직무 현장</div>
+    <h2 style="margin:20px 0 46px;font-size:clamp(28px,5.2vw,64px);line-height:1.1;letter-spacing:-.04em;font-weight:800">“직접 해 보니<br>이런 일을 하는구나.”</h2>
   </div>
   <div>
-    <sc-for list="{{ regions }}" as="rg" hint-placeholder-count="6">
-      <a href="/app/#region" style="display:block;color:inherit;border-top:1px solid rgba(255,255,255,.3);padding:26px 28px;transition:background .3s,padding-left .3s;cursor:pointer" style-hover="background:rgba(255,255,255,.12);padding-left:44px">
+    <sc-for list="{{ workplaces }}" as="rg" hint-placeholder-count="5">
+      <a href="{{ rg.href }}" style="display:block;color:inherit;border-top:1px solid rgba(255,255,255,.3);padding:26px 28px;transition:background .3s,padding-left .3s;cursor:pointer" style-hover="background:rgba(255,255,255,.12);padding-left:44px">
         <div style="max-width:1100px;margin:0 auto;display:flex;align-items:baseline;gap:22px;flex-wrap:wrap">
-          <div style="font-size:clamp(26px,4.4vw,48px);font-weight:800;letter-spacing:-.035em;min-width:140px">{{ rg.city }}</div>
+          <div style="font-size:clamp(26px,4.4vw,48px);font-weight:800;letter-spacing:-.035em;min-width:140px">{{ rg.name }}</div>
           <div style="font-size:clamp(14px,1.8vw,19px);color:rgba(255,255,255,.88)">{{ rg.tags }}</div>
           <div style="margin-left:auto;font:500 12.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.94)">{{ rg.jobs }}</div>
         </div>
@@ -199,12 +210,12 @@ button{font-family:inherit}
   </div>
 </section>
 
-<section style="padding:clamp(80px,12vw,150px) 28px;text-align:center">
-  <img class="kingcareer-finale-mascot" src="/brand/01_mascots/mascot_00_original.png" width="220" height="220" loading="lazy" alt="주황색 몸, 왕관과 파란 후드티를 입은 KingCareer 킹크랩">
+<section class="kc-finale" style="padding:clamp(80px,12vw,150px) 28px;text-align:center">
+  <img class="kingcareer-finale-mascot" src="/brand/12_career_kingcrabs/hello.png" width="220" height="220" loading="lazy" alt="주황색 몸, 왕관과 파란 후드티를 입은 KingCareer 킹크랩">
   <h2 style="margin:0 auto;max-width:900px;font-size:clamp(30px,6vw,76px);line-height:1.08;letter-spacing:-.045em;font-weight:800">진로는 추천받는 것이 아니라,<br>경험하고 선택해야 한다.</h2>
   <div style="display:flex;gap:24px;justify-content:center;align-items:center;margin-top:44px;flex-wrap:wrap">
-    <a href="/app/#auth" style="color:#fff;background:#2A5AE0;padding:18px 30px;border-radius:999px;font-size:16px;font-weight:700">내 경험 시작하기</a>
-    <button onClick="{{ goSim }}" style="border:0;background:transparent;cursor:pointer;font-size:16px;font-weight:700;color:#241F47;padding:0 0 5px;border-bottom:2px solid #C44C13">체험 한 번 더</button>
+    <a href="/app/#auth" style="color:#fff;background:#0967FF;padding:18px 30px;border-radius:999px;font-size:16px;font-weight:700">내 경험 시작하기</a>
+    <button onClick="{{ goSim }}" style="border:0;background:transparent;cursor:pointer;font-size:16px;font-weight:700;color:#241F47;padding:0 0 5px;border-bottom:2px solid #FF6A1F">체험 한 번 더</button>
   </div>
   <div style="margin-top:80px;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(36,31,71,.74)">KINGCAREER · 전북 진로경험 격차 해소 AI 플랫폼</div>
 </section>
@@ -212,7 +223,7 @@ button{font-family:inherit}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{}">
-const OT="#A83F0E", B="#2A5AE0", P="#7B3FE4", INK="#241F47";
+const OT="#FF6A1F", B="#0967FF", P="#7C3AED", INK="#241F47";
 const SIM_OPEN = "오늘 당신은 전북의 한 스타트업에서 앱 개발자로 일합니다.\n사용자들이 로그인 화면에서 계속 이탈하고 있습니다.\n\n다음 중 무엇부터 확인하시겠습니까?";
 const SIM = [
   {choices:[
@@ -253,7 +264,7 @@ class Component extends DCLogic {
           const start = i * 0.22, k = this.reducedMotion ? 1 : Math.max(0, Math.min(1, (p - start) / 0.2));
           el.style.opacity = 0.18 + k * 0.82;
           el.style.transform = `translateY(${(1-k)*26}px)`;
-          if(i < 3) el.style.color = k > 0.55 ? (i===2 ? "#A83F0E" : "#241F47") : "rgba(36,31,71,.28)";
+          if(i < 3) el.style.color = k > 0.55 ? (i===2 ? "#FF6A1F" : "#241F47") : "rgba(36,31,71,.28)";
         });
       }
       const track = document.querySelector('[data-scene="track"]');
@@ -325,29 +336,32 @@ class Component extends DCLogic {
     const rows = [["직업 존재 인식",100,"관련 직업 12개를 알고 있어요"],["직무 이해",60,"업무 흐름은 절반쯤 이해했어요"],
       ["실제 경험",20,"직접 만들어본 결과물이 거의 없어요"],["필요 역량 이해",40,"어떤 과목이 필요한지 일부만 알아요"],
       ["관련 학과 이해",80,"전북 내 학과 3곳을 비교해봤어요"],["현직자 경험",0,"아직 만난 적이 없어요"]];
-    const half = "min(46vw,270px)";
+    const half = "var(--cube-size)";
     const d = `translateZ(calc(${half} / 2))`;
 
     return {
       goSim, goTrack,
       anchors:[{label:"직업 체험", go:goTrack}, {label:"AI 상황", go:goSim},
-        {label:"경험지도", go:this.jump('[data-anchor="map"]')}, {label:"전북", go:this.jump('[data-anchor="region"]')}],
+        {label:"경험지도", go:this.jump('[data-anchor="map"]')}, {label:"직무 현장", go:this.jump('[data-anchor="workplaces"]')}],
 
       faces:[
-        {tag:"01 · 전주", label:"앱 개발자", bg:"#2A5AE0", fg:"#fff", t:`rotateY(0deg) ${d}`},
-        {tag:"02 · 익산", label:"식품 연구원", bg:"#7B3FE4", fg:"#fff", t:`rotateY(90deg) ${d}`},
-        {tag:"03 · 김제", label:"스마트팜 전문가", bg:"#C44C13", fg:"#fff", t:`rotateY(180deg) ${d}`},
+        {tag:"01 · 전주", label:"앱 개발자", bg:"#0967FF", fg:"#fff", t:`rotateY(0deg) ${d}`},
+        {tag:"02 · 익산", label:"식품 연구원", bg:"#7C3AED", fg:"#fff", t:`rotateY(90deg) ${d}`},
+        {tag:"03 · 김제", label:"스마트팜 전문가", bg:"#FF6A1F", fg:"#fff", t:`rotateY(180deg) ${d}`},
         {tag:"04 · 완주", label:"자동차 엔지니어", bg:"#FFFFFF", fg:INK, t:`rotateY(270deg) ${d}`},
         {tag:"05 · 군산", label:"간호사", bg:"#241F47", fg:"#fff", t:`rotateX(90deg) ${d}`},
-        {tag:"오늘의 체험", label:"하루를 골라보세요", bg:"#FFEEE2", fg:INK, t:`rotateX(-90deg) ${d}`}],
+        {tag:"오늘의 체험", label:"하루를 골라보세요", bg:"#FFEEE2", fg:INK, t:`rotateX(-90deg) ${d}`}].map((face, i) => ({...face, art:'/brand/12_career_kingcrabs/' + ['developer','researcher','farmer','engineer','nurse','hello'][i] + '.png'})),
 
       jobs:[
         {n:"01", region:"전주 · IT", name:"앱 개발자", scene:"“사용자들이 로그인 화면에서 계속 이탈하고 있습니다. 무엇부터 확인하시겠습니까?”", bg:"#FFFFFF", fg:INK},
-        {n:"02", region:"군산 · 보건", name:"간호사", scene:"“응급실에 환자 3명이 동시에 도착했습니다. 누구부터 보시겠습니까?”", bg:"#2A5AE0", fg:"#fff"},
-        {n:"03", region:"김제 · 스마트농업", name:"스마트팜 전문가", scene:"“온실 습도가 3일째 떨어지지 않습니다. 센서 데이터를 어떻게 읽겠습니까?”", bg:"#FFEEE2", fg:INK},
-        {n:"04", region:"완주 · 모빌리티", name:"자동차 엔지니어", scene:"“시험 주행 중 이상 진동이 잡혔습니다. 어디를 먼저 열어보시겠습니까?”", bg:"#7B3FE4", fg:"#fff"},
+        {n:"02", region:"군산 · 보건", name:"간호사", scene:"“다음 교대 전 확인할 요청이 남아 있습니다. 무엇부터 살펴볼까요?”", bg:"#0967FF", fg:"#fff"},
+        {n:"03", region:"김제 · 스마트농업", name:"스마트팜 전문가", scene:"“온실 A구역의 온도가 올랐어. 함께 원인을 찾아볼까?”", bg:"#FFEEE2", fg:INK},
+        {n:"04", region:"완주 · 모빌리티", name:"자동차 엔지니어", scene:"“가상 시험 기록에서 진동이 발견됐습니다. 멈춘 차량의 어떤 기록부터 확인할까요?”", bg:"#7C3AED", fg:"#fff"},
         {n:"05", region:"익산 · 식품바이오", name:"식품 연구원", scene:"“같은 레시피인데 이번 배치만 맛이 다릅니다. 원인을 어떻게 찾겠습니까?”", bg:"#241F47", fg:"#fff"}]
-        .map((job, i) => ({...job, href:'/app/#simulation?career=' + ['developer','nurse','farmer','engineer','researcher'][i]})),
+        .map((job, i) => ({...job,
+          bg:['#EDF3FF','#F1EDFF','#FFF0E3','#EBF0FF','#F5EBFF'][i], fg:INK,
+          art:'/brand/12_career_kingcrabs/' + ['developer','nurse','farmer','engineer','researcher'][i] + '.png',
+          greeting:['나랑 앱을 고쳐볼래?','차근차근 함께 살펴보자!','우리 온실을 부탁해!','문제의 원인, 같이 찾아볼까?','맛있는 발견을 시작해 보자!'][i], href:'/app/#simulation?career=' + ['developer','nurse','farmer','engineer','researcher'][i]})),
 
       simProgress: s.simStep >= SIM.length ? "체험 완료" : `상황 ${s.simStep+1} / ${SIM.length}`,
       simLog: s.simLog.map(m => m.role === "ai"
@@ -368,13 +382,7 @@ class Component extends DCLogic {
       mapRows: rows.map(([label,pct,note]) => ({label, note, pct:pct+"%", pctNum:String(pct),
         color: pct>=80 ? B : pct>=40 ? P : OT})),
 
-      regions:[
-        {city:"전주", tags:"콘텐츠 · 관광 · IT", jobs:"앱 개발자 · 콘텐츠 기획자"},
-        {city:"군산", tags:"자동차 · 이차전지 · 항만", jobs:"배터리 공정 엔지니어"},
-        {city:"익산", tags:"식품 · 바이오", jobs:"식품 연구원 · 품질관리"},
-        {city:"김제", tags:"스마트농업 · 특장차", jobs:"스마트팜 전문가"},
-        {city:"완주", tags:"자동차 · 수소", jobs:"수소 설비 엔지니어"},
-        {city:"새만금", tags:"이차전지 · 에너지", jobs:"에너지 설비 운영"}]
+      workplaces:[{"name": "앱 개발자", "tags": "서비스 운영실", "jobs": "멈춘 서비스를 다시 움직여 줘.", "href": "/app/#simulation?career=developer"}, {"name": "간호사", "tags": "가상 병동 준비실", "jobs": "다음 교대도 안심할 수 있도록.", "href": "/app/#simulation?career=nurse"}, {"name": "스마트팜 전문가", "tags": "가상 온실", "jobs": "온실의 아침을 부탁해.", "href": "/app/#simulation?career=farmer"}, {"name": "자동차 엔지니어", "tags": "가상 차량 시험실", "jobs": "진동의 원인을 찾아가는 작업실.", "href": "/app/#simulation?career=engineer"}, {"name": "식품 연구원", "tags": "가상 식품 연구실", "jobs": "같은 레시피, 왜 다른 결과일까?", "href": "/app/#simulation?career=researcher"}]
     };
   }
 }

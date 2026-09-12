@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowLeft,
@@ -29,6 +36,29 @@ import type { Activity, CareerId } from "../data";
 import { api, ApiError, json, requestId } from "../api";
 import type { ProjectDraft, SimulationSession } from "../api";
 import { useApp } from "../store";
+import ChoiceCards from "../fieldwork/ChoiceCards";
+
+const reflectionChoices = [
+  "생각보다 여러 정보를 살펴보고 판단하는 직업이었어요.",
+  "동료와 협력하고 질문하는 일이 중요하다는 걸 알았어요.",
+  "직접 경험해 보니 다른 직업도 더 알아보고 싶어요.",
+];
+const likedChoices = [
+  "문제의 원인을 찾는 과정",
+  "해결 방법을 선택하는 과정",
+  "새로운 일을 알아가는 과정",
+  "아직 잘 모르겠어요",
+];
+const difficultChoices = [
+  "정보를 비교하는 것이 어려웠어요",
+  "선택을 결정하는 것이 어려웠어요",
+  "크게 어려운 점은 없었어요",
+];
+const optionsFor = (items: string[]) =>
+  items.map((label) => ({ id: label, label }));
+
+const Smartfarm = lazy(() => import("../fieldwork/Smartfarm"));
+const Workshop = lazy(() => import("../fieldwork/Workshop"));
 
 const questions = [
   {
@@ -389,6 +419,26 @@ type TurnInput = {
 };
 
 export function Simulation() {
+  const selected = new URLSearchParams(location.hash.split("?")[1] || "").get(
+    "career",
+  );
+  const farm = [
+    "developer",
+    "nurse",
+    "farmer",
+    "engineer",
+    "researcher",
+  ].includes(selected || "");
+  return farm ? (
+    <Suspense fallback={<p role="status">현장 체험을 준비하는 중…</p>}>
+      <Smartfarm legacy={<ClassicSimulation />} />
+    </Suspense>
+  ) : (
+    <ClassicSimulation />
+  );
+}
+
+function ClassicSimulation() {
   const {
     state,
     go,
@@ -531,8 +581,8 @@ export function Simulation() {
             <div>
               <h3>직업을 고르고, 새로운 하루로 들어가 봐.</h3>
               <p>
-                3개의 상황과 짧은 회고 · 약 10분 · 저장한 지점부터 이어할 수
-                있어.
+                현장 조사 → 객관식 조치 → 결과 확인·인계 → 회고와 수료 카드.
+                저장한 지점부터 이어할 수 있어.
               </p>
             </div>
             <Tag color="orange">준비된 시나리오</Tag>
@@ -560,8 +610,8 @@ export function Simulation() {
             ))}
           </div>
           <p className="fine-print">
-            지금은 준비된 시나리오가 선택에 따라 반응해요. 실시간 AI 생성은 연결
-            예정이에요.
+            준비된 직무 상황에서 선택하면 3D 현장과 결과가 달라져요. AI 코치는
+            연결 설정에 따라 질문을 설명해 줘요.
           </p>
         </>
       ) : (
@@ -855,40 +905,28 @@ export function Simulation() {
                 <Tag color="orange">생각까지 남겨야 나의 경험</Tag>
                 <h2>직접 해보니까 어땠어?</h2>
                 <p>흥미가 줄어도 좋은 발견이야. 솔직하게 남겨줘.</p>
-                <label className="form-field">
-                  새롭게 알게 된 점 <span className="required">필수</span>
-                  <textarea
-                    disabled={action.busy}
-                    value={reflection}
-                    onChange={(e) => setReflection(e.target.value)}
-                    placeholder="새롭게 알게 된 점이나 달라진 생각을 5자 이상 적어줘."
-                    rows={3}
-                    maxLength={1500}
-                  />
-                </label>
+                <ChoiceCards
+                  legend="직접 해보니 어떤 생각이 들었어?"
+                  options={optionsFor(reflectionChoices)}
+                  value={reflection}
+                  onChange={setReflection}
+                  disabled={action.busy}
+                />
                 <div className="two-column">
-                  <label className="form-field">
-                    나와 맞았던 점
-                    <textarea
-                      disabled={action.busy}
-                      value={liked}
-                      onChange={(e) => setLiked(e.target.value)}
-                      placeholder="조금이라도 재미있었던 순간"
-                      rows={3}
-                      maxLength={1000}
-                    />
-                  </label>
-                  <label className="form-field">
-                    나와 덜 맞았던 점
-                    <textarea
-                      disabled={action.busy}
-                      value={disliked}
-                      onChange={(e) => setDisliked(e.target.value)}
-                      placeholder="어렵거나 덜 즐거웠던 순간"
-                      rows={3}
-                      maxLength={1000}
-                    />
-                  </label>
+                  <ChoiceCards
+                    legend="좋았던 점 (선택)"
+                    options={optionsFor(likedChoices)}
+                    value={liked}
+                    onChange={setLiked}
+                    disabled={action.busy}
+                  />
+                  <ChoiceCards
+                    legend="어려웠던 점 (선택)"
+                    options={optionsFor(difficultChoices)}
+                    value={disliked}
+                    onChange={setDisliked}
+                    disabled={action.busy}
+                  />
                 </div>
                 <Interest
                   value={interest}
@@ -997,6 +1035,26 @@ type SaveAttempt = {
 type ProjectRevision = { version: number; answers: string[]; date: string };
 
 export function Projects() {
+  const selected = new URLSearchParams(location.hash.split("?")[1] || "").get(
+    "career",
+  );
+  const farm = [
+    "developer",
+    "nurse",
+    "farmer",
+    "engineer",
+    "researcher",
+  ].includes(selected || "");
+  return farm ? (
+    <Suspense fallback={<p role="status">설계 작업실을 준비하는 중…</p>}>
+      <Workshop />
+    </Suspense>
+  ) : (
+    <ClassicProjects />
+  );
+}
+
+function ClassicProjects() {
   const {
     state,
     go,

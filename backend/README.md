@@ -1,6 +1,6 @@
 # KingCareer 학생 백엔드
 
-FastAPI, SQLite, Argon2, NetworkX, LangGraph로 동작합니다. GPU나 모델 설치는 필요하지 않습니다. 테스트와 서버 실행은 이번 작업에서 수행하지 않았으며 아래 절차는 사용자 실행용입니다.
+FastAPI, SQLite, Argon2, NetworkX, LangGraph로 동작합니다. GPU나 모델 설치는 필요하지 않습니다. 로컬 서버를 실행했으며 테스트는 작성하거나 실행하지 않았습니다. 스마트팜 3D 현장 체험·배치도·수료 카드의 범위와 확인 절차는 [로컬 개발 안내](../docs/local-fieldwork.md)에 있습니다.
 
 ## Windows 실행
 
@@ -39,7 +39,7 @@ SQLite와 LangGraph 동기화를 위해 **한 worker로 실행**합니다. `--wo
 
 | 경로 | 메서드 | 동작 |
 | --- | --- | --- |
-| `/catalog`, `/regions` | GET | 공개 직업·출처 및 교육용 지역 연결 |
+| `/catalog` | GET | 공개 직업과 데이터 출처 |
 | `/auth/register`, `/auth/login`, `/auth/logout` | POST | 학생 계정과 세션 |
 | `/auth/password` | POST | 비밀번호 변경과 세션 교체 |
 | `/auth/account` | DELETE | 비밀번호 확인 후 본인 계정·기록 삭제 |
@@ -75,7 +75,7 @@ SQLite와 LangGraph 동기화를 위해 **한 worker로 실행**합니다. `--wo
 
 `KINGCAREER_AI_MODE=template`이 기본입니다. 시뮬레이션 응답은 카탈로그의 준비된 분기이고 자유 답변·질문은 기록합니다. 프로젝트 제출물과 자기보고를 내용 평가 점수로 바꾸지 않습니다. 활동에는 `evaluationStatus=not_connected`가 표시됩니다.
 
-추후 `KINGCAREER_AI_MODE=ai`, `KINGCAREER_AI_URL=https://server/v1`, `KINGCAREER_AI_MODEL`, `KINGCAREER_AI_KEY`를 설정하면 `inference.py`의 생성 인터페이스를 사용합니다. vLLM 호환 Chat Completions 형식입니다. 직업·현재 상황·응답만 전달하며 계정/학교 정보는 전달하지 않습니다. 프로젝트 평가 인터페이스도 분리되어 있지만 자동 연결하지 않았습니다. 이 경로는 실모델로 검증하지 않았습니다. 실패 시 체험 진행·경험 이벤트를 확정하지 않고 503을 반환합니다.
+`KINGCAREER_AI_MODE=ai`, `KINGCAREER_AI_PROVIDER=gemini`, `KINGCAREER_AI_MODEL`, `KINGCAREER_AI_KEY`를 설정하면 `inference.py`의 Gemini REST 연결을 사용합니다. 질문 설명과 별도로 요청하는 프로젝트 텍스트 피드백을 지원합니다. 직업·현재 상황·입력만 전달하며 계정·학교 정보는 포함하지 않습니다. 그림은 글자만 전달하여 시각적 구조를 평가하지 않습니다. API 실패 시 503을 반환하고 이전 상태·제출물을 유지합니다. 실제 키로 호출하지 않았습니다. 기존 Chat Completions 호환 서버는 `KINGCAREER_AI_PROVIDER=openai-compatible`와 `KINGCAREER_AI_URL`을 명시해야 합니다.
 
 ## 데이터 준비와 출처
 

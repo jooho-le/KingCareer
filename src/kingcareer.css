@@ -453,15 +453,15 @@ select:focus-visible {
   background: #eee6fc;
   border-color: #e1d5f5;
 }
-.region-teaser {
+.portfolio-teaser {
   background: var(--blue);
   color: #fff;
 }
-.region-teaser h3,
-.region-teaser small {
+.portfolio-teaser h3,
+.portfolio-teaser small {
   color: #fff;
 }
-.region-teaser .circle-button {
+.portfolio-teaser .circle-button {
   background: #fff;
   color: var(--blue);
 }
@@ -820,9 +820,6 @@ select:focus-visible {
 .steps .active b {
   color: var(--blue);
 }
-.region-info {
-  border-top: 5px solid var(--blue);
-}
 .recommendation-hero {
   background: var(--purple);
   color: #fff;
@@ -1000,33 +997,6 @@ select:focus-visible {
 .source-details small {
   display: block;
   color: #697086;
-}
-.region-landscape {
-  width: 100%;
-  height: 280px;
-  object-fit: contain;
-  border-radius: 18px;
-  margin: 15px 0;
-}
-.region-picker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-.region-picker button {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 11px 15px;
-  background: #e9efff;
-  color: var(--blue);
-  border-radius: 12px;
-  font-size: 12px;
-}
-.region-picker button.selected {
-  background: var(--blue);
-  color: #fff;
 }
 .recommendation-mascot {
   width: 255px;
@@ -1453,9 +1423,6 @@ select:focus-visible {
   }
   .experience-map-art {
     height: 220px;
-  }
-  .region-landscape {
-    height: 200px;
   }
   .recommendation-grid {
     grid-template-columns: 1fr;

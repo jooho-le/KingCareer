@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/prepare-excalidraw.mjs",
+    "prebuild": "node scripts/prepare-excalidraw.mjs",
+    "postinstall": "node scripts/prepare-excalidraw.mjs",
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
@@ -12,15 +15,28 @@
     "format:check": "prettier --check src app *.ts *.json"
   },
   "dependencies": {
+    "@excalidraw/excalidraw": "^0.18.1",
+    "@react-three/fiber": "9.7.0",
     "lucide-react": "^0.468.0",
     "motion": "^12.23.12",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "^0.186.0"
+  },
+  "overrides": {
+    "@excalidraw/excalidraw": {
+      "nanoid": "3.3.19"
+    },
+    "@excalidraw/mermaid-to-excalidraw": {
+      "nanoid": "^5.1.16"
+    },
+    "lodash-es": "^4.18.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^5.0.3",
     "prettier": "^3.9.6",
     "typescript": "~5.9.2",

@@ -1,9 +1,16 @@
 import json
 from fastapi import HTTPException
 from .config import ROOT
+from .workplaces import WORKPLACES
 
 CAREERS = json.loads((ROOT / "backend/data/careers.json").read_text(encoding="utf-8"))
 SOURCES = json.loads((ROOT / "backend/data/sources.json").read_text(encoding="utf-8"))
+for item in CAREERS:
+    if item["id"] in WORKPLACES:
+        project = WORKPLACES[item["id"]]["project"]
+        item["project"] = project["title"]
+        item["problem"] = project["brief"]
+        item["missions"] = project["hints"]
 BY_ID = {c["id"]: c for c in CAREERS}
 FIELDS = [c["field"] for c in CAREERS] + ["아직 모르겠어요"]
 DIAGNOSIS_ANSWERS = [
@@ -14,15 +21,6 @@ DIAGNOSIS_ANSWERS = [
     ("학과 이해", ["관련 과목이나 전공을 아직 몰라요", "관련된 과목이나 전공 이름을 알아요", "관련 전공의 수업 내용을 살펴봤어요"]),
     ("현직자 교류", ["아직 직접 대화한 적은 없어요", "강연이나 온라인 만남에 참여했어요", "현직자에게 직접 질문하고 대화했어요"]),
 ]
-REGIONS = [
-    {"name": "전주", "industries": ["IT", "콘텐츠", "관광"], "careerIds": ["developer"]},
-    {"name": "군산", "industries": ["자동차", "이차전지", "항만"], "careerIds": ["engineer"]},
-    {"name": "익산", "industries": ["식품", "바이오"], "careerIds": ["researcher", "nurse"]},
-    {"name": "김제", "industries": ["스마트농업", "특장차"], "careerIds": ["farmer", "engineer"]},
-    {"name": "완주", "industries": ["자동차", "수소"], "careerIds": ["engineer"]},
-    {"name": "새만금", "industries": ["에너지", "이차전지"], "careerIds": ["engineer"]},
-]
-
 
 def career(career_id):
     if career_id not in BY_ID:

@@ -29,7 +29,6 @@ import {
   Home,
   CareerMap,
   Discovery,
-  Region,
   Recommendation,
   Portfolio,
 } from "./pages/Explore";
@@ -42,7 +41,6 @@ const nav = [
   { id: "simulation", title: "직무체험", icon: "simulation", badge: "PLAY" },
   { id: "projects", title: "미니 프로젝트", icon: "project" },
   { id: "discovery", title: "직업 발견", icon: "compass" },
-  { id: "region", title: "전북에서 찾기", icon: "location" },
   { id: "portfolio", title: "나의 포트폴리오", icon: "journal" },
 ] as const;
 const titles: Record<Page, string> = {
@@ -51,7 +49,6 @@ const titles: Record<Page, string> = {
   simulation: "직무체험",
   projects: "미니 프로젝트",
   discovery: "직업 발견",
-  region: "전북에서 찾기",
   portfolio: "나의 포트폴리오",
   diagnosis: "관심·경험 진단",
   recommendation: "다음 경험 추천",
@@ -296,7 +293,6 @@ export default function App() {
     simulation: <Simulation />,
     projects: <Projects />,
     discovery: <Discovery />,
-    region: <Region />,
     portfolio: <Portfolio />,
     diagnosis: <Diagnosis />,
     recommendation: <Recommendation />,

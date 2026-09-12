@@ -1,5 +1,7 @@
 from typing import Annotated, Literal
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_validator
+import json
+import math
 
 CareerId = Literal["developer", "nurse", "farmer", "engineer", "researcher"]
 Text = Annotated[str, StringConstraints(strip_whitespace=True, max_length=5000)]
@@ -75,7 +77,10 @@ class SimulationCreate(Input):
 
 
 class SimulationTurn(RequestInput):
-    kind: Literal["start", "choice", "free", "question", "continue"]
+    kind: Literal["start", "choice", "free", "question", "continue", "inspect", "compare", "act", "verify", "handover"]
+    objectId: Short | None = None
+    actionId: Short | None = None
+    optionId: Short | None = None
     choiceIndex: AnswerIndex | None = None
     text: Text = ""
     expectedVersion: Version
@@ -92,6 +97,33 @@ class SimulationComplete(RequestInput):
 class Draft(RequestInput):
     answers: list[DraftText] = Field(min_length=3, max_length=3)
     expectedVersion: Version
+    scene: dict | None = None
+
+    @field_validator("scene")
+    @classmethod
+    def validate_scene(cls, value):
+        if value is None:
+            return value
+        if len(json.dumps(value, allow_nan=False).encode()) > 500_000:
+            raise ValueError("배치도가 너무 커요. 요소를 줄여 주세요.")
+        elements = value.get("elements")
+        if not isinstance(elements, list) or len(elements) > 250:
+            raise ValueError("배치도는 250개 이하의 도형으로 구성해 주세요.")
+        seen = set()
+        for element in elements:
+            if not isinstance(element, dict) or element.get("type") not in {"rectangle", "diamond", "ellipse", "line", "arrow", "text", "freedraw", "frame", "embeddable"}:
+                raise ValueError("이미지와 외부 삽입 요소는 지원하지 않아요.")
+            if element.get("type") == "embeddable" or element.get("link"):
+                raise ValueError("외부 링크 없이 도형과 글자로 작성해 주세요.")
+            eid = element.get("id")
+            if not isinstance(eid, str) or not eid or eid in seen:
+                raise ValueError("도형 ID가 유효하지 않아요.")
+            seen.add(eid)
+            for key in ("x", "y", "width", "height"):
+                number = element.get(key)
+                if not isinstance(number, (int, float)) or not math.isfinite(number) or abs(number) > 1_000_000:
+                    raise ValueError("도형 좌표가 유효하지 않아요.")
+        return {"elements": elements, "appState": {"viewBackgroundColor": "#ffffff"}}
 
 
 class Submit(RequestInput):

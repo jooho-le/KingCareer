@@ -1,0 +1,56 @@
+[
+  {
+    "path": "car/sedan-sports.glb",
+    "sha256": "2889c428ca1dd9c975c3ff760eb8757883490410555ab60b818f712f583826d6",
+    "source": "https://kenney.nl/assets/car-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "car/wheel-racing.glb",
+    "sha256": "5d8dbff9da004a2aabc471a12be0a4b70725c49463ec36ec3465b15c0cf64571",
+    "source": "https://kenney.nl/assets/car-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "car/cone.glb",
+    "sha256": "d6659fc365de47c5d056b14f3d3fb3e191d3a5b869c43171753621dcf14b76bd",
+    "source": "https://kenney.nl/assets/car-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "furniture/chairDesk.glb",
+    "sha256": "46406619186034cbe92b19b79a5f1a8e3f442a17a70a7524ef2c0ad0f35095c6",
+    "source": "https://kenney.nl/assets/furniture-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "furniture/computerKeyboard.glb",
+    "sha256": "9d9135789de2120e9f41ce3f0a56dd1b15f40adcc7888739bb842a2d820da322",
+    "source": "https://kenney.nl/assets/furniture-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "furniture/computerMouse.glb",
+    "sha256": "d3ad1a923f0f7707ef367bb969eb94c9076e211c98c830ba52e133fadc5cdfc0",
+    "source": "https://kenney.nl/assets/furniture-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "furniture/pottedPlant.glb",
+    "sha256": "5b760eda2766f75fda36b2c5df652a1662f82981ef64cd8fa7fe7bcd386b3a15",
+    "source": "https://kenney.nl/assets/furniture-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "furniture/lampRoundFloor.glb",
+    "sha256": "50fe1b5b588edf15bfa9cc880f71a02a4fda6036350b24733d0ef4de5cc5e908",
+    "source": "https://kenney.nl/assets/furniture-kit",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "furniture/cabinetBedDrawer.glb",
+    "sha256": "e3dfd2e120af3d4d29b66509e317452cd15bd3f57ac8945575462c582adc6de8",
+    "source": "https://kenney.nl/assets/furniture-kit",
+    "license": "CC0-1.0"
+  }
+]

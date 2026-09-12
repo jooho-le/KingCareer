@@ -1433,7 +1433,7 @@ button {
   margin-top: 26px;
 }
 .project-teaser,
-.region-teaser {
+.portfolio-teaser {
   border-radius: 16px;
   padding: 21px;
   display: flex;
@@ -1465,7 +1465,7 @@ button {
   margin-bottom: 5px;
 }
 .project-teaser h3,
-.region-teaser h3 {
+.portfolio-teaser h3 {
   font-size: 13px;
   margin-bottom: 4px;
 }
@@ -1489,19 +1489,19 @@ button {
   background: var(--purple);
   color: white;
 }
-.region-teaser {
+.portfolio-teaser {
   background: #eaf1ff;
 }
-.region-teaser > svg {
+.portfolio-teaser > svg {
   color: #6c90d2;
 }
-.region-teaser small {
+.portfolio-teaser small {
   display: block;
   color: #8c9bbc;
   font-size: 8px;
   margin-bottom: 7px;
 }
-.region-teaser .circle-button {
+.portfolio-teaser .circle-button {
   background: #fff;
   color: #6c90d2;
 }
@@ -1948,19 +1948,6 @@ button {
   padding: 7px 11px;
   border-radius: 7px;
 }
-.region-layout {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: 25px;
-  margin-bottom: 35px;
-}
-.region-map {
-  background: #fcfbff;
-}
-.region-map-title h2 {
-  font-size: 19px;
-  margin-top: 12px;
-}
 .map-illustration {
   position: relative;
   max-width: 440px;
@@ -2013,62 +2000,6 @@ button {
 .pin-5 {
   left: 1%;
   top: 46%;
-}
-.region-info {
-  position: relative;
-  padding: 35px;
-}
-.region-number {
-  position: absolute;
-  right: 28px;
-  top: 20px;
-  font-family: "DM Sans", sans-serif;
-  font-size: 70px;
-  font-weight: 700;
-  color: #f0eaff;
-  line-height: 1;
-}
-.region-info > h2 {
-  font-size: 48px;
-  margin: 23px 0 10px;
-}
-.region-info > h3 {
-  color: var(--purple);
-  font-size: 17px;
-  font-weight: 500;
-  margin-bottom: 15px;
-}
-.region-info > p {
-  font-size: 12px;
-}
-.region-job {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 20px 0;
-  margin: 27px 0;
-}
-.region-job > div {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.region-job small {
-  font-size: 9px;
-  color: #a79bb2;
-}
-.region-job b {
-  font-size: 15px;
-}
-.region-job > svg {
-  margin-left: auto;
-  color: #baa5d1;
-}
-.region-info > .text-button {
-  display: flex;
-  margin-top: 16px;
 }
 .recommendation-hero {
   background: #f0eaff;
@@ -3409,12 +3340,12 @@ button {
     gap: 16px;
   }
   .project-teaser,
-  .region-teaser {
+  .portfolio-teaser {
     padding: 17px;
     gap: 12px;
   }
   .project-teaser h3,
-  .region-teaser h3 {
+  .portfolio-teaser h3 {
     font-size: 11px;
   }
   .teaser-icon {
@@ -3450,12 +3381,6 @@ button {
   .auth-side .hero-art {
     transform: scale(0.8);
     transform-origin: center;
-  }
-  .region-layout {
-    grid-template-columns: 1fr 1fr;
-  }
-  .region-info {
-    padding: 25px;
   }
   .map-pin {
     padding: 8px 10px;
@@ -3575,21 +3500,11 @@ button {
     flex-direction: column;
     gap: 15px;
   }
-  .map-detail-grid,
-  .region-layout {
+  .map-detail-grid {
     grid-template-columns: 1fr;
-  }
-  .region-map {
-    max-height: 510px;
   }
   .map-illustration {
     max-width: 400px;
-  }
-  .region-info > h2 {
-    font-size: 38px;
-  }
-  .region-info > .button {
-    width: 100%;
   }
   .simulation-layout,
   .project-work-grid {
@@ -3884,10 +3799,10 @@ button {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .region-teaser > svg {
+  .portfolio-teaser > svg {
     display: none;
   }
-  .region-teaser h3 {
+  .portfolio-teaser h3 {
     font-size: 11px;
   }
   .career-grid.three {
@@ -3959,35 +3874,6 @@ button {
   }
   .map-detail-grid .job-badge {
     display: none;
-  }
-  .region-layout {
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-  .region-map-title h2 {
-    font-size: 16px;
-  }
-  .region-map {
-    padding: 20px;
-  }
-  .region-info {
-    padding: 22px;
-  }
-  .region-info h3 {
-    font-size: 15px;
-  }
-  .region-info p {
-    font-size: 11px;
-  }
-  .region-job {
-    gap: 9px;
-  }
-  .region-job b {
-    font-size: 13px;
-  }
-  .region-job .job-badge {
-    width: 37px;
-    height: 37px;
   }
   .map-pin {
     font-size: 9px;
@@ -4334,7 +4220,7 @@ button {
     grid-template-columns: 1fr;
   }
   .project-teaser,
-  .region-teaser {
+  .portfolio-teaser {
     padding: 19px 20px;
   }
   .teaser-icon {
@@ -4342,7 +4228,7 @@ button {
     padding: 12px;
   }
   .project-teaser h3,
-  .region-teaser h3 {
+  .portfolio-teaser h3 {
     font-size: 12px;
   }
   .project-teaser p {
@@ -4352,10 +4238,10 @@ button {
   .project-teaser .eyebrow {
     font-size: 6px;
   }
-  .region-teaser > svg {
+  .portfolio-teaser > svg {
     display: block;
   }
-  .region-teaser small {
+  .portfolio-teaser small {
     font-size: 9px;
   }
   .footer {
@@ -4511,33 +4397,12 @@ button {
   .result-heading > span:last-child {
     font-size: 8px;
   }
-  .region-layout {
-    grid-template-columns: 1fr;
-  }
-  .region-map {
-    max-height: none;
-  }
   .map-pin {
     padding: 9px 12px;
     font-size: 11px;
   }
   .map-pin svg {
     width: 17px;
-  }
-  .region-map-title h2 {
-    font-size: 19px;
-  }
-  .region-info > h2 {
-    font-size: 38px;
-  }
-  .region-info h3 {
-    font-size: 17px;
-  }
-  .region-info p {
-    font-size: 12px;
-  }
-  .region-job b {
-    font-size: 14px;
   }
   .recommendation-hero {
     padding: 28px 24px;

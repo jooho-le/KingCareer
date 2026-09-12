@@ -10,12 +10,29 @@ JSON 본문에는 `Content-Type: application/json`을 사용합니다. 등록 �
 
 ## 엔드포인트
 
+객관식 현장 체험: 다섯 직업의 `compare/act/verify/handover` 명령은 `optionId`를 보내고, 서버의 `fieldwork.options`에서 문장을 결정합니다. 임의의 문장을 선택 기록으로 제출할 수 없습니다. `act`에는 `actionId`도 필요합니다. 회고는 `options.reflection/liked/disliked`에 있는 문장을 선택해 기존 완료 필드로 보냅니다. 읽기 응답에 옵션을 보충하므로 기존 스마트팜 세션도 이어서 사용할 수 있습니다. 이벤트에 선택 ID와 `responseType=choice`를 보관합니다. `fieldwork.visual`은 조치 결과 표현값이고 `coachMode`는 현재 서버의 코치 설정입니다.
+
+다섯 직업 공통 현장 체험 계약입니다. 나머지 경로는 기존 계약을 유지합니다.
+
+| 경로 | 추가 계약 |
+| --- | --- |
+| `POST /simulations` | 새 세션 모두 `fieldwork` 포함. 동일 직업의 활성 현장 체험을 반환. 이전 텍스트 세션은 별도 보존 |
+| `POST /simulations/{id}/turn` | `kind`: `inspect/compare/act/verify/handover` 추가. 조사에는 `objectId`, 조치에는 `actionId`와 `optionId`, 나머지 선택에는 `optionId`. 버전·요청 ID 필수 |
+| `GET /simulations/{id}` | `fieldwork`: 단계, 조사 대상·조치, 조사 ID, 시간·자원·온도, 비교·조치·검증·인계, 일지·엔딩 |
+| `PUT /projects/{id}/draft` | 선택 `scene: {elements, appState}`. 생략은 기존 그림 유지, 명시한 `null`은 제거. 텍스트와 같은 버전으로 저장 |
+| `GET /projects/{id}/revisions` | 각 버전의 `answers`, `scene`, `date` |
+| `POST /projects/{careerId}/submit` | 세 설명 각각 10자 이상과 배치도 요소 필요. 활동에 제출 당시 scene과 배지 저장 |
+| `GET /achievements` | 본인의 `{certificates, badges, availableBadges}`. 획득 배지에 `criteriaVersion/evidenceSources` 포함 |
+| `GET /portfolio/{activityId}/artifact` | 본인 활동 JSON 다운로드, 제출 배치도 포함 |
+| `POST /portfolio/{activityId}/evaluate` | `{clientRequestId}`. 본인 제출 프로젝트의 Gemini 텍스트 피드백. 실패는 503, 제출 기록 보존. 이미 성공한 활동은 기존 피드백 반환 |
+
+`inspect`는 고유 대상별 한 번만 시간을 차감하며 이해 목표에 가산하지 않습니다. 비교·조치·재확인이 `scenario_0/1/2` 기록을 만듭니다. `fieldwork.schema`는 스마트팜의 `smartfarm-v1` 또는 `{careerId}-fieldwork-v1`입니다. 네 직업은 `presentation`에 필수 조사 대상·가상 지표·프로젝트 안내를, `metricValue`에 현재 가상 수치를 제공합니다. 스마트팜은 기존 `temperature`를 유지합니다. `003_simulation_variants.sql`은 `classic`과 `fieldwork` 활성 세션을 분리합니다. 그림 저장 본문 한도는 600KB, 배치도는 250개 요소·직렬화 500KB입니다. 평가 상태 `ai_feedback`는 텍스트 코치 응답이며 정답·직무 역량 인증이 아닙니다.
+
 `공개`로 표시한 경로 외에는 학생 세션이 필요합니다. 로그아웃은 쿠키가 없어도 완료됩니다.
 
 | 메서드·경로 | 본문 또는 응답 |
 | --- | --- |
 | `GET /catalog` · 공개 | `{careers: Career[]}`; 직업·프로젝트·시나리오·출처 |
-| `GET /regions` · 공개 | `{regions, note}`; 지역 연계 예시 |
 | `POST /auth/register` · 공개 | 가입 입력; `201 Profile`과 세션 쿠키 |
 | `POST /auth/login` · 공개 | `{username, password}`; `Profile`과 세션 쿠키 |
 | `POST /auth/logout` | `{ok: true}`; 현재 세션 만료 |

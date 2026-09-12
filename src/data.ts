@@ -5,7 +5,6 @@ export type Page =
   | "simulation"
   | "projects"
   | "discovery"
-  | "region"
   | "recommendation"
   | "portfolio"
   | "profile"
@@ -198,13 +197,13 @@ export const careers: Career[] = [
     skills: ["데이터 관찰", "가설 세우기", "지속가능성"],
     majors: ["스마트농업학", "생명자원공학"],
     related: ["농업 데이터 분석가", "농업 로봇 개발자", "작물 연구원"],
-    project: "우리 동네 스마트 온실 기획하기",
+    project: "내가 설계하는 더 나은 온실",
     problem:
-      "온실을 자주 살피기 어려운 농부를 위해 어떤 정보를 보여주면 좋을까요?",
+      "A구역 과열을 빨리 발견하고 다음 교대자가 놓치지 않도록 배치도와 개선 제안을 만들어요.",
     missions: [
-      "온실에서 확인할 환경 정보 3개를 골라보세요.",
-      "이상한 수치를 발견했을 때 확인 순서를 적으세요.",
-      "농부에게 보여줄 알림 메시지를 작성하세요.",
+      "현장 자료에서 발견한 문제를 설명하세요.",
+      "센서·작업 동선·환기 확인 절차의 개선 배치도와 근거를 작성하세요.",
+      "어떤 수치와 관찰로 개선 효과를 확인할지 검증 계획을 작성하세요.",
     ],
     scenarios: [
       {
@@ -387,6 +386,15 @@ export const careers: Career[] = [
     ],
   },
 ];
+// Shared authored briefs keep offline catalogue cards aligned with the server.
+import workplaceScenarios from "../backend/data/workplaces.json";
+for (const item of careers) {
+  if (item.id === "farmer") continue;
+  const project = workplaceScenarios[item.id].project;
+  item.project = project.title;
+  item.problem = project.brief;
+  item.missions = project.hints;
+}
 export const getCareer = (id: string) =>
   careers.find((c) => c.id === id) ?? careers[0];
 export type Activity = {
