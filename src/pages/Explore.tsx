@@ -25,17 +25,15 @@ import {
   JobIcon,
   Modal,
   PageHeading,
-  Progress,
   SectionHeading,
   Stat,
   Tag,
 } from "../components";
-import { dateLabel, dimensions, fields } from "../data";
+import { dateLabel, fields } from "../data";
 import type {
   Activity,
   Career,
   CareerId,
-  ExperienceEvidence,
   Page,
   Recommendation as NextExperience,
   SourceReference,
@@ -46,12 +44,6 @@ import { AwardsShelf } from "../fieldwork/Awards";
 const ArtifactPreview = lazy(() => import("../fieldwork/ArtifactPreview"));
 
 type CatalogCareer = Career & { sources?: SourceReference[] };
-type RecordEvidence = ExperienceEvidence & {
-  category?: string;
-  objectives?: string[];
-  text?: string;
-  date?: string;
-};
 const artwork: Record<CareerId, string> = {
   developer: "developer",
   nurse: "nurse",
@@ -68,24 +60,6 @@ const kindPages: Record<NextExperience["kind"], Page> = {
   simulation: "simulation",
   project: "projects",
   discovery: "discovery",
-};
-const evidenceLabels: Record<string, string> = {
-  explored: "직업 소개 탐색",
-  saved: "관심 직업 저장",
-  questioned: "상황에 관해 질문",
-  free: "직무 상황에 자유 응답",
-  choice: "직무 상황에서 선택",
-  reflection: "경험 후 회고",
-  simulation: "직무체험 완료",
-  project: "프로젝트 제출",
-  diagnosis: "관심·경험 자기보고",
-};
-const categoryLabels: Record<string, string> = {
-  self_report: "자기보고",
-  participation: "활동 참여",
-  artifact: "제출물",
-  submission: "제출물",
-  verified_contact: "현직자 교류",
 };
 
 function FeedbackLabel({ activity }: { activity: Activity }) {
@@ -382,234 +356,7 @@ export function Home() {
   );
 }
 
-export function CareerMap() {
-  const { state, catalog, go, careerId, setCareerId, retry, loading } =
-    useApp();
-  const career = catalog.find((c) => c.id === careerId);
-  const report = state.gaps[careerId];
-  const recent = state.activities.filter((a) => a.careerId === careerId);
-  const latest = recent[0];
-  if (!career)
-    return (
-      <Empty title="직업 정보를 기다리고 있어요">
-        잠시 후 다시 연결해 주세요.
-      </Empty>
-    );
-  return (
-    <>
-      <PageHeading
-        eyebrow="MY EXPERIENCE MAP"
-        title="경험이 모이면, 내가 보여"
-        description="어떤 경험을 해봤는지, 다음에는 무엇을 더 만나볼지 살펴보자."
-      >
-        <Button kind="secondary" onClick={() => go("diagnosis")}>
-          출발점 다시 기록하기
-          <ArrowUpRight size={16} />
-        </Button>
-      </PageHeading>
-      <div className="field-tabs" aria-label="직업 선택">
-        {catalog.map((c) => (
-          <button
-            className={c.id === careerId ? "selected" : ""}
-            key={c.id}
-            onClick={() => setCareerId(c.id)}
-          >
-            <JobIcon id={c.id} size={18} />
-            {c.title}
-          </button>
-        ))}
-      </div>
-      {!report ? (
-        <Empty
-          title="경험지도를 아직 불러오지 못했어요"
-          action={loading ? "불러오는 중" : "다시 불러오기"}
-          onClick={retry}
-        >
-          기록이 없는 상태와 연결하지 못한 상태를 구분하고 있어요.
-        </Empty>
-      ) : (
-        <>
-          <div className="map-detail-grid">
-            <section className="panel radar-panel kingcareer-map-intro">
-              <Tag color={career.color}>{career.field}</Tag>
-              <h2>{career.title} 경험 지도</h2>
-              <img
-                className="experience-map-art"
-                src="/brand/04_feature_illustrations/feature_02_experience_map.svg"
-                alt="경험이 담긴 카드와 연결점을 표현한 그림"
-              />
-              <p>
-                이 지도는 교육용 목표에 필요한 <b>기록이 얼마나 모였는지</b>{" "}
-                보여줘.
-              </p>
-              <p className="fine-print">
-                직무 능력이나 적성 점수가 아니야. 미확인은 못한다는 뜻이 아니라,
-                확인할 기록이 아직 없다는 뜻이야.
-              </p>
-              <div className="chip-list">
-                <Tag color="orange">자기보고</Tag>
-                <Tag color="purple">활동 참여</Tag>
-                <Tag color="blue">제출물</Tag>
-              </div>
-              <p className="fine-print">
-                자기보고는 실제 수행 기록과 따로 보관해. 전공 조사·현직자 교류
-                확인은 현재 지원하지 않아.
-              </p>
-            </section>
-            <section className="panel">
-              <SectionHeading
-                title="나의 경험 기록 충족도"
-                sub="각 항목에 필요한 기록이 얼마나 모였는지 확인해 봐."
-              />
-              <div className="dimension-list">
-                {report.dimensions.map((dimension, i) => (
-                  <div key={dimension.name}>
-                    <div>
-                      <span>{dimension.name}</span>
-                      <b>
-                        {dimension.unknown
-                          ? "미확인"
-                          : `${dimension.coverage}%`}
-                      </b>
-                    </div>
-                    <Progress
-                      value={dimension.coverage}
-                      color={["orange", "purple", "blue"][i % 3]}
-                    />
-                    <p className="dimension-meta">
-                      목표 {dimension.observed} / {dimension.target}개 · 근거
-                      기록 {dimension.evidenceCount}개
-                    </p>
-                    {dimension.missing.length > 0 && (
-                      <details className="gap-details">
-                        <summary>
-                          아직 없는 기록 {dimension.missing.length}개
-                        </summary>
-                        <ul>
-                          {dimension.missing.map((goal) => (
-                            <li key={goal}>{goal}</li>
-                          ))}
-                        </ul>
-                      </details>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <Button
-                className="full-width"
-                onClick={() => go("recommendation", careerId)}
-              >
-                다음에 필요한 경험 보기
-                <ArrowRight size={17} />
-              </Button>
-            </section>
-          </div>
-          <section className="panel spaced-panel">
-            <SectionHeading
-              title="무엇을 근거로 그렸을까?"
-              sub="자기보고, 활동 참여, 제출물을 구분해 살펴볼 수 있어."
-            />
-            {report.evidence.length ? (
-              <div className="evidence-list">
-                {(report.evidence as RecordEvidence[]).map((e) => (
-                  <article className="evidence-item" key={e.id}>
-                    <div>
-                      <Tag
-                        color={
-                          e.category === "self_report"
-                            ? "orange"
-                            : e.category === "artifact"
-                              ? "blue"
-                              : "purple"
-                        }
-                      >
-                        {categoryLabels[e.category ?? ""] ?? "활동 기록"}
-                      </Tag>
-                      <strong>
-                        {evidenceLabels[e.kind] ?? "경험 활동 기록"}
-                      </strong>
-                      {e.date && <small>{dateLabel(e.date)}</small>}
-                    </div>
-                    {e.text && e.category !== "self_report" && (
-                      <p className="preserve-text">{e.text}</p>
-                    )}
-                    <small>
-                      {e.category === "self_report"
-                        ? "스스로 알려준 경험이야. 수행 근거와 따로 보관해."
-                        : "서버에 저장된 활동 기록이야. 내용의 정확성이나 능력을 평가한 결과는 아니야."}
-                    </small>
-                  </article>
-                ))}
-              </div>
-            ) : (
-              <Empty
-                title="아직 남긴 기록이 없어"
-                action="직업 소개 둘러보기"
-                onClick={() => go("discovery", careerId)}
-              >
-                궁금한 직업부터 만나보자. 작은 탐색도 나의 출발점이 돼.
-              </Empty>
-            )}
-          </section>
-        </>
-      )}
-      <section className="panel spaced-panel">
-        <SectionHeading
-          title="최근 기록 전후의 변화"
-          sub="같은 교육용 목표의 기록 충족도를 비교해 봐."
-        />
-        {latest ? (
-          <>
-            <div className="change-grid">
-              {dimensions.slice(0, 4).map((name, i) => (
-                <div key={name}>
-                  <span>{name}</span>
-                  <p>
-                    <small>{latest.before[i] ?? 0}%</small>
-                    <ArrowRight size={17} />
-                    <strong>{latest.after[i] ?? 0}%</strong>
-                  </p>
-                </div>
-              ))}
-            </div>
-            <div className="record-source">
-              <Check size={19} />
-              <div>
-                <b>{latest.title}</b>
-                <p>
-                  {dateLabel(latest.date)} ·{" "}
-                  {latest.reflection || latest.feedback}
-                </p>
-              </div>
-            </div>
-            <p className="fine-print">
-              수치의 변화는 새로 남긴 기록을 반영해. 직무 능력이나 이해도가
-              그만큼 올랐다는 의미는 아니야.
-            </p>
-          </>
-        ) : (
-          <p className="muted">
-            활동을 마치면 전후 기록과 나의 회고가 여기에 남아.
-          </p>
-        )}
-      </section>
-      <SectionHeading title="이 직업에서 남긴 나의 이야기" />
-      {recent.length ? (
-        <div className="activity-list">
-          {recent.map((activity) => (
-            <ActivityRow
-              key={activity.id}
-              activity={activity}
-              onClick={() => go("portfolio")}
-            />
-          ))}
-        </div>
-      ) : (
-        <p className="muted">아직 완료한 활동이 없어. 천천히 시작해 봐.</p>
-      )}
-    </>
-  );
-}
+export { default as CareerMap } from "./ExperienceMap";
 
 export function Discovery() {
   const { state, user, catalog, save, go, search, setSearch, refresh } =
