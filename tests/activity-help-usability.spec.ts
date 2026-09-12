@@ -47,7 +47,7 @@ async function setup(page: Page, account: () => string = () => "help_student") {
       json: {
         careerId: route.request().url().split("/").pop(),
         answers: ["", "", ""],
-        version: 0,
+        version: 1,
         interest: null,
         scene: { elements: [], appState: { viewBackgroundColor: "#ffffff" } },
       },

@@ -66,7 +66,15 @@ export default function ArtifactPreview({
         img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg.outerHTML)}`;
         doc.body.append(img);
       }
-      artifact.answers.forEach((text, i) => { add("h2", ["발견한 문제", "개선 제안과 근거", "확인 방법"][i] || "나의 설명"); add("p", text); });
+      if (artifact.studioKind === "login-recovery") {
+        add("h2", "내 설계에서 정리한 내용");
+        artifact.designSummary?.forEach((text) => add("p", text));
+        add("h2", "직접 눌러 확인한 경로");
+        artifact.checks?.forEach((check) => add("p", `${check.scenario === "recovered" ? "연결이 돌아온 상황" : "계속 연결되지 않는 상황"}: ${check.message}`));
+        if (artifact.answers[0]?.trim()) { add("h2", "내가 남긴 말"); add("p", artifact.answers[0]); }
+      } else {
+        artifact.answers.forEach((text, i) => { add("h2", ["발견한 문제", "개선 제안과 근거", "확인 방법"][i] || "나의 설명"); add("p", text); });
+      }
       if (artifact.reflection) { add("h2", "나에게 남은 것"); add("p", artifact.reflection); }
       if (artifact.interest != null) add("p", `활동 후 관심: ${artifact.interest} / 5`);
       add("h2", artifact.evaluationStatus === "ai_feedback" ? "AI 코치 피드백" : "활동 저장 안내 · AI 평가 아님");

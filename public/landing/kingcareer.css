@@ -59,9 +59,22 @@
 [data-anchor="workplaces"] a { background:#fff !important; color:#241f47 !important; border:0 !important; border-radius:24px; margin:14px 0; padding:24px !important; }
 [data-anchor="workplaces"] a:hover { transform:translateX(6px); }
 [data-anchor="workplaces"] a > div > div:not(:first-child) { color:#645779 !important; }
-.kc-finale { position:relative; }
-.kingcareer-finale-mascot { width:min(75vw,390px); height:auto; margin-bottom:0 !important; animation:kc-bob 4.6s ease-in-out infinite; }
-.kc-finale h2 { font-size:clamp(30px,4.6vw,62px) !important; line-height:1.2 !important; }
+.kc-finale { position:relative; padding:48px 24px 32px; text-align:center; }
+.kc-finale-crew { position:relative; isolation:isolate; width:min(900px,100%); height:clamp(200px,46vw,420px); margin:0 auto 20px; }
+.kc-crew-backdrop { position:absolute; inset:26% 5% 4%; border-radius:50% 50% 36% 36%; background:#ece4ff; z-index:-1; }
+.kc-crew-crab { position:absolute; display:block; width:34%; height:auto; object-fit:contain; pointer-events:none; user-select:none; animation:none; }
+.crew-farmer { left:3%; bottom:24%; transform:rotate(-8deg); }
+.crew-engineer { left:33%; bottom:28%; transform:rotate(3deg); }
+.crew-researcher { right:2%; bottom:24%; transform:rotate(9deg); }
+.crew-developer { left:0; bottom:0; width:36%; transform:rotate(-6deg); z-index:1; }
+.crew-nurse { right:0; bottom:0; width:36%; transform:rotate(6deg); z-index:1; }
+.crew-hello { left:32%; bottom:-2%; width:36%; z-index:2; }
+.kc-finale h2 { margin:0 auto; max-width:900px; font-size:clamp(24px,4.6vw,62px); line-height:1.25; letter-spacing:-.045em; font-weight:800; }
+.kc-finale-actions { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:16px 24px; margin-top:28px; }
+.kc-finale-start { display:inline-flex; align-items:center; justify-content:center; min-height:52px; color:#fff; background:#0967ff; padding:16px 30px; border-radius:999px; font-size:16px; font-weight:700; }
+.kc-finale-start:hover { background:#7c3aed; color:#fff; }
+.kc-finale-replay { border:0; background:transparent; cursor:pointer; min-height:44px; font-size:15px; font-weight:700; color:#241f47; text-decoration:underline; text-decoration-color:#ff6a1f; text-underline-offset:7px; }
+.kc-finale-credit { margin-top:32px; font:500 11px/1.6 'IBM Plex Mono',monospace; color:#655e77; }
 @keyframes kc-bob { 0%,100% { transform:translateY(0) rotate(-2deg); } 50% { transform:translateY(-15px) rotate(1deg); } }
 .kingcareer-header nav { white-space: nowrap; }
 .kingcareer-guide { display: flex; align-items: center; gap: 10px; margin-top: 24px; }
@@ -69,7 +82,6 @@
 .kingcareer-guide p { margin: 0; font-size: 13px; line-height: 1.7; color: #514a6b; }
 .kingcareer-guide a { font-weight: 650; }
 .kingcareer-demo-note { max-width: 680px; margin: 18px 0 0; font-size: 13px; line-height: 1.8; opacity: .88; }
-.kingcareer-finale-mascot { display: block; object-fit: contain; margin: 0 auto 34px; }
 button:focus-visible, a:focus-visible { outline: 3px solid #ff6a1f; outline-offset: 6px; }
 @media (max-width: 740px) {
   :root { --cube-size:clamp(210px,53vw,290px); }
@@ -107,7 +119,11 @@ button:focus-visible, a:focus-visible { outline: 3px solid #ff6a1f; outline-offs
   .kingcareer-header nav button { display: none; }
   .kingcareer-hero { grid-template-columns: minmax(0, 1fr) !important; padding-inline: 22px !important; }
   .kingcareer-hero > div > div:has(> button) { flex-wrap: wrap; }
-  .kingcareer-finale-mascot { width: min(80vw,320px); height: auto; }
+  .kc-finale { padding:24px 16px; }
+  .kc-finale-crew { margin-bottom:12px; }
+  .kc-finale-actions { gap:8px 16px; margin-top:20px; }
+  .kc-finale-start { padding:13px 22px; font-size:15px; }
+  .kc-finale-credit { margin-top:24px; font-size:10px; }
 }
 @media (max-height:650px) and (min-width:741px) {
   .kc-job-art { max-height:72vh; }

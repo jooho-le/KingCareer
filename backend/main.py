@@ -1,8 +1,4 @@
-"""KingCareer API. Run: python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
-
-SQLite + LangGraph uses one worker. All student writes use the same process lock
-and an IMMEDIATE transaction. Never run this app with --workers greater than 1.
-"""
+"""KingCareer API. Local SQLite uses one worker; PostgreSQL supports serverless instances."""
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 import json
@@ -10,6 +6,8 @@ import logging
 import sqlite3
 import uuid
 from threading import Lock
+import psycopg
+from starlette.concurrency import run_in_threadpool
 from pathlib import Path
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,31 +17,44 @@ from .auth import (DUMMY_HASH, HASHER, check_login_rate, clear_cookie, create_se
                    profile_for, token_hash, user_for, verify)
 from .catalog import CAREERS, DIAGNOSIS_ANSWERS, FIELDS, catalog, career
 from .config import ALLOWED_ORIGINS, COOKIE_NAME, ROOT
-from .db import dump, initialize, now, transaction
+from .db import dump, initialize, now, transaction, INTEGRITY_ERRORS
+from .operation_lock import OperationLock
 from .records import (ENGINE, active_activities, activity_for, add_event, all_activities, remember,
                       remember_project, replay, reports_for, request_key, scores_for)
 from .simulation import SimulationEngine, new_session, prepare_command
 from .drawing_context import drawing_context
-from .project_readiness import answer_is_complete, has_unfilled_blank
+from .project_readiness import answer_is_complete, has_unfilled_blank, drawing_is_complete
+from .recovery_project import (is_recovery_scene, fingerprint as recovery_fingerprint,
+                               run_check as run_recovery_check, check_report as recovery_check_report,
+                               design_summary as recovery_design_summary)
 from .fieldwork import BADGES, completion_badges, present
 from .inference import provider
 from .config import AI_MODE
 from .reviews import router as reviews_router, confirmed_reviews
 
 log = logging.getLogger("kingcareer")
-project_help_lock = Lock()
-artifact_evaluation_lock = Lock()
+project_help_lock = OperationLock("project-help")
+artifact_evaluation_lock = OperationLock("artifact-evaluation")
+runtime_lock = Lock()
+
+
+def ensure_runtime(application):
+    with runtime_lock:
+        if not getattr(application.state, "runtime_ready", False):
+            initialize()
+            application.state.simulator = SimulationEngine()
+            application.state.simulator.reconcile()
+            application.state.runtime_ready = True
 
 
 @asynccontextmanager
 async def lifespan(application):
-    initialize()
-    application.state.simulator = SimulationEngine()
-    application.state.simulator.reconcile()
+    ensure_runtime(application)
     try:
         yield
     finally:
         application.state.simulator.close()
+        application.state.runtime_ready = False
 
 
 app = FastAPI(title="KingCareer Student API", version="1.0.0", lifespan=lifespan,
@@ -56,6 +67,12 @@ app.add_middleware(CORSMiddleware, allow_origins=sorted(ALLOWED_ORIGINS), allow_
 @app.middleware("http")
 async def browser_boundaries(request, call_next):
     if request.url.path.startswith("/api/"):
+        if not getattr(request.app.state, "runtime_ready", False):
+            try:
+                await run_in_threadpool(ensure_runtime, request.app)
+            except Exception:
+                log.error("Database initialization failed; check schema migration and server configuration.")
+                return JSONResponse({"detail": "서버 연결을 준비하지 못했어요. 잠시 후 다시 시도해 주세요."}, status_code=503)
         origin = request.headers.get("origin")
         if request.method not in {"GET", "HEAD", "OPTIONS"}:
             if (origin and origin.rstrip("/") not in ALLOWED_ORIGINS) or request.headers.get("sec-fetch-site") == "cross-site":
@@ -77,6 +94,14 @@ async def browser_boundaries(request, call_next):
 async def database_unavailable(request, error):
     log.exception("SQLite operation failed", exc_info=error)
     return JSONResponse({"detail": "저장소에 연결하지 못했어요. 입력을 유지한 채 다시 시도해 주세요."}, status_code=503)
+
+
+@app.exception_handler(psycopg.OperationalError)
+@app.exception_handler(psycopg.errors.LockNotAvailable)
+@app.exception_handler(psycopg.errors.QueryCanceled)
+async def postgres_unavailable(request, error):
+    log.error("PostgreSQL request failed (%s).", type(error).__name__)
+    return JSONResponse({"detail": "저장소가 응답하지 않아요. 입력을 유지한 채 다시 시도해 주세요."}, status_code=503)
 
 
 def validate_interests(values):
@@ -102,6 +127,13 @@ def persist_simulation(con, uid, session):
                 (dump(session), session["version"], int(session["stage"] == "completed"), session["version"], now(), session["id"], uid))
 
 
+@app.get("/api/v1/health")
+def health():
+    with transaction() as con:
+        con.execute("SELECT 1").fetchone()
+    return {"status": "ok"}
+
+
 @app.get("/api/v1/catalog")
 def get_catalog():
     return {"careers": catalog()}
@@ -118,7 +150,7 @@ def register(body: M.Register, request: Request, response: Response):
         with transaction() as con:
             con.execute("INSERT INTO users VALUES (?,?,?,?,?)", (uid, body.username.lower(), password_hash, dump(profile), now()))
             create_session(con, uid, request, response)
-    except sqlite3.IntegrityError as error:
+    except INTEGRITY_ERRORS as error:
         raise HTTPException(409, "이미 사용 중인 아이디예요.") from error
     return {**profile, "username": body.username.lower()}
 
@@ -195,7 +227,7 @@ def update_saved(career_id: str, body: M.Saved, user=Depends(user_for)):
     career(career_id)
     with transaction() as con:
         if body.saved:
-            con.execute("INSERT OR IGNORE INTO saved VALUES (?,?)", (user["id"], career_id))
+            con.execute("INSERT INTO saved VALUES (?,?) ON CONFLICT DO NOTHING", (user["id"], career_id))
             add_event(con, user["id"], career_id, "saved", "saved:" + career_id)
         else:
             con.execute("DELETE FROM saved WHERE user_id=? AND career_id=?", (user["id"], career_id))
@@ -392,13 +424,38 @@ def get_project(career_id: str, user=Depends(user_for)):
         return project_for(con, user["id"], career_id)
 
 
+@app.get("/api/v1/projects/developer/checks")
+def get_recovery_checks(user=Depends(user_for)):
+    with transaction() as con:
+        return recovery_check_report(con, user["id"], project_for(con, user["id"], "developer"))
+
+
+@app.post("/api/v1/projects/developer/check")
+def check_recovery_project(body: M.ProjectCheck, user=Depends(user_for)):
+    key = request_key("project-check:developer", body.clientRequestId)
+    with transaction() as con:
+        old = replay(con, user["id"], key, body.model_dump())
+        if old is not None:
+            return old["report"]
+        project = project_for(con, user["id"], "developer")
+        assert_version(project["version"], body.expectedVersion)
+        if not is_recovery_scene(project["scene"]):
+            raise HTTPException(422, "로그인 복구 작업실의 설계를 저장한 뒤 작동을 확인해 주세요.")
+        studio = project["scene"]["studio"]
+        check = run_recovery_check(studio, body.scenario, body.actions)
+        report = recovery_check_report(con, user["id"], project, check)
+        remember(con, user["id"], key, body.model_dump(),
+                 {"_recoveryCheck": {"fingerprint": recovery_fingerprint(studio), "check": check}, "report": report})
+        return report
+
+
 @app.get("/api/v1/projects/{career_id}/revisions")
 def project_revisions(career_id: str, user=Depends(user_for)):
     career(career_id)
     with transaction() as con:
         return [{"version": row["version"], "date": row["created_at"], "interest": row["interest"],
                  "completedAnswers": sum(answer_is_complete(answer) for answer in json.loads(row["answers"])),
-                 "hasDrawing": any(not e.get("isDeleted") for e in (json.loads(row["scene"]) if row["scene"] else {}).get("elements", []))}
+                 "hasDrawing": drawing_is_complete(json.loads(row["scene"]) if row["scene"] else None)}
                 for row in con.execute("SELECT * FROM project_revisions WHERE user_id=? AND career_id=? ORDER BY version DESC", (user["id"], career_id))]
 
 
@@ -465,6 +522,8 @@ def save_draft(career_id: str, body: M.Draft, user=Depends(user_for)):
         project = project_for(con, user["id"], career_id)
         assert_version(project["version"], body.expectedVersion)
         scene = body.scene if "scene" in body.model_fields_set else project["scene"]
+        if scene and "studio" in scene and career_id != "developer":
+            raise HTTPException(422, "로그인 복구 작업실은 개발자 프로젝트에서 사용할 수 있어요.")
         interest = body.interest if "interest" in body.model_fields_set else project["interest"]
         if project["answers"] != body.answers or project["scene"] != scene or project["interest"] != interest:
             timestamp = now()
@@ -491,17 +550,45 @@ def submit_project(career_id: str, body: M.Submit, user=Depends(user_for)):
         interest = project["interest"] if project["interest"] is not None else body.interest
         if interest is None:
             raise HTTPException(422, "프로젝트 후 관심도를 선택한 뒤 제출해 주세요.")
-        if any(has_unfilled_blank(value) for value in project["answers"]):
-            raise HTTPException(422, "내 설명에 남아 있는 채우기 칸을 모두 작성한 뒤 제출해 주세요. 초안은 저장되어 있어요.")
-        if not all(answer_is_complete(value) for value in project["answers"]):
-            raise HTTPException(422, "세 가지 미션을 각각 10자 이상 작성한 뒤 제출해 주세요.")
-        if not any(not e.get("isDeleted") for e in (project["scene"] or {}).get("elements", [])):
-            raise HTTPException(422, "개선 설계도에 도형이나 설명을 추가한 뒤 제출해 주세요.")
+        recovery = career_id == "developer" and is_recovery_scene(project["scene"])
+        checks = recovery_check_report(con, user["id"], project) if recovery else None
+        if recovery:
+            if not checks["ready"]:
+                raise HTTPException(422, " ".join(checks["issues"]))
+        else:
+            if any(has_unfilled_blank(value) for value in project["answers"]):
+                raise HTTPException(422, "내 설명에 남아 있는 채우기 칸을 모두 작성한 뒤 제출해 주세요. 초안은 저장되어 있어요.")
+            if not all(answer_is_complete(value) for value in project["answers"]):
+                raise HTTPException(422, "세 가지 미션을 각각 10자 이상 작성한 뒤 제출해 주세요.")
+            if not drawing_is_complete(project["scene"]):
+                raise HTTPException(422, "그림 속 채우기 칸을 내 생각으로 바꾸거나 직접 설계도를 그린 뒤 제출해 주세요. 초안은 저장되어 있어요.")
         source_key = f"project:{career_id}:revision:{project['version']}"
         existing = con.execute("SELECT data FROM activities WHERE user_id=? AND source_key=?", (user["id"], source_key)).fetchone()
         if existing:
             return remember(con, user["id"], key, body.model_dump(), json.loads(existing[0]))
         before = scores_for(con, user["id"], career_id)
+        if recovery:
+            summary = recovery_design_summary(project["scene"]["studio"])
+            # These are artifact/interaction records, not AI correctness or
+            # competence judgments. Optional reflection stays student-authored.
+            evidence_records = [(summary[0], "authored_design_summary"),
+                                (summary[1] + " " + summary[2], "authored_design_summary"),
+                                (" ".join(check["message"] for check in checks["checks"]), "saved_rule_check_trace")]
+            for index, (text, evidence_source) in enumerate(evidence_records):
+                add_event(con, user["id"], career_id, "project", source_key + f":design:{index}", text,
+                          objectives=[f"mission_{index}"] if index in (1, 2) else [], category="artifact",
+                          metadata={"revision": project["version"], "studioKind": "login-recovery", "source": evidence_source})
+            add_event(con, user["id"], career_id, "project", source_key, objectives=["project_done"], category="artifact",
+                      metadata={"studioKind": "login-recovery", "checkMode": "rules", "checks": checks["checks"]})
+            result = activity_for(con, user["id"], career_id, "project", source_key, before, project["answers"], "",
+                                  "로그인 복구 설계와 두 상황에서 눌러 본 기록을 저장했어요. 작동 확인은 정해진 연결 규칙을 확인한 것이며 AI 평가가 아니에요.",
+                                  interest, {"projectVersion": project["version"], "scene": project["scene"],
+                                             "studioKind": "login-recovery", "designSummary": summary,
+                                             "checks": checks["checks"], "checkMode": "rules",
+                                             "completion": {"submittedMissions": 1, "totalMissions": 1},
+                                             "badges": [{**BADGES["maker"], "evidenceSources": [source_key], "criteriaVersion": "login-recovery-project-v2"}],
+                                             "evaluationStatus": "not_connected"})
+            return remember(con, user["id"], key, body.model_dump(), result)
         for index, answer in enumerate(project["answers"]):
             add_event(con, user["id"], career_id, "project", source_key + f":mission:{index}", answer,
                       objectives=[f"mission_{index}"] if index in (1, 2) else [], category="artifact",
@@ -560,8 +647,11 @@ def evaluate_artifact(activity_id: str, body: M.RequestInput, user=Depends(user_
                 return remember(con, user["id"], key, body.model_dump(), activity)
         # Network latency must never hold SQLite's process-wide write lock.
         try:
-            feedback = provider().evaluate({"career": career(activity["careerId"])["title"], "answers": activity["answers"],
-                                            "drawingGraph": drawing_context(activity.get("scene"))})
+            context = {"career": career(activity["careerId"])["title"], "answers": activity["answers"],
+                       "drawingGraph": drawing_context(activity.get("scene"))}
+            if activity.get("studioKind") == "login-recovery":
+                context["interactionChecks"] = {"mode": "rules", "checks": activity.get("checks", [])}
+            feedback = provider().evaluate(context)
         except Exception as error:
             raise HTTPException(503, "AI 응답을 받지 못했어요. 제출물은 그대로 보존돼요. 다시 시도해 주세요.") from error
         with transaction() as con:

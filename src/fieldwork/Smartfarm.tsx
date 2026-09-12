@@ -393,6 +393,80 @@ export default function Smartfarm({ legacy }: { legacy: ReactNode }) {
       ))}
     </div>
   );
+  const missionCard = (
+<div className="kc-mission-bar">
+
+          <section
+            className="kc-current-task"
+            aria-labelledby="current-task-title"
+          >
+            <div className="kc-colleague"><img src={`/brand/12_career_kingcrabs/${cid}.png`} alt="" /><span>동료 크랩</span></div>
+            <div className="kc-current-task-copy">
+              {!ongoing && <span className="kc-eyebrow">
+                {session.stage === "brief" ? "업무 안내" : "지금 할 일"}
+              </span>}
+              <h2
+                id="current-task-title"
+                data-help="simulation-task"
+                ref={missionHeading}
+                tabIndex={-1}
+              >
+                {missionTitle}
+              </h2>
+              <p className="kc-colleague-message">{session.stage === "brief" ? scenarioBrief : missionDescription}</p>
+              {session.stage === "play" && field.phase === "inspect" && (
+                <p className="kc-material-progress" role="status">
+                  조사 {field.inspected.length}/{field.objects.length}곳 ·{" "}
+                  {required
+                    .map(
+                      (id) =>
+                        `${field.objects.find((o) => o.id === id)?.name}: ${field.inspected.includes(id) ? "확인" : "미확인"}`,
+                    )
+                    .join(" · ")}
+                </p>
+              )}
+              {ongoing && (
+                <details className="kc-scenario-context">
+                  <summary>처음 상황 다시 보기</summary>
+                  <p>{missionDescription}</p>
+                  <p>{scenarioBrief}</p>
+                  <small>
+                    {workplace?.room || "가상 스마트팜"} / 교육용 상황 ·{" "}
+                    {coachLabel}
+                  </small>
+                </details>
+              )}
+              {session.startingPoint && (
+                <details className="diagnosis-guidance">
+                  <summary>
+                    {session.startingPoint.label} · 도움이 필요해요
+                  </summary>
+                  <p>
+                    {
+                      session.startingPoint.guidance[
+                        session.stage === "play" ? field.phase : session.stage
+                      ]
+                    }
+                  </p>
+                  {session.stage === "brief" && (
+                    <small>{session.startingPoint.reason}</small>
+                  )}
+                </details>
+              )}
+            </div>
+            {session.stage === "brief" && (
+              <button
+                className="kc-button"
+                data-help="simulation-choice"
+                disabled={busy}
+                onClick={() => void command("start")}
+              >
+                {busy ? "업무 준비 중…" : "업무 시작"} <ArrowRight size={18} />
+              </button>
+            )}
+          </section>
+          </div>
+  );
   return (
     <div className={`kc-fieldwork kc-shift-experience${ongoing ? " is-ongoing" : ""}`} data-stage={session.stage}>
       <header className="kc-topline">
@@ -476,6 +550,7 @@ export default function Smartfarm({ legacy }: { legacy: ReactNode }) {
           <div
             className={`kc-workspace${session.stage === "brief" ? " is-brief" : ""}${ongoing && (field.phase !== "inspect" || inspectChoiceOpen) ? " has-decision" : ""}${flat ? " is-flat" : ""}`}
           >
+            {session.stage === "brief" && missionCard}
             <details
               className="kc-scene-panel"
               ref={materialsPanel}
@@ -659,78 +734,7 @@ export default function Smartfarm({ legacy }: { legacy: ReactNode }) {
                 </div>
               )}
             </details>
-          <div className="kc-mission-bar">
-
-          <section
-            className="kc-current-task"
-            aria-labelledby="current-task-title"
-          >
-            <div className="kc-colleague"><img src={`/brand/12_career_kingcrabs/${cid}.png`} alt="" /><span>동료 크랩</span></div>
-            <div className="kc-current-task-copy">
-              {!ongoing && <span className="kc-eyebrow">
-                {session.stage === "brief" ? "업무 안내" : "지금 할 일"}
-              </span>}
-              <h2
-                id="current-task-title"
-                data-help="simulation-task"
-                ref={missionHeading}
-                tabIndex={-1}
-              >
-                {missionTitle}
-              </h2>
-              <p className="kc-colleague-message">{session.stage === "brief" ? scenarioBrief : missionDescription}</p>
-              {session.stage === "play" && field.phase === "inspect" && (
-                <p className="kc-material-progress" role="status">
-                  조사 {field.inspected.length}/{field.objects.length}곳 ·{" "}
-                  {required
-                    .map(
-                      (id) =>
-                        `${field.objects.find((o) => o.id === id)?.name}: ${field.inspected.includes(id) ? "확인" : "미확인"}`,
-                    )
-                    .join(" · ")}
-                </p>
-              )}
-              {ongoing && (
-                <details className="kc-scenario-context">
-                  <summary>처음 상황 다시 보기</summary>
-                  <p>{missionDescription}</p>
-                  <p>{scenarioBrief}</p>
-                  <small>
-                    {workplace?.room || "가상 스마트팜"} / 교육용 상황 ·{" "}
-                    {coachLabel}
-                  </small>
-                </details>
-              )}
-              {session.startingPoint && (
-                <details className="diagnosis-guidance">
-                  <summary>
-                    {session.startingPoint.label} · 도움이 필요해요
-                  </summary>
-                  <p>
-                    {
-                      session.startingPoint.guidance[
-                        session.stage === "play" ? field.phase : session.stage
-                      ]
-                    }
-                  </p>
-                  {session.stage === "brief" && (
-                    <small>{session.startingPoint.reason}</small>
-                  )}
-                </details>
-              )}
-            </div>
-            {session.stage === "brief" && (
-              <button
-                className="kc-button"
-                data-help="simulation-choice"
-                disabled={busy}
-                onClick={() => void command("start")}
-              >
-                {busy ? "업무 준비 중…" : "업무 시작"} <ArrowRight size={18} />
-              </button>
-            )}
-          </section>
-          </div>
+            {session.stage !== "brief" && missionCard}
             {session.stage !== "brief" && (
               <aside className={`kc-task-panel${session.stage === "play" && field.phase === "inspect" && !inspectChoiceOpen ? " is-waiting-for-materials" : ""}`} aria-busy={busy}>
                 {session.stage === "reflection" ? (

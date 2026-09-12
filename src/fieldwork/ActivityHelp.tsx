@@ -97,7 +97,7 @@ const studioSteps: Step[] = [
     selector: "[data-help='studio-tools'], .kc-studio .kc-board-tools",
     activate: "tools",
     title: "편한 방법으로 아이디어를 만들어",
-    text: "단계 카드에 글을 쓰거나 그림으로 설계할 수 있어. 키보드만으로도 카드를 작성할 수 있어.",
+    text: "네모 안의 글을 두 번 눌러 고치고, 화살표와 메모를 덧붙여봐. 완성 예시도 같은 손그림 도안이야.",
   },
   {
     selector:
@@ -112,6 +112,11 @@ const studioSteps: Step[] = [
     title: "마지막으로 확인하고 제출해",
     text: "설계도와 세 설명, 활동 후 관심을 채우면 제출할 수 있어. 저장한 결과물은 포트폴리오에 남아.",
   },
+];
+const recoverySteps: Step[] = [
+  { selector: "[data-help='recovery-brief'], .recovery-sheet-toggle", title: "어디서 사용자가 막혔을까?", text: "편집 도구의 의뢰·참고에서 기존 화면과 사용자 이야기를 살펴봐. 이번에는 로그인 실패 뒤의 화면 하나를 고쳐볼 거야." },
+  { selector: "[data-help='recovery-canvas']", title: "내 화면에 직접 놓아봐", text: "안내와 버튼을 놓고, 누르면 어디로 이동할지 연결해. 그림에서 고른 부분을 수정할 수 있어." },
+  { selector: "[data-help='recovery-check']", title: "내 버튼을 눌러 확인해", text: "연결이 돌아온 때와 계속 실패할 때를 확인해 봐. 고칠 부분을 다듬고 마지막에 직접 제출해." },
 ];
 const entrySteps: Step[] = [
   {
@@ -194,7 +199,7 @@ function Tour({
     const sync = () => {
       const found = (
         context === "projects-studio"
-          ? studioSteps
+          ? document.querySelector(".recovery-studio") ? recoverySteps : studioSteps
           : context.endsWith("-entry")
             ? entrySteps
             : steps[topic]

@@ -279,7 +279,7 @@ test("saved incident drives material names and automatic scene quality remains a
   expect(errors).toEqual([]);
 });
 
-test("workplace opens first, investigation unlocks decisions and action results stay visible", async ({
+test("start briefing is above the workplace, investigation unlocks decisions and action results stay visible", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -332,13 +332,25 @@ test("workplace opens first, investigation unlocks decisions and action results 
         !!(
           element.compareDocumentPosition(
             document.querySelector(".kc-scene-panel")!,
-          ) & Node.DOCUMENT_POSITION_PRECEDING
+          ) & Node.DOCUMENT_POSITION_FOLLOWING
         ),
     ),
   ).toBe(true);
+  for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1440, 900]]) {
+    await page.setViewportSize({ width, height });
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    const start = page.getByRole("button", { name: "업무 시작", exact: true });
+    await expect(start).toBeInViewport({ ratio: 1 });
+    const buttonBox = (await start.boundingBox())!;
+    const sceneBox = (await materials.boundingBox())!;
+    expect(buttonBox.y + buttonBox.height).toBeLessThan(sceneBox.y);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: ".local/simulation-start-390.png", animations: "disabled" });
   await page.getByRole("button", { name: "업무 시작", exact: true }).click();
   await expect(materials).toHaveAttribute("open", "");
   await expect(task).toContainText("자료를 살펴보고 원인을 찾아요");
+  expect(await task.evaluate(element => !!(element.compareDocumentPosition(document.querySelector(".kc-scene-panel")!) & Node.DOCUMENT_POSITION_PRECEDING))).toBe(true);
   await page.getByRole("button", { name: "2D 목록 보기", exact: true }).click();
   const choose = page.getByRole("button", {
     name: "이렇게 해볼래요",

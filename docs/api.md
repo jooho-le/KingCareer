@@ -35,6 +35,8 @@ JSON 본문에는 `Content-Type: application/json`을 사용합니다. 등록 �
 
 설명 작성 도움의 `〔채우기:자료〕` 같은 예약 마커는 미완성 초안·수정 이력에 그대로 저장할 수 있습니다. `completedAnswers`는 공백을 제외한 10자 이상이며 예약 마커가 없는 설명만 계산합니다. 프로젝트 `activeActivities` 항목과 수정 이력 요약에 같은 기준을 적용합니다. 미완성 제출은 활동·경험 근거를 만들지 않습니다.
 
+그림 가이드의 `〔채우기:…〕`도 초안 저장은 허용하고 제출은 거절합니다. 제공된 가이드만 남은 설계도도 제출할 수 없습니다. `customData.kingCareerGuide`는 도안 출처와 원본 글을 보존하며, `hasDrawing`은 빈칸 없이 학생이 글을 바꾸거나 직접 만든 도형·글이 있는지 확인합니다. 이는 작성 여부 확인이며 정답·역량 평가는 아닙니다. 코치에 전달하는 도형 문맥은 `provided_guide`와 `student_edit`를 구분해 기본 안내를 학생이 작성한 근거로 해석하지 않도록 합니다. 기존 카드·그림 초안은 이전과 동일한 `scene`으로 저장·복원합니다.
+
 결과물 평가와 시뮬레이션 질문 생성도 DB 잠금 밖에서 실행하며 저장 전에 소유권·버전을 다시 확인합니다. 처리 중 기록을 삭제했으면 AI 응답이 이를 되살리지 않습니다. 새 개발자 체험은 완료 횟수에 따라 서로 다른 준비된 사건을 순환하고, 사건 내용은 세션의 `fieldwork.presentation`에 보관합니다. 클라이언트는 이 내용을 우선 표시합니다. `fieldwork.verificationOutcome`의 `status`, `finding`, `remaining`은 확인 여부·관찰·남은 일을 안내하는 교육용 상태이며 능력 점수가 아닙니다.
 
 `inspect`는 고유 대상별 한 번만 시간을 차감하며 이해 목표에 가산하지 않습니다. 비교·조치·재확인이 `scenario_0/1/2` 기록을 만듭니다. `fieldwork.schema`는 스마트팜의 `smartfarm-v1` 또는 `{careerId}-fieldwork-v1`입니다. 네 직업은 `presentation`에 필수 조사 대상·가상 지표·프로젝트 안내를, `metricValue`에 현재 가상 수치를 제공합니다. 스마트팜은 기존 `temperature`를 유지합니다. `003_simulation_variants.sql`은 `classic`과 `fieldwork` 활성 세션을 분리합니다. 그림 저장 본문 한도는 600KB, 배치도는 250개 요소·직렬화 500KB입니다. 평가 상태 `ai_feedback`는 텍스트 코치 응답이며 정답·직무 역량 인증이 아닙니다.
@@ -111,3 +113,14 @@ JSON 본문에는 `Content-Type: application/json`을 사용합니다. 등록 �
 | 503 | 저장소·모델 연결 재시도; 이전 입력·세션 상태 유지 |
 
 일반 오류 본문은 `{ "detail": "설명" }`이며 필드 검증 오류의 `detail`은 목록일 수 있습니다. 기본 `template` 모드는 준비된 시나리오를 반환합니다. 자유 답변·제출물을 AI가 채점했다고 표시하지 않습니다. 모델 생성 인터페이스는 별도로 준비했지만 실제 모델 연결 검증과 프로젝트 자동 평가는 포함하지 않습니다.
+# 개발자 로그인 복구 작업실 v2
+
+이 API는 이전에 저장한 대화형 초안을 이어하기 위한 호환 기능이다. 신규 프로젝트는 손그림 흐름도로 시작하며 일반 `scene.elements` 저장·제출 API를 사용한다. 일반 그림을 대화형 장면으로 추정하거나 두 상황 체크를 통과했다고 표시하지 않는다.
+
+기존 `/projects/developer/draft`에 `scene.studio`를 함께 저장한다. 구성은 `kind: "login-recovery"`, `version: 2`, `message`, `messagePosition`, `retry`, `support`, `preserveInput`이다. 버튼에는 `label`, `target` (`login` / `support` / null), `x`, `y`가 들어간다. 기존 `scene.elements`는 내보내기와 미리보기용 그림이다.
+
+- `GET /api/v1/projects/developer/checks`: 현재 저장된 설계의 확인 기록. `{version, mode:"rules", checks, issues, ready}`를 반환한다.
+- `POST /api/v1/projects/developer/check`: `{clientRequestId, expectedVersion, scenario:"recovered"|"offline", actions:("retry"|"support")[]}`. 오류 화면에서 실제로 누른 순서를 서버가 재생한다. 동일 요청은 중복 반영하지 않는다.
+- 연결 복구 상황은 재시도 후 로그인으로, 지속 실패 상황은 재시도 후 도움 요청 화면으로 이동해야 한다. 입력 유지/비우기는 모두 허용하며 선택 자체가 필요하다. 안내 문구의 존재와 연결 규칙을 확인하고 문장의 의미나 직무 역량을 평가하지 않는다.
+- 두 상황이 통과한 설계와 같은 문서만 제출 가능하다. 클라이언트가 보낸 완료 플래그나 확인 기록은 근거로 사용하지 않는다. 기존 `/submit`을 사용하며 v2는 세 설명의 길이 조건 대신 설계·확인·관심도 조건을 적용한다.
+- 제출 결과에는 `studioKind`, `designSummary`, `checks`, `checkMode:"rules"`가 추가된다. 자동 생성한 설계 요약과 선택적 학생 회고는 별도 필드로 보존한다.

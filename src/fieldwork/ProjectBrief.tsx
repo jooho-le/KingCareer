@@ -31,7 +31,7 @@ const interestLabels = [
 ];
 export default function ProjectBrief(props: Props) {
   const checklist = [
-    { title: "단계 카드 또는 설계도", done: props.hasDrawing },
+    { title: "내 아이디어를 담은 설계도", done: props.hasDrawing },
     ...["발견한 문제", "개선 제안과 근거", "확인 방법"].map((title, i) => ({
       title,
       done: writingReady(props.answers[i] || ""),
@@ -65,13 +65,16 @@ export default function ProjectBrief(props: Props) {
         </div>
       </section>
 
-      <section className="brief-route" aria-label="프로젝트 만드는 순서">
-        <h3>이렇게 하면 완성돼요</h3>
-        <ol>
-          <li>왼쪽에서 완성 예시를 보고, 내가 할 일을 카드나 그림으로 만들어요.</li>
-          <li>‘내 설명’에서 문제·제안·확인 방법을 적어요. 막히면 두 칸 도움을 써요.</li>
-          <li>지금의 관심도를 고르고 제출하면 포트폴리오에 남아요.</li>
-        </ol>
+      <section className="brief-drawing-tip" aria-label="그림 작업 도움">
+        <h3>그림 안에서 시작해 봐요</h3>
+        <p>
+          네모 안의 글을 두 번 눌러 고치고, 화살표로 일의 흐름을 연결해요.
+          필요한 곳에는 가지선과 메모를 덧붙여 봐요.
+        </p>
+        <p>
+          ‘완성 그림 예시’도 같은 손그림 도안이에요. 내가 그린 모습 그대로
+          포트폴리오에 남고, ‘내 설명’에는 바꾼 이유를 짧게 적으면 돼요.
+        </p>
       </section>
 
       <section

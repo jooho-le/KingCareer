@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { ArrowLeft, ArrowRight, Save } from "lucide-react";
+import { createPortal } from "react-dom";
 import { api, errorMessage, json, requestId } from "../api";
 import type { Activity, CareerId } from "../data";
 import { useApp } from "../store";
@@ -16,14 +17,14 @@ import ProjectBrief from "./ProjectBrief";
 import { downloadFile, type DrawingScene } from "./types";
 import "./fieldwork.css";
 import "./workshop-studio.css";
-import "./step-card-editor.css";
 import { hasWritingBlanks, writingReady } from "./project-writing";
-import GuidedWriting from "./GuidedWriting";
-import { preferredAuthoringMode } from "./step-card-data";
+import { drawingReady } from "./drawing-readiness";
+import { Modal } from "../components";
+import { isRecoveryScene } from "./recovery-model";
 
 import { projectFor } from "./workplaces";
 const DrawingBoard = lazy(() => import("./DrawingBoard"));
-const StepCardEditor = lazy(() => import("./StepCardEditor"));
+const RecoveryStudio = lazy(() => import("./RecoveryStudio"));
 type Draft = {
   careerId: CareerId;
   answers: string[];
@@ -48,6 +49,14 @@ const contentOf = (d: Draft) =>
     answers: d.answers,
     scene: d.scene,
     interest: d.interest ?? null,
+  }, (_key, value: unknown) => {
+    // Server validation can reorder object keys. The same saved document must
+    // compare equal or saveLatest would keep resending it indefinitely.
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      const object = value as Record<string, unknown>;
+      return Object.fromEntries(Object.keys(object).sort().map(key => [key, object[key]]));
+    }
+    return value;
   });
 
 export default function Workshop() {
@@ -73,9 +82,6 @@ export default function Workshop() {
     [historyOpen, setHistoryOpen] = useState(false);
   const [panel, setPanel] = useState("brief");
   const [panelOpen, setPanelOpen] = useState(false);
-  const [authoringMode, setAuthoringMode] = useState<"cards" | "drawing">(
-    "cards",
-  );
   const panelState = useRef({ panel, panelOpen });
   panelState.current = { panel, panelOpen };
   const beforeHelp = useRef<{ panel: string; panelOpen: boolean } | null>(null);
@@ -108,7 +114,9 @@ export default function Workshop() {
     const previous = document.body.style.overflow;
     const previousFocus = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
-    const firstButton = [...document.querySelectorAll<HTMLButtonElement>(".studio-topbar button")].find(button => button.getClientRects().length > 0);
+    const firstButton = [
+      ...document.querySelectorAll<HTMLButtonElement>(".studio-topbar button"),
+    ].find((button) => button.getClientRects().length > 0);
     firstButton?.focus({ preventScroll: true });
     return () => {
       document.body.style.overflow = previous;
@@ -143,18 +151,20 @@ export default function Workshop() {
     try {
       const response = await api<Draft>(`/projects/${cid}`);
       if (generation !== loadGeneration.current) return;
-      const value = {
+      const loaded = {
         ...response,
         scene: response.scene || emptyScene(),
         interest: response.interest ?? null,
       };
+      const fresh = response.version === 0 && !loaded.scene.elements.length && !response.answers.some(answer => answer.trim());
+      const value = fresh ? { ...loaded, scene: { ...emptyScene(), elements: (await import("./project-templates")).projectTemplate(cid) } } : loaded;
+      if (generation !== loadGeneration.current) return;
       current.current = value;
-      saved.current = contentOf(value);
+      saved.current = contentOf(loaded);
       setDraft(value);
       setInitialScene(value.scene);
-      setAuthoringMode(preferredAuthoringMode(value.scene));
       setEpoch((e) => e + 1);
-      setStatus("저장한 초안을 불러왔어요");
+      setStatus(fresh ? "새 작업을 준비했어요 · 수정하면 자동 저장돼요" : "저장한 초안을 불러왔어요");
     } catch (e) {
       if (generation === loadGeneration.current) {
         setError(errorMessage(e));
@@ -325,7 +335,6 @@ export default function Workshop() {
       current.current = next;
       setDraft(next);
       setInitialScene(next.scene);
-      setAuthoringMode(preferredAuthoringMode(next.scene));
       setEpoch((e) => e + 1);
       await save();
       setHistoryOpen(false);
@@ -370,12 +379,54 @@ export default function Workshop() {
     setPanel("writing");
     setPanelOpen(true);
     requestAnimationFrame(() => {
-      const missing = draft?.answers.findIndex(value => !writingReady(value)) ?? 0;
-      const target = document.querySelectorAll<HTMLElement>(".studio-writing-item")[Math.max(0, missing)];
+      const missing =
+        draft?.answers.findIndex((value) => !writingReady(value)) ?? 0;
+      const target = document.querySelectorAll<HTMLElement>(
+        ".studio-writing-item",
+      )[Math.max(0, missing)];
       target?.focus({ preventScroll: true });
       target?.scrollIntoView({ block: "start", behavior: "auto" });
     });
   };
+  const startSketch = async () => {
+    if (operation.current || !current.current) return;
+    operation.current = true;
+    setBusy(true);
+    setError("");
+    try {
+      await save();
+      const { projectTemplate } = await import("./project-templates");
+      const next: Draft = { ...current.current!, scene: { ...emptyScene(), elements: projectTemplate(cid) } };
+      current.current = next;
+      setDraft(next);
+      setInitialScene(next.scene!);
+      setEpoch(value => value + 1);
+      setStatus("기존 초안을 보관하고 새 작업을 저장하는 중…");
+      await save();
+    } catch (error) {
+      setError(errorMessage(error));
+    } finally {
+      operation.current = false;
+      setBusy(false);
+    }
+  };
+  if (editing && draft && cid === "developer" && isRecoveryScene(draft.scene)) {
+    return <div className="studio-host">
+      <Suspense fallback={<p role="status">작업실을 준비하는 중…</p>}>
+        <RecoveryStudio key={`${cid}-${epoch}`} draft={draft} status={status} busy={busy} error={error} isSaved={saved.current === contentOf(draft)}
+          onChange={update} onSave={save} onSubmit={submit} onBack={() => go("projects")}
+          onHistory={() => void history()} onBackup={backup} onStartSketch={() => void startSketch()} />
+      </Suspense>
+      {historyOpen && createPortal(<Modal title="저장된 수정 이력" onClose={() => setHistoryOpen(false)}>
+        <p>현재 작업을 저장한 뒤 선택한 내용으로 복원해요. 이전 그림도 그대로 열 수 있어요.</p>
+        <div className="kc-revisions">
+          {revisions.length ? revisions.map(revision => <button key={revision.version} disabled={busy} onClick={() => void restore(revision)}>
+            수정본 {revision.version} · {new Date(revision.date).toLocaleString("ko-KR")} · 복원
+          </button>) : <p>아직 저장된 수정본이 없어요.</p>}
+        </div>
+      </Modal>, document.body)}
+    </div>;
+  }
   if (editing && draft)
     return (
       <div className="studio-host">
@@ -409,7 +460,7 @@ export default function Workshop() {
                 busy ||
                 draft.interest === null ||
                 draft.answers.some((s) => !writingReady(s)) ||
-                !draft.scene?.elements.some((e) => !e.isDeleted)
+                !drawingReady(draft.scene)
               }
               onClick={() => void submit()}
             >
@@ -452,34 +503,6 @@ export default function Workshop() {
           </div>
           <div className="studio-body">
             <div className="studio-canvas">
-              <div
-                className="studio-authoring-tools"
-                data-help="studio-tools"
-                role="group"
-                aria-label="결과물 작성 방식"
-              >
-                <span>아이디어 만들기</span>
-                {(
-                  [
-                    ["cards", "단계 카드로 만들기"],
-                    ["drawing", "자유롭게 그리기"],
-                  ] as const
-                ).map(([mode, label]) => (
-                  <button
-                    key={mode}
-                    disabled={busy}
-                    aria-pressed={authoringMode === mode}
-                    onClick={() => {
-                      if (mode === authoringMode) return;
-                      setInitialScene(current.current?.scene || emptyScene());
-                      setEpoch((value) => value + 1);
-                      setAuthoringMode(mode);
-                    }}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
               <Suspense
                 fallback={
                   <div className="kc-panel" role="status">
@@ -487,25 +510,14 @@ export default function Workshop() {
                   </div>
                 }
               >
-                {authoringMode === "cards" ? (
-                  <StepCardEditor
-                    key={epoch}
-                    initial={initialScene}
-                    onChange={draw}
-                    locked={busy}
-                    example={project.nodes[0] || "자료 확인하기"}
-                    careerId={cid}
-                    onWriting={openWriting}
-                  />
-                ) : (
-                  <DrawingBoard
-                    key={epoch}
-                    careerId={cid}
-                    initial={initialScene}
-                    onChange={draw}
-                    locked={busy}
-                  />
-                )}
+                <DrawingBoard
+                  key={epoch}
+                  careerId={cid}
+                  initial={initialScene}
+                  onChange={draw}
+                  onStartNew={() => void startSketch()}
+                  locked={busy}
+                />
               </Suspense>
             </div>
             <aside
@@ -585,9 +597,7 @@ export default function Workshop() {
                     brief={project.brief}
                     careerId={cid}
                     answers={draft.answers}
-                    hasDrawing={
-                      !!draft.scene?.elements.some((e) => !e.isDeleted)
-                    }
+                    hasDrawing={drawingReady(draft.scene)}
                     interest={draft.interest}
                     busy={busy}
                     onInterest={(interest) => update({ interest })}
@@ -641,7 +651,11 @@ export default function Workshop() {
                         hint: "개선 효과를 어떤 수치와 관찰로 확인할 건가요? 남은 한계도 적어 봐요.",
                       },
                     ].map((item, i) => (
-                      <div className="studio-writing-item" key={i} tabIndex={-1}>
+                      <div
+                        className="studio-writing-item"
+                        key={i}
+                        tabIndex={-1}
+                      >
                         <label htmlFor={`project-answer-${i}`}>
                           {i === 0 && (
                             <span
@@ -654,24 +668,27 @@ export default function Workshop() {
                           <strong>{item.title}</strong>
                           <span>{project.hints[i] || item.hint}</span>
                         </label>
-                          <GuidedWriting key={`${cid}-${epoch}-${i}`} careerId={cid} index={i} value={draft.answers[i]} disabled={busy} onChange={value => update({ answers: draft.answers.map((s, n) => n === i ? value : s) })} />
-                          <textarea
-                            id={`project-answer-${i}`}
-                            disabled={busy}
-                            maxLength={5000}
-                            value={draft.answers[i]}
-                            onChange={(e) =>
-                              update({
-                                answers: draft.answers.map((s, n) =>
-                                  n === i ? e.target.value : s,
-                                ),
-                              })
-                            }
-                            placeholder="내가 발견한 것부터 한 문장으로 적어봐."
-                          />
-                          <small className="writing-readiness" role="status">
-                            {hasWritingBlanks(draft.answers[i]) ? "아직 빈칸이 있어요. 내 생각으로 마저 채워줘요." : writingReady(draft.answers[i]) ? "설명을 적었어요. 내 생각과 맞는지 읽어봐요." : "예시를 보거나 두 칸으로 시작해 봐요. 설명은 10자 이상 적어요."}
-                          </small>
+                        <textarea
+                          id={`project-answer-${i}`}
+                          disabled={busy}
+                          maxLength={5000}
+                          value={draft.answers[i]}
+                          onChange={(e) =>
+                            update({
+                              answers: draft.answers.map((s, n) =>
+                                n === i ? e.target.value : s,
+                              ),
+                            })
+                          }
+                          placeholder="내가 발견한 것부터 한 문장으로 적어봐."
+                        />
+                        <small className="writing-readiness" role="status">
+                          {hasWritingBlanks(draft.answers[i])
+                            ? "이전에 저장한 빈칸이 있어요. 내 생각으로 마저 채워줘요."
+                            : writingReady(draft.answers[i])
+                              ? "설명을 적었어요. 내 생각과 맞는지 읽어봐요."
+                              : "그림에서 바꾼 내용을 짧게 적어줘요. 설명은 10자 이상이면 돼요."}
+                        </small>
                       </div>
                     ))}
                   </div>
@@ -749,11 +766,11 @@ export default function Workshop() {
             alt="개선 설계자 배지"
           />
           <span className="kc-eyebrow">나의 포트폴리오</span>
-          <h2>생각이 결과물이 됐어요.</h2>
+          <h2>{result.studioKind === "login-recovery" ? "직접 고치고 확인한 화면을 남겼어요." : "생각이 결과물이 됐어요."}</h2>
           <p>
-            설계도와 세 가지 설명을 수정본별로 저장했어요. 개선 설계자 배지를
-            받았어요.
+            {result.studioKind === "login-recovery" ? "내 설계와 두 상황의 확인 기록을 포트폴리오에 저장했어요. 활동 완료 배지를 받았어요." : "설계도와 세 가지 설명을 수정본별로 저장했어요. 개선 설계자 배지를 받았어요."}
           </p>
+          {result.designSummary && <div className="kc-note"><strong>내 설계에서 정리한 내용</strong>{result.designSummary.map((text, index) => <p key={index}>{text}</p>)}</div>}
           <div className="kc-note">
             <strong>
               {result.evaluationStatus === "ai_feedback"

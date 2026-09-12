@@ -3,6 +3,7 @@
 Bindings are authored document metadata, not computer vision or inferred links.
 Deleted objects, external metadata, coordinates and image data are never sent.
 """
+from .recovery_project import is_recovery_scene
 
 NODE_LIMIT = 80
 EDGE_LIMIT = 80
@@ -27,6 +28,11 @@ def drawing_context(scene):
         if eid not in identifiers:
             continue
         node = {"id": identifiers[eid], "type": str(element.get("type", "unknown"))[:24]}
+        metadata = element.get("customData")
+        guide = metadata.get("kingCareerGuide") if isinstance(metadata, dict) else None
+        if isinstance(guide, dict):
+            text = str(element.get("originalText", element.get("text", ""))).strip()
+            node["source"] = "student_edit" if element.get("type") == "text" and text and text != guide.get("originalText") else "provided_guide"
         label = labels.get(eid) or str(element.get("text", ""))[:LABEL_LIMIT]
         if label:
             node["label"] = label
@@ -52,7 +58,16 @@ def drawing_context(scene):
         if edge_text:
             edge["label"] = edge_text
         edges.append(edge)
-    return {"nodes": result_nodes, "connections": edges,
+    result = {"nodes": result_nodes, "connections": edges,
             "truncated": len(nodes) < sum(e.get("type") not in {"arrow", "line"} for e in elements)
                          or len(edges) < sum(e.get("type") in {"arrow", "line"} for e in elements),
-            "interpretation": "도형 유형, 작성된 글, 명시적 연결 정보만 제공. null 끝점은 연결 정보 없음이며 연결 실패를 뜻하지 않음. 이미지·시각적 배치·완성도는 분석하지 않음."}
+            "interpretation": "도형 유형, 작성된 글, 명시적 연결 정보만 제공. provided_guide는 제공한 도안이며 학생이 작성한 근거가 아님. student_edit는 도안에서 바꾼 글이며 정답 여부를 뜻하지 않음. null 끝점은 연결 정보 없음이며 연결 실패를 뜻하지 않음. 이미지·시각적 배치·완성도는 분석하지 않음."}
+    if is_recovery_scene(scene):
+        studio = scene["studio"]
+        result["authoredInteraction"] = {
+            "kind": "login-recovery", "message": studio["message"],
+            "retry": {key: studio["retry"][key] for key in ("label", "target")} if studio["retry"] else None,
+            "support": {key: studio["support"][key] for key in ("label", "target")} if studio["support"] else None,
+            "preserveInput": studio["preserveInput"],
+            "meaning": "학생이 저장한 안내 문구, 버튼 연결과 재시도 설정. 실행 검사 결과나 능력 점수가 아니며 비어 있는 내용은 미작성 상태."}
+    return result

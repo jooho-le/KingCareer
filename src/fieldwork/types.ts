@@ -80,6 +80,15 @@ export type Achievements = {
 export type DrawingScene = {
   elements: Record<string, unknown>[];
   appState?: { viewBackgroundColor: string };
+  studio?: {
+    kind: "login-recovery";
+    version: 2;
+    message: string;
+    messagePosition: { x: number; y: number };
+    retry: { label: string; target: "login" | "support" | null; x: number; y: number } | null;
+    support: { label: string; target: "login" | "support" | null; x: number; y: number } | null;
+    preserveInput: boolean | null;
+  };
 };
 
 export function downloadFile(name: string, content: BlobPart, type: string) {

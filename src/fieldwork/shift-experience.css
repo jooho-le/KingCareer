@@ -1,4 +1,4 @@
-/* The workplace is the first task surface. Decisions appear after investigation. */
+/* Show the start briefing first; the workplace leads after the shift begins. */
 .kc-refresh .kc-shift-experience .kc-workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -99,12 +99,15 @@
 .kc-refresh .kc-shift-experience .kc-phases li[aria-current='step'] { background: #7c3aed; color: #fff; }
 .kc-refresh .kc-shift-experience .kc-phases li::after { display: none; }
 @media (min-width: 1101px) {
-  .kc-refresh .kc-shift-experience .kc-workspace.is-brief { grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); }
+  .kc-refresh .kc-shift-experience .kc-workspace.is-brief { grid-template-columns: minmax(0, 1fr); }
   .kc-refresh .kc-shift-experience .kc-workspace.has-decision { grid-template-columns: minmax(0, 1.35fr) minmax(350px, 1fr); }
   .kc-refresh .kc-shift-experience .has-decision > .kc-scene-panel { grid-column: 1; grid-row: 1; }
   .kc-refresh .kc-shift-experience .has-decision > .kc-mission-bar { grid-column: 1; grid-row: 2; }
   .kc-refresh .kc-shift-experience .has-decision > .kc-task-panel { grid-column: 2; grid-row: 1 / span 2; }
   .kc-refresh .kc-shift-experience .kc-workspace:not(.is-flat) .kc-material-reading { position: absolute; right: 18px; top: 190px; width: min(340px, 48%); z-index: 3; }
+}
+@media (max-width: 1100px) {
+  .kc-refresh .kc-shift-experience .is-brief .kc-current-task > .kc-button { order: -1; width: 100%; }
 }
 @media (max-width: 600px) {
   .kc-refresh .kc-shift-experience .kc-scene { height: 260px; }

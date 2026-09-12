@@ -94,6 +94,26 @@ class SimulationComplete(RequestInput):
     expectedVersion: Version
 
 
+class RecoveryPosition(Input):
+    x: Annotated[float, Field(ge=0, le=300, strict=True, allow_inf_nan=False)]
+    y: Annotated[float, Field(ge=0, le=420, strict=True, allow_inf_nan=False)]
+
+
+class RecoveryButton(RecoveryPosition):
+    label: Annotated[str, StringConstraints(max_length=40)]
+    target: Literal["login", "support"] | None
+
+
+class RecoveryStudio(Input):
+    kind: Literal["login-recovery"]
+    version: Literal[2]
+    message: Annotated[str, StringConstraints(max_length=240)]
+    messagePosition: RecoveryPosition
+    retry: RecoveryButton | None
+    support: RecoveryButton | None
+    preserveInput: Annotated[bool, Field(strict=True)] | None
+
+
 class Draft(RequestInput):
     answers: list[DraftText] = Field(min_length=3, max_length=3)
     expectedVersion: Version
@@ -124,7 +144,12 @@ class Draft(RequestInput):
                 number = element.get(key)
                 if not isinstance(number, (int, float)) or not math.isfinite(number) or abs(number) > 1_000_000:
                     raise ValueError("도형 좌표가 유효하지 않아요.")
-        return {"elements": elements, "appState": {"viewBackgroundColor": "#ffffff"}}
+        scene = {"elements": elements, "appState": {"viewBackgroundColor": "#ffffff"}}
+        if "studio" in value:
+            if set(value) - {"elements", "appState", "studio"}:
+                raise ValueError("작업 문서에는 도형과 설계 정보만 저장할 수 있어요. 작동 확인 기록은 서버에서 관리해요.")
+            scene["studio"] = RecoveryStudio.model_validate(value["studio"]).model_dump()
+        return scene
 
 
 class Submit(RequestInput):
@@ -136,3 +161,9 @@ class ProjectHelp(RequestInput):
     expectedVersion: Version
     mission: AnswerIndex
     intent: Literal["start", "improve", "check"]
+
+
+class ProjectCheck(RequestInput):
+    expectedVersion: Version
+    scenario: Literal["recovered", "offline"]
+    actions: list[Literal["retry", "support"]] = Field(max_length=8)

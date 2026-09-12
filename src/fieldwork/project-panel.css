@@ -228,3 +228,6 @@
     gap: 18px;
   }
 }
+.brief-drawing-tip { padding: 14px; border-radius: 14px; background: #f0eaff; }
+.brief-drawing-tip h3 { margin: 0 0 8px; font-size: 16px; color: #6531c0; }
+.brief-drawing-tip p { margin: 6px 0 0; font-size: 14px; line-height: 1.65; color: #615470; word-break: keep-all; overflow-wrap: anywhere; }

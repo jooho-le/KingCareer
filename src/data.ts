@@ -429,6 +429,9 @@ export type Activity = {
   disliked?: string;
   evaluationStatus?: string;
   observations?: string[];
+  studioKind?: "login-recovery";
+  designSummary?: string[];
+  checks?: { scenario: "recovered" | "offline"; passed: boolean; message: string; actions: string[] }[];
   selfReport?: number[];
   startingPoint?: StartingPoint | null;
   nextActivity?: Recommendation | null;

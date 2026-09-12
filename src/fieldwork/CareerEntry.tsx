@@ -18,7 +18,7 @@ export default function CareerEntry({
   const isProject = mode === "project";
   const steps = isProject
     ? [
-        "도안을 열고 아이디어 그리기",
+        "손그림 흐름도에 아이디어 그리기",
         "개선 이유와 확인 계획 남기기",
         "결과물을 포트폴리오에 모으기",
       ]

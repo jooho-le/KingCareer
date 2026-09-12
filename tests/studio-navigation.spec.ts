@@ -15,7 +15,7 @@ test("studio uses the shared app sidebar and topbar and saves before navigation"
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   let failSave = true;
-  let draft = { careerId: "developer", answers: ["", "", ""], version: 0, interest: null, scene: { elements: [] } };
+  let draft = { careerId: "developer", answers: ["", "", ""], version: 1, interest: null, scene: { elements: [] } };
   await page.route("**/api/v1/projects/developer", route => route.fulfill({ json: draft }));
   await page.route("**/api/v1/projects/developer/draft", route => {
     if (failSave) return route.fulfill({ status: 503, json: { detail: "저장 연결을 다시 확인해 주세요." } });
@@ -24,7 +24,7 @@ test("studio uses the shared app sidebar and topbar and saves before navigation"
   });
   await page.goto("/app/#projects?career=developer");
   await expect(page.locator(".kc-studio")).toBeVisible();
-  await expect(page.getByText("어떤 순서로 해결할까?", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: /^(손그림 흐름도 넣기|그림 전체 보기)$/ })).toBeEnabled();
   const rail = page.getByRole("complementary", { name: "주 메뉴", exact: true });
   await expect(rail.getByRole("button", { name: "미니 프로젝트", exact: true })).toHaveAttribute("aria-current", "page");
   await expect(page.locator(".main-content .kc-studio")).toBeVisible();

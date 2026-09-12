@@ -710,7 +710,7 @@ export function Portfolio() {
               <ArtifactThumbnail activity={activity} />
               <span>{dateLabel(activity.date)} · 제출한 결과물</span>
               <h2>{activity.title}</h2>
-              <p>{activity.answers[0] || "저장한 설계도와 아이디어를 펼쳐봐."}</p>
+              <p>{activity.answers[0] || (activity.studioKind === "login-recovery" ? "직접 고친 화면과 두 상황에서 눌러본 결과를 펼쳐봐." : "저장한 설계도와 아이디어를 펼쳐봐.")}</p>
               <strong>설계도와 설명 보기 <ArrowRight size={17} /></strong>
             </button> : <ActivityRow
               key={activity.id}
@@ -739,10 +739,15 @@ export function Portfolio() {
             <div className="portfolio-result-layout">
               {detail.kind === "project" && <Suspense fallback={<p role="status">결과물을 여는 중…</p>}><ArtifactPreview activityId={detail.id} evaluation={detail} /></Suspense>}
               <section className="portfolio-result-story" aria-label={detail.kind === "project" ? "나의 설명" : "나의 선택"}>
-                <h3>{detail.kind === "project" ? "내 아이디어는 이렇게" : "현장에서 내가 한 선택"}</h3>
+                <h3>{detail.studioKind === "login-recovery" ? "내 설계에서 정리한 내용" : detail.kind === "project" ? "내 아이디어는 이렇게" : "현장에서 내가 한 선택"}</h3>
                 <ol className="portfolio-story-cards">
-                  {detail.answers.map((answer, index) => <li key={index}><span className="portfolio-story-number">{index + 1}</span><div><h4>{detail.kind === "project" ? ["발견한 문제", "개선 제안과 근거", "확인 방법"][index] || "나의 설명" : `선택 ${index + 1}`}</h4><p className="preserve-text">{answer || "이 부분은 설명을 남기지 않았어."}</p></div></li>)}
+                  {(detail.studioKind === "login-recovery" ? detail.designSummary || [] : detail.answers).map((answer, index) => <li key={index}><span className="portfolio-story-number">{index + 1}</span><div><h4>{detail.studioKind === "login-recovery" ? ["오류 안내", "버튼 연결", "입력 내용 처리"][index] : detail.kind === "project" ? ["발견한 문제", "개선 제안과 근거", "확인 방법"][index] || "나의 설명" : `선택 ${index + 1}`}</h4><p className="preserve-text">{answer || "이 부분은 설명을 남기지 않았어."}</p></div></li>)}
                 </ol>
+                {detail.studioKind === "login-recovery" && <>
+                  <h3>직접 눌러 확인한 경로</h3>
+                  <ul className="portfolio-story-cards">{detail.checks?.map(check => <li key={check.scenario}><div><h4>{check.scenario === "recovered" ? "연결이 돌아온 상황" : "계속 연결되지 않는 상황"}</h4><p>{check.message}</p></div></li>)}</ul>
+                  {detail.answers[0]?.trim() && <details className="portfolio-personal-note"><summary>내가 남긴 말</summary><p className="preserve-text">{detail.answers[0]}</p></details>}
+                </>}
                 {detail.reflection && <details className="portfolio-personal-note"><summary>나에게 남은 것</summary><p className="preserve-text">{detail.reflection}</p></details>}
               </section>
             </div>

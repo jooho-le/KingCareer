@@ -210,14 +210,22 @@ button{font-family:inherit}
   </div>
 </section>
 
-<section class="kc-finale" style="padding:clamp(80px,12vw,150px) 28px;text-align:center">
-  <img class="kingcareer-finale-mascot" src="/brand/12_career_kingcrabs/hello.png" width="220" height="220" loading="lazy" alt="주황색 몸, 왕관과 파란 후드티를 입은 KingCareer 킹크랩">
-  <h2 style="margin:0 auto;max-width:900px;font-size:clamp(30px,6vw,76px);line-height:1.08;letter-spacing:-.045em;font-weight:800">진로는 추천받는 것이 아니라,<br>경험하고 선택해야 한다.</h2>
-  <div style="display:flex;gap:24px;justify-content:center;align-items:center;margin-top:44px;flex-wrap:wrap">
-    <a href="/app/#auth" style="color:#fff;background:#0967FF;padding:18px 30px;border-radius:999px;font-size:16px;font-weight:700">내 경험 시작하기</a>
-    <button onClick="{{ goSim }}" style="border:0;background:transparent;cursor:pointer;font-size:16px;font-weight:700;color:#241F47;padding:0 0 5px;border-bottom:2px solid #FF6A1F">체험 한 번 더</button>
+<section class="kc-finale" aria-labelledby="kc-finale-title">
+  <div class="kc-finale-crew" role="img" aria-label="개발자, 간호사, 스마트팜 전문가, 자동차 엔지니어, 식품 연구원 크랩과 킹크랩이 함께 모여 기다리고 있어요">
+    <span class="kc-crew-backdrop" aria-hidden="true"></span>
+    <img class="kc-crew-crab crew-farmer" src="/brand/12_career_kingcrabs/farmer.png" width="1280" height="1280" loading="lazy" alt="">
+    <img class="kc-crew-crab crew-engineer" src="/brand/12_career_kingcrabs/engineer.png" width="1280" height="1280" loading="lazy" alt="">
+    <img class="kc-crew-crab crew-researcher" src="/brand/12_career_kingcrabs/researcher.png" width="1280" height="1280" loading="lazy" alt="">
+    <img class="kc-crew-crab crew-developer" src="/brand/12_career_kingcrabs/developer.png" width="1280" height="1280" loading="lazy" alt="">
+    <img class="kc-crew-crab crew-nurse" src="/brand/12_career_kingcrabs/nurse.png" width="1280" height="1280" loading="lazy" alt="">
+    <img class="kc-crew-crab crew-hello" src="/brand/12_career_kingcrabs/hello.png" width="1280" height="1280" loading="lazy" alt="">
   </div>
-  <div style="margin-top:80px;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(36,31,71,.74)">KINGCAREER · 전북 진로경험 격차 해소 AI 플랫폼</div>
+  <h2 id="kc-finale-title">진로는 추천받는 것이 아니라,<br>경험하고 선택해야 한다.</h2>
+  <div class="kc-finale-actions">
+    <a class="kc-finale-start" href="/app/#auth">내 경험 시작하기</a>
+    <button class="kc-finale-replay" onClick="{{ goSim }}">체험 한 번 더</button>
+  </div>
+  <div class="kc-finale-credit">KINGCAREER · 전북 진로경험 격차 해소 AI 플랫폼</div>
 </section>
 
 </div>

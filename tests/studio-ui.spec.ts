@@ -1,5 +1,6 @@
 import { test as base, expect, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import { editFlowNote } from "./drawing-guide-fixture";
 
 // These tests use disposable local accounts. Coach responses are intercepted;
 // they never consume a model API quota or touch an existing student's work.
@@ -12,6 +13,13 @@ const test = base.extend<{ account: string; pageErrors: string[] }>({
     });
     expect(registration.status(), await registration.text()).toBe(201);
     try {
+      // Preserve coverage of the original editor for existing saved drafts.
+      // Fresh hand drawings are covered by hand-flow.spec.ts.
+      const legacy = await context.request.put("/api/v1/projects/developer/draft", {
+        data: { clientRequestId: `legacy-${Date.now()}`, expectedVersion: 0, answers: ["", "", ""], interest: null,
+          scene: { elements: [], appState: { viewBackgroundColor: "#ffffff" } } },
+      });
+      expect(legacy.status(), await legacy.text()).toBe(200);
       await use(username);
     } finally {
       const removed = await context.request.delete("/api/v1/auth/account", {
@@ -43,8 +51,7 @@ async function hideAutomaticHelp(page: Page, account: string) {
 async function openStudio(page: Page) {
   await page.goto("/app/#projects?career=developer");
   await expect(page.locator(".kc-studio")).toBeVisible();
-  await page.getByRole("button", { name: "자유롭게 그리기", exact: true }).click();
-  await expect(page.getByRole("button", { name: "직무 설계 도안 넣기", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: /^(손그림 흐름도 넣기|그림 전체 보기)$/ })).toBeEnabled();
 }
 
 test("studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling", async ({ page, context, account }) => {
@@ -63,7 +70,10 @@ test("studio saves real drafts, keeps tab state and coach replies, and contains 
   ];
   const inputs = studio.locator(".kc-writing-grid textarea");
   for (let i = 0; i < answers.length; i++) await inputs.nth(i).fill(answers[i]);
-  await page.getByRole("button", { name: "직무 설계 도안 넣기", exact: true }).click();
+  await page.getByRole("button", { name: "손그림 흐름도 넣기", exact: true }).click();
+  await editFlowNote(page, 0, "서버 연결을 확인해 주세요.");
+  await editFlowNote(page, 1, "다시 시도하기");
+  await editFlowNote(page, 2, "입력이 남은 로그인 화면");
   await studio.locator(".studio-topbar").getByRole("button", { name: "저장", exact: true }).click();
   await expect.poll(async () => {
     const response = await context.request.get("/api/v1/projects/developer");
@@ -71,6 +81,7 @@ test("studio saves real drafts, keeps tab state and coach replies, and contains 
     return { answers: draft.answers, hasDrawing: draft.scene?.elements.length > 0, interest: draft.interest };
   }).toEqual({ answers, hasDrawing: true, interest: 5 });
 
+  await page.locator(".kc-drawing-exports > summary").click();
   for (const [label, extension] of [["현재 설계도 SVG 받기", "svg"], ["PNG 그림 받기", "png"]]) {
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: label, exact: true }).click();
@@ -84,6 +95,7 @@ test("studio saves real drafts, keeps tab state and coach replies, and contains 
     else expect([...content.subarray(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
   }
 
+  await page.locator(".kc-drawing-exports > summary").click();
   let failCoach = true;
   const coachBodies: { expectedVersion: number; mission: number; intent: string }[] = [];
   await page.route("**/api/v1/projects/developer/help", async (route) => {
@@ -229,4 +241,162 @@ test("studio help highlights and captions stay clear of controls at desktop, nar
     }
     await expect(overlay).toBeHidden();
   }
+});
+
+test("a new hand drawing preserves the prior revision and stays hand drawn in the portfolio", async ({ page, context, account }) => {
+  await hideAutomaticHelp(page, account);
+  const answers = ["사용자가 오류 뒤의 행동을 찾기 어려워요.", "오류 안내와 도움받는 길을 함께 연결했어요.", "다시 실패한 경우에도 다음 행동이 있는지 확인해요."];
+  const old = await context.request.put("/api/v1/projects/developer/draft", { data: {
+    clientRequestId: `original-${Date.now()}`, expectedVersion: 1, answers, interest: 4,
+    scene: { elements: [{ id: "old-sketch", type: "rectangle", x: 30, y: 50, width: 200, height: 100, roughness: 1 }] },
+  } });
+  expect(old.status(), await old.text()).toBe(200);
+  const oldVersion = (await old.json()).version;
+  await openStudio(page);
+  await page.locator(".kc-drawing-exports > summary").click();
+  await page.getByRole("button", { name: "기존 초안 보관하고 새 손그림 시작", exact: true }).click();
+  await expect(page.getByRole("button", { name: "그림 전체 보기", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: /빈칸 찾기/ })).toHaveCount(0);
+  const preserved = await context.request.get(`/api/v1/projects/developer/revisions/${oldVersion}`);
+  expect((await preserved.json()).scene.elements[0].id).toBe("old-sketch");
+  await expect(page.getByRole("button", { name: "제출하기", exact: true })).toBeDisabled();
+  await editFlowNote(page, 0, "연결이 끊겼어요. 다시 시도해 봐요.");
+  await editFlowNote(page, 1, "계속 안 되면 도움 요청으로 연결해요.");
+  await editFlowNote(page, 2, "입력 정보가 남아 있는지 확인해요.");
+  await page.getByRole("button", { name: "저장", exact: true }).click();
+  await expect(page.locator(".studio-title")).toContainText("초안 저장 완료");
+  const saved = await (await context.request.get("/api/v1/projects/developer")).json();
+  expect(saved.scene.studio).toBeUndefined();
+  expect(saved.scene.elements.filter((e: any) => e.type === "rectangle").every((e: any) => e.roughness >= 1)).toBe(true);
+  expect(saved.scene.elements.filter((e: any) => e.type === "text").every((e: any) => e.fontFamily === 5)).toBe(true);
+  const responseEvent = page.waitForResponse(r => r.url().endsWith("/projects/developer/submit") && r.request().method() === "POST");
+  await page.getByRole("button", { name: "제출하기", exact: true }).click();
+  const response = await responseEvent;
+  expect(response.status(), await response.text()).toBe(200);
+  const activity = await response.json();
+  const artifact = await (await context.request.get(`/api/v1/portfolio/${activity.id}/artifact`)).json();
+  expect(artifact.scene).toEqual(saved.scene);
+  await page.goto("/app/#portfolio");
+  await expect(page.locator(".portfolio-work-card")).toHaveCount(1);
+  await page.locator(".portfolio-work-card").click();
+  const preview = page.locator(".portfolio-artifact-image img").first();
+  await expect(preview).toBeVisible();
+  await expect.poll(() => preview.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+  const svg = await preview.evaluate(async (img: HTMLImageElement) => (await fetch(img.src)).text());
+  expect(svg).toContain("도움 요청");
+  expect(svg).toContain("stroke-width=\"2.5\"");
+  await page.getByRole("dialog").screenshot({ path: ".local/hand-flow/submitted-portfolio.png", animations: "disabled" });
+});
+
+test("previously saved interactive drafts retain checks and canonical save behavior", async ({ page, context, account }) => {
+  await hideAutomaticHelp(page, account);
+  const legacyAnswers = ["이전 그림에서 오류 안내를 살펴봤어요.", "다시 시도할 방법을 그렸어요.", "친구에게 안내가 이해되는지 물어볼 거예요."];
+  const seeded = await context.request.put("/api/v1/projects/developer/draft", {
+    data: { clientRequestId: `preserve-original-${Date.now()}`, expectedVersion: 1,
+      answers: legacyAnswers, interest: 3,
+      scene: { elements: [{ id: "legacy-original-layout", type: "rectangle", x: 40, y: 40, width: 200, height: 120 }],
+        appState: { viewBackgroundColor: "#ffffff" } } },
+  });
+  expect(seeded.status(), await seeded.text()).toBe(200);
+  const legacyVersion = (await seeded.json()).version;
+  const draftRequests: { expectedVersion: number }[] = [];
+  page.on("request", request => {
+    if (request.method() === "PUT" && new URL(request.url()).pathname === "/api/v1/projects/developer/draft")
+      draftRequests.push(request.postDataJSON());
+  });
+  const priorInteractive = await context.request.put("/api/v1/projects/developer/draft", {
+    data: { clientRequestId: `saved-interactive-${Date.now()}`, expectedVersion: legacyVersion,
+      answers: ["", "", ""], interest: null,
+      scene: { elements: [], studio: { kind: "login-recovery", version: 2, message: "", messagePosition: { x: 24, y: 130 }, retry: null, support: null, preserveInput: null } } },
+  });
+  expect(priorInteractive.status(), await priorInteractive.text()).toBe(200);
+  await page.goto("/app/#projects?career=developer");
+  const studio = page.getByRole("region", { name: "로그인 복구 화면 작업실", exact: true });
+  await expect(studio).toBeVisible();
+  await expect(studio.getByRole("button", { name: "작동 확인", exact: true })).toBeEnabled();
+  await expect(studio.locator(".studio-title")).toContainText("저장한 초안");
+  const oldRevision = await context.request.get(`/api/v1/projects/developer/revisions/${legacyVersion}`);
+  expect(oldRevision.status()).toBe(200);
+  const original = await oldRevision.json();
+  expect(original.answers).toEqual(legacyAnswers);
+  expect(original.scene.elements.some((element: { id: string }) => element.id === "legacy-original-layout")).toBe(true);
+
+  const message = "연결이 잠시 끊겼어요. 다시 시도하고 계속 안 되면 지원팀에 물어봐 주세요.";
+  await studio.getByRole("button", { name: "화면 재료 살펴보기", exact: true }).click();
+  await studio.getByRole("button", { name: "안내 문구 추가", exact: true }).click();
+  await studio.getByRole("textbox", { name: /^안내 문구/ }).fill(message);
+  await studio.getByRole("button", { name: "다시 시도 버튼 추가", exact: true }).click();
+  await studio.getByRole("textbox", { name: "버튼 이름", exact: true }).fill("이어서 로그인하기");
+  await studio.getByRole("combobox", { name: "누르면 이동할 화면", exact: true }).selectOption("login");
+  await studio.getByRole("button", { name: "도움 요청 버튼 추가", exact: true }).click();
+  await studio.getByRole("textbox", { name: "버튼 이름", exact: true }).fill("지원팀에 물어보기");
+  await studio.getByRole("combobox", { name: "누르면 이동할 화면", exact: true }).selectOption("support");
+  await studio.getByRole("combobox", { name: /^이전 입력 정보/ }).selectOption("true");
+  const menu = studio.locator(".recovery-file-menu");
+  await menu.locator("summary").click();
+  await menu.getByRole("button", { name: "지금 저장", exact: true }).click();
+  await expect(studio.locator(".studio-title")).toContainText("초안 저장 완료");
+  const savedResponse = await context.request.get("/api/v1/projects/developer");
+  expect(savedResponse.status()).toBe(200);
+  const saved = await savedResponse.json();
+  expect(saved.scene.studio).toMatchObject({ kind: "login-recovery", version: 2, message, preserveInput: true,
+    retry: { label: "이어서 로그인하기", target: "login" }, support: { label: "지원팀에 물어보기", target: "support" } });
+  // The API canonicalizes property order. Saving the same design again must
+  // settle without recursive PUTs or manufacturing another revision.
+  const settledCount = draftRequests.length;
+  await menu.getByRole("button", { name: "지금 저장", exact: true }).click();
+  const unchanged = await context.request.get("/api/v1/projects/developer");
+  expect((await unchanged.json()).version).toBe(saved.version);
+  expect(draftRequests).toHaveLength(settledCount);
+  expect(draftRequests.length).toBeLessThan(12);
+  await menu.locator("summary").click();
+  await page.reload();
+  await expect(studio).toBeVisible();
+  await expect(studio.getByRole("button", { name: "안내 문구 편집", exact: true })).toContainText(message);
+  await studio.getByRole("button", { name: "작동 확인", exact: true }).click();
+  const screen = page.getByRole("region", { name: "내 설계 작동 화면", exact: true });
+  const inspect = async (scenario: "recovered" | "offline", finish = true) => {
+    await studio.getByRole("button", { name: scenario === "recovered" ? "연결이 돌아왔을 때" : "계속 연결되지 않을 때", exact: true }).click();
+    await screen.getByRole("button", { name: "이어서 로그인하기", exact: true }).click();
+    if (scenario === "offline" && finish)
+      await screen.getByRole("button", { name: "지원팀에 물어보기", exact: true }).click();
+    const checked = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/projects/developer/check" && response.request().method() === "POST");
+    await studio.getByRole("button", { name: "이 경로 확인", exact: true }).click();
+    const response = await checked;
+    expect(response.status(), await response.text()).toBe(200);
+    await expect(studio.getByRole("button", { name: "이 경로 확인", exact: true })).toBeEnabled();
+  };
+  await inspect("recovered");
+  await expect(studio.getByRole("button", { name: "결과 검토", exact: true })).toBeDisabled();
+  await inspect("offline");
+  await expect(studio.getByRole("button", { name: "결과 검토", exact: true })).toBeEnabled();
+  // A repeated intentional check is a fresh attempt, not replay of an older
+  // aggregate report; a later successful route replaces a failed attempt.
+  await inspect("offline", false);
+  await expect(studio.getByRole("button", { name: "결과 검토", exact: true })).toBeDisabled();
+  await inspect("offline");
+  await expect(studio.getByRole("button", { name: "결과 검토", exact: true })).toBeEnabled();
+  const checks = await context.request.get("/api/v1/projects/developer/checks");
+  expect((await checks.json()).ready).toBe(true);
+  const beforeSubmission = await context.request.get("/api/v1/state");
+  expect((await beforeSubmission.json()).activities).toEqual([]);
+  await studio.getByRole("button", { name: "결과 검토", exact: true }).click();
+  await studio.getByRole("radio").nth(3).check();
+  const submitted = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/projects/developer/submit" && response.request().method() === "POST");
+  await studio.getByRole("button", { name: "포트폴리오에 제출", exact: true }).click();
+  const response = await submitted;
+  expect(response.status(), await response.text()).toBe(200);
+  const artifact = await response.json();
+  expect(artifact).toMatchObject({ studioKind: "login-recovery", checkMode: "rules", evaluationStatus: "not_connected", interest: 4,
+    answers: ["", "", ""] });
+  expect(artifact.designSummary).toHaveLength(3);
+  expect(artifact.checks).toHaveLength(2);
+  expect(artifact.checks.every((check: { passed: boolean }) => check.passed)).toBe(true);
+  expect(artifact.scene.studio).toEqual(saved.scene.studio);
+  expect(artifact.scene.elements.some((element: { type: string }) => element.type === "arrow")).toBe(true);
+  const downloaded = await context.request.get(`/api/v1/portfolio/${artifact.id}/artifact`);
+  expect(downloaded.status()).toBe(200);
+  expect((await downloaded.json()).scene).toEqual(artifact.scene);
+  await expect(page.getByRole("heading", { name: "직접 고치고 확인한 화면을 남겼어요.", exact: true })).toBeVisible();
+  expect(draftRequests.length).toBeLessThan(14);
 });

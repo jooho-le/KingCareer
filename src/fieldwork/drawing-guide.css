@@ -1,0 +1,207 @@
+.kc-refresh .kc-workshop.kc-studio .kc-editor-panel .kc-board-tools {
+  background: #f3edff;
+  align-items: center;
+}
+.kc-refresh
+  .kc-workshop.kc-studio
+  .kc-editor-panel
+  .kc-board-tools
+  > button:first-child {
+  background: #7c3aed;
+  color: white;
+  border-color: #7c3aed;
+}
+.kc-refresh .kc-workshop.kc-studio .kc-editor-panel > .kc-note {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 6px 10px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  max-height: 50px;
+}
+.kc-drawing-exports {
+  position: relative;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.kc-drawing-exports summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 10px;
+  min-height: 44px;
+  font-size: 14px;
+  color: #584a70;
+  white-space: nowrap;
+}
+.kc-drawing-exports summary::-webkit-details-marker {
+  display: none;
+}
+.kc-drawing-exports[open] > div {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 8;
+  display: grid;
+  gap: 6px;
+  width: min(270px, calc(100vw - 58px));
+  max-height: 48dvh;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 8px;
+  border: 1px solid #e3daee;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 24px #32234c20;
+}
+.kc-refresh .kc-workshop.kc-studio .kc-drawing-exports .kc-library-section {
+  max-height: none;
+  overflow: visible;
+}
+.kc-refresh
+  .kc-workshop.kc-studio
+  .kc-drawing-exports
+  .kc-library-section
+  summary {
+  white-space: normal;
+  padding: 10px;
+}
+.kc-refresh .kc-workshop.kc-studio .kc-drawing-exports .kc-library-tools {
+  padding: 6px;
+  display: grid;
+}
+.kc-refresh
+  .kc-workshop.kc-studio
+  .kc-drawing-exports
+  .kc-library-tools
+  button {
+  white-space: normal;
+  text-align: left;
+}
+.drawing-example-overlay .modal-backdrop {
+  padding: 12px;
+}
+.drawing-example-overlay .modal {
+  width: min(1100px, 96vw);
+  max-width: 1100px;
+  max-height: 94dvh;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.drawing-example-overlay .modal-heading {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+}
+.drawing-example-overlay .modal-heading h2 {
+  font-size: 24px;
+}
+.drawing-example-intro {
+  margin: 0 0 14px;
+  color: #645771;
+  font-size: 16px;
+}
+.drawing-example-overlay figure {
+  margin: 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.drawing-example-image {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: 16px;
+  border: 1px solid #e9e1f3;
+  background: #faf9fd;
+}
+.drawing-example-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.drawing-example-image.is-zoomed img {
+  width: 1040px;
+  max-width: none;
+}
+.drawing-example-overlay figcaption {
+  font-size: 14px;
+  color: #63556f;
+  padding: 10px 0;
+  line-height: 1.6;
+}
+.drawing-example-overlay footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 8px;
+}
+.drawing-example-overlay footer p {
+  flex: 1;
+  margin: 0;
+  font-size: 13px;
+  color: #6c6277;
+}
+.drawing-example-overlay button {
+  min-height: 44px;
+  border-radius: 12px;
+  padding: 10px 14px;
+  border: 1px solid #e1d9ee;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+.drawing-example-overlay .kc-button {
+  background: #7c3aed;
+  color: #fff;
+  border-color: #7c3aed;
+}
+.drawing-example-overlay :focus-visible,
+.kc-drawing-exports summary:focus-visible {
+  outline: 3px solid #0967ff;
+  outline-offset: 2px;
+}
+@media (max-width: 760px) {
+  .kc-refresh .kc-workshop.kc-studio .kc-board-tools {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+  .kc-refresh .kc-workshop.kc-studio .kc-board-tools > button {
+    padding: 7px 9px;
+    font-size: 13px;
+  }
+  .drawing-example-overlay .modal {
+    padding: 16px;
+  }
+  .drawing-example-overlay footer p {
+    flex-basis: 100%;
+  }
+  .drawing-example-overlay .modal-heading h2 {
+    font-size: 21px;
+  }
+}
+@media (max-height: 700px) {
+  .kc-refresh .kc-workshop.kc-studio .kc-editor-panel > .kc-note {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+.kc-refresh .kc-workshop.kc-studio .kc-board-tools .drawing-tool-full { display: inline; color: inherit; font: inherit; margin: 0; width: auto; }
+.kc-refresh .kc-workshop.kc-studio .kc-board-tools .drawing-tool-short { display: none; }
+@media (max-width: 760px) {
+  .kc-refresh .kc-workshop.kc-studio .kc-board-tools .drawing-tool-full { display: none; }
+  .kc-refresh .kc-workshop.kc-studio .kc-board-tools .drawing-tool-short { display: inline; color: inherit; font: inherit; margin: 0; width: auto; }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .kc-refresh .kc-workshop.kc-studio .studio-panel-heading { margin: 3px; padding: 3px; }
+}

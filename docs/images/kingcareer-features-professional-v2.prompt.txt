@@ -1,0 +1,78 @@
+Generated with built-in image_gen.
+
+Create a PROFESSIONAL Korean product functionality infographic for KingCareer, suitable for a formal project proposal and Notion documentation. High resolution landscape 2400x1800 or larger, 4:3 ratio. This is a FEATURE OVERVIEW, NOT a software architecture.
+Design direction: restrained editorial information design, precise Swiss-style grid, generous whitespace, sharp legible Korean sans-serif typography, dark navy #172033 headings, slate-gray body text, white background, thin pale gray dividers. Small solid orange #FF6A1F, blue #0967FF, purple #7C3AED accents only for numbers/category labels. NO gradients, NO cartoon illustrations, NO characters, NO emoji, NO decorative scribbles, NO shadows, NO playful bubbles, NO simulated UI screenshots, NO vendor logos. Subtle 8px radius cards acceptable. Keep a polished institutional/product strategy document feel. No invented metrics or icons requiring explanation.
+
+HEADER:
+Small uppercase eyebrow "PRODUCT OVERVIEW"
+Large title exact "KingCareer 서비스 기능"
+Subtitle "직무체험과 프로젝트를 통해 경험을 기록하고, 다음 진로 탐색으로 연결하는 학생용 플랫폼"
+Right aligned small pill "학생용 웹 서비스"
+
+BELOW HEADER a slim career coverage band:
+label "체험 직업"
+list "앱 개발자  /  간호사  /  스마트팜 전문가  /  자동차 엔지니어  /  식품 연구원"
+
+MAIN SECTION: large elegant 3-column by 3-row matrix of feature cards. Each card with colored small number, heading, two short descriptive lines, and a footer label "결과" followed by the concrete artifact. Cards are feature categories, not mandatory ordered steps. Exact texts below. Keep line breaks clean, typography excellent.
+
+01 heading "서비스 소개 · 계정 시작"
+body "서비스와 직업별 체험 소개"
+body "학생 가입 · 로그인 · 관심분야 선택"
+footer "결과   학생 계정과 프로필"
+
+02 heading "직업 탐색"
+body "직업·역량·전공 검색과 분야 필터"
+body "직업 정보 확인 · 관심 직업 저장"
+footer "결과   탐색 기록과 저장 목록"
+
+03 heading "관심·경험 진단"
+body "객관식 6문항 · 응답 확인과 수정"
+body "자기보고 기반 출발점 · 첫 활동 제안"
+footer "결과   출발점과 추천 이유"
+
+04 heading "3D 직무체험"
+body "현장 조사 · 자료 비교 · 조치 선택"
+body "결과 확인 · 인계 · 진행 상태 복원"
+footer "결과   선택과 조치의 활동 기록"
+
+05 heading "미니 프로젝트"
+body "그림 가이드 · 설계도 · 설명 작성"
+body "초안 자동 저장 · 수정 이력 · 제출"
+footer "결과   프로젝트 결과물"
+
+06 heading "수료 카드 · 배지"
+body "체험 완료에 따른 직업별 수료 카드"
+body "활동에서 획득한 배지 확인"
+footer "결과   수료 카드와 배지 컬렉션"
+
+07 heading "경험 돌아보기"
+body "객관식 회고 · 관심과 생각의 변화"
+body "AI 연결 시 정리 지원 · 다음 활동 선택"
+footer "결과   확인한 회고와 다음 선택"
+
+08 heading "포트폴리오"
+body "설계도·설명·회고·피드백 모아보기"
+body "결과물 상세 확인 · 다운로드"
+footer "결과   누적된 개인 결과물"
+
+09 heading "진로 기록 · 다음 추천"
+body "경험한 직업과 활동 완료 기록 확인"
+body "부족한 경험·관심분야에 따른 추천"
+footer "결과   활동 이력과 다음 경험"
+
+BOTTOM PROCESS SECTION:
+heading "대표 이용 흐름"
+horizontal five-step slim row joined by fine directional arrows:
+"직업 선택" → "직무체험" → "수료 카드" → "경험 돌아보기" → "다음 활동 선택"
+Below optional branch compact text, clearly optional not mandatory:
+"선택 경로   관심·경험 진단 → 출발점 안내    |    미니 프로젝트 → 포트폴리오"
+
+BOTTOM small support strip:
+"공통 지원   프로필·관심분야 관리   ·   저장된 활동 이어하기   ·   모바일 대응   ·   움직임 줄이기"
+
+FOOTNOTE separated by thin rule, in readable small darkgray text:
+"진단 응답은 자기보고이며 실제 수행 기록과 구분합니다. 기록 충족률은 직무 능력의 검증 점수가 아닙니다."
+Second footnote:
+"직무 규칙은 준비된 시나리오를 기반으로 하며, AI 정리·코칭은 연결 상태에 따라 제공됩니다."
+
+Accuracy: No teacher/mentor account, no regional industry function, no AR/VR claim, no personalized AI image generation, no official occupational certification claim, no requirement to finish diagnosis before simulation. Diagram should describe feature scope and outputs, not advertise unverified performance. Keep all exact Korean copy faithful and properly spelled. Output one complete polished graphic with balanced spacing and no cropping.

@@ -391,4 +391,15 @@
 .kc-refresh .main-content:has(.kc-studio) > .footer { display: none; }
 .kc-refresh .main-content > div:has(> .studio-host) { flex: 1; min-height: 0; }
 .studio-host { height: 100%; min-height: 0; }
+.recovery-upgrade { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0; padding: 10px 14px; border-radius: 14px; background: #ece3ff; }
+.recovery-upgrade > div { min-width: 0; }
+.recovery-upgrade strong { display: block; font-size: 14px; color: #512b91; }
+.recovery-upgrade span { display: block; margin-top: 3px; font-size: 13px; color: #655475; }
+.kc-refresh .kc-studio .recovery-upgrade button { flex-shrink: 0; background: #7c3aed; color: white; border: 0; border-radius: 10px; min-height: 44px; padding: 8px 12px; font-size: 13px; }
+@media (max-width: 760px) {
+  .recovery-upgrade { flex-wrap: wrap; gap: 6px; padding: 8px; }
+  .recovery-upgrade > div { display: none; }
+  .recovery-upgrade strong { display: none; }
+  .kc-refresh .kc-studio .recovery-upgrade button { width: 100%; }
+}
 .kc-refresh .main-content:has(.kc-studio) > :is(.server-error, .logout-error) { flex-shrink: 0; max-height: 22dvh; overflow: auto; }

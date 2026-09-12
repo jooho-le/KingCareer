@@ -9,7 +9,7 @@ test("project panel fits narrow screens and overlay can close repeatedly", async
     profile:{name:"화면 확인",username:"panel_preview",school:"",grade:"",region:"",interests:[],onboarded:true,notifications:true},
     saved:[],activities:[],scores:{},interests:{},drafts:{},gaps:{},recommendations:[],
   }}));
-  let draft = {careerId:"developer",answers:["","",""],version:0,interest:null as number|null,scene:{elements:[],appState:{viewBackgroundColor:"#ffffff"}}};
+  let draft = {careerId:"developer",answers:["","",""],version:1,interest:null as number|null,scene:{elements:[],appState:{viewBackgroundColor:"#ffffff"}}};
   await page.route("**/api/v1/projects/developer", route => route.fulfill({json:draft}));
   await page.route("**/api/v1/projects/developer/draft", route => {
     const body = route.request().postDataJSON();

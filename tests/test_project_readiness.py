@@ -18,7 +18,8 @@ with patch("dotenv.load_dotenv", return_value=False):
     from fastapi.testclient import TestClient
     from backend import db, main, simulation
     from backend.auth import user_for
-    from backend.project_readiness import answer_is_complete
+    from backend.project_readiness import answer_is_complete, drawing_is_complete
+    from backend.drawing_context import drawing_context
 
 
 ANSWERS = ["오류 안내에서 다음 행동을 찾기 어려운 문제를 발견했어요.",
@@ -29,6 +30,22 @@ SCENE = {"elements": [{"id": "student-design", "type": "rectangle", "x": 0,
 
 
 class ProjectReadinessTests(unittest.TestCase):
+    def test_drawing_guide_is_not_completed_work_and_coach_distinguishes_template(self):
+        from copy import deepcopy
+        guide = {"elements": [{"id": "blank", "type": "text", "text": "〔채우기:버튼 이름〕", "originalText": "〔채우기:버튼 이름〕",
+                  "customData": {"kingCareerGuide": {"careerId": "developer", "originalText": "〔채우기:버튼 이름〕"}}}]}
+        self.assertFalse(drawing_is_complete(guide))
+        self.assertEqual(drawing_context(guide)["nodes"][0]["source"], "provided_guide")
+        filled = deepcopy(guide)
+        filled["elements"][0].update(text="내 입력을 유지하고 다시 시도", originalText="내 입력을 유지하고 다시 시도")
+        self.assertTrue(drawing_is_complete(filled))
+        self.assertEqual(drawing_context(filled)["nodes"][0]["source"], "student_edit")
+        unchanged = deepcopy(filled)
+        unchanged["elements"][0]["customData"]["kingCareerGuide"]["originalText"] = "내 입력을 유지하고 다시 시도"
+        self.assertFalse(drawing_is_complete(unchanged))
+        self.assertTrue(drawing_is_complete(SCENE))
+        self.assertFalse(drawing_is_complete({"elements": []}))
+
     def test_reserved_blanks_never_count_as_complete_explanations(self):
         for value in ("〔채우기:자료〕에서 오류를 확인했어요.",
                       "충분히 긴 설명 뒤에도 〔채우기:〕",
@@ -79,6 +96,18 @@ class ProjectReadinessTests(unittest.TestCase):
             with db.transaction() as con:
                 for table in ("events", "activities"):
                     self.assertEqual(con.execute(f"SELECT COUNT(*) FROM {table} WHERE user_id=?", (uid,)).fetchone()[0], 0)
+
+            # Finished explanations do not bypass unfinished in-canvas blanks.
+            blank_scene = {"elements": [{"id": "canvas-blank", "type": "text", "x": 0, "y": 0, "width": 200, "height": 30,
+                                         "text": "〔채우기:버튼〕", "originalText": "〔채우기:버튼〕"}]}
+            blocked = client.put("/api/v1/projects/farmer/draft", json=payload(answers=ANSWERS, scene=blank_scene, interest=4, expectedVersion=0))
+            self.assertEqual(blocked.status_code, 200, blocked.text)
+            rejected_drawing = client.post("/api/v1/projects/farmer/submit", json=payload(expectedVersion=1))
+            self.assertEqual(rejected_drawing.status_code, 422, rejected_drawing.text)
+            self.assertIn("그림 속", rejected_drawing.json()["detail"])
+            self.assertFalse(client.get("/api/v1/projects/farmer/revisions").json()[0]["hasDrawing"])
+            with db.transaction() as con:
+                con.execute("DELETE FROM projects WHERE user_id=? AND career_id='farmer'", (uid,))
 
             completed = client.put("/api/v1/projects/developer/draft", json=payload(answers=ANSWERS, expectedVersion=1))
             self.assertEqual(completed.status_code, 200, completed.text)

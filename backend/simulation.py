@@ -154,10 +154,14 @@ def apply_command(state: GraphState):
 
 class SimulationEngine:
     def __init__(self):
-        self.connection = sqlite3.connect(DATA_DIR / "checkpoints.db", check_same_thread=False, timeout=15)
-        self.connection.execute("PRAGMA journal_mode=WAL")
-        self.saver = SqliteSaver(self.connection)
-        self.saver.setup()
+        from .config import DATABASE_URL
+        self.connection = None
+        self.saver = None
+        if not DATABASE_URL:
+            self.connection = sqlite3.connect(DATA_DIR / "checkpoints.db", check_same_thread=False, timeout=15)
+            self.connection.execute("PRAGMA journal_mode=WAL")
+            self.saver = SqliteSaver(self.connection)
+            self.saver.setup()
         graph = StateGraph(GraphState)
         commands = ("start", "choice", "free", "question", "continue", "complete", "inspect", "compare", "act", "verify", "handover")
         for name in commands:
@@ -174,6 +178,11 @@ class SimulationEngine:
             return self.graph.invoke({"session": deepcopy(canonical), "command": command}, config)["session"]
 
     def reconcile(self):
+        if self.saver is None:
+            # PostgreSQL simulations.state is the atomic, authoritative checkpoint.
+            # Each request loads it with ownership/version checks, then invokes the
+            # graph and saves the next state in the same database transaction.
+            return
         with transaction() as con:
             rows = con.execute("SELECT id,state FROM simulations").fetchall()
             live_ids = {row["id"] for row in rows}
@@ -189,12 +198,15 @@ class SimulationEngine:
                     self.saver.delete_thread(thread_id)
 
     def delete_threads(self, ids):
+        if self.saver is None:
+            return  # Canonical snapshots cascade with the student's records.
         with WRITE_LOCK:
             for thread_id in ids:
                 self.saver.delete_thread(thread_id)
 
     def close(self):
-        self.connection.close()
+        if self.connection is not None:
+            self.connection.close()
 
 
 def new_session(session_id, cid, completed_count=0):

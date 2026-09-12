@@ -133,10 +133,20 @@ def context_for(con, uid, activity, answers, interests):
     candidates = [{**c, "key": c["careerId"] + ":" + c["kind"], "title": career(c["careerId"])["title"] + " · " + {"simulation": "직무체험", "project": "미니 프로젝트", "discovery": "직업 탐색"}[c["kind"]]} for c in candidates]
     records = [activity] + [a for a in all_activities(con, uid) if a["id"] != activity["id"] and a["kind"] in {"simulation", "project"}][:6]
     sources = [{"ref": f"record{i+1}", "activityId": a["id"], "title": a["title"], "date": a["date"]} for i, a in enumerate(records)]
+    def design_record(item):
+        if item.get("studioKind") != "login-recovery":
+            return {}
+        return {"designSummary": [str(text)[:800] for text in item.get("designSummary", [])[:3]],
+                "designSummarySource": "generated_from_authored_design",
+                "interactionChecks": {"mode": "rules", "meaning": "저장된 버튼 작동 확인 기록; AI 평가나 직무 역량 점수가 아님",
+                                      "checks": [{"scenario": check.get("scenario"), "passed": check.get("passed") is True,
+                                                  "message": str(check.get("message", ""))[:1200], "actions": check.get("actions", [])[:8]}
+                                                 for check in item.get("checks", [])[:2]]}}
     context = {"records": [{"ref": f"record{i+1}", "career": career(a["careerId"])["title"], "kind": a["kind"],
                             "answers": [str(s)[:1800] for s in a.get("answers", [])[:6]],
                             "reflection": a.get("reflection", "")[:1200], "interest": a.get("interest"),
-                            "choices": [{"text": str(v.get("text", ""))[:700]} for v in (a.get("fieldwork") or {}).get("log", [])[-8:]]}
+                            "choices": [{"text": str(v.get("text", ""))[:700]} for v in (a.get("fieldwork") or {}).get("log", [])[-8:]],
+                            **design_record(a)}
                            for i, a in enumerate(records)],
                "reflection": {k: OPTIONS[k][v] for k, v in answers.items()},
                "missing": [m for d in reports[cid]["dimensions"] for m in d["missing"]],

@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Excalidraw,
   MainMenu,
-  convertToExcalidrawElements,
+  CaptureUpdateAction,
   exportToSvg,
   exportToBlob,
   loadLibraryFromBlob,
@@ -14,28 +14,38 @@ import type { DrawingScene } from "./types";
 import { downloadFile } from "./types";
 
 import type { CareerId } from "../data";
-import { projectTemplate } from "./project-templates";
+import { drawingGuideDescriptions, projectTemplate } from "./project-templates";
+import DrawingExample from "./DrawingExample";
+import "./drawing-guide.css";
 export default function DrawingBoard({
   initial,
   careerId = "farmer",
   onChange,
   locked,
+  onStartNew,
 }: {
   initial: DrawingScene;
   careerId?: CareerId;
   onChange: (scene: DrawingScene) => void;
   locked: boolean;
+  onStartNew: () => void;
 }) {
   const [editor, setEditor] = useState<ExcalidrawImperativeAPI | null>(null);
   const [error, setError] = useState("");
   const [libraryBusy, setLibraryBusy] = useState(false);
   const [notice, setNotice] = useState("");
+  const [exampleOpen, setExampleOpen] = useState(false);
+  const [hasElements, setHasElements] = useState(initial.elements.length > 0);
+  const closeExample = useCallback(() => setExampleOpen(false), []);
   const libraryFile = useRef<HTMLInputElement>(null);
   const canvasHost = useRef<HTMLDivElement>(null);
+  const previousElements = useRef<string | null>(null);
   useEffect(() => {
     const host = canvasHost.current;
     if (!host) return;
-    const containWheel = (event: WheelEvent) => { event.preventDefault(); };
+    const containWheel = (event: WheelEvent) => {
+      event.preventDefault();
+    };
     host.addEventListener("wheel", containWheel, { passive: false });
     return () => host.removeEventListener("wheel", containWheel);
   }, []);
@@ -87,81 +97,26 @@ export default function DrawingBoard({
     }
   };
   const seed = () => {
-    if (
-      !editor ||
-      (editor.getSceneElements().length &&
-        !confirm(
-          "현재 설계도를 기본 도안으로 바꿀까요? 이전 저장본은 수정 이력에 남아요.",
-        ))
-    )
-      return;
-    if (careerId !== "farmer") {
-      const elements = projectTemplate(careerId);
-      editor.updateScene({ elements });
-      editor.scrollToContent();
+    if (!editor || locked) return;
+    const current = editor.getSceneElements();
+    if (current.length) {
+      editor.scrollToContent(current, { fitToContent: true, animate: false });
+      setNotice("");
       return;
     }
-    const elements = convertToExcalidrawElements([
-      {
-        type: "rectangle",
-        x: 80,
-        y: 80,
-        width: 670,
-        height: 430,
-        strokeColor: "#365747",
-        backgroundColor: "#edf5e9",
-        fillStyle: "solid",
-        strokeWidth: 2,
-      },
-      {
-        type: "text",
-        x: 110,
-        y: 100,
-        text: "나의 스마트팜 개선 배치도",
-        fontSize: 26,
-        strokeColor: "#365747",
-      },
-      ...[140, 410].map((x) => ({
-        type: "rectangle" as const,
-        x,
-        y: 210,
-        width: 150,
-        height: 200,
-        backgroundColor: "#b2dfaa",
-        fillStyle: "solid" as const,
-        label: { text: x === 140 ? "A 재배대" : "B 재배대" },
-      })),
-      {
-        type: "rectangle",
-        x: 600,
-        y: 220,
-        width: 100,
-        height: 70,
-        backgroundColor: "#cdb6f0",
-        fillStyle: "solid",
-        label: { text: "급수 탱크" },
-      },
-      {
-        type: "ellipse",
-        x: 330,
-        y: 170,
-        width: 55,
-        height: 55,
-        backgroundColor: "#b4d1ff",
-        fillStyle: "solid",
-        label: { text: "센서" },
-      },
-      {
-        type: "text",
-        x: 110,
-        y: 455,
-        text: "환기 위치, 점검 동선, 인계 공간을 추가해 보세요.",
-        fontSize: 17,
-        strokeColor: "#5c6570",
-      },
-    ]);
-    editor.updateScene({ elements });
-    editor.scrollToContent();
+    const elements = projectTemplate(careerId);
+    if (current.length + elements.length > 250) {
+      setError(
+        "도형이 많아 가이드를 더 넣기 어려워요. 완성 그림 예시를 참고하거나 필요 없는 도형을 지워 주세요.",
+      );
+      return;
+    }
+    editor.updateScene({
+      elements: [...current, ...elements],
+      captureUpdate: CaptureUpdateAction.IMMEDIATELY,
+    });
+    editor.scrollToContent(elements, { fitToContent: true, animate: false });
+    setNotice("네모 안의 글을 두 번 눌러 고쳐요. 도형과 화살표도 자유롭게 그릴 수 있어요.");
   };
   const svg = async () => {
     if (!editor) return;
@@ -183,68 +138,72 @@ export default function DrawingBoard({
   };
   return (
     <section className="kc-editor-panel" aria-label="프로젝트 설계 도구">
-      <div className="kc-board-tools">
-        <button disabled={locked || !editor} onClick={seed}>
-          {careerId === "farmer"
-            ? "기본 온실 도안 넣기"
-            : "직무 설계 도안 넣기"}
+      <div className="kc-board-tools" data-help="studio-tools">
+        <button aria-label={hasElements ? "그림 전체 보기" : "손그림 흐름도 넣기"} disabled={locked || !editor} onClick={seed}>
+          <span className="drawing-tool-full">{hasElements ? "그림 전체 보기" : "손그림 흐름도 넣기"}</span><span className="drawing-tool-short" aria-hidden="true">{hasElements ? "전체 보기" : "도안 넣기"}</span>
         </button>
-        <button disabled={!editor} onClick={() => void svg()}>
-          현재 설계도 SVG 받기
-        </button>
-        <button disabled={!editor} onClick={() => void png()}>
-          PNG 그림 받기
-        </button>
-        <span>도형·화살표·글자로 표현해 봐요.</span>
-      </div>
-      {!locked && (
-        <details className="kc-library-section">
-          <summary>도형 라이브러리 · 필요한 도형 추가하기</summary>
-          <div className="kc-library-tools">
-            <button
-              disabled={!editor || libraryBusy}
-              onClick={() => void importLibrary()}
-            >
-              {libraryBusy
-                ? "도형 불러오는 중…"
-                : "공개 배치도 도형 42개 가져오기"}
+        <button aria-label="완성 그림 예시" onClick={() => setExampleOpen(true)}><span className="drawing-tool-full">완성 그림 예시</span><span className="drawing-tool-short" aria-hidden="true">예시</span></button>
+        <details className="kc-drawing-exports">
+          <summary aria-label="그림 받기와 도형 라이브러리">더 보기</summary>
+          <div>
+            <button disabled={locked || !editor} onClick={onStartNew}>기존 초안 보관하고 새 손그림 시작</button>
+            <button disabled={!editor} onClick={() => void svg()}>
+              현재 설계도 SVG 받기
             </button>
-            <button
-              disabled={!editor || libraryBusy}
-              onClick={() => libraryFile.current?.click()}
-            >
-              받아둔 라이브러리 파일 열기
+            <button disabled={!editor} onClick={() => void png()}>
+              PNG 그림 받기
             </button>
-            <a
-              href="https://libraries.excalidraw.com"
-              target="_blank"
-              rel="noreferrer"
-            >
-              공개 도형 둘러보기
-            </a>
-            <input
-              ref={libraryFile}
-              type="file"
-              hidden
-              accept=".excalidrawlib,.json"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) void importLibrary(file);
-              }}
-            />
-            <small>
-              Architecture floor plan symbols · Arqtangeles · MIT ·{" "}
-              <a
-                href="/libraries/LICENSE-excalidraw-libraries.txt"
-                target="_blank"
-                rel="noreferrer"
-              >
-                이용 조건
-              </a>
-            </small>
+            {!locked && (
+              <details className="kc-library-section">
+                <summary>도형 라이브러리 · 필요한 도형 추가하기</summary>
+                <div className="kc-library-tools">
+                  <button
+                    disabled={!editor || libraryBusy}
+                    onClick={() => void importLibrary()}
+                  >
+                    {libraryBusy
+                      ? "도형 불러오는 중…"
+                      : "공개 배치도 도형 42개 가져오기"}
+                  </button>
+                  <button
+                    disabled={!editor || libraryBusy}
+                    onClick={() => libraryFile.current?.click()}
+                  >
+                    받아둔 라이브러리 파일 열기
+                  </button>
+                  <a
+                    href="https://libraries.excalidraw.com"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    공개 도형 둘러보기
+                  </a>
+                  <input
+                    ref={libraryFile}
+                    type="file"
+                    hidden
+                    accept=".excalidrawlib,.json"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) void importLibrary(file);
+                    }}
+                  />
+                  <small>
+                    Architecture floor plan symbols · Arqtangeles · MIT ·{" "}
+                    <a
+                      href="/libraries/LICENSE-excalidraw-libraries.txt"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      이용 조건
+                    </a>
+                  </small>
+                </div>
+              </details>
+            )}
           </div>
         </details>
-      )}
+      </div>
       {notice && (
         <p className="kc-note" role="status">
           {notice}
@@ -266,17 +225,23 @@ export default function DrawingBoard({
               >[0],
               null,
             ),
-            appState: { viewBackgroundColor: "#ffffff" },
+            appState: { viewBackgroundColor: "#ffffff", currentItemStrokeColor: "#252525", currentItemBackgroundColor: "transparent", currentItemRoughness: 1.5, currentItemStrokeWidth: 2, currentItemFontFamily: 5 },
             scrollToContent: true,
           }}
-          onChange={(elements) =>
+          onChange={(elements) => {
+            const visible = elements.filter(element => !element.isDeleted);
+            setHasElements(visible.length > 0);
+            const fingerprint = JSON.stringify(visible);
+            // Excalidraw normalizes old scenes on mount and emits view changes.
+            // Neither should create a new student revision before an edit.
+            const previous = previousElements.current;
+            previousElements.current = fingerprint;
+            if (previous === null || previous === fingerprint) return;
             onChange({
-              elements: elements
-                .filter((e) => !e.isDeleted)
-                .map((e) => ({ ...e })),
+              elements: visible.map(element => ({ ...element })),
               appState: { viewBackgroundColor: "#ffffff" },
-            })
-          }
+            });
+          }}
           onPaste={(data) => !data.files?.length}
           validateEmbeddable={false}
           onLinkOpen={(_element, event) => event.preventDefault()}
@@ -297,9 +262,11 @@ export default function DrawingBoard({
         </Excalidraw>
       </div>
       <small className="kc-board-footnote">
-        도형과 글로 아이디어를 표현해 봐요. 외부 이미지·링크 삽입은 지원하지
-        않아요.
+        {drawingGuideDescriptions[careerId]}
       </small>
+      {exampleOpen && (
+        <DrawingExample careerId={careerId} onClose={closeExample} />
+      )}
     </section>
   );
 }
