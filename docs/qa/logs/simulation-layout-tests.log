@@ -1,0 +1,15 @@
+Running 3 tests using 1 worker
+
+npx.cmd : (node:28412) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/simulation-review-ui.spec.ts --output=. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:28412) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\simulation-review-ui.spec.ts:162:1 › saved incident drives material names and automatic scene quality remains adjustable (3.3s)
+  ok 2 [ui] › tests\simulation-review-ui.spec.ts:218:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results (5.6s)
+  ok 3 [ui] › tests\simulation-review-ui.spec.ts:363:1 › certificate shows and exports earned reason, review keeps exact activity, replay starts next incident (3.1s)
+
+  3 passed (13.6s)

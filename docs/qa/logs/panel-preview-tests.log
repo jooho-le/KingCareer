@@ -1,0 +1,11 @@
+> kingcareer@0.1.0 test:e2e
+> playwright test tests/project-panel-preview.spec.ts
+
+
+Running 1 test using 1 worker
+
+(node:10708) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\project-panel-preview.spec.ts:2:1 › project panel fits narrow screens and overlay can close repeatedly (15.2s)
+
+  1 passed (19.9s)

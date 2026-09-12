@@ -1,0 +1,79 @@
+{
+  "viewport": "1440 × 1000 CSS px",
+  "scale": 2,
+  "environment": "Chrome desktop; isolated SQLite; template AI mode",
+  "captures": [
+    {
+      "file": "01-home.png",
+      "title": "홈",
+      "note": "다음 경험과 진행 중인 활동을 확인하는 시작 화면",
+      "route": "home"
+    },
+    {
+      "file": "02-careers.png",
+      "title": "직무체험 목록",
+      "note": "직업을 찾고 체험할 현장을 선택",
+      "route": "simulation"
+    },
+    {
+      "file": "03-diagnosis.png",
+      "title": "관심·경험 진단",
+      "note": "한 번에 한 질문씩 답하는 객관식 카드",
+      "route": "diagnosis?career=farmer"
+    },
+    {
+      "file": "04-review-answers.png",
+      "title": "진단 답변 확인",
+      "note": "응답을 확인하고 수정한 뒤 저장",
+      "route": "diagnosis?career=farmer"
+    },
+    {
+      "file": "05-starting-point.png",
+      "title": "진단 결과와 추천",
+      "note": "자기보고에 따른 출발점과 추천 이유",
+      "route": "diagnosis?career=farmer"
+    },
+    {
+      "file": "06-simulation-brief.png",
+      "title": "직무체험 출근 안내",
+      "note": "역할과 목표를 확인하고 현장으로 진입",
+      "route": "simulation?career=farmer&session=c59c1193-5145-4dd9-9191-3b70416a069d"
+    },
+    {
+      "file": "07-simulation-scene.png",
+      "title": "3D 현장 조사",
+      "note": "온실과 장비를 살펴보며 필요한 자료를 수집",
+      "route": "simulation?career=farmer&session=c59c1193-5145-4dd9-9191-3b70416a069d"
+    },
+    {
+      "file": "08-action-result.png",
+      "title": "조치와 결과 확인",
+      "note": "선택한 조치 이후 현장 변화와 후속 판단",
+      "route": "simulation?career=farmer&session=c59c1193-5145-4dd9-9191-3b70416a069d"
+    },
+    {
+      "file": "09-certificate.png",
+      "title": "체험 완료",
+      "note": "완료한 직무체험의 수료 카드와 다음 행동",
+      "route": "simulation?career=farmer&session=c59c1193-5145-4dd9-9191-3b70416a069d"
+    },
+    {
+      "file": "10-project.png",
+      "title": "미니 프로젝트 작업실",
+      "note": "실제 그림 편집기로 설계도를 만드는 화면",
+      "route": "projects?career=farmer"
+    },
+    {
+      "file": "11-portfolio.png",
+      "title": "포트폴리오",
+      "note": "캡처용 계정의 체험 수료 기록 확인",
+      "route": "portfolio"
+    },
+    {
+      "file": "12-records.png",
+      "title": "나의 진로 기록",
+      "note": "계정에 저장된 직업 경험과 완료 상태",
+      "route": "profile?tab=records"
+    }
+  ]
+}

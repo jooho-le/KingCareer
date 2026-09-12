@@ -1,0 +1,33 @@
+[
+  {
+    "case": "upstream_429",
+    "application_status": 503,
+    "message": "코치 답변을 받지 못했어요. 저장한 초안은 그대로예요. 다시 요청해 주세요."
+  },
+  {
+    "case": "upstream_503",
+    "application_status": 503,
+    "message": "코치 답변을 받지 못했어요. 저장한 초안은 그대로예요. 다시 요청해 주세요."
+  },
+  {
+    "case": "read_timeout",
+    "application_status": 503,
+    "message": "코치 답변을 받지 못했어요. 저장한 초안은 그대로예요. 다시 요청해 주세요."
+  },
+  {
+    "case": "incomplete_output",
+    "application_status": 503,
+    "message": "코치 답변을 받지 못했어요. 저장한 초안은 그대로예요. 다시 요청해 주세요."
+  },
+  {
+    "case": "invalid_json",
+    "application_status": 503,
+    "message": "코치 답변을 받지 못했어요. 저장한 초안은 그대로예요. 다시 요청해 주세요."
+  },
+  {
+    "case": "different_users_concurrent_coach",
+    "first_status": 200,
+    "other_user_status": 429,
+    "provider_calls": 1
+  }
+]

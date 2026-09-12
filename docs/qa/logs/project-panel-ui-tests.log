@@ -1,0 +1,78 @@
+> kingcareer@0.1.0 test:e2e
+> playwright test tests/studio-ui.spec.ts
+
+
+Running 3 tests using 1 worker
+
+(node:11952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\studio-ui.spec.ts:49:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling (12.7s)
+  x  2 tests\studio-ui.spec.ts:142:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile (11.9s)
+(node:12012) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 tests\studio-ui.spec.ts:186:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes (1.2s)
+
+
+  1) tests\studio-ui.spec.ts:142:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "Cannot read properties of null (reading 'getBoundingClientRect')",
+    + ]
+
+      29 |     });
+      30 |     await use(errors);
+    > 31 |     expect(errors).toEqual([]);
+         |                    ^
+      32 |   }, { auto: true }],
+      33 | });
+      34 |
+        at Object.base.extend.pageErrors.auto (<workspace>\tests\studio-ui.spec.ts:31:20)
+
+    Error Context: test-results\studio-ui-help-closes-trap-1a337-ens-from-settings-on-mobile\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\studio-ui-help-closes-trap-1a337-ens-from-settings-on-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\studio-ui-help-closes-trap-1a337-ens-from-settings-on-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests\studio-ui.spec.ts:186:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes
+
+    Error: {"detail":"로그인 시도가 많아요. 15분 뒤 다시 시도해 주세요."}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 429
+
+      11 |       data: { username, password, name: "작업실 화면 확인" },
+      12 |     });
+    > 13 |     expect(registration.status(), await registration.text()).toBe(201);
+         |                                                              ^
+      14 |     try {
+      15 |       await use(username);
+      16 |     } finally {
+        at Object.account (<workspace>\tests\studio-ui.spec.ts:13:62)
+
+    Error Context: test-results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests\studio-ui.spec.ts:142:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile
+    tests\studio-ui.spec.ts:186:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes
+  1 passed (35.5s)

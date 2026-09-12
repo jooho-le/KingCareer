@@ -1,0 +1,20 @@
+Running 6 tests using 1 worker
+
+npx.cmd : (node:10336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/studio-navigation.spec.ts tests/studio- ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:10336) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\project-panel-preview.spec.ts:4:1 › project panel fits narrow screens and overlay can close repeatedly (8.8s)
+  ok 2 [ui] › tests\studio-navigation.spec.ts:13:1 › studio menu overlays a stable canvas, traps focus, and saves before navigation (5.6s)
+  ok 3 [ui] › tests\studio-navigation.spec.ts:67:1 › portfolio feedback retries, persists visibly, and reaches the downloaded document (5.1s)
+(node:32356) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 [api] › tests\studio-ui.spec.ts:50:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling (9.9s)
+  ok 5 [api] › tests\studio-ui.spec.ts:146:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile (8.3s)
+  ok 6 [api] › tests\studio-ui.spec.ts:194:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes (8.9s)
+
+  6 passed (49.8s)

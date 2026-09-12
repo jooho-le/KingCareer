@@ -1,0 +1,33 @@
+.venv\Scripts\python.exe : test_account_delete_while_evaluation_is_pending_does_not_recreate_data (__main__.BackendRevi
+ewTests.test_account_delete_while_evaluation_is_pending_does_not_recreate_data) ... ok
+At line:2 char:1
++ .venv\Scripts\python.exe tests/backend_review_test.py *> .local/revie ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_account_de...te_data) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+test_active_progress_excludes_empty_and_brief_sessions (__main__.BackendReviewTests.test_active_progress_excludes_empty
+_and_brief_sessions) ... ok
+test_coach_discards_reply_for_changed_draft (__main__.BackendReviewTests.test_coach_discards_reply_for_changed_draft) .
+.. ok
+test_diagram_structure_is_bounded_and_used_by_coach (__main__.BackendReviewTests.test_diagram_structure_is_bounded_and_
+used_by_coach) ... ok
+test_evaluation_does_not_block_other_student_saves_and_replays (__main__.BackendReviewTests.test_evaluation_does_not_bl
+ock_other_student_saves_and_replays) ... ok
+test_failed_evaluation_preserves_artifact_for_retry (__main__.BackendReviewTests.test_failed_evaluation_preserves_artif
+act_for_retry) ... ok
+test_interest_persistence_canonical_submit_and_compact_replay (__main__.BackendReviewTests.test_interest_persistence_ca
+nonical_submit_and_compact_replay) ... ok
+test_legacy_submit_and_explicit_null_request_identity (__main__.BackendReviewTests.test_legacy_submit_and_explicit_null
+_request_identity) ... ok
+test_record_delete_while_evaluation_is_pending_does_not_recreate_data (__main__.BackendReviewTests.test_record_delete_w
+hile_evaluation_is_pending_does_not_recreate_data) ... ok
+test_review_reuses_explicit_answers_without_inventing_career_decision (__main__.BackendReviewTests.test_review_reuses_e
+xplicit_answers_without_inventing_career_decision) ... ok
+test_revision_summary_detail_ownership_and_nullable_interest (__main__.BackendReviewTests.test_revision_summary_detail_
+ownership_and_nullable_interest) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.467s
+
+OK

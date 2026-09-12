@@ -1,0 +1,54 @@
+Running 4 tests using 1 worker
+
+npx.cmd : (node:31732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/simulation-review-ui.spec.ts --output=. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:31732) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\simulation-review-ui.spec.ts:162:1 › simulation layouts keep materials, outcomes and decisions reachable across viewports (56.5s)
+  ok 2 [ui] › tests\simulation-review-ui.spec.ts:219:1 › saved incident drives material names and automatic scene quality remains adjustable (5.4s)
+  x  3 [ui] › tests\simulation-review-ui.spec.ts:275:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results (9.1s)
+(node:23316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 [ui] › tests\simulation-review-ui.spec.ts:420:1 › certificate shows and exports earned reason, review keeps exact activity, replay starts next incident (5.6s)
+
+
+  1) [ui] › tests\simulation-review-ui.spec.ts:275:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator: getByRole('button', { name: '이렇게 해볼래요', exact: true })
+    Expected: disabled
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeDisabled" getByRole('button', { name: '이렇게 해볼래요', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: '이렇게 해볼래요', exact: true })
+
+
+      338 |     exact: true,
+      339 |   });
+    > 340 |   await expect(choose).toBeDisabled();
+          |                        ^
+      341 |   for (const id of [...presentation.required, "dashboard"]) {
+      342 |     const object = presentation.objects.find(
+      343 |       (item: { id: string }) => item.id === id,
+        at <workspace>\tests\simulation-review-ui.spec.ts:340:24
+
+    Error Context: .local\simulation-layout-results-4\simulation-review-ui-mobil-b4c6c-d-preserves-visible-results-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\simulation-layout-results-4\simulation-review-ui-mobil-b4c6c-d-preserves-visible-results-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\simulation-layout-results-4\simulation-review-ui-mobil-b4c6c-d-preserves-visible-results-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [ui] › tests\simulation-review-ui.spec.ts:275:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results
+  3 passed (1.4m)

@@ -1,0 +1,15 @@
+Running 3 tests using 1 worker
+
+npx.cmd : (node:32632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/profile-page.spec.ts --project=ui --out ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:32632) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\profile-page.spec.ts:20:1 › profile keeps edits after a failed save and retries the same intended changes (2.5s)
+  ok 2 [ui] › tests\profile-page.spec.ts:50:1 › profile navigation keeps account controls scoped and preserves password, deletion and logout actions (4.9s)
+  ok 3 [ui] › tests\profile-page.spec.ts:105:1 › profile and settings stay readable and keyboard accessible on desktop and small phones (15.1s)
+
+  3 passed (24.2s)

@@ -1,0 +1,49 @@
+Running 3 tests using 1 worker
+
+npx.cmd : (node:22900) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/profile-page.spec.ts --project=ui --out ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:22900) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [ui] › tests\profile-page.spec.ts:20:1 › profile keeps edits after a failed save and retries the same intended changes (2.9s)
+(node:28492) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 [ui] › tests\profile-page.spec.ts:50:1 › profile navigation keeps account controls scoped and preserves password, deletion and logout actions (5.7s)
+  ok 3 [ui] › tests\profile-page.spec.ts:105:1 › profile and settings stay readable and keyboard accessible on desktop and small phones (12.5s)
+
+
+  1) [ui] › tests\profile-page.spec.ts:20:1 › profile keeps edits after a failed save and retries the same intended changes
+
+    Error: locator.fill: Error: strict mode violation: getByRole('form', { name: '나를 소개할게' }).getByLabel('학교') resolved to 2 elements:
+        1) <input value="" maxlength="50" placeholder="학교를 입력해 주세요"/> aka getByRole('textbox', { name: '학교 선택' })
+        2) <select>…</select> aka getByLabel('학년선택 안 함중학교 1학년중학교 2학년중학교 3')
+
+    Call log:
+      - waiting for getByRole('form', { name: '나를 소개할게' }).getByLabel('학교')
+
+
+      32 |   await expect(page.getByRole("heading", { name: "우파루파의 프로필" })).toBeVisible();
+      33 |   await form.getByLabel("닉네임").fill("나의 크랩");
+    > 34 |   await form.getByLabel("학교", { exact: false }).fill("우리학교");
+         |                                                 ^
+      35 |   await form.getByRole("button", { name: "IT·소프트웨어", exact: true }).click();
+      36 |   await form.getByRole("button", { name: "변경사항 저장" }).click();
+      37 |   await expect(form.getByRole("alert")).toContainText("저장을 완료하지 못했어요");
+        at <workspace>\tests\profile-page.spec.ts:34:49
+
+    Error Context: .local\profile-test-output\profile-page-profile-keeps-96d7c-s-the-same-intended-changes-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\profile-test-output\profile-page-profile-keeps-96d7c-s-the-same-intended-changes-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\profile-test-output\profile-page-profile-keeps-96d7c-s-the-same-intended-changes-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [ui] › tests\profile-page.spec.ts:20:1 › profile keeps edits after a failed save and retries the same intended changes
+  2 passed (27.0s)

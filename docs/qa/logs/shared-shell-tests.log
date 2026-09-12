@@ -1,0 +1,50 @@
+Running 7 tests using 1 worker
+
+npx.cmd : (node:10760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/studio-navigation.spec.ts tests/project ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:10760) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\project-panel-preview.spec.ts:4:1 › project panel fits narrow screens and overlay can close repeatedly (7.8s)
+  ok 2 [ui] › tests\simulation-review-ui.spec.ts:162:1 › simulation layouts keep materials, outcomes and decisions reachable across viewports (43.9s)
+  ok 3 [ui] › tests\simulation-review-ui.spec.ts:219:1 › saved incident drives material names and automatic scene quality remains adjustable (4.7s)
+  ok 4 [ui] › tests\simulation-review-ui.spec.ts:279:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results (5.2s)
+  ok 5 [ui] › tests\simulation-review-ui.spec.ts:425:1 › certificate shows and exports earned reason, review keeps exact activity, replay starts next incident (3.5s)
+  x  6 [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation (3.9s)
+(node:30572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 7 [ui] › tests\studio-navigation.spec.ts:72:1 › portfolio feedback retries, persists visibly, and reaches the downloaded document (4.1s)
+
+
+  1) [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 200
+    Received:   186
+
+      45 |     } else {
+      46 |       await expect(rail).toBeVisible();
+    > 47 |       expect((await rail.boundingBox())!.width).toBeGreaterThan(200);
+         |                                                 ^
+      48 |     }
+      49 |     const studioBox = (await page.locator(".kc-studio").boundingBox())!;
+      50 |     const topbarBox = (await page.locator(".topbar").boundingBox())!;
+        at <workspace>\tests\studio-navigation.spec.ts:47:49
+
+    Error Context: .local\shared-shell-results\studio-navigation-studio-u-b030a-and-saves-before-navigation-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\shared-shell-results\studio-navigation-studio-u-b030a-and-saves-before-navigation-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\shared-shell-results\studio-navigation-studio-u-b030a-and-saves-before-navigation-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation
+  6 passed (1.3m)

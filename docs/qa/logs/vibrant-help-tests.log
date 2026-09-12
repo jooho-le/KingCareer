@@ -1,0 +1,15 @@
+Running 2 tests using 1 worker
+
+
+
+npx.cmd : (node:29164) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/activity-help-usability.spec.ts --proje ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:29164) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/2] [ui] › tests\activity-help-usability.spec.ts:58:1 › a dismissed tour stays dismissed across careers and reloads, while a new screen and another account get their own first visit
+[2/2] [ui] › tests\activity-help-usability.spec.ts:92:1 › studio guidance follows the work order and restores the previous panel without covering its target
+  2 passed (13.0s)

@@ -1,0 +1,19 @@
+Running 7 tests using 1 worker
+
+npx.cmd : (node:19864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/simulation-review-ui.spec.ts tests/acti ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:19864) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\activity-help-usability.spec.ts:58:1 › a dismissed tour stays dismissed across careers and reloads, while a new screen and another account get their own first visit (4.7s)
+  ok 2 [ui] › tests\activity-help-usability.spec.ts:92:1 › studio guidance follows the work order and restores the previous panel without covering its target (3.8s)
+  ok 3 [ui] › tests\simulation-review-ui.spec.ts:162:1 › simulation layouts keep materials, outcomes and decisions reachable across viewports (46.6s)
+  ok 4 [ui] › tests\simulation-review-ui.spec.ts:219:1 › saved incident drives material names and automatic scene quality remains adjustable (6.1s)
+  ok 5 [ui] › tests\simulation-review-ui.spec.ts:282:1 › workplace opens first, investigation unlocks decisions and action results stay visible (7.4s)
+  ok 6 [ui] › tests\simulation-review-ui.spec.ts:433:1 › investigation saves before showing evidence, retries once and returns keyboard focus (6.0s)
+  ok 7 [ui] › tests\simulation-review-ui.spec.ts:472:1 › certificate shows and exports earned reason, review keeps exact activity, replay starts next incident (4.3s)
+
+  7 passed (1.3m)

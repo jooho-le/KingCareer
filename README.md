@@ -78,13 +78,21 @@ Vite가 `/api` 요청을 FastAPI로 전달합니다. 브라우저 주소는 `127
 
 `KingCareer Experience Graph / Gap Engine`은 [별도 Python 패키지](backend/experience_graph/README.md)로 구성했습니다. xAPI 형식의 행동 기록과 ESCO·O*NET 출처를 교육용 목표에 연결하고 NetworkX로 공백을 계산합니다. LangGraph는 분기형 체험의 상태와 체크포인트를 관리합니다.
 
-기본 설정은 `KINGCAREER_AI_MODE=template`입니다. Gemini API 연결과 별도 요청하는 프로젝트 텍스트 피드백을 구현했으며 **실제 키를 사용한 호출은 수행하지 않았습니다**. Qwen3·vLLM·BGE-M3, PostgreSQL·pgvector는 실행 의존성에서 제외했습니다. 설정과 제한은 [로컬 개발 안내](docs/local-fieldwork.md)에 있습니다.
+기본 설정은 `KINGCAREER_AI_MODE=template`입니다. Gemini API 연결과 별도 요청하는 프로젝트 텍스트 피드백을 구현했습니다. 2026-09-13에 **Gemini 3.5 Flash-Lite로 로컬·운영의 실제 도움말·평가·회고 호출을 확인**했습니다. [배포 후 QA](docs/qa/flash-lite-rollout.md)를 참고하세요. 로컬은 SQLite, 운영은 PostgreSQL을 사용하며 Qwen3·vLLM·BGE-M3·pgvector는 실행 의존성에서 제외했습니다. 설정과 제한은 [로컬 개발 안내](docs/local-fieldwork.md)에 있습니다.
 
 ## 저장 데이터
 
 학생 기록은 `backend/storage/kingcareer.db`, 시뮬레이션 체크포인트는 `backend/storage/checkpoints.db`에 저장합니다. 비밀번호는 Argon2로 해시하고 로그인은 서버 세션과 HttpOnly 쿠키를 사용합니다. 기존 `itda-career-v1` 브라우저 저장값은 가져오거나 삭제하지 않습니다.
 
 `.env`, 모델 키, SQLite 파일, Python 가상환경과 사용자 저장 디렉터리는 Git에서 제외합니다. 백업은 서버를 종료한 뒤 저장 디렉터리 전체를 복사합니다. 별도 데이터베이스 서버나 GPU는 필요하지 않습니다.
+
+## QA와 개선 과정
+
+[전체 QA 이력](docs/qa-history.md)에서 사용자 피드백 → 수정 방향 → 화면 캡처 → 검사 로그 → AI 장애 분석과 배포 확인까지 볼 수 있습니다.
+
+- [웹 화면 12개](docs/web-wireframes.md) · [모바일 화면 12개](docs/mobile-wireframes.md)
+- [과거 수정 화면 전체](docs/qa/screenshots.md) · [검사 로그](docs/qa/logs.md)
+- [AI 연결 원인 분석](docs/ai-qa-2026-09-13.md) · [모델 선정 근거](docs/gemini-model-selection-2026-09-13.md)
 
 ## 문서와 확인
 

@@ -1,0 +1,60 @@
+Running 5 tests using 1 worker
+
+npx.cmd : (node:24320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/studio-navigation.spec.ts tests/studio- ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:24320) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation (3.9s)
+  ok 2 [ui] › tests\studio-navigation.spec.ts:73:1 › portfolio feedback retries, persists visibly, and reaches the downloaded document (5.1s)
+(node:29480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 [api] › tests\studio-ui.spec.ts:50:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling (10.0s)
+  ok 4 [api] › tests\studio-ui.spec.ts:146:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile (8.0s)
+  x  5 [api] › tests\studio-ui.spec.ts:194:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes (11.5s)
+
+
+  1) [api] › tests\studio-ui.spec.ts:194:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes
+
+    Error: Help step 2 at 320×568
+
+    Help step 2 at 320×568
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "target overlaps caption: 280×1.34375",
+    + ]
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      225 |         }
+      226 |         return issues;
+    > 227 |       }), `Help step ${step} at ${width}×${height}`).toEqual([]);
+          |                                                      ^
+      228 |       await overlay.getByRole("button", { name: step < 4 ? "다음 →" : "시작할게", exact: true }).click();
+      229 |     }
+      230 |     await expect(overlay).toBeHidden();
+        at <workspace>\tests\studio-ui.spec.ts:227:54
+
+    Error Context: .local\shared-shell-final-results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes-api\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\shared-shell-final-results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes-api\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\shared-shell-final-results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes-api\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [api] › tests\studio-ui.spec.ts:194:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes
+  4 passed (42.4s)

@@ -1,0 +1,14 @@
+Running 2 tests using 1 worker
+
+npx.cmd : (node:28048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/portfolio-preview.spec.ts --project=ui  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:28048) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\portfolio-preview.spec.ts:25:1 › portfolio opens the submitted image first, remains readable on small screens, and keeps close reachable (3.8s)
+  ok 2 [ui] › tests\portfolio-preview.spec.ts:80:1 › artifact retry preserves the explanation and offers an honest empty drawing state (2.5s)
+
+  2 passed (8.0s)

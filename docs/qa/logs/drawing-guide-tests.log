@@ -1,0 +1,45 @@
+Running 4 tests using 1 worker
+
+npx.cmd : (node:2304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/project-drawing-guide.spec.ts --project ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:2304) War... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\project-drawing-guide.spec.ts:4:1 › five careers have drawing-only examples and editable in-canvas blanks (10.8s)
+  ok 2 [ui] › tests\project-drawing-guide.spec.ts:33:1 › editing actual canvas blanks saves and restores; a starter alone cannot submit (6.7s)
+  ok 3 [ui] › tests\project-drawing-guide.spec.ts:58:1 › guides append beside legacy artwork, never duplicate it, and can be undone (3.3s)
+  x  4 [ui] › tests\project-drawing-guide.spec.ts:80:1 › canvas and example stay usable on small screens without page scrolling (5.7s)
+
+
+  1) [ui] › tests\project-drawing-guide.spec.ts:80:1 › canvas and example stay usable on small screens without page scrolling
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 100
+    Received:   17.84375
+
+      87 |     const canvas = page.locator(".kc-drawing-board");
+      88 |     const bounds = await canvas.boundingBox();
+    > 89 |     expect(bounds!.height).toBeGreaterThan(100);
+         |                            ^
+      90 |     const before = await page.evaluate(() => window.scrollY);
+      91 |     await canvas.hover(); await page.mouse.wheel(0, 700);
+      92 |     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(before);
+        at <workspace>\tests\project-drawing-guide.spec.ts:89:28
+
+    Error Context: test-results\project-drawing-guide-canv-5d632-eens-without-page-scrolling-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\project-drawing-guide-canv-5d632-eens-without-page-scrolling-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\project-drawing-guide-canv-5d632-eens-without-page-scrolling-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [ui] › tests\project-drawing-guide.spec.ts:80:1 › canvas and example stay usable on small screens without page scrolling
+  3 passed (29.8s)

@@ -1,0 +1,7 @@
+Running 1 test using 1 worker
+
+(node:29160) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\studio-ui.spec.ts:49:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling (16.0s)
+
+  1 passed (19.1s)

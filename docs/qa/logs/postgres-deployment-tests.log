@@ -1,0 +1,22 @@
+.\.venv\Scripts\python.exe : test_canonical_state_survives_new_engine_and_rollback (__main__.DeploymentTests.test_canon
+ical_state_survives_new_engine_and_rollback) ... ok
+At line:2 char:145
++ ... ploy_test'; .\.venv\Scripts\python.exe tests/test_postgres_deployment ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_canonical_...ollback) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+test_lease_visible_to_another_process (__main__.DeploymentTests.test_lease_visible_to_another_process) ... ok
+test_migration_idempotency_and_rls (__main__.DeploymentTests.test_migration_idempotency_and_rls) ... ok
+test_serverless_request_initializes_without_lifespan (__main__.DeploymentTests.test_serverless_request_initializes_with
+out_lifespan) ... <workspace>\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.
+abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+  _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.810s
+
+OK
+KingCareer PostgreSQL migrations applied. Student records were not imported.
+KingCareer PostgreSQL migrations applied. Student records were not imported.

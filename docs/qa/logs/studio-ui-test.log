@@ -1,0 +1,9 @@
+Running 3 tests using 1 worker
+
+(node:9512) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\studio-ui.spec.ts:49:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling (11.8s)
+  ok 2 tests\studio-ui.spec.ts:124:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile (8.8s)
+  ok 3 tests\studio-ui.spec.ts:168:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes (15.0s)
+
+  3 passed (38.5s)

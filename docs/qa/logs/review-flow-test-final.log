@@ -1,0 +1,38 @@
+Running 4 tests using 1 worker
+
+
+
+npx.cmd : (node:24644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/review-flow.spec.ts --project=ui --repo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:24644) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/4] [ui] › tests\review-flow.spec.ts:16:1 › portfolio shows latest owned type and opens the exact older activity
+[2/4] [ui] › tests\review-flow.spec.ts:36:1 › completed answers are reused without automatic AI and can be edited
+[3/4] [ui] › tests\review-flow.spec.ts:53:1 › home prioritizes unfinished work, then confirmed choice, then recommendation
+  1) [ui] › tests\review-flow.spec.ts:53:1 › home prioritizes unfinished work, then confirmed choice, then recommendation
+
+    Error: browserContext.close: ENOENT: no such file or directory, open '<workspace>\test-results\.playwright-artifacts-0\traces\7f100836436adde7129c-265e8428e70a7648e0c6-recording4.network'
+
+    Error Context: test-results\review-flow-home-prioritiz-7247e--choice-then-recommendation-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\review-flow-home-prioritiz-7247e--choice-then-recommendation-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\review-flow-home-prioritiz-7247e--choice-then-recommendation-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:12560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/4] [ui] › tests\review-flow.spec.ts:73:1 › project document includes actual drawing and escaped explanations
+  1 failed
+    [ui] › tests\review-flow.spec.ts:53:1 › home prioritizes unfinished work, then confirmed choice, then recommendation
+  3 passed (1.2m)

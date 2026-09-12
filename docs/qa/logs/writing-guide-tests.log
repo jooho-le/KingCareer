@@ -1,0 +1,16 @@
+Running 4 tests using 1 worker
+
+npx.cmd : (node:13240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/project-writing-guide.spec.ts tests/stu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:13240) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\project-writing-guide.spec.ts:22:1 › guided blanks autosave and restore, incomplete drafts cannot submit, examples stay separate (4.3s)
+  ok 2 [ui] › tests\project-writing-guide.spec.ts:56:1 › existing writing is preserved and guidance stays usable on small screens (2.6s)
+  ok 3 [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation (3.1s)
+  ok 4 [ui] › tests\studio-navigation.spec.ts:73:1 › portfolio feedback retries, persists visibly, and reaches the downloaded document (3.1s)
+
+  4 passed (14.5s)

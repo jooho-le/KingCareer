@@ -1,0 +1,15 @@
+Running 3 tests using 1 worker
+
+npx.cmd : (node:31568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/project-learning-cards.spec.ts tests/pr ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:31568) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\project-learning-cards.spec.ts:39:1 › five careers explain what to make without copying practice examples into student work (9.8s)
+  ok 2 [ui] › tests\project-learning-cards.spec.ts:76:1 › blank scaffolds save only learner input and lead into explanations without replacing artwork (5.6s)
+  ok 3 [ui] › tests\project-step-cards.spec.ts:10:1 › keyboard cards persist as connected artwork and survive editing, failed saves, and reload (10.9s)
+
+  3 passed (28.2s)

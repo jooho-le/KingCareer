@@ -1,0 +1,14 @@
+Running 2 tests using 1 worker
+
+npx.cmd : (node:21692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/studio-navigation.spec.ts --project=ui  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:21692) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation (5.6s)
+  ok 2 [ui] › tests\studio-navigation.spec.ts:82:1 › portfolio feedback retries, persists visibly, and reaches the downloaded document (4.0s)
+
+  2 passed (11.3s)

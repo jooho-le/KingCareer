@@ -1,0 +1,92 @@
+Running 6 tests using 1 worker
+
+npx.cmd : (node:30080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/simulation-review-ui.spec.ts tests/acti ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:30080) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [ui] › tests\activity-help-usability.spec.ts:58:1 › a dismissed tour stays dismissed across careers and reloads, while a new screen and another account get their own first visit (25.2s)
+(node:28336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 [ui] › tests\activity-help-usability.spec.ts:92:1 › studio guidance follows the work order and restores the previous panel without covering its target (16.0s)
+  ok 3 [ui] › tests\simulation-review-ui.spec.ts:162:1 › simulation layouts keep materials, outcomes and decisions reachable across viewports (1.1m)
+  ok 4 [ui] › tests\simulation-review-ui.spec.ts:219:1 › saved incident drives material names and automatic scene quality remains adjustable (7.2s)
+  x  5 [ui] › tests\simulation-review-ui.spec.ts:275:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results (8.1s)
+(node:12948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 6 [ui] › tests\simulation-review-ui.spec.ts:420:1 › certificate shows and exports earned reason, review keeps exact activity, replay starts next incident (4.6s)
+
+
+  1) [ui] › tests\activity-help-usability.spec.ts:58:1 › a dismissed tour stays dismissed across careers and reloads, while a new screen and another account get their own first visit
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog', { name: '화면 이용 안내' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('dialog', { name: '화면 이용 안내' }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: '화면 이용 안내' })
+
+
+      87 |   account = "another_help_student";
+      88 |   await page.reload();
+    > 89 |   await expect(overlay).toBeVisible();
+         |                         ^
+      90 | });
+      91 |
+      92 | test("studio guidance follows the work order and restores the previous panel without covering its target", async ({
+        at <workspace>\tests\activity-help-usability.spec.ts:89:25
+
+    Error Context: .local\simulation-layout-final-results\activity-help-usability-a--3800e-t-get-their-own-first-visit-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\simulation-layout-final-results\activity-help-usability-a--3800e-t-get-their-own-first-visit-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\simulation-layout-final-results\activity-help-usability-a--3800e-t-get-their-own-first-visit-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [ui] › tests\simulation-review-ui.spec.ts:275:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator: getByRole('button', { name: '이렇게 해볼래요', exact: true })
+    Expected: disabled
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeDisabled" getByRole('button', { name: '이렇게 해볼래요', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: '이렇게 해볼래요', exact: true })
+
+
+      338 |   await expect(task).toContainText("자료를 살펴보고 원인을 찾아요");
+      339 |   await page.getByRole("button", { name: "2D 목록 보기", exact: true }).click();
+    > 340 |   const choose = page.getByRole("button", {
+          |                        ^
+      341 |     name: "이렇게 해볼래요",
+      342 |     exact: true,
+      343 |   });
+        at <workspace>\tests\simulation-review-ui.spec.ts:340:24
+
+    Error Context: .local\simulation-layout-final-results\simulation-review-ui-mobil-b4c6c-d-preserves-visible-results-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\simulation-layout-final-results\simulation-review-ui-mobil-b4c6c-d-preserves-visible-results-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\simulation-layout-final-results\simulation-review-ui-mobil-b4c6c-d-preserves-visible-results-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [ui] › tests\activity-help-usability.spec.ts:58:1 › a dismissed tour stays dismissed across careers and reloads, while a new screen and another account get their own first visit
+    [ui] › tests\simulation-review-ui.spec.ts:275:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results
+  4 passed (2.4m)

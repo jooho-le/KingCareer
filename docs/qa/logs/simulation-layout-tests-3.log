@@ -1,0 +1,54 @@
+Running 4 tests using 1 worker
+
+npx.cmd : (node:27748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/simulation-review-ui.spec.ts --output=. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:27748) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [ui] › tests\simulation-review-ui.spec.ts:162:1 › simulation layouts keep materials, outcomes and decisions reachable across viewports (13.9s)
+(node:10200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 [ui] › tests\simulation-review-ui.spec.ts:219:1 › saved incident drives material names and automatic scene quality remains adjustable (7.6s)
+  ok 3 [ui] › tests\simulation-review-ui.spec.ts:275:1 › mobile puts the task before materials, guides an evidenced choice and preserves visible results (8.9s)
+  ok 4 [ui] › tests\simulation-review-ui.spec.ts:420:1 › certificate shows and exports earned reason, review keeps exact activity, replay starts next incident (5.9s)
+
+
+  1) [ui] › tests\simulation-review-ui.spec.ts:162:1 › simulation layouts keep materials, outcomes and decisions reachable across viewports
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.kc-task-panel .kc-action-outcome')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.kc-task-panel .kc-action-outcome') with timeout 5000ms
+      - waiting for locator('.kc-task-panel .kc-action-outcome')
+
+
+      189 |       expect(controls.every(box => box.left >= 0 && box.right <= box.width + 1 && box.height >= 44)).toBe(true);
+      190 |       if (phase === "verify") {
+    > 191 |         await expect(page.locator(".kc-task-panel .kc-action-outcome")).toBeVisible();
+          |                                                                         ^
+      192 |         await expect(page.locator(".kc-action-outcome")).toHaveCount(1);
+      193 |       }
+      194 |       if (phase === "reflection") {
+        at <workspace>\tests\simulation-review-ui.spec.ts:191:73
+
+    Error Context: .local\simulation-layout-results-3\simulation-review-ui-simul-f39b8--reachable-across-viewports-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\simulation-layout-results-3\simulation-review-ui-simul-f39b8--reachable-across-viewports-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\simulation-layout-results-3\simulation-review-ui-simul-f39b8--reachable-across-viewports-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [ui] › tests\simulation-review-ui.spec.ts:162:1 › simulation layouts keep materials, outcomes and decisions reachable across viewports
+  3 passed (44.1s)

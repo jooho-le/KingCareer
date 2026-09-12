@@ -1,0 +1,862 @@
+[
+  {
+    "path": "docs/images/qa-history/current-review/diagnosis.png",
+    "source": ".local/current-review/diagnosis.png",
+    "sha256": "b5d9dcab2970a1fca15143e5e2db9d4044310da019af4e74452f2f1d56864cb1"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/discovery.png",
+    "source": ".local/current-review/discovery.png",
+    "sha256": "17dc242044e732e2ad0d41dc8e1160aae9d59a7569f82b6da47e85129333e12b"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/guest-entry.png",
+    "source": ".local/current-review/guest-entry.png",
+    "sha256": "081db46ebdab8a6cc19b0851edac1d9d72cbaf9af4d8b94b8ef79ccc438caa27"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/home.png",
+    "source": ".local/current-review/home.png",
+    "sha256": "7b58b20c5aaba15f5d7e0980e0f5e31715b127e6529d66002dbc19ea77fd79d8"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/landing.png",
+    "source": ".local/current-review/landing.png",
+    "sha256": "94ce5abfe115ef5c50eda74474b48b6cfe91c3ced24ed1bbcc246ed45a76745e"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/mobile-home.png",
+    "source": ".local/current-review/mobile-home.png",
+    "sha256": "2c0a2d56fc3698ca070a8bf059bfc6f485a1e085a24a1b2a790a3b8c84ccc8c4"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/mobile-projects.png",
+    "source": ".local/current-review/mobile-projects.png",
+    "sha256": "612735078a0764ccf4a28577fa701bebe96e6b279717cbbc2ef58f443b3f945f"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/mobile-records.png",
+    "source": ".local/current-review/mobile-records.png",
+    "sha256": "ee884750badac7d15a5d6c14a432795ecd9626b33304752f2990ad8b07a57887"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/portfolio-after-simulation.png",
+    "source": ".local/current-review/portfolio-after-simulation.png",
+    "sha256": "8518352235744923beebd3c1ced1b29c735ee281ccfb1801064bdc769935f16b"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/profile-records.png",
+    "source": ".local/current-review/profile-records.png",
+    "sha256": "f98b8365a13e2dcd1f8337ef8856b30f714e689919a13afd028e087575488ac6"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/project-list.png",
+    "source": ".local/current-review/project-list.png",
+    "sha256": "2d827c21e09d8ac2414ef603dcfc512e5d2cf539a350f47c98fc8196214c0c98"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/simulation-inspect-viewport.png",
+    "source": ".local/current-review/simulation-inspect-viewport.png",
+    "sha256": "d7f32eca0e6504b6af6be41ac443c334f6986a351a6151d267154b59a80d3215"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/simulation-list.png",
+    "source": ".local/current-review/simulation-list.png",
+    "sha256": "d209a24cb04794d0231bfeb134e7e572c6dcf6caf9c774fe9022f6c5c92a16bb"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/simulation-mobile-task-flow.png",
+    "source": ".local/current-review/simulation-mobile-task-flow.png",
+    "sha256": "c968cd445f50aa5ac9ebe02644ebf8a9456c5393280358f467d5c93c94c5d436"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/simulation-scene.png",
+    "source": ".local/current-review/simulation-scene.png",
+    "sha256": "0ba50aced3d64a38c9d2037673b3068938aaad41ef0a61df2c1db35f815eb791"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/simulation-variant-mobile.png",
+    "source": ".local/current-review/simulation-variant-mobile.png",
+    "sha256": "f23e53ff0c9dddb43ecfa6dae1275b9bddd2e3580d8793cbb00ab0d5b0dde2e6"
+  },
+  {
+    "path": "docs/images/qa-history/current-review/simulation-verify-viewport.png",
+    "source": ".local/current-review/simulation-verify-viewport.png",
+    "sha256": "f67971f9343f72ab2f0c2394e71ac69a063916cd21b4f3d25d03915226006496"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/example-developer.png",
+    "source": ".local/drawing-guide/example-developer.png",
+    "sha256": "2716c3819d17f8a313dd89be6167f203260a8812eacbc362be45547d6beb0d60"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/example-engineer.png",
+    "source": ".local/drawing-guide/example-engineer.png",
+    "sha256": "d414ef8714ff780f2c79be3dbcdbbdfd0fc0b22bc55803216129c862aac17fc2"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/example-farmer.png",
+    "source": ".local/drawing-guide/example-farmer.png",
+    "sha256": "491d79dd9500badc779e035c19510781809d06f8b695c584aaa7ed692ffbdc13"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/example-nurse.png",
+    "source": ".local/drawing-guide/example-nurse.png",
+    "sha256": "28d13e419a0f1a64081663589738d8ad9c4d82266d0cc03ccefb2938008c4140"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/example-researcher.png",
+    "source": ".local/drawing-guide/example-researcher.png",
+    "sha256": "b951203d0a1e982a85d9dfa97fa0446950322b603a55a0dffa5fa872d38f7f42"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/mobile-example-1440.png",
+    "source": ".local/drawing-guide/mobile-example-1440.png",
+    "sha256": "30b98f7f1807dc1877a4e69d33a81e8fe98ced89d59c69049ce488c1d187a1ce"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/mobile-example-320.png",
+    "source": ".local/drawing-guide/mobile-example-320.png",
+    "sha256": "5de70ea54646154c4dc99e0b2217e89a7bddaae20cdc96d2a89a8960ea9f0f41"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/mobile-example-390.png",
+    "source": ".local/drawing-guide/mobile-example-390.png",
+    "sha256": "de226efb643b5a3e5a9b96ef31f2fff56172a96f38a2405d7f8a885934a07629"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/scaffold-developer.png",
+    "source": ".local/drawing-guide/scaffold-developer.png",
+    "sha256": "2ddd9e47d8f38124285513f7055d3f61ce4a4d8dc330d8b18e9762fe42e4e56f"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/scaffold-engineer.png",
+    "source": ".local/drawing-guide/scaffold-engineer.png",
+    "sha256": "5df32177b24e740c2259bcd97a7c8618841991f4bb882244423fdec4502445bd"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/scaffold-farmer.png",
+    "source": ".local/drawing-guide/scaffold-farmer.png",
+    "sha256": "3404fff1c6f80c2c6b5eebdeb600da7fbdc26055fbe89d0ba8b28cddc6ba4635"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/scaffold-nurse.png",
+    "source": ".local/drawing-guide/scaffold-nurse.png",
+    "sha256": "2bce711adfbf9d4573c1de027f2febf9da9dc34b5674b7161aa2f98c948d9fb9"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/scaffold-researcher.png",
+    "source": ".local/drawing-guide/scaffold-researcher.png",
+    "sha256": "84783b82eebf48480909c4ba4eb936dd721806fb42be4c52d18dee0e0e6c5257"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/workspace-1440.png",
+    "source": ".local/drawing-guide/workspace-1440.png",
+    "sha256": "e0882856be38236ff421792291abf41eaead2e894922b6bfad97d86a72eb1bfb"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/workspace-320.png",
+    "source": ".local/drawing-guide/workspace-320.png",
+    "sha256": "42db330bb2d7418a6fbfd011c36d9c611c0b08b69f19ae705db3ead14327aaf4"
+  },
+  {
+    "path": "docs/images/qa-history/drawing-guide/workspace-390.png",
+    "source": ".local/drawing-guide/workspace-390.png",
+    "sha256": "57bf450e259ba2e7a9542de34f46be91a70f658a87c28bdb535bef2742f03e0a"
+  },
+  {
+    "path": "docs/images/qa-history/hand-flow/example-developer.png",
+    "source": ".local/hand-flow/example-developer.png",
+    "sha256": "2716c3819d17f8a313dd89be6167f203260a8812eacbc362be45547d6beb0d60"
+  },
+  {
+    "path": "docs/images/qa-history/hand-flow/example-engineer.png",
+    "source": ".local/hand-flow/example-engineer.png",
+    "sha256": "d414ef8714ff780f2c79be3dbcdbbdfd0fc0b22bc55803216129c862aac17fc2"
+  },
+  {
+    "path": "docs/images/qa-history/hand-flow/example-farmer.png",
+    "source": ".local/hand-flow/example-farmer.png",
+    "sha256": "491d79dd9500badc779e035c19510781809d06f8b695c584aaa7ed692ffbdc13"
+  },
+  {
+    "path": "docs/images/qa-history/hand-flow/example-nurse.png",
+    "source": ".local/hand-flow/example-nurse.png",
+    "sha256": "858e4d4bc14b5ffaf95c2754123b864d1c9294fd9f19ad8103979cbf4282a630"
+  },
+  {
+    "path": "docs/images/qa-history/hand-flow/example-researcher.png",
+    "source": ".local/hand-flow/example-researcher.png",
+    "sha256": "b951203d0a1e982a85d9dfa97fa0446950322b603a55a0dffa5fa872d38f7f42"
+  },
+  {
+    "path": "docs/images/qa-history/hand-flow/nurse-starter.png",
+    "source": ".local/hand-flow/nurse-starter.png",
+    "sha256": "99915422e6954f09b362548a5af96a82a7a5446b9c9f45f456c80a3bc228ed1f"
+  },
+  {
+    "path": "docs/images/qa-history/hand-flow/submitted-portfolio.png",
+    "source": ".local/hand-flow/submitted-portfolio.png",
+    "sha256": "476276e2570a976eae99f57ce4bd279c509e7bc6e93579b83e11e2572b08bd51"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/bottom-1440.png",
+    "source": ".local/portfolio-preview/bottom-1440.png",
+    "sha256": "28594c0aedbc100158440ff3117781cdea45f711931264c43976a60e635f2a4c"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/bottom-320.png",
+    "source": ".local/portfolio-preview/bottom-320.png",
+    "sha256": "dff01982ebc520fab354ea9370dde7d06844aa18c2b5827b1b4d236a8433d592"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/bottom-390.png",
+    "source": ".local/portfolio-preview/bottom-390.png",
+    "sha256": "7e15070101055259ac05f12791bca28b093cf938dd73a7d5ae9d58b31ee066c7"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/bottom-844.png",
+    "source": ".local/portfolio-preview/bottom-844.png",
+    "sha256": "566d862525be3ce2a676c1164eff87fcc860ff88af974d6537c28bc5b7bf98b0"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/top-1440.png",
+    "source": ".local/portfolio-preview/top-1440.png",
+    "sha256": "24afe3b74082ef21110bfd701baf60b7d401f8889a4558cb74a0c548263dc422"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/top-320.png",
+    "source": ".local/portfolio-preview/top-320.png",
+    "sha256": "7fa4047d3b5a5f757b7a4d5fd658c698a8a231315e60879b4b15b3ecb34e2af4"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/top-390.png",
+    "source": ".local/portfolio-preview/top-390.png",
+    "sha256": "416586053cf978ff0e7c965cc723b8139d0a8b459c4c94ff449d8dd9c2902026"
+  },
+  {
+    "path": "docs/images/qa-history/portfolio-preview/top-844.png",
+    "source": ".local/portfolio-preview/top-844.png",
+    "sha256": "988ced99f1172b7e43ffcf6e4b97298851a0c8846dd01f34e3d16f9277299815"
+  },
+  {
+    "path": "docs/images/qa-history/profile-review/profile-1440.png",
+    "source": ".local/profile-review/profile-1440.png",
+    "sha256": "1cbf20430fc304152ca23c2d6f430f12866a442b930da34f6ad2c17b1113d808"
+  },
+  {
+    "path": "docs/images/qa-history/profile-review/profile-320.png",
+    "source": ".local/profile-review/profile-320.png",
+    "sha256": "25c7ba30ac45a5a1b7fed6654845ec4dd2e8b0a89edc661886b423ddb58a1e0e"
+  },
+  {
+    "path": "docs/images/qa-history/profile-review/profile-390.png",
+    "source": ".local/profile-review/profile-390.png",
+    "sha256": "94668cded13d6ece21a36700aac72dd3ed284d714c095b58693c328baf811fdf"
+  },
+  {
+    "path": "docs/images/qa-history/profile-review/settings-1440.png",
+    "source": ".local/profile-review/settings-1440.png",
+    "sha256": "382950f80b973f8da6be6225c0b24972b4fa1e8ee7c9ab0692f99df49d5e2d82"
+  },
+  {
+    "path": "docs/images/qa-history/profile-review/settings-320.png",
+    "source": ".local/profile-review/settings-320.png",
+    "sha256": "5f94c8bd903276b72fd4e09c00260b69ca006b7264d4e5e2bd1da73d7b3c905d"
+  },
+  {
+    "path": "docs/images/qa-history/profile-review/settings-390.png",
+    "source": ".local/profile-review/settings-390.png",
+    "sha256": "2dd6f045a529d015f6447349995dcf6761a96545072e56a5709cc6b3c7426486"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/entered-1440.png",
+    "source": ".local/project-learning/entered-1440.png",
+    "sha256": "777b7d823a8cb6905594bce33aef0d3014c7ce1403c2b422cc9256be6c954b0e"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/entered-320.png",
+    "source": ".local/project-learning/entered-320.png",
+    "sha256": "402e78a45c1189f6b171d4a07d5d1eb018f324cbff4ddca74668f0f167399ce4"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/entered-390.png",
+    "source": ".local/project-learning/entered-390.png",
+    "sha256": "eae36449f1b7e141cb6d126d5d9043504089141a907f10552fa141adacc58055"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/entered-844.png",
+    "source": ".local/project-learning/entered-844.png",
+    "sha256": "1e5b63673d4d414760cd2736f465c5cb83189a7ef66f87d78830d8081b348e91"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/example-developer-1440.png",
+    "source": ".local/project-learning/example-developer-1440.png",
+    "sha256": "ebf33e8ea0b2ff483d5798a9999492955cf87e7d7261e67474eda9c066281467"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/example-engineer-390.png",
+    "source": ".local/project-learning/example-engineer-390.png",
+    "sha256": "3c7b58bf362ad6ab42a6826a550e6d612fb7ba4b19b1cf6528fc3e32e481f3e9"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/example-farmer-1440.png",
+    "source": ".local/project-learning/example-farmer-1440.png",
+    "sha256": "d5d0e2644c54a0291f6638e161c4cd25e8b9e6626842f47e86e4c46b97df2899"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/example-nurse-390.png",
+    "source": ".local/project-learning/example-nurse-390.png",
+    "sha256": "ea027b5b8ea2d8a8d45c34028ef1f827adf709f05f9b5a3d5020835f2d1314aa"
+  },
+  {
+    "path": "docs/images/qa-history/project-learning/example-researcher-1440.png",
+    "source": ".local/project-learning/example-researcher-1440.png",
+    "sha256": "7704df9a53536c58dc67decee73873c3b46ef4cf02988417f2a3ba46f6a5a1db"
+  },
+  {
+    "path": "docs/images/qa-history/recovery-studio/preview-1440.png",
+    "source": ".local/recovery-studio/preview-1440.png",
+    "sha256": "f8f49c856d8cf3f8aebc6c38357a6993cea2d30a9c40bd6ce23e978b54530461"
+  },
+  {
+    "path": "docs/images/qa-history/recovery-studio/preview-390.png",
+    "source": ".local/recovery-studio/preview-390.png",
+    "sha256": "4a62a48e98f8eaebd12df48e5726f4f6c69f521324b7359c1f13e4991f18efcc"
+  },
+  {
+    "path": "docs/images/qa-history/recovery-studio/workspace-1440.png",
+    "source": ".local/recovery-studio/workspace-1440.png",
+    "sha256": "a905fe513f1ce62749e501981ed9d504222d0ebc9319206ac98ceaa9ac702fae"
+  },
+  {
+    "path": "docs/images/qa-history/recovery-studio/workspace-390.png",
+    "source": ".local/recovery-studio/workspace-390.png",
+    "sha256": "91e84b061da991cb217be180d4940d7d7a1556ffbdbc7543d243cfd9b63f32d3"
+  },
+  {
+    "path": "docs/images/qa-history/review-flow/home-mobile.png",
+    "source": ".local/review-flow/home-mobile.png",
+    "sha256": "aff40bfbbc2b75d35f48bdc0d39e9bf38fec49c04b3194c84d360c383ec8fdce"
+  },
+  {
+    "path": "docs/images/qa-history/review-flow/portfolio-desktop.png",
+    "source": ".local/review-flow/portfolio-desktop.png",
+    "sha256": "f28e9544289d280ac252388456f870d7b803ac418ea2859c0e55c9b61efc7649"
+  },
+  {
+    "path": "docs/images/qa-history/review-flow/review-desktop.png",
+    "source": ".local/review-flow/review-desktop.png",
+    "sha256": "ad40906a06d158e7543f90fc153c69743fc2f89c70644e7b5403c8974ae00829"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/menu-1440.png",
+    "source": ".local/sidebar-review/menu-1440.png",
+    "sha256": "c8937d95690bcca96726342701c5e38450ec617ff18b767419f11cdd32a5fe2a"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/menu-320.png",
+    "source": ".local/sidebar-review/menu-320.png",
+    "sha256": "9c2116a5454323ba4d073f43a0402609d5e7aaa55db5785a127b770dac392e04"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/menu-390.png",
+    "source": ".local/sidebar-review/menu-390.png",
+    "sha256": "c0fca502fcfcb8b42bcdcbbc51f15b766adc1ffc8f2718d54bfcdc9bfc935956"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/menu-844.png",
+    "source": ".local/sidebar-review/menu-844.png",
+    "sha256": "87ded9a30b90d54ddc6f6401e6034283ffbf22744c8ffe6fae18137e405e43d2"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/studio-1440.png",
+    "source": ".local/sidebar-review/studio-1440.png",
+    "sha256": "b05caadf5565386dc14887d684c12b74c75aecbefb146b5251b94ec20919b009"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/studio-320.png",
+    "source": ".local/sidebar-review/studio-320.png",
+    "sha256": "8136c7096d5dcabad5085eb2036bcbe9fb3a9f1e957df9fd95306884ec98c4f5"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/studio-390.png",
+    "source": ".local/sidebar-review/studio-390.png",
+    "sha256": "7ced824c37d53d17162e85cf75dc0aa382c3bf6366ada82bc0d22d1861ead9db"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-review/studio-844.png",
+    "source": ".local/sidebar-review/studio-844.png",
+    "sha256": "8d05ca1d69e6c629df738038f7bbca3937eb34ee43b37fb78523666fcff86abe"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-spacing/1440.png",
+    "source": ".local/sidebar-spacing/1440.png",
+    "sha256": "b05caadf5565386dc14887d684c12b74c75aecbefb146b5251b94ec20919b009"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-spacing/320.png",
+    "source": ".local/sidebar-spacing/320.png",
+    "sha256": "cb4a5ecaed2e0a90ece83b03e79b049f49f90e262f72ee4065d394c52ab18b6c"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-spacing/390.png",
+    "source": ".local/sidebar-spacing/390.png",
+    "sha256": "4885f348dc240cf6a010e7d6a02c2196de0f4f1f45f8cf45ee6baf0a229435be"
+  },
+  {
+    "path": "docs/images/qa-history/sidebar-spacing/844.png",
+    "source": ".local/sidebar-spacing/844.png",
+    "sha256": "8d05ca1d69e6c629df738038f7bbca3937eb34ee43b37fb78523666fcff86abe"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/act-1440.png",
+    "source": ".local/simulation-layout/act-1440.png",
+    "sha256": "3258abc34979f0d2bb9e2d260bab4b0db075419efb3c698cf6d2bfe89c161e10"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/act-320.png",
+    "source": ".local/simulation-layout/act-320.png",
+    "sha256": "d15d3701b68d304f7b8a2b0e061a97124b7cdbefb133afc891a6b4196eb11448"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/act-390.png",
+    "source": ".local/simulation-layout/act-390.png",
+    "sha256": "c293a13114b5c0177b3ebbb53bca84f7f2558be2300826018faae65bd3cca163"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/act-844.png",
+    "source": ".local/simulation-layout/act-844.png",
+    "sha256": "3bb63aa92144b128d48754db553e16f157fb292830eb74bce394b9fa405cdd18"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/inspect-1440.png",
+    "source": ".local/simulation-layout/inspect-1440.png",
+    "sha256": "3090c0c56221b941b6a731bc063a711f7849ee472b067825b2fc77491b95478c"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/inspect-320.png",
+    "source": ".local/simulation-layout/inspect-320.png",
+    "sha256": "948a733b515be70b98f3ab4ceb011c1114564677c80d862fa06023162acb923b"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/inspect-390.png",
+    "source": ".local/simulation-layout/inspect-390.png",
+    "sha256": "187cfb66177717e5e11c6093009a71a1b63e2de807ec49644cf507ce17b30c93"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/inspect-844.png",
+    "source": ".local/simulation-layout/inspect-844.png",
+    "sha256": "6e68d770caef383cea7a856fba72a82a5f8263b4468224603cdad672f83c3e18"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/developer-1440.png",
+    "source": ".local/simulation-layout/jobs/developer-1440.png",
+    "sha256": "baa10b7f64e77f67d626d7afaf60d659f8f2a46bc588a1d3327113a0aa34c089"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/developer-390.png",
+    "source": ".local/simulation-layout/jobs/developer-390.png",
+    "sha256": "b58ad5a3ede926d90f4dab233bb4ab3120e1e5c04efa8622bccb125bedf58a45"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/engineer-1440.png",
+    "source": ".local/simulation-layout/jobs/engineer-1440.png",
+    "sha256": "4a9684bf8c12c9293f2435e29b2f15f995d57899aadb92957c9a08a3ace76835"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/engineer-390.png",
+    "source": ".local/simulation-layout/jobs/engineer-390.png",
+    "sha256": "45eb706e132b5cbc2e02b57412ec3a33da9446854cbd6ee3cd4302e0ab4e9e02"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/farmer-1440.png",
+    "source": ".local/simulation-layout/jobs/farmer-1440.png",
+    "sha256": "14c98b5390dfba714fba4e4b2ad3897cad032248d7e22ac9d60520e83cbc2b9a"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/farmer-390.png",
+    "source": ".local/simulation-layout/jobs/farmer-390.png",
+    "sha256": "217fd630b3c525c39c4b575a3ab0562c90f6859af9aeed4dfdd83f8b8ac5574d"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/nurse-1440.png",
+    "source": ".local/simulation-layout/jobs/nurse-1440.png",
+    "sha256": "7895d1ed4a72c1d5d46e659e45d408c89f8217ad4f608300526ad149244c445b"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/nurse-390.png",
+    "source": ".local/simulation-layout/jobs/nurse-390.png",
+    "sha256": "4f53948294e9392eb1f1317f8023aaffae880d6c508d7e7b14415d746006b5db"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/researcher-1440.png",
+    "source": ".local/simulation-layout/jobs/researcher-1440.png",
+    "sha256": "76da393c0ccf4eaa604c9fe714e2b157620898d97bc6de659f0cafd07dd7f365"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/jobs/researcher-390.png",
+    "source": ".local/simulation-layout/jobs/researcher-390.png",
+    "sha256": "498ec9dd8f207484801d3daa427dd4abc5f3572d32f142b82585a9ceb17cdc41"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/lobby-390.png",
+    "source": ".local/simulation-layout/lobby-390.png",
+    "sha256": "db94d820b31185e641f0adc70b21e00c04d4560d488ecc88179a8bb982e104f5"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/reflection-1440.png",
+    "source": ".local/simulation-layout/reflection-1440.png",
+    "sha256": "6e902af9b1730d7e03fa2d7e88324a28cfa8fd33403a3a8912c363bdd33626b2"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/reflection-320.png",
+    "source": ".local/simulation-layout/reflection-320.png",
+    "sha256": "826b0b7fd6a76275352b4a39eb90d514408bc944184073487d7aba4d82209655"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/reflection-390.png",
+    "source": ".local/simulation-layout/reflection-390.png",
+    "sha256": "f6691a795b2759bb8dde0e508904b89f672d1214adfc6ebadbf9c16b4d365589"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/reflection-844.png",
+    "source": ".local/simulation-layout/reflection-844.png",
+    "sha256": "9261c75232d3df7eab05a2f6474972db6f7880e546e1f5f505ad106c052c838e"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/verify-1440.png",
+    "source": ".local/simulation-layout/verify-1440.png",
+    "sha256": "6a9612faec2395567ef85e2f7cdd5305d2af35f2eaaa21fcd14902202d16980b"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/verify-320.png",
+    "source": ".local/simulation-layout/verify-320.png",
+    "sha256": "23d2ab2cd02fd1518106ae1654d49dcecd30d483471bf0f763128b455adfeb4c"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/verify-390.png",
+    "source": ".local/simulation-layout/verify-390.png",
+    "sha256": "885c8a2d6544f0cd054dfb1cd595d0838ed2f102bf37ca241ffaef0daeb51225"
+  },
+  {
+    "path": "docs/images/qa-history/simulation-layout/verify-844.png",
+    "source": ".local/simulation-layout/verify-844.png",
+    "sha256": "a6cae03c96b030bc4e2b0f1880e281a747c366fe3d8c64bd22ac82be519d1caa"
+  },
+  {
+    "path": "docs/images/qa-history/student-usability/cards-1440.png",
+    "source": ".local/student-usability/cards-1440.png",
+    "sha256": "842063d27b33c7b2ed01cfa287a0befcbe3588709bda6d534fc55216c057071d"
+  },
+  {
+    "path": "docs/images/qa-history/student-usability/cards-320.png",
+    "source": ".local/student-usability/cards-320.png",
+    "sha256": "fb8ccdc68771c51e0eeb9f0b02e0d4e3d646ed39b34a56a921924993494651e2"
+  },
+  {
+    "path": "docs/images/qa-history/student-usability/cards-390.png",
+    "source": ".local/student-usability/cards-390.png",
+    "sha256": "8d67edd5b46fbb1f9cf1907afe67e5082d01165362af24a83db29e240331fb38"
+  },
+  {
+    "path": "docs/images/qa-history/student-usability/cards-844.png",
+    "source": ".local/student-usability/cards-844.png",
+    "sha256": "adf367f23fcd4e823ae47778a239633d94ddbf594806a8a8a7675b9891d0cf76"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/desktop-overlay.png",
+    "source": ".local/ui-audit/desktop-overlay.png",
+    "sha256": "f946f6bb4f2852e0522936e879620f5bd0a602d774e304a944fba24f3eaa311c"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/desktop-studio.png",
+    "source": ".local/ui-audit/desktop-studio.png",
+    "sha256": "1030a9f9cab8e25d17ab6c6a2044d7ceab7ee0783fde699be9819a6597302ed0"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/desktop-writing.png",
+    "source": ".local/ui-audit/desktop-writing.png",
+    "sha256": "d79ea8c79f6ca504bd9f68ba7f4a347581ca93d46dfe8bd033111e0222178d55"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/mobile-390.png",
+    "source": ".local/ui-audit/mobile-390.png",
+    "sha256": "2b812aa22ec68a19c2cb768a259684dfd205f7e680a77b5bd136ba294a113026"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/mobile-844.png",
+    "source": ".local/ui-audit/mobile-844.png",
+    "sha256": "aa2810f621923c76138d28828eefb72ea10791eaec1c155bf0e037629d05c082"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/mobile-overlay-390.png",
+    "source": ".local/ui-audit/mobile-overlay-390.png",
+    "sha256": "842ce9ba773cac6b9a2c1a5d986d0c1c118b044583ff54e0b502abf244e01e61"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/mobile-overlay-844.png",
+    "source": ".local/ui-audit/mobile-overlay-844.png",
+    "sha256": "b1affe05e2273be2c9e4d44915312aa7887b41c79690f516f47ffc5234415d67"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/panel-final-1440.png",
+    "source": ".local/ui-audit/panel-final-1440.png",
+    "sha256": "9c91c95a06909aca78743c04a73698df92f7050374a86016ad3953f38313671e"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/panel-final-320.png",
+    "source": ".local/ui-audit/panel-final-320.png",
+    "sha256": "a2b79e09d44f6e3963bce3f59b9ddbf67611d693dbf8d5dc38fb2ec0aca16054"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/panel-final-390.png",
+    "source": ".local/ui-audit/panel-final-390.png",
+    "sha256": "01a1798715558d80f0292a3dc958c9d07df10723bf0eb3d51487486971f605ed"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/panel-final-844.png",
+    "source": ".local/ui-audit/panel-final-844.png",
+    "sha256": "7b7e01d1609875b9d4d5c891adba92dcf74b996b3521a0b90f8b8699947ebf60"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/projects-lobby-1440.png",
+    "source": ".local/ui-audit/projects-lobby-1440.png",
+    "sha256": "9db0943c8afaa4e96e66e1eaee1899742eb1551d082129d025fded54d2c05e34"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/projects-lobby-320.png",
+    "source": ".local/ui-audit/projects-lobby-320.png",
+    "sha256": "84e46846509267eb1b0659806283d81ce16a54bd004674d93f9a08303f9fc9a6"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/projects-lobby-390.png",
+    "source": ".local/ui-audit/projects-lobby-390.png",
+    "sha256": "953b6cd1c722d23e57a335ac4572d41d63bc1634a6dbffbdea93105bfbabd7b3"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/simulation-lobby-1440.png",
+    "source": ".local/ui-audit/simulation-lobby-1440.png",
+    "sha256": "1ce62ca0742374d20e9b89319ea32685789be87243bc9a68a9abbb7f688cccd3"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/simulation-lobby-320.png",
+    "source": ".local/ui-audit/simulation-lobby-320.png",
+    "sha256": "05ad8b5ee5af527abf61ea99b443bf680154ca5ed97b90868b21aa5e1f8bc81c"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/simulation-lobby-390.png",
+    "source": ".local/ui-audit/simulation-lobby-390.png",
+    "sha256": "0e5fd399db1eaf478c341cf8d86df7ae274c4e3856c2c9d1408ece064e0c9e6a"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-1440-0.png",
+    "source": ".local/ui-audit/tour-1440-0.png",
+    "sha256": "bb67a26b928814b295091d014472bcda49457bbdcff0f7874366659b15dc885a"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-1440-1.png",
+    "source": ".local/ui-audit/tour-1440-1.png",
+    "sha256": "e39634061d94a756607cca1f671fd0eb6df563ef120ef7b67fe395f48c72c0e3"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-1440-2.png",
+    "source": ".local/ui-audit/tour-1440-2.png",
+    "sha256": "814b90c20169b3035c266e27dbb3cf52246700ac317d16ee66c98a527a4922b2"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-1440-3.png",
+    "source": ".local/ui-audit/tour-1440-3.png",
+    "sha256": "9805de3e7361e571ad8bac924bfb9227ab9a99621741b1ef7b737df1168743a7"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-320-0.png",
+    "source": ".local/ui-audit/tour-320-0.png",
+    "sha256": "46a4cf105d473e7f13fd8f2f686f0bbeab4d7421b73b4403052655b118cedaeb"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-320-1.png",
+    "source": ".local/ui-audit/tour-320-1.png",
+    "sha256": "2e3af69560c89edc9554f4adebf5a5c19336b58e3f4ce486dbc2ba0a2e0b98ef"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-320-2.png",
+    "source": ".local/ui-audit/tour-320-2.png",
+    "sha256": "01c0dac6cb55bf9b5752fc9c40966e99c3958fb5b21ce99976ddd6e9e8e5d5c4"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-320-3.png",
+    "source": ".local/ui-audit/tour-320-3.png",
+    "sha256": "13b72101ccfddcc6672987a661aeadfe4662635ee4186b4ed196023f5fd39808"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-390-0.png",
+    "source": ".local/ui-audit/tour-390-0.png",
+    "sha256": "7fcb4f37ec3e9a9326ea150b5372a0bdb47f4b5c2d241f74eefb12f285ff822d"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-390-1.png",
+    "source": ".local/ui-audit/tour-390-1.png",
+    "sha256": "d79d30a3e9f1c6ec42d267f711c38ae95fa3aa5fa9d94b5db12bbe65ebe161c0"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-390-2.png",
+    "source": ".local/ui-audit/tour-390-2.png",
+    "sha256": "94f32bd51c2f0ac467782a5fc322086834f566d75a58490616c519788cf0a60b"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-390-3.png",
+    "source": ".local/ui-audit/tour-390-3.png",
+    "sha256": "e99194cd604624d24b47dd1b45587f00b387e29872b71b127097cc5642db0e2b"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-844-0.png",
+    "source": ".local/ui-audit/tour-844-0.png",
+    "sha256": "f57ac38f6863711e565b42e2526fed46191401cad7a0c77fa10de1be2bf286f6"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-844-1.png",
+    "source": ".local/ui-audit/tour-844-1.png",
+    "sha256": "99684fd6a5e8523d08918dfb898de5aef57dfefab0ee8fa37d2331401f582e62"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-844-2.png",
+    "source": ".local/ui-audit/tour-844-2.png",
+    "sha256": "ac1bb3cd94f555e41f3e344c245ef14a166c281b20df047d43ebc402e5535df6"
+  },
+  {
+    "path": "docs/images/qa-history/ui-audit/tour-844-3.png",
+    "source": ".local/ui-audit/tour-844-3.png",
+    "sha256": "cec773f79908f6953548503a727aacf1ed42cf0758652810609a488f1289f5a5"
+  },
+  {
+    "path": "docs/images/qa-history/usability-navigation/all-careers.png",
+    "source": ".local/usability-navigation/all-careers.png",
+    "sha256": "c5fedefa346d490f782a0e711ce09de5c1c35c7372b6643a95d37c96f1af31f9"
+  },
+  {
+    "path": "docs/images/qa-history/usability-navigation/experience-list.png",
+    "source": ".local/usability-navigation/experience-list.png",
+    "sha256": "12f99627e2e5e8d9c0128757e1b204c283936be85b698b0f1aacb823bca4b61b"
+  },
+  {
+    "path": "docs/images/qa-history/usability-navigation/home-desktop.png",
+    "source": ".local/usability-navigation/home-desktop.png",
+    "sha256": "803da34e91edd466f6a2392df91635ad88279659de90de1d5912f125da521f99"
+  },
+  {
+    "path": "docs/images/qa-history/usability-navigation/home-mobile.png",
+    "source": ".local/usability-navigation/home-mobile.png",
+    "sha256": "1bb6f6e66ab3bea20f240b8c0ee30cd4f6dd8da6c626388ad7e0d1da340ca2d8"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/guest-1440.png",
+    "source": ".local/vibrant-home/guest-1440.png",
+    "sha256": "c8a78b7dd493aed841fbd0674a5e4bb7a243701751e7468b20715b296aeafc77"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/guest-320.png",
+    "source": ".local/vibrant-home/guest-320.png",
+    "sha256": "45f049e8e7ca78e22c4c3110154996a4b8b5cc0d8b9b815877ff257e4566215c"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/guest-390.png",
+    "source": ".local/vibrant-home/guest-390.png",
+    "sha256": "acf78809ae4448331bdf6f9a4223adff041aa31b39f60d443ff2a507f6f22e2c"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/guest-768.png",
+    "source": ".local/vibrant-home/guest-768.png",
+    "sha256": "8588a6210bd85072e3730eea4db188c173372c6d93771676bced7964b75f0260"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/returning-1440.png",
+    "source": ".local/vibrant-home/returning-1440.png",
+    "sha256": "81bd80f108460e0b9038cfadd887a97235bda29011cd5a029eb8dcf36f838cda"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/returning-320.png",
+    "source": ".local/vibrant-home/returning-320.png",
+    "sha256": "e8981f928f0e2a9ca388310f25e4cfe6de6ba1fa53df4f055887ef6d60600bb4"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/returning-390.png",
+    "source": ".local/vibrant-home/returning-390.png",
+    "sha256": "b849d8078e268546005cb1db828f800a97c37b3fc1cf1cd4c47397d65ed4bb5f"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-home/returning-768.png",
+    "source": ".local/vibrant-home/returning-768.png",
+    "sha256": "6489ecc2ba543256ba47f27eeeffd5c0a9bdf34910d5dc12c94f52c87323457f"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-lobbies/projects-1440.png",
+    "source": ".local/vibrant-lobbies/projects-1440.png",
+    "sha256": "1472b02fb8f0b29ae6bd589662bae748f6b8a56d2496a944b85c8f8f5d05a818"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-lobbies/projects-320.png",
+    "source": ".local/vibrant-lobbies/projects-320.png",
+    "sha256": "33eeb2f206e1aa2a931c0bd696c9bf0bbfdba56696eeb495c97784a75e12937b"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-lobbies/projects-390.png",
+    "source": ".local/vibrant-lobbies/projects-390.png",
+    "sha256": "bea8a3aa21cbd6c0edcbc48c6bb05e087bbce291a689e008c76e22732d5aef7a"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-lobbies/simulation-1440.png",
+    "source": ".local/vibrant-lobbies/simulation-1440.png",
+    "sha256": "05726e22c7de3bc6c93ed18dae0eb1a35f4b53130e5a05c2cfea4b39ca6fc824"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-lobbies/simulation-320.png",
+    "source": ".local/vibrant-lobbies/simulation-320.png",
+    "sha256": "98c5dd077d34856864a5e99cce452a16b6b634b2752696c7d03d06351cd7183b"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-lobbies/simulation-390.png",
+    "source": ".local/vibrant-lobbies/simulation-390.png",
+    "sha256": "9b8587d2326410e82e6bc24eb772b768d4f467169061d5ec62841661d164c9e1"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-portfolio/portfolio-1440.png",
+    "source": ".local/vibrant-portfolio/portfolio-1440.png",
+    "sha256": "c44a89f04f8f88a9f970c318689b543c61a8ca66471852faad89f3a8b7d83cbc"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-portfolio/portfolio-320.png",
+    "source": ".local/vibrant-portfolio/portfolio-320.png",
+    "sha256": "916b39413cf56da8b6b4d12625fbc260d8f909202a162ee403be4ca95f02868e"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-portfolio/portfolio-390.png",
+    "source": ".local/vibrant-portfolio/portfolio-390.png",
+    "sha256": "c5de9051f834340127c317cdcae55dadf6a7df82e25471ec4f8c085682cc3dd4"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-portfolio/portfolio-768.png",
+    "source": ".local/vibrant-portfolio/portfolio-768.png",
+    "sha256": "6e19e24d23ac7a2e27bbf726aca386a0ea2b38e6f18c9e490212d1a918b40d4c"
+  },
+  {
+    "path": "docs/images/qa-history/vibrant-portfolio/portfolio-empty.png",
+    "source": ".local/vibrant-portfolio/portfolio-empty.png",
+    "sha256": "4af8c67b1c8a02140758523e5461200a0143042ac04c430058c20dbbae8302c6"
+  },
+  {
+    "path": "docs/images/qa-history/writing-guide/1440.png",
+    "source": ".local/writing-guide/1440.png",
+    "sha256": "1fecd8c491a0ecd1f3d076b415ba1249d825a5393ffdae78c739f9352023181a"
+  },
+  {
+    "path": "docs/images/qa-history/writing-guide/320.png",
+    "source": ".local/writing-guide/320.png",
+    "sha256": "190f70ab053af19f9a8710f69bb8cb7d2ca17f553ed104efbc4c303acf3890a4"
+  },
+  {
+    "path": "docs/images/qa-history/writing-guide/390.png",
+    "source": ".local/writing-guide/390.png",
+    "sha256": "ce5e1d5b6ff9a090d2389e85f40d979e45fa2b685eb7e8d77af41313c3e8cef8"
+  }
+]

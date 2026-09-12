@@ -1,0 +1,66 @@
+Running 12 tests using 1 worker
+
+npx.cmd : (node:23804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test tests/project-drawing-guide.spec.ts tests/stu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:23804) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [ui] › tests\activity-help-usability.spec.ts:58:1 › a dismissed tour stays dismissed across careers and reloads, while a new screen and another account get their own first visit (9.2s)
+  ok  2 [ui] › tests\activity-help-usability.spec.ts:92:1 › studio guidance follows the work order and restores the previous panel without covering its target (8.7s)
+  ok  3 [ui] › tests\project-drawing-guide.spec.ts:4:1 › five careers have drawing-only examples and editable in-canvas blanks (12.4s)
+  ok  4 [ui] › tests\project-drawing-guide.spec.ts:33:1 › editing actual canvas blanks saves and restores; a starter alone cannot submit (9.5s)
+  ok  5 [ui] › tests\project-drawing-guide.spec.ts:58:1 › guides append beside legacy artwork, never duplicate it, and can be undone (5.0s)
+  ok  6 [ui] › tests\project-drawing-guide.spec.ts:80:1 › canvas and example stay usable on small screens without page scrolling (8.4s)
+  ok  7 [ui] › tests\project-panel-preview.spec.ts:4:1 › project panel fits narrow screens and overlay can close repeatedly (12.4s)
+  x   8 [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation (7.0s)
+(node:21712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  9 [ui] › tests\studio-navigation.spec.ts:82:1 › portfolio feedback retries, persists visibly, and reaches the downloaded document (4.7s)
+(node:17272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 10 [api] › tests\studio-ui.spec.ts:50:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling (14.6s)
+  ok 11 [api] › tests\studio-ui.spec.ts:151:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile (10.8s)
+  ok 12 [api] › tests\studio-ui.spec.ts:199:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes (11.1s)
+
+
+  1) [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Object {
+    -   "height": 529,
+    +   "height": 382.25,
+        "width": 354,
+        "x": 18,
+    -   "y": 207,
+    +   "y": 353.75,
+      }
+
+      39 |     await expect(rail).toBeVisible();
+      40 |     await expect(page.locator(".main-shell")).toHaveAttribute("inert", "");
+    > 41 |     expect(await page.locator(".studio-canvas").boundingBox()).toEqual(before);
+         |                                                                ^
+      42 |     await page.screenshot({ path: `.local/sidebar-review/menu-${width}.png`, animations: "disabled" });
+      43 |     await page.keyboard.press("Escape");
+      44 |     await expect(toggle).toBeFocused();
+        at <workspace>\tests\studio-navigation.spec.ts:41:64
+
+    Error Context: .local\drawing-guide-test-results\studio-navigation-studio-u-b030a-and-saves-before-navigation-ui\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\drawing-guide-test-results\studio-navigation-studio-u-b030a-and-saves-before-navigation-ui\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\drawing-guide-test-results\studio-navigation-studio-u-b030a-and-saves-before-navigation-ui\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [ui] › tests\studio-navigation.spec.ts:13:1 › studio uses the shared app sidebar and topbar and saves before navigation
+  11 passed (2.0m)

@@ -1,0 +1,112 @@
+Running 13 tests using 1 worker
+
+
+
+npx.cmd : (node:6792) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:1
++ npx.cmd playwright test --output=.local/review-all/results --reporter ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:6792) War... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/13] [ui] › tests\app.spec.ts:17:1 › landing leads to the chosen student experience and login
+[2/13] [ui] › tests\app.spec.ts:31:1 › student navigation and compact project list fit mobile
+[3/13] [ui] › tests\app.spec.ts:54:1 › old map links resolve to records inside profile
+[4/13] [ui] › tests\project-panel-preview.spec.ts:4:1 › project panel fits narrow screens and overlay can close repeatedly
+[5/13] [ui] › tests\review-flow.spec.ts:16:1 › portfolio shows latest owned type and opens the exact older activity
+[6/13] [ui] › tests\review-flow.spec.ts:36:1 › completed answers are reused without automatic AI and can be edited
+[7/13] [ui] › tests\review-flow.spec.ts:53:1 › home prioritizes unfinished work, then confirmed choice, then recommendation
+[8/13] [ui] › tests\review-flow.spec.ts:73:1 › project document includes actual drawing and escaped explanations
+[9/13] [ui] › tests\simulation-review-ui.spec.ts:43:1 › saved incident drives material names and automatic scene quality remains adjustable
+[10/13] [ui] › tests\simulation-review-ui.spec.ts:68:1 › certificate shows and exports earned reason, review keeps exact activity, replay starts next incident
+(node:29668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[11/13] [api] › tests\studio-ui.spec.ts:49:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling
+  1) [api] › tests\studio-ui.spec.ts:49:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.kc-studio').getByRole('radio', { checked: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.kc-studio').getByRole('radio', { checked: true }) with timeout 5000ms
+      - waiting for locator('.kc-studio').getByRole('radio', { checked: true })
+        13 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      51 |   await openStudio(page);
+      52 |   const studio = page.locator(".kc-studio");
+    > 53 |   await expect(studio.getByRole("radio", { checked: true })).toHaveCount(0);
+         |                                                              ^
+      54 |   await studio.getByRole("radio", { name: "5점 · 더 해보고 싶어", exact: true }).check();
+      55 |   await expect(studio.getByRole("region", { name: "제출 전 확인" })).toContainText("0 / 4");
+      56 |   await expect(studio.locator(".studio-topbar").getByRole("button", { name: "제출하기", exact: true })).toBeDisabled();
+        at <workspace>\tests\studio-ui.spec.ts:53:62
+
+    Error Context: .local\review-all\results\studio-ui-studio-saves-rea-4d9a9-d-contains-canvas-scrolling-api\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\review-all\results\studio-ui-studio-saves-rea-4d9a9-d-contains-canvas-scrolling-api\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\review-all\results\studio-ui-studio-saves-rea-4d9a9-d-contains-canvas-scrolling-api\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:12804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[12/13] [api] › tests\studio-ui.spec.ts:145:1 › help closes, traps keyboard focus, remembers suppression and reopens from settings on mobile
+[13/13] [api] › tests\studio-ui.spec.ts:189:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes
+  2) [api] › tests\studio-ui.spec.ts:189:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes
+
+    Error: Help step 4 at 844×390
+
+    Help step 4 at 844×390
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "target overlaps caption: 276×17.953125",
+    + ]
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      220 |         }
+      221 |         return issues;
+    > 222 |       }), `Help step ${step} at ${width}×${height}`).toEqual([]);
+          |                                                      ^
+      223 |       await overlay.getByRole("button", { name: step < 4 ? "다음 →" : "시작할게", exact: true }).click();
+      224 |     }
+      225 |     await expect(overlay).toBeHidden();
+        at <workspace>\tests\studio-ui.spec.ts:222:54
+
+    Error Context: .local\review-all\results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes-api\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .local\review-all\results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes-api\trace.zip
+    Usage:
+
+        npx playwright show-trace .local\review-all\results\studio-ui-studio-help-high-a6b1e--narrow-and-landscape-sizes-api\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  2 failed
+    [api] › tests\studio-ui.spec.ts:49:1 › studio saves real drafts, keeps tab state and coach replies, and contains canvas scrolling
+    [api] › tests\studio-ui.spec.ts:189:1 › studio help highlights and captions stay clear of controls at desktop, narrow and landscape sizes
+  11 passed (1.7m)
