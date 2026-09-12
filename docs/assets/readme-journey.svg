@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="204" viewBox="0 0 1200 204" role="img" aria-labelledby="title desc">
+  <title id="title">발견, 경험, 선택으로 이어지는 진로 탐색</title>
+  <desc id="desc">발견 단계에서 관심과 경험을 진단하고, 경험 단계에서 AI 직무 체험과 프로젝트를 수행하며, 선택 단계에서 활동을 돌아보고 다음 경험을 정합니다.</desc>
+  <g font-family="Pretendard, 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+    <rect width="384" height="204" rx="16" fill="#FFF4EB"/>
+    <rect x="408" width="384" height="204" rx="16" fill="#F3EFFF"/>
+    <rect x="816" width="384" height="204" rx="16" fill="#EDF4FF"/>
+    <g font-size="14" font-weight="700" letter-spacing="2">
+      <text x="28" y="38" fill="#9A410B">DISCOVER</text>
+      <text x="436" y="38" fill="#6740B4">EXPERIENCE</text>
+      <text x="844" y="38" fill="#255BB5">CHOOSE</text>
+    </g>
+    <g font-size="28" font-weight="700" fill="#202238">
+      <text x="28" y="83">나의 출발점 알기</text>
+      <text x="436" y="83">직접 해보며 배우기</text>
+      <text x="844" y="83">다음 경험 선택하기</text>
+    </g>
+    <g font-size="18" fill="#4B5065">
+      <text x="28" y="126">관심과 이전 활동을 살펴보고</text>
+      <text x="28" y="154">진로경험 지도에서 공백을 찾습니다.</text>
+      <text x="436" y="126">AI 직무 상황에 참여하고</text>
+      <text x="436" y="154">작은 프로젝트로 결과물을 만듭니다.</text>
+      <text x="844" y="126">활동을 돌아보며 지도를 채우고</text>
+      <text x="844" y="154">새로운 탐색을 이어갑니다.</text>
+    </g>
+  </g>
+</svg>
