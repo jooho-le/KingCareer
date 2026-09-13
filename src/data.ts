@@ -428,6 +428,7 @@ export type Activity = {
   liked?: string;
   disliked?: string;
   evaluationStatus?: string;
+  evaluationVersion?: number;
   observations?: string[];
   studioKind?: "login-recovery";
   designSummary?: string[];

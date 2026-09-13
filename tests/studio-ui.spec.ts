@@ -106,7 +106,7 @@ test("studio saves real drafts, keeps tab state and coach replies, and contains 
     } else {
       await route.fulfill({
         status: 200,
-        json: { mode: "template", hint: "오류 뒤 다음 행동을 찾을 수 있는지 살펴봐.", nextAction: "다시 시도 버튼 옆 안내를 확인해 봐.", version: body.expectedVersion, mission: body.mission },
+        json: { mode: "template", hint: "오류 뒤 다음 행동을 찾을 수 있는지 살펴봐.", nextAction: "다시 시도 버튼 옆 안내를 확인해 봐.", example: "연결이 잠시 끊겼어요. 입력한 내용은 남아 있어요.", version: body.expectedVersion, mission: body.mission },
       });
     }
   });
@@ -118,6 +118,8 @@ test("studio saves real drafts, keeps tab state and coach replies, and contains 
   await coach.getByRole("button", { name: "어디서 시작할까?", exact: true }).click();
   await expect(coach).toContainText("기본 안내 · AI 미연결");
   await expect(coach).toContainText("다시 시도 버튼 옆 안내를 확인해 봐.");
+  await expect(coach).toContainText("참고 예시");
+  await expect(coach).toContainText("연결이 잠시 끊겼어요. 입력한 내용은 남아 있어요.");
   expect(coachBodies).toHaveLength(2);
   expect(coachBodies[1].expectedVersion).toBeGreaterThan(0);
   expect(coachBodies[1].expectedVersion).toBe(coachBodies[0].expectedVersion);
@@ -387,7 +389,10 @@ test("previously saved interactive drafts retain checks and canonical save behav
   const response = await submitted;
   expect(response.status(), await response.text()).toBe(200);
   const artifact = await response.json();
-  expect(artifact).toMatchObject({ studioKind: "login-recovery", checkMode: "rules", evaluationStatus: "not_connected", interest: 4,
+  // The local server may run in either template or AI mode. Submission itself
+  // never requests an evaluation; Python tests assert each mode's exact status.
+  expect(["not_requested", "not_connected"]).toContain(artifact.evaluationStatus);
+  expect(artifact).toMatchObject({ studioKind: "login-recovery", checkMode: "rules", interest: 4,
     answers: ["", "", ""] });
   expect(artifact.designSummary).toHaveLength(3);
   expect(artifact.checks).toHaveLength(2);

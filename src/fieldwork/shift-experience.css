@@ -109,6 +109,18 @@
 @media (max-width: 1100px) {
   .kc-refresh .kc-shift-experience .is-brief .kc-current-task > .kc-button { order: -1; width: 100%; }
 }
+/* Keep the existing two columns; give spare height to the row below the
+   folded scene, rather than pushing the colleague card away from it. */
+@media (min-width: 1101px) {
+  .kc-refresh .kc-shift-experience[data-stage="reflection"] .kc-workspace {
+    grid-template-rows: auto 1fr;
+    align-items: start;
+  }
+}
+.kc-refresh[data-page] .kc-shift-experience[data-stage="reflection"] .kc-decision-submit {
+  position: static;
+  box-shadow: none;
+}
 @media (max-width: 600px) {
   .kc-refresh .kc-shift-experience .kc-scene { height: 260px; }
   .kc-refresh .kc-shift-experience .kc-resource-bar { gap: 6px 14px; padding: 10px 14px; }

@@ -40,7 +40,7 @@ test("all fresh projects and examples use the same connected hand-drawn composit
     const before = JSON.stringify(scene);
     await page.getByRole("button", { name: "완성 그림 예시", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "완성 그림 예시" });
-    await expect(dialog.locator("img")).toBeVisible();
+    await expect(dialog.getByRole("img").locator("svg")).toBeVisible();
     await expect(dialog).toContainText("내 도안과 같은 손그림 흐름도");
     await dialog.screenshot({ path: `.local/hand-flow/example-${id}.png`, animations: "disabled" });
     await page.keyboard.press("Escape");

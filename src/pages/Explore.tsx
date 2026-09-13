@@ -71,7 +71,9 @@ function FeedbackLabel({ activity }: { activity: Activity }) {
         ? "AI 피드백 완료"
         : activity.evaluationStatus === "pending"
           ? "AI 평가 대기"
-          : "활동 기록 · AI 평가 없음";
+          : activity.evaluationStatus === "not_requested"
+            ? "AI 피드백 요청 전"
+            : "활동 기록 · AI 평가 없음";
   return (
     <Tag color={activity.evaluationStatus === "completed" ? "blue" : "purple"}>
       {label}
@@ -753,7 +755,7 @@ export function Portfolio() {
             </div>
             <section className="portfolio-feedback-block" aria-label="결과물 피드백">
               {detail.kind === "project" ? <>
-                {detail.evaluationStatus === "ai_feedback" && <div className="portfolio-feedback-summary"><span>AI 코치 피드백</span><p className="preserve-text">{detail.feedback}</p></div>}
+                {detail.evaluationStatus === "ai_feedback" && <div className="portfolio-feedback-summary"><span>{detail.evaluationVersion === 3 ? "AI 코치 피드백" : "이전에 생성된 내용 요약"}</span><p className="preserve-text">{detail.feedback}</p></div>}
                 <PortfolioEvaluation key={detail.id} activity={detail} onEvaluated={(updated) => setDetail(current => current?.id === updated.id ? updated : current)} />
               </> : <><FeedbackLabel activity={detail} /><h3>{detail.evaluationStatus === "completed" || detail.evaluationStatus === "ai_feedback" ? "AI 피드백" : "활동 기록 안내"}</h3><p className="preserve-text">{detail.feedback}</p></>}
             </section>

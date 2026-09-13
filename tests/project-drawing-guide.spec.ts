@@ -10,8 +10,8 @@ test("five careers have drawing-only examples and editable in-canvas blanks", as
     const before = JSON.stringify(fixture.drafts[id]);
     await page.getByRole("button", { name: "완성 그림 예시", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "완성 그림 예시" });
-    await expect(dialog.locator("img")).toBeVisible();
-    await expect.poll(() => dialog.locator("img").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 100)).toBe(true);
+    await expect(dialog.getByRole("img").locator("svg")).toBeVisible();
+    await expect.poll(() => dialog.getByRole("img").locator("svg").evaluate((svg: SVGSVGElement) => svg.viewBox.baseVal.width > 100 && svg.querySelectorAll("text").length > 3)).toBe(true);
     await dialog.screenshot({ path: `.local/drawing-guide/example-${id}.png`, animations: "disabled" });
     expect(JSON.stringify(fixture.drafts[id])).toBe(before);
     await page.keyboard.press("Escape");
@@ -82,7 +82,7 @@ test("canvas and example stay usable on small screens without page scrolling", a
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(before);
     await page.getByRole("button", { name: "완성 그림 예시", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "완성 그림 예시" });
-    await expect(dialog.locator("img")).toBeVisible();
+    await expect(dialog.getByRole("img").locator("svg")).toBeVisible();
     await dialog.getByRole("button", { name: "크게 보기", exact: true }).click();
     await expect(dialog.locator(".drawing-example-image")).toHaveClass(/is-zoomed/);
     await expect.poll(() => dialog.locator("button").evaluateAll(buttons => buttons.every(button => {

@@ -12,31 +12,29 @@ export default function DrawingExample({
   careerId: CareerId;
   onClose: () => void;
 }) {
-  const [url, setUrl] = useState("");
+  const [drawing, setDrawing] = useState<SVGSVGElement | null>(null);
   const [error, setError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [zoom, setZoom] = useState(false);
   useEffect(() => {
-    let disposed = false,
-      objectUrl = "";
+    let disposed = false;
+    setDrawing(null);
     setError(false);
     void sceneSvg({
       elements: projectTemplate(careerId, true),
       appState: { viewBackgroundColor: "#ffffff" },
-    })
+    }, false)
       .then((svg) => {
         if (disposed) return;
-        objectUrl = URL.createObjectURL(
-          new Blob([svg.outerHTML], { type: "image/svg+xml" }),
-        );
-        setUrl(objectUrl);
+        // This trusted, local template is displayed in the document so it can
+        // reuse editor fonts without exporting/embedding every font subset.
+        setDrawing(svg);
       })
       .catch(() => {
         if (!disposed) setError(true);
       });
     return () => {
       disposed = true;
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [careerId, attempt]);
   useEffect(() => {
@@ -60,8 +58,9 @@ export default function DrawingExample({
             role="region"
             aria-label="완성 그림 보기"
           >
-            {url ? (
-              <img src={url} alt={drawingGuideDescriptions[careerId]} />
+            {drawing ? (
+              <div role="img" aria-label={drawingGuideDescriptions[careerId]}
+                ref={(host) => { if (host) host.replaceChildren(drawing); }} />
             ) : error ? (
               <p role="alert">
                 예시 그림을 불러오지 못했어요.{" "}

@@ -6,6 +6,7 @@ type Reply = {
   mode: "ai" | "template";
   hint: string;
   nextAction: string;
+  example?: string;
   version: number;
   mission: number;
 };
@@ -119,6 +120,7 @@ export default function ProjectCoach({
           <small>
             수정본 {reply.version} 기준 · 이후에 바꾼 내용은 다시 물어봐.
           </small>
+          {reply.example && <div className="kc-note"><strong>참고 예시</strong><p className="preserve-text">{reply.example}</p><small>정답은 하나가 아니에요. 내 상황에 맞게 바꿔 써 봐요.</small></div>}
         </div>
       )}
     </section>

@@ -87,6 +87,15 @@ class BackendReviewTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200, response.text)
         return response.json()
 
+    def test_ai_configured_submission_is_not_requested_not_disconnected(self):
+        with patch.object(main, "AI_MODE", "ai"), patch.object(main, "provider") as provider:
+            result = self.artifact()
+            self.assertEqual(result["evaluationStatus"], "not_requested")
+            self.assertNotIn("연결되지", result["feedback"])
+            provider.assert_not_called()
+            restored = self.client.get("/api/v1/state").json()["activities"]
+            self.assertEqual(restored[0]["evaluationStatus"], "not_requested")
+
     def test_interest_persistence_canonical_submit_and_compact_replay(self):
         empty = self.client.get("/api/v1/projects/developer").json()
         self.assertIsNone(empty["interest"])
@@ -175,6 +184,8 @@ class BackendReviewTests(unittest.TestCase):
             response = self.client.post("/api/v1/projects/developer/help", json=self.body(expectedVersion=saved["version"], mission=1, intent="improve"))
             self.assertEqual(response.status_code, 200, response.text)
             context = factory.return_value.help_project.call_args.args[0]
+            self.assertEqual(context["project"], "로그인 복구 설계 노트")
+            self.assertNotIn("급식", context["brief"])
             self.assertEqual(context["drawingGraph"]["connections"][0]["to"], "node2")
             self.assertNotIn("drawingLabels", context)
 
@@ -183,6 +194,7 @@ class BackendReviewTests(unittest.TestCase):
         started, release = threading.Event(), threading.Event()
         def evaluate(context):
             self.assertIn("drawingGraph", context)
+            self.assertEqual(context["project"]["title"], "로그인 복구 설계 노트")
             started.set()
             if not release.wait(8):
                 raise RuntimeError("test timed out waiting for unrelated operation")
@@ -214,6 +226,37 @@ class BackendReviewTests(unittest.TestCase):
             self.assertEqual(response.status_code, 200, response.text)
             self.assertEqual(response.json()["evaluationStatus"], "ai_feedback")
             factory.assert_not_called()
+
+    def test_coach_adapter_requires_three_actionable_sections(self):
+        from backend.inference import OpenCompatibleProvider, CoachingEvaluation
+        coach = OpenCompatibleProvider()
+        value = CoachingEvaluation(strength="라벨로 행동을 알려줘요.", improvement="다음 경로가 더 필요해요.", nextAction="화살표를 따라 읽어 보세요.", questions=["다음 화면을 찾을 수 있나요?"])
+        with patch.object(coach, "_request", return_value=value) as request:
+            result = coach.evaluate({"project": {"title": "로그인 복구 설계 노트"}})
+        self.assertIs(request.call_args.args[1], CoachingEvaluation)
+        self.assertEqual(result.feedback, "잘한 점\n라벨로 행동을 알려줘요.\n\n더 좋아질 점\n다음 경로가 더 필요해요.\n\n지금 해볼 일\n화살표를 따라 읽어 보세요.")
+        self.assertEqual(result.observations, value.questions)
+
+    def test_old_feedback_refresh_is_explicit_preserved_on_failure_and_cached(self):
+        activity = self.artifact()
+        activity.update(evaluationStatus="ai_feedback", feedback="이전 피드백")
+        old_request = self.body()
+        with db.transaction() as con:
+            con.execute("UPDATE activities SET data=? WHERE id=?", (db.dump(activity), activity["id"]))
+            main.remember(con, self.uid, main.request_key("evaluate:" + activity["id"], old_request["clientRequestId"]), old_request, activity)
+        path = f"/api/v1/portfolio/{activity['id']}/evaluate"
+        with patch.object(main, "AI_MODE", "ai"), patch.object(main, "provider") as factory:
+            factory.return_value.evaluate.side_effect = RuntimeError("offline")
+            self.assertEqual(self.client.post(path, json=self.body()).status_code, 503)
+            restored = self.client.get(f"/api/v1/portfolio/{activity['id']}/artifact").json()
+            self.assertEqual(restored["feedback"], "이전 피드백")
+            factory.return_value.evaluate.side_effect = None
+            factory.return_value.evaluate.return_value = Evaluation(feedback="잘한 점과 다음 수정 행동", observations=["경로를 따라 읽어 보세요."])
+            result = self.client.post(path, json=old_request)
+            self.assertEqual(result.status_code, 200, result.text)
+            self.assertEqual(result.json()["evaluationVersion"], 3)
+            self.assertEqual(self.client.post(path, json=self.body()).json(), result.json())
+            self.assertEqual(factory.return_value.evaluate.call_count, 2)
 
     def test_record_delete_while_evaluation_is_pending_does_not_recreate_data(self):
         def delete_records(_):

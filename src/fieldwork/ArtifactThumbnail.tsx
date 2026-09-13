@@ -3,10 +3,10 @@ import { api } from "../api";
 import type { Activity } from "../data";
 import type { DrawingScene } from "./types";
 
-export async function sceneSvg(scene: DrawingScene) {
+export async function sceneSvg(scene: DrawingScene, inlineFonts = true) {
   const { exportToSvg, restoreElements } = await import("@excalidraw/excalidraw");
   const elements = restoreElements(scene.elements as unknown as Parameters<typeof restoreElements>[0], null);
-  return exportToSvg({ elements, appState: { ...scene.appState, exportBackground: true }, files: {} });
+  return exportToSvg({ elements, appState: { ...scene.appState, exportBackground: true }, files: {}, skipInliningFonts: inlineFonts ? undefined : true });
 }
 
 export default function ArtifactThumbnail({ activity }: { activity: Activity }) {

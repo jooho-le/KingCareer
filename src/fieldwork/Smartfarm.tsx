@@ -126,7 +126,7 @@ export default function Smartfarm({ legacy }: { legacy: ReactNode }) {
   useEffect(() => {
     if (!resourceOpen) return;
     resourcePanel.current?.focus({ preventScroll: true });
-    if (compact) resourcePanel.current?.scrollIntoView({ block: "nearest", behavior: reduced ? "auto" : "smooth" });
+    if (compact && !window.matchMedia("(max-width: 760px)").matches) resourcePanel.current?.scrollIntoView({ block: "nearest", behavior: reduced ? "auto" : "smooth" });
   }, [resourceOpen, selected, compact, reduced]);
   useEffect(() => {
     if (!currentPhase || lastPhase.current === currentPhase) return;

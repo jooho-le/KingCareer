@@ -9,6 +9,7 @@ import "./project-layout.css";
 import "./activity-design.css";
 import "./diagnosis.css";
 import "./brand-surfaces.css";
+import "./mobile-layout.css";
 
 // The editor is lazy-loaded after this setup; fonts are served by Vite locally.
 Object.assign(window, { EXCALIDRAW_ASSET_PATH: "/excalidraw-assets/" });

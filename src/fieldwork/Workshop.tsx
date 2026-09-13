@@ -355,7 +355,7 @@ export default function Workshop() {
         await api<Artifact>(
           `/portfolio/${result.id}/evaluate`,
           json("POST", {
-            clientRequestId: requestKey({ evaluation: result.id }),
+            clientRequestId: requestKey({ evaluation: result.id, evaluationVersion: 3 }),
           }),
         ),
       );
@@ -501,7 +501,7 @@ export default function Workshop() {
               </div>
             )}
           </div>
-          <div className="studio-body">
+          <div className={`studio-body ${panelOpen ? "mobile-panel-open" : ""}`}>
             <div className="studio-canvas">
               <Suspense
                 fallback={
@@ -571,7 +571,7 @@ export default function Workshop() {
                   onClick={() => setPanelOpen(false)}
                   aria-label="패널 접기"
                 >
-                  접기
+                  <span className="desktop-panel-label">접기</span><span className="mobile-panel-label">그림으로</span>
                 </button>
               </div>
               <div className="studio-panel-scroll">
@@ -774,10 +774,11 @@ export default function Workshop() {
           <div className="kc-note">
             <strong>
               {result.evaluationStatus === "ai_feedback"
-                ? "AI 코치의 글 피드백"
+                ? result.evaluationVersion === 3 ? "AI 코치 피드백" : "이전에 생성된 내용 요약"
                 : "프로젝트 제출 완료 · AI 피드백 없음"}
             </strong>
-            <p>{result.feedback}</p>
+            {result.evaluationStatus === "ai_feedback" && result.evaluationVersion !== 3 && <p>이전 요약이 저장되어 있어요. 아래에서 잘한 점·보완점·다음 행동을 담은 코치 피드백을 새로 받아보세요.</p>}
+            <p className="preserve-text">{result.feedback}</p>
             {result.observations?.map((s, i) => (
               <p key={i}>{s}</p>
             ))}
@@ -795,10 +796,10 @@ export default function Workshop() {
               경험 돌아보고 다음 활동 고르기 <ArrowRight size={18} />
             </button>
             <button
-              disabled={busy || result.evaluationStatus === "ai_feedback"}
+              disabled={busy || (result.evaluationStatus === "ai_feedback" && result.evaluationVersion === 3)}
               onClick={() => void evaluate()}
             >
-              {busy ? "코치에게 물어보는 중…" : "AI 코치 피드백 요청"}
+              {busy ? "코치에게 물어보는 중…" : result.evaluationStatus === "ai_feedback" && result.evaluationVersion !== 3 ? "개선된 코치 피드백 받기" : "AI 코치 피드백 요청"}
             </button>
             <button disabled={busy} onClick={() => setResult(null)}>
               더 다듬기

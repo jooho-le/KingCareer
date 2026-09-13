@@ -649,6 +649,13 @@ export default function App() {
                 <span>직무체험 · 프로젝트 · 나의 포트폴리오</span>
               </footer>
             </main>
+            <nav className="mobile-bottom-nav" aria-label="모바일 주 메뉴">
+              {nav.map(item => <button key={item.id} aria-current={page === item.id ? "page" : undefined}
+                onClick={() => { void go(item.id); }}>
+                <img src={`/brand/03_icons/${item.icon}.svg`} alt="" />
+                <span>{item.title}</span>
+              </button>)}
+            </nav>
           </div>
         </div>
         <AnimatePresence>

@@ -1,0 +1,82 @@
+/* Mobile-only presentation. Desktop and tablet keep the shared two-column layout. */
+.mobile-bottom-nav, .mobile-panel-label { display: none; }
+@media (max-width: 760px) {
+  .kc-refresh[data-page] .mobile-bottom-nav { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); position: fixed; inset: auto 0 0; z-index: 85; padding: 6px 8px calc(6px + env(safe-area-inset-bottom,0px)); background: #fffdf9; border-top: 1px solid #e8e1ef; box-shadow: 0 -4px 18px #3020470b; }
+  .kc-refresh[data-page] .mobile-bottom-nav button { min-height: 56px; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 0; border-radius: 14px; background: transparent; color: #60566d; font-size: 11px; font-weight: 700; padding: 6px 2px; }
+  .kc-refresh[data-page] .mobile-bottom-nav img { width: 23px; height: 23px; }
+  .kc-refresh[data-page] .mobile-bottom-nav [aria-current=page] { background: #eee4ff; color: #6328c1; }
+  .kc-refresh[data-page] .mobile-bottom-nav button:focus-visible { outline: 3px solid #0967ff; outline-offset: -3px; }
+  .kc-refresh[data-page] .main-content { padding-bottom: calc(88px + env(safe-area-inset-bottom,0px)); }
+  .kc-refresh[data-page] .main-shell:has(.kc-studio, .kc-fieldwork) > .mobile-bottom-nav,
+  .kc-refresh[data-page=auth] .mobile-bottom-nav,
+  .kc-refresh[data-page=onboarding] .mobile-bottom-nav { display: none; }
+  .kc-refresh[data-page] .topbar .profile-avatar-button { min-width: 44px; min-height: 44px; }
+  .kc-refresh[data-page] .toast { bottom: calc(82px + env(safe-area-inset-bottom,0px)); max-width: calc(100vw - 24px); }
+  .kc-refresh[data-page] .footer { padding-block: 20px; }
+
+  /* Keep the editor mounted while switching tasks, so drawings and undo survive. */
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-body { position: relative; min-height: 0; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-body.mobile-panel-open > .studio-canvas { visibility: hidden; position: absolute; inset: 0; pointer-events: none; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-panel.is-open { flex: 1 1 100%; max-height: 100%; min-height: 0; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-panel-scroll { min-height: 0; padding: 14px; padding-bottom: calc(20px + env(safe-area-inset-bottom,0px)); overscroll-behavior: contain; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-panel-heading { margin: 0; padding: 5px; gap: 2px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-tabs { padding: 3px; gap: 2px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-tabs button { min-height: 46px; font-size: 13px; padding: 8px 6px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-panel-close { min-height: 46px; padding: 8px; font-size: 13px; white-space: nowrap; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .desktop-panel-label { display: none; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .mobile-panel-label { display: inline; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-topbar { border-radius: 16px; padding: 6px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-title h1 { font-size: 16px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-title p { font-size: 11px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .kc-board-tools { padding: 6px; gap: 6px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .kc-board-tools button { min-height: 44px; padding: 8px 12px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .kc-writing-grid textarea { font-size: 16px; min-height: 120px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-writing-item { padding: 12px; }
+  .kc-refresh[data-page] .kc-workshop.kc-studio .studio-writing-item label > span { font-size: 14px; }
+
+  /* Reading is a non-modal sheet: the scene stays available for the next object. */
+  .kc-refresh[data-page] .kc-fieldwork .kc-material-reading { position: fixed; inset: auto 10px calc(10px + env(safe-area-inset-bottom,0px)); z-index: 90; max-height: 42dvh; overflow-y: auto; overscroll-behavior: contain; border-radius: 24px; background: #fff; border: 2px solid #d7c5f5; box-shadow: 0 -8px 36px #28144630; padding: 14px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-material-reading .kc-inspection { padding: 12px 42px 12px 4px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-resource-close { width: 44px; height: 44px; top: 4px; right: 4px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-section-heading { margin-block: 6px 10px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-materials-heading { padding: 12px 16px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-materials-heading strong { font-size: 17px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-resource-bar { gap: 8px 12px; padding: 10px 14px; font-size: 12px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-resource-bar b { font-size: 15px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-scene-toolbar { padding: 8px 12px; gap: 6px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-scene-toolbar > span { display: none; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-scene-toolbar button, .kc-refresh[data-page] .kc-fieldwork .kc-view-settings > summary { min-height: 44px; padding: 8px 12px; font-size: 13px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-scene { height: clamp(220px,32dvh,300px); }
+  .kc-refresh[data-page] .kc-fieldwork .kc-workspace.has-decision .kc-scene { height: 150px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-materials-next { padding: 10px 14px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-materials-next p { font-size: 13px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-task-panel { padding: 16px; border-radius: 22px; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-decision-submit { position: sticky; bottom: calc(8px + env(safe-area-inset-bottom,0px)); z-index: 3; box-shadow: 0 0 0 6px #fff; }
+  .kc-refresh[data-page] .kc-fieldwork .kc-shift-guide { padding: 14px; }
+
+  .kc-refresh[data-page] .portfolio-collection-hero { padding: 20px; min-height: 0; }
+  .kc-refresh[data-page] .portfolio-collection-hero h1 { font-size: 25px; margin-block: 8px; }
+  .kc-refresh[data-page] .portfolio-collection-hero .page-heading { margin: 0; gap: 8px; }
+  .kc-refresh[data-page] .portfolio-collection-hero .page-heading p { display: none; }
+  .kc-refresh[data-page] .portfolio-collection-art { width: 95px; height: 100px; right: 8px; top: 20px; }
+  .kc-refresh[data-page] .portfolio-collection-hero .button-row { margin-block: 12px; gap: 8px; }
+  .kc-refresh[data-page] .portfolio-collection-hero .button-row button { font-size: 12px; min-height: 44px; padding: 8px 12px; }
+  .kc-refresh[data-page] .collection-record-strip { padding: 12px 20px; margin: 12px -20px -20px; font-size: 12px; }
+  .kc-refresh[data-page] .portfolio-collection-tabs { gap: 4px; }
+  .kc-refresh[data-page] .portfolio-collection-tabs button { font-size: 12px; min-height: 44px; padding: 10px 7px; }
+  .kc-refresh[data-page] .career-card .career-art { height: 135px; min-height: 135px; }
+  .kc-refresh[data-page] .career-card .career-scene > img { max-height: 135px; width: 100%; padding: 18px 28px 0; }
+  .kc-refresh[data-page] .career-card .art-label { font-size: 11px; max-width: calc(100% - 70px); padding: 6px 8px; }
+  .kc-refresh[data-page] .career-card .career-card-body { padding: 14px 16px; }
+  .kc-refresh[data-page] .career-card .career-card-body h3 { font-size: 21px; margin-block: 5px; }
+  .kc-refresh[data-page] .career-card .career-card-body p { font-size: 14px; line-height: 1.5; margin-block: 8px; }
+  .kc-refresh[data-page] .career-card .card-meta { margin-top: 10px; padding-top: 10px; }
+  .kc-refresh[data-page] .career-card .card-kicker { display: none; }
+  .kc-refresh[data-page] .kc-profile-page .profile-identity { padding: 16px; gap: 12px; }
+  .kc-refresh[data-page] .kc-profile-page .profile-portrait { width: 64px; height: 64px; }
+  .kc-refresh[data-page] .kc-profile-page .profile-identity h1 { font-size: 23px; }
+  .kc-refresh[data-page] .kc-profile-page .profile-kicker { display: none; }
+  .kc-refresh[data-page] .kc-profile-page .profile-identity-copy > p { font-size: 13px; margin-block: 4px; }
+  .kc-refresh[data-page] .kc-profile-page .profile-identity button { min-height: 44px; font-size: 14px; padding: 9px 12px; }
+  .kc-refresh[data-page] .kc-profile-page input, .kc-refresh[data-page] .kc-profile-page select { font-size: 16px; }
+}

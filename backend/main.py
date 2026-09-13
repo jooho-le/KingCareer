@@ -30,6 +30,7 @@ from .recovery_project import (is_recovery_scene, fingerprint as recovery_finger
 from .fieldwork import BADGES, completion_badges, present
 from .inference import provider
 from .config import AI_MODE
+from .workplaces import project_brief
 from .reviews import router as reviews_router, confirmed_reviews
 
 log = logging.getLogger("kingcareer")
@@ -474,7 +475,8 @@ def project_revision(career_id: str, version: int, user=Depends(user_for)):
 @app.post("/api/v1/projects/{career_id}/help")
 def project_help(career_id: str, body: M.ProjectHelp, user=Depends(user_for)):
     job = career(career_id)
-    key = request_key("project-help:" + career_id, body.clientRequestId)
+    brief = project_brief(career_id)
+    key = request_key("project-help:v2:" + career_id, body.clientRequestId)
     if not project_help_lock.acquire(blocking=False):
         raise HTTPException(429, "코치가 답변 중이에요. 잠시 후 다시 요청해 주세요.")
     try:
@@ -485,12 +487,12 @@ def project_help(career_id: str, body: M.ProjectHelp, user=Depends(user_for)):
             project = project_for(con, user["id"], career_id)
             assert_version(project["version"], body.expectedVersion)
         if AI_MODE != "ai":
-            reply = {"mode": "template", "hint": job["missions"][body.mission],
+            reply = {"mode": "template", "hint": brief["hints"][body.mission],
                      "nextAction": "과제에서 확인할 대상 하나를 고르고, 내 생각을 짧게 적어봐요."}
         else:
             try:
-                hint = provider().help_project({"career": job["title"], "project": job["project"],
-                    "brief": job["problem"], "mission": job["missions"][body.mission], "request": body.intent,
+                hint = provider().help_project({"career": job["title"], "project": brief["title"],
+                    "brief": brief["brief"], "mission": brief["hints"][body.mission], "request": body.intent,
                     "answers": project["answers"], "drawingGraph": drawing_context(project.get("scene"))})
             except Exception as error:
                 raise HTTPException(503, "코치 답변을 받지 못했어요. 저장한 초안은 그대로예요. 다시 요청해 주세요.") from error
@@ -587,7 +589,7 @@ def submit_project(career_id: str, body: M.Submit, user=Depends(user_for)):
                                              "checks": checks["checks"], "checkMode": "rules",
                                              "completion": {"submittedMissions": 1, "totalMissions": 1},
                                              "badges": [{**BADGES["maker"], "evidenceSources": [source_key], "criteriaVersion": "login-recovery-project-v2"}],
-                                             "evaluationStatus": "not_connected"})
+                                             "evaluationStatus": "not_requested" if AI_MODE == "ai" else "not_connected"})
             return remember(con, user["id"], key, body.model_dump(), result)
         for index, answer in enumerate(project["answers"]):
             add_event(con, user["id"], career_id, "project", source_key + f":mission:{index}", answer,
@@ -595,9 +597,9 @@ def submit_project(career_id: str, body: M.Submit, user=Depends(user_for)):
                       metadata={"revision": project["version"], "mission": index})
         add_event(con, user["id"], career_id, "project", source_key, objectives=["project_done"], category="artifact")
         result = activity_for(con, user["id"], career_id, "project", source_key, before, project["answers"], "",
-                              "세 단계 결과물을 저장했어요. 기록 충족 여부만 반영했고, 내용의 정확성·완성도·역량에 대한 AI 평가는 아직 연결되지 않았어요.",
+                              "그림과 설명을 저장했어요. 기록 충족 여부만 반영했으며, 내용에 대한 AI 평가는 별도로 요청할 수 있어요." if AI_MODE == "ai" else "그림과 설명을 저장했어요. 기록 충족 여부만 반영했으며, AI 평가는 현재 연결되지 않았어요.",
                               interest, {"projectVersion": project["version"], "completion": {"submittedMissions": 3, "totalMissions": 3},
-                                              "scene": project["scene"], "badges": [{**BADGES["maker"], "evidenceSources": [source_key], "criteriaVersion": "workplace-project-v1"}], "evaluationStatus": "not_connected"})
+                                              "scene": project["scene"], "badges": [{**BADGES["maker"], "evidenceSources": [source_key], "criteriaVersion": "workplace-project-v1"}], "evaluationStatus": "not_requested" if AI_MODE == "ai" else "not_connected"})
         return remember(con, user["id"], key, body.model_dump(), result)
 
 
@@ -628,7 +630,7 @@ def export_artifact(activity_id: str, user=Depends(user_for)):
 def evaluate_artifact(activity_id: str, body: M.RequestInput, user=Depends(user_for)):
     if AI_MODE != "ai":
         raise HTTPException(503, "AI 코치가 아직 연결되지 않았어요. 제출한 결과물은 안전하게 저장되어 있어요.")
-    key = request_key("evaluate:" + activity_id, body.clientRequestId)
+    key = request_key("evaluate:v3:" + activity_id, body.clientRequestId)
     if not artifact_evaluation_lock.acquire(blocking=False):
         raise HTTPException(429, "코치가 결과물을 확인 중이에요. 잠시 후 다시 요청해 주세요.")
     try:
@@ -643,11 +645,12 @@ def evaluate_artifact(activity_id: str, body: M.RequestInput, user=Depends(user_
             activity = json.loads(snapshot)
             if activity["kind"] != "project":
                 raise HTTPException(422, "제출된 프로젝트에서 코치 피드백을 요청해 주세요.")
-            if activity.get("evaluationStatus") == "ai_feedback":
+            if activity.get("evaluationStatus") == "ai_feedback" and activity.get("evaluationVersion") == 3:
                 return remember(con, user["id"], key, body.model_dump(), activity)
         # Network latency must never hold SQLite's process-wide write lock.
         try:
-            context = {"career": career(activity["careerId"])["title"], "answers": activity["answers"],
+            job = career(activity["careerId"])
+            context = {"career": job["title"], "project": project_brief(activity["careerId"]), "answers": activity["answers"],
                        "drawingGraph": drawing_context(activity.get("scene"))}
             if activity.get("studioKind") == "login-recovery":
                 context["interactionChecks"] = {"mode": "rules", "checks": activity.get("checks", [])}
@@ -665,7 +668,7 @@ def evaluate_artifact(activity_id: str, body: M.RequestInput, user=Depends(user_
                 return old
             if row["data"] != snapshot:
                 raise HTTPException(409, "결과물이 변경됐어요. 최신 기록에서 다시 요청해 주세요.")
-            activity.update(feedback=feedback.feedback, observations=feedback.observations, evaluationStatus="ai_feedback")
+            activity.update(feedback=feedback.feedback, observations=feedback.observations, evaluationStatus="ai_feedback", evaluationVersion=3)
             con.execute("UPDATE activities SET data=? WHERE id=? AND user_id=?", (dump(activity), activity_id, user["id"]))
             return remember(con, user["id"], key, body.model_dump(), activity)
     finally:

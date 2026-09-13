@@ -87,6 +87,15 @@ class RecoveryProjectTests(unittest.TestCase):
                 self.assertEqual(con.execute(f"SELECT COUNT(*) FROM {table} WHERE user_id=?", (self.user["id"],)).fetchone()[0], 0)
         self.model.assert_not_called()
 
+    def test_ai_configured_submission_waits_for_explicit_evaluation(self):
+        self.assertEqual(self.save().status_code, 200)
+        self.pass_both()
+        with patch.object(main, "AI_MODE", "ai"):
+            response = self.client.post("/api/v1/projects/developer/submit", json=self.body(expectedVersion=1))
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(response.json()["evaluationStatus"], "not_requested")
+        self.model.assert_not_called()
+
     def test_initial_draft_roundtrip_and_schema_is_strict(self):
         saved = self.save(INITIAL_STUDIO)
         self.assertEqual(saved.status_code, 200, saved.text)

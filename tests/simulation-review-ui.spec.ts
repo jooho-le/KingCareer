@@ -192,6 +192,30 @@ test("simulation layouts keep materials, outcomes and decisions reachable across
         await expect(page.locator(".kc-action-outcome")).toHaveCount(1);
       }
       if (phase === "reflection") {
+        const layout = await page.locator(".kc-workspace").evaluate(workspace => {
+          const scene = workspace.querySelector(":scope > .kc-scene-panel")!.getBoundingClientRect();
+          const guide = workspace.querySelector(":scope > .kc-mission-bar")!.getBoundingClientRect();
+          const form = workspace.querySelector(":scope > .kc-task-panel")!.getBoundingClientRect();
+          return { sceneGap: guide.top - scene.bottom, formGap: form.top - guide.bottom,
+            aligned: Math.abs(guide.left - form.left) < 2, sideBySide: form.left >= scene.right,
+            topGap: Math.abs(form.top - scene.top) };
+        });
+        expect(layout.sceneGap).toBeGreaterThanOrEqual(0);
+        expect(layout.sceneGap).toBeLessThanOrEqual(20);
+        if (width > 1100) {
+          expect(layout.sideBySide).toBe(true);
+          expect(layout.topGap).toBeLessThanOrEqual(2);
+        } else {
+          expect(layout.formGap).toBeGreaterThanOrEqual(0);
+          expect(layout.formGap).toBeLessThanOrEqual(20);
+          expect(layout.aligned).toBe(true);
+        }
+        const submitPlacement = await page.locator(".kc-decision-submit").evaluate(button => ({
+          position: getComputedStyle(button).position,
+          gap: button.getBoundingClientRect().top - document.querySelector(".kc-reflection-interest")!.getBoundingClientRect().bottom,
+        }));
+        expect(submitPlacement.position).toBe("static");
+        expect(submitPlacement.gap).toBeGreaterThanOrEqual(0);
         await expect(page.locator(".kc-reflection-extra")).not.toHaveAttribute("open", "");
         await page.getByRole("radio", { name: "5", exact: true }).check();
         await expect(page.getByRole("radio", { name: "5", exact: true })).toBeChecked();

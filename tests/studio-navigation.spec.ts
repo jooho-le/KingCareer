@@ -79,9 +79,11 @@ test("studio uses the shared app sidebar and topbar and saves before navigation"
   expect(errors).toEqual([]);
 });
 
-test("portfolio feedback retries, persists visibly, and reaches the downloaded document", async ({ page }) => {
+for (const previous of [false, true]) {
+test(`portfolio feedback retries, persists visibly, and reaches the downloaded document (previous=${previous})`, async ({ page }) => {
   let artifact = { id: "project-check", careerId: "developer", kind: "project", title: "로그인 복구 설계 노트", date: "2026-09-13T01:00:00Z", answers: ["로그인 오류를 발견했어요.", "다시 시도 버튼을 만들어요.", "버튼을 찾는지 확인해요."], before: [], after: [], reflection: "", interest: 4, feedback: "저장했어요.", evaluationStatus: "not_connected", observations: [] as string[], scene: { elements: [] } };
   const activities = [artifact];
+  Object.assign(artifact, { evaluationVersion: 0, evaluationStatus: previous ? "ai_feedback" : "not_connected" });
   await setup(page, activities);
   await page.route("**/api/v1/portfolio/project-check/artifact", route => route.fulfill({ json: artifact }));
   let attempts = 0;
@@ -91,13 +93,14 @@ test("portfolio feedback retries, persists visibly, and reaches the downloaded d
     attempts++;
     if (attempts === 1) return route.fulfill({ status: 503, json: { detail: "AI 연결을 다시 시도해 주세요. 제출물은 보존돼요." } });
     artifact = { ...artifact, evaluationStatus: "ai_feedback", feedback: "다시 시도 안내가 구체적이야.", observations: ["확인할 기준을 하나 더 정해 봐."] };
+    Object.assign(artifact, { evaluationVersion: 3 });
     activities[0] = artifact;
     await route.fulfill({ json: artifact });
   });
   await page.goto("/app/#portfolio");
   await page.locator(".portfolio-work-card").click();
   const panel = page.getByRole("region", { name: "프로젝트 AI 피드백" });
-  await panel.getByRole("button", { name: "AI 피드백 받기", exact: true }).click();
+  await panel.getByRole("button", { name: previous ? "개선된 코치 피드백 받기" : "AI 피드백 받기", exact: true }).click();
   await expect(panel.getByRole("alert")).toContainText("제출물은 보존돼요");
   await panel.getByRole("button", { name: "AI 피드백 다시 요청" }).click();
   await expect(panel).toContainText("확인할 기준을 하나 더 정해 봐.");
@@ -115,3 +118,4 @@ test("portfolio feedback retries, persists visibly, and reaches the downloaded d
   await expect(page.getByRole("dialog")).toContainText("다시 시도 안내가 구체적이야.");
   await expect(panel.getByRole("button")).toHaveCount(0);
 });
+}

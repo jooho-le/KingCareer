@@ -118,12 +118,12 @@
   border: 1px solid #e9e1f3;
   background: #faf9fd;
 }
-.drawing-example-image img {
+.drawing-example-image svg {
   display: block;
   width: 100%;
   height: auto;
 }
-.drawing-example-image.is-zoomed img {
+.drawing-example-image.is-zoomed svg {
   width: 1040px;
   max-width: none;
 }
